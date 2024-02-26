@@ -23,7 +23,7 @@ namespace minigames
 
         private void Start_Stop_Game()
         {
-            if (start_btn.Text == "START")
+            if (start_btn.Text == "START" || start_btn.Text == "СТАРТ")
             {
                 timer1.Start();
                 progress_panel.Width = 1;
@@ -40,12 +40,18 @@ namespace minigames
                     hide_panel.Visible = true;
                     games++;
                 }
-                start_btn.Text = "STOP";
+                if (!MainMenu.Language)
+                    start_btn.Text = "STOP";
+                else
+                    start_btn.Text = "СТОП";
             }
             else
             {
                 timer1.Stop();
-                start_btn.Text = "START";
+                if (!MainMenu.Language)
+                    start_btn.Text = "START";
+                else
+                    start_btn.Text = "СТАРТ";
                 if (progress_panel.Width >= finish2_panel.Left && progress_panel.Width < (finish2_panel.Left + finish2_panel.Width))
                 {
                     if (!practic_mod)
@@ -76,7 +82,10 @@ namespace minigames
                     lose++;
                 timer1.Stop();
                 hide_panel.Visible = false;
-                start_btn.Text = "START";
+                if (!MainMenu.Language)
+                    start_btn.Text = "START";
+                else
+                    start_btn.Text = "СТАРТ";
             }
         }
 
@@ -86,7 +95,10 @@ namespace minigames
             {
                 timer1.Stop();
                 hide_panel.Visible = false;
-                start_btn.Text = "START";
+                if (!MainMenu.Language)
+                    start_btn.Text = "START";
+                else
+                    start_btn.Text = "СТАРТ";
                 Form2 form = new Form2();
                 form.FormClosing += new FormClosingEventHandler(Form2_Closing);
                 form.ShowDialog();
@@ -164,8 +176,8 @@ namespace minigames
         private void Question_Click(object sender, EventArgs e)
         {
             if (MainMenu.Language)
-                MessageBox.Show("После нажатия кнопки START\\Пробел сверху окна начинает ползти полоска. В какой-то момент она скрывается. " +
-                    "Ваша цель нажать STOP\\Пробел в нужный момент, чтобы полоска остановилась на финише.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("После нажатия кнопки СТАРТ\\Пробел сверху окна начинает ползти полоска. В какой-то момент она скрывается. " +
+                    "Ваша цель нажать СТАРТ\\Пробел в нужный момент, чтобы полоска остановилась на финише.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("After pressing the START\\Space button, a bar begins to crawl at the top of the window. At some point she goes into hiding." +
                     "Your goal is to press STOP\\Spacebar at the right moment so that the strip stops at the finish line.", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -180,6 +192,8 @@ namespace minigames
                 games_text.Text = "Winning 0%";
                 accurate.Text = "Accuracy 0px";
             }
+            else
+                start_btn.Text = "СТАРТ";
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)

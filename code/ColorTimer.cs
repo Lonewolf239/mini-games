@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Colortimer
@@ -20,8 +14,8 @@ namespace minigames.Colortimer
 
         private static string[] colors = { "Чёрный", "Зелёный", "Жёлтый", "Красный", "Оранжевый", "Серый", "Фиолетовый", "Синий" };
         private static string[] colors1 = { "Black", "Green", "Yellow", "Red", "Orange", "Gray", "Purple", "Blue" };
-        private Color[] colorArray = Array.ConvertAll(colors1, Color.FromName);
-        private ContentAlignment[] content = new ContentAlignment[]
+        private readonly Color[] colorArray = Array.ConvertAll(colors1, Color.FromName);
+        private readonly ContentAlignment[] content = new ContentAlignment[]
         {
             ContentAlignment.TopLeft, ContentAlignment.TopCenter, ContentAlignment.TopRight,
             ContentAlignment.MiddleLeft, ContentAlignment.MiddleCenter, ContentAlignment.MiddleRight,
@@ -35,7 +29,7 @@ namespace minigames.Colortimer
         {
             if (MainMenu.Language)
                 MessageBox.Show("У вас есть несколько кнопок разных цветов, и ваша задача состоит в том, чтобы в течение определенного времени нажимать кнопку нужного цвета. " +
-                    "Если время истекает или если вы нажимаете неправильную кнопку, то вы проигрываете.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    "Если время истекает или вы нажимаете неправильную кнопку — вы проигрываете.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
                 MessageBox.Show("You have several buttons of different colors, and your task is to press the button of the required color within a certain time. " +
                     "If time runs out or if you press the wrong button, you will lose.", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -110,7 +104,10 @@ namespace minigames.Colortimer
             start_btn.Enabled = false;
             time_left.Width = 400;
             time_left.Visible = true;
-            combo_text.Text = $"score: 0\nmax score: {max_score}";
+            if (!MainMenu.Language)
+                combo_text.Text = $"score: {score}\nmax score: {max_score}";
+            else
+                combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
             Logic();
             timer1.Start();
         }
@@ -118,9 +115,16 @@ namespace minigames.Colortimer
         private void ColorTimer_Load(object sender, EventArgs e)
         {
             if (!MainMenu.Language)
+            {
                 Text = "Colortimer";
+                combo_text.Text = $"\nmax score: {max_score}";
+            }
+            else
+            {
+                combo_text.Text = $"\nмакс. счёт: {max_score}";
+                start_btn.Text = "СТАРТ";
+            }
             max_score = MainMenu.mg1_max_score;
-            combo_text.Text = $"\nmax score: {max_score}";
         }
 
         private void Input_Logic(int btn_index)
@@ -157,7 +161,10 @@ namespace minigames.Colortimer
                     {
                         timer1.Stop();
                         score++;
-                        combo_text.Text = $"score: {score}\nmax score: {max_score}";
+                        if (!MainMenu.Language)
+                            combo_text.Text = $"score: {score}\nmax score: {max_score}";
+                        else
+                            combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
                         difficulty_level += 0.075f;
                         time_left.Width = 400;
                         current_color = choice_color + 1;
@@ -211,15 +218,21 @@ namespace minigames.Colortimer
                 MainMenu.mg1_max_score = max_score = score;
             time_left.Visible = false;
             start_btn.Enabled = true;
-            score = 0;
             current_color = 0;
             player_chose_color = 0;
             difficulty_level = 0;
             color_text.TextAlign = ContentAlignment.MiddleCenter;
             color_text.ForeColor = Color.Black;
             color_panel.BackColor = Color.Gainsboro;
-            color_text.Text = "You lose...";
-            combo_text.Text = $"\nmax score: {max_score}";
+            if (MainMenu.Language)
+                color_text.Text = "Вы проиграли...";
+            else
+                color_text.Text = "You lose...";
+            if (!MainMenu.Language)
+                combo_text.Text = $"score: {score}\nmax score: {max_score}";
+            else
+                combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
+            score = 0;
         }
     }
 }

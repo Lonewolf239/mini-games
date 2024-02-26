@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
 using minigames.Colortimer;
+using minigames.Colortiles;
 
 namespace minigames
 {
@@ -34,7 +35,8 @@ namespace minigames
             else
             {
                 glazastic_name.Text = "EyeStop";
-                mg_name1.Text = "Colortimer";
+                mg_name1.Text = "ColorTimer";
+                mg_name2.Text = "ColorTiles";
                 mg_name1.Font = new Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
         }
@@ -102,7 +104,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 3:
+        //мини-игра 3: Цветнашки
         private void Mg_name2_MouseEnter(object sender, EventArgs e)
         {
             mg_panel2.BorderStyle = BorderStyle.Fixed3D;
@@ -119,16 +121,14 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                /*
-                X form = new X();
+                ColorTiles form = new ColorTiles();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = Color.White;
+                mg_panel2.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel2.BackColor = Color.White;
                 form.ShowDialog();
-                */
             }
         }
 

@@ -42,13 +42,13 @@
             this.gray_btn = new System.Windows.Forms.Button();
             this.top_panel = new System.Windows.Forms.Panel();
             this.color_panel = new System.Windows.Forms.Panel();
+            this.combo_text = new System.Windows.Forms.Label();
             this.color_text = new System.Windows.Forms.Label();
             this.time_left_panel = new System.Windows.Forms.Panel();
             this.time_left = new System.Windows.Forms.Panel();
             this.start_btn = new System.Windows.Forms.Button();
             this.developer_name = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.combo_text = new System.Windows.Forms.Label();
             this.btn_panel.SuspendLayout();
             this.top_panel.SuspendLayout();
             this.color_panel.SuspendLayout();
@@ -209,6 +209,15 @@
             this.color_panel.Size = new System.Drawing.Size(399, 95);
             this.color_panel.TabIndex = 1;
             // 
+            // combo_text
+            // 
+            this.combo_text.Dock = System.Windows.Forms.DockStyle.Top;
+            this.combo_text.Location = new System.Drawing.Point(0, 50);
+            this.combo_text.Name = "combo_text";
+            this.combo_text.Size = new System.Drawing.Size(399, 45);
+            this.combo_text.TabIndex = 1;
+            this.combo_text.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // color_text
             // 
             this.color_text.Dock = System.Windows.Forms.DockStyle.Top;
@@ -271,15 +280,6 @@
             // 
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
-            // 
-            // combo_text
-            // 
-            this.combo_text.Dock = System.Windows.Forms.DockStyle.Top;
-            this.combo_text.Location = new System.Drawing.Point(0, 50);
-            this.combo_text.Name = "combo_text";
-            this.combo_text.Size = new System.Drawing.Size(399, 45);
-            this.combo_text.TabIndex = 1;
-            this.combo_text.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // ColorTimer
             // 
