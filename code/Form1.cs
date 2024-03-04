@@ -176,10 +176,10 @@ namespace minigames
         private void Question_Click(object sender, EventArgs e)
         {
             if (MainMenu.Language)
-                MessageBox.Show("После нажатия кнопки СТАРТ\\Пробел сверху окна начинает ползти полоска. В какой-то момент она скрывается. " +
+                MessageBox.Show("После нажатия кнопки СТАРТ\\Пробел сверху окна начинает ползти полоска. В какой-то момент она скрывается, но продолжает двигаться с той же скоростью. " +
                     "Ваша цель нажать СТАРТ\\Пробел в нужный момент, чтобы полоска остановилась на финише.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
-                MessageBox.Show("After pressing the START\\Space button, a bar begins to crawl at the top of the window. At some point she goes into hiding." +
+                MessageBox.Show("After pressing the START\\Space button, a bar begins to crawl at the top of the window. At some point it goes into hiding, but continues to move with the same speed. " +
                     "Your goal is to press STOP\\Spacebar at the right moment so that the strip stops at the finish line.", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 

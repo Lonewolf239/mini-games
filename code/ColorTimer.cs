@@ -13,7 +13,7 @@ namespace minigames.Colortimer
         }
 
         private static string[] colors = { "Чёрный", "Зелёный", "Жёлтый", "Красный", "Оранжевый", "Серый", "Фиолетовый", "Синий" };
-        private static string[] colors1 = { "Black", "Green", "Yellow", "Red", "Orange", "Gray", "Purple", "Blue" };
+        private static string[] colors1 = { "Black", "Green", "Gold", "Red", "DarkOrange", "Gray", "Purple", "Blue" };
         private readonly Color[] colorArray = Array.ConvertAll(colors1, Color.FromName);
         private readonly ContentAlignment[] content = new ContentAlignment[]
         {
@@ -27,6 +27,7 @@ namespace minigames.Colortimer
 
         private void Question_Click(object sender, EventArgs e)
         {
+            color_text.Focus();
             if (MainMenu.Language)
                 MessageBox.Show("У вас есть несколько кнопок разных цветов, и ваша задача состоит в том, чтобы в течение определенного времени нажимать кнопку нужного цвета. " +
                     "Если время истекает или вы нажимаете неправильную кнопку — вы проигрываете.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -101,15 +102,19 @@ namespace minigames.Colortimer
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
-            start_btn.Enabled = false;
-            time_left.Width = 400;
-            time_left.Visible = true;
-            if (!MainMenu.Language)
-                combo_text.Text = $"score: {score}\nmax score: {max_score}";
-            else
-                combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
-            Logic();
-            timer1.Start();
+            if (start_btn.Enabled)
+            {
+                color_text.Focus();
+                start_btn.Enabled = false;
+                time_left.Width = 400;
+                time_left.Visible = true;
+                if (!MainMenu.Language)
+                    combo_text.Text = $"score: {score}\nmax score: {max_score}";
+                else
+                    combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
+                Logic();
+                timer1.Start();
+            }
         }
 
         private void ColorTimer_Load(object sender, EventArgs e)
@@ -127,8 +132,31 @@ namespace minigames.Colortimer
             max_score = MainMenu.mg1_max_score;
         }
 
+        private void ColorTimer_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == (char)49)
+                Input_Logic(0);
+            else if (e.KeyChar == (char)50)
+                Input_Logic(1);
+            else if (e.KeyChar == (char)51)
+                Input_Logic(2);
+            else if (e.KeyChar == (char)52)
+                Input_Logic(3);
+            else if (e.KeyChar == (char)53)
+                Input_Logic(4);
+            else if (e.KeyChar == (char)54)
+                Input_Logic(5);
+            else if (e.KeyChar == (char)55)
+                Input_Logic(6);
+            else if (e.KeyChar == (char)56)
+                Input_Logic(7);
+            else if (e.KeyChar == (char)13)
+                Start_btn_Click(sender, e);
+        }
+
         private void Input_Logic(int btn_index)
         {
+            color_text.Focus();
             if (!start_btn.Enabled)
             {
                 black_btn.Enabled = green_btn.Enabled = yellow_btn.Enabled = red_btn.Enabled = orange_btn.Enabled = gray_btn.Enabled = purple_btn.Enabled = black_btn.Enabled = false;

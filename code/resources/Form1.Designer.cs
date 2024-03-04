@@ -1,4 +1,4 @@
-﻿namespace minigames
+﻿namespace lazastic
 {
     partial class Form1
     {
@@ -40,9 +40,9 @@
             this.show_settings = new System.Windows.Forms.PictureBox();
             this.developer_name = new System.Windows.Forms.Label();
             this.question = new System.Windows.Forms.Button();
+            this.win_text = new System.Windows.Forms.Label();
             this.lose_text = new System.Windows.Forms.Label();
             this.games_text = new System.Windows.Forms.Label();
-            this.accurate = new System.Windows.Forms.Label();
             this.top_panel.SuspendLayout();
             this.hide_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
@@ -100,7 +100,7 @@
             // 
             this.start_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 17.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.start_btn.Location = new System.Drawing.Point(80, 92);
+            this.start_btn.Location = new System.Drawing.Point(92, 92);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(105, 40);
             this.start_btn.TabIndex = 2;
@@ -108,6 +108,7 @@
             this.start_btn.Text = "START";
             this.start_btn.UseVisualStyleBackColor = true;
             this.start_btn.Click += new System.EventHandler(this.Start_btn_Click);
+            this.start_btn.MouseLeave += new System.EventHandler(this.start_btn_MouseLeave);
             // 
             // timer1
             // 
@@ -116,7 +117,7 @@
             // 
             // show_settings
             // 
-            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
+            this.show_settings.Image = global::lazastic.Properties.Resources.settings;
             this.show_settings.Location = new System.Drawing.Point(0, 92);
             this.show_settings.Name = "show_settings";
             this.show_settings.Size = new System.Drawing.Size(40, 40);
@@ -144,7 +145,7 @@
             // 
             this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.question.Location = new System.Drawing.Point(40, 92);
+            this.question.Location = new System.Drawing.Point(46, 92);
             this.question.Name = "question";
             this.question.Size = new System.Drawing.Size(40, 40);
             this.question.TabIndex = 7;
@@ -153,12 +154,22 @@
             this.question.UseVisualStyleBackColor = true;
             this.question.Click += new System.EventHandler(this.Question_Click);
             // 
+            // win_text
+            // 
+            this.win_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.win_text.Location = new System.Drawing.Point(3, 53);
+            this.win_text.Name = "win_text";
+            this.win_text.Size = new System.Drawing.Size(194, 24);
+            this.win_text.TabIndex = 1;
+            this.win_text.Text = "Вы выиграли 0 раз";
+            this.win_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // lose_text
             // 
             this.lose_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.lose_text.Location = new System.Drawing.Point(173, 53);
+            this.lose_text.Location = new System.Drawing.Point(203, 53);
             this.lose_text.Name = "lose_text";
-            this.lose_text.Size = new System.Drawing.Size(236, 24);
+            this.lose_text.Size = new System.Drawing.Size(194, 24);
             this.lose_text.TabIndex = 2;
             this.lose_text.Text = "Вы проиграли 0 раз";
             this.lose_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -166,33 +177,23 @@
             // games_text
             // 
             this.games_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.games_text.Location = new System.Drawing.Point(3, 53);
+            this.games_text.Location = new System.Drawing.Point(203, 77);
             this.games_text.Name = "games_text";
-            this.games_text.Size = new System.Drawing.Size(164, 24);
+            this.games_text.Size = new System.Drawing.Size(194, 24);
             this.games_text.TabIndex = 3;
             this.games_text.Text = "Выигрыш 0%";
             this.games_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // accurate
-            // 
-            this.accurate.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.accurate.Location = new System.Drawing.Point(191, 77);
-            this.accurate.Name = "accurate";
-            this.accurate.Size = new System.Drawing.Size(218, 24);
-            this.accurate.TabIndex = 8;
-            this.accurate.Text = "Точность 0px";
-            this.accurate.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(409, 132);
-            this.Controls.Add(this.accurate);
             this.Controls.Add(this.games_text);
             this.Controls.Add(this.question);
             this.Controls.Add(this.lose_text);
             this.Controls.Add(this.developer_name);
+            this.Controls.Add(this.win_text);
             this.Controls.Add(this.show_settings);
             this.Controls.Add(this.start_btn);
             this.Controls.Add(this.hide_panel);
@@ -206,7 +207,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Глазастик";
             this.TopMost = true;
-            this.Load += new System.EventHandler(this.Form1_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.top_panel.ResumeLayout(false);
             this.hide_panel.ResumeLayout(false);
@@ -228,9 +228,9 @@
         private System.Windows.Forms.PictureBox show_settings;
         private System.Windows.Forms.Label developer_name;
         private System.Windows.Forms.Button question;
+        private System.Windows.Forms.Label win_text;
         private System.Windows.Forms.Label lose_text;
         private System.Windows.Forms.Label games_text;
-        private System.Windows.Forms.Label accurate;
     }
 }
 
