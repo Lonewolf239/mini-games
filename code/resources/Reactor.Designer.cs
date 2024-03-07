@@ -34,6 +34,7 @@
             this.question = new System.Windows.Forms.Button();
             this.developer_name = new System.Windows.Forms.Label();
             this.top_panel = new System.Windows.Forms.Panel();
+            this.score_text = new System.Windows.Forms.Label();
             this.cold_btn36 = new System.Windows.Forms.PictureBox();
             this.cold_btn35 = new System.Windows.Forms.PictureBox();
             this.cold_btn34 = new System.Windows.Forms.PictureBox();
@@ -72,7 +73,11 @@
             this.cold_btn1 = new System.Windows.Forms.PictureBox();
             this.btn_images = new System.Windows.Forms.ImageList(this.components);
             this.wait_timer = new System.Windows.Forms.Timer(this.components);
-            this.label1 = new System.Windows.Forms.Label();
+            this.lose_pic = new System.Windows.Forms.PictureBox();
+            this.refresh_timer = new System.Windows.Forms.Timer(this.components);
+            this.bonus_time_panel = new System.Windows.Forms.Panel();
+            this.bonus_time = new System.Windows.Forms.Panel();
+            this.bonus_timer = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn36)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn35)).BeginInit();
@@ -110,6 +115,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lose_pic)).BeginInit();
+            this.bonus_time_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // start_btn
@@ -117,7 +124,7 @@
             this.start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.start_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.start_btn.Location = new System.Drawing.Point(40, 216);
+            this.start_btn.Location = new System.Drawing.Point(40, 236);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(105, 40);
             this.start_btn.TabIndex = 26;
@@ -131,7 +138,7 @@
             this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.question.Location = new System.Drawing.Point(0, 216);
+            this.question.Location = new System.Drawing.Point(0, 236);
             this.question.Name = "question";
             this.question.Size = new System.Drawing.Size(40, 40);
             this.question.TabIndex = 25;
@@ -145,7 +152,7 @@
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
             this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.developer_name.Location = new System.Drawing.Point(246, 229);
+            this.developer_name.Location = new System.Drawing.Point(246, 249);
             this.developer_name.Name = "developer_name";
             this.developer_name.Size = new System.Drawing.Size(208, 27);
             this.developer_name.TabIndex = 24;
@@ -156,7 +163,9 @@
             // top_panel
             // 
             this.top_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
+            this.top_panel.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.top_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.top_panel.Controls.Add(this.score_text);
             this.top_panel.Controls.Add(this.cold_btn36);
             this.top_panel.Controls.Add(this.cold_btn35);
             this.top_panel.Controls.Add(this.cold_btn34);
@@ -196,8 +205,23 @@
             this.top_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
-            this.top_panel.Size = new System.Drawing.Size(454, 210);
+            this.top_panel.Size = new System.Drawing.Size(454, 230);
             this.top_panel.TabIndex = 27;
+            // 
+            // score_text
+            // 
+            this.score_text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(8)))), ((int)(((byte)(8)))), ((int)(((byte)(40)))));
+            this.score_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.score_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 13.5F);
+            this.score_text.ForeColor = System.Drawing.Color.White;
+            this.score_text.Location = new System.Drawing.Point(-2, 200);
+            this.score_text.Name = "score_text";
+            this.score_text.Size = new System.Drawing.Size(454, 26);
+            this.score_text.TabIndex = 28;
+            this.score_text.Text = " счёт: 0     макс. счёт: 0     перегрузка: 4%";
+            this.score_text.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
+            this.score_text.MouseLeave += new System.EventHandler(this.Score_text_MouseLeave);
+            this.score_text.MouseHover += new System.EventHandler(this.Score_text_MouseHover);
             // 
             // cold_btn36
             // 
@@ -638,29 +662,62 @@
             this.btn_images.Images.SetKeyName(1, "yellow.png");
             this.btn_images.Images.SetKeyName(2, "red.png");
             this.btn_images.Images.SetKeyName(3, "blue.png");
+            this.btn_images.Images.SetKeyName(4, "purple.png");
+            this.btn_images.Images.SetKeyName(5, "purple_stage_2.png");
+            this.btn_images.Images.SetKeyName(6, "purple_stage_3.png");
             // 
             // wait_timer
             // 
             this.wait_timer.Interval = 850;
             this.wait_timer.Tick += new System.EventHandler(this.Wait_timer_Tick);
             // 
-            // label1
+            // lose_pic
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.label1.Location = new System.Drawing.Point(218, 227);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(234, 29);
-            this.label1.TabIndex = 28;
-            this.label1.Text = "TEST PROTOTYPE";
+            this.lose_pic.Image = global::minigames.Properties.Resources.reactore_GameOver;
+            this.lose_pic.Location = new System.Drawing.Point(268, 298);
+            this.lose_pic.Name = "lose_pic";
+            this.lose_pic.Size = new System.Drawing.Size(10, 10);
+            this.lose_pic.TabIndex = 28;
+            this.lose_pic.TabStop = false;
+            this.lose_pic.Visible = false;
+            // 
+            // refresh_timer
+            // 
+            this.refresh_timer.Interval = 1500;
+            this.refresh_timer.Tick += new System.EventHandler(this.Refresh_timer_Tick);
+            // 
+            // bonus_time_panel
+            // 
+            this.bonus_time_panel.BackColor = System.Drawing.Color.Gainsboro;
+            this.bonus_time_panel.Controls.Add(this.bonus_time);
+            this.bonus_time_panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.bonus_time_panel.Location = new System.Drawing.Point(0, 230);
+            this.bonus_time_panel.Name = "bonus_time_panel";
+            this.bonus_time_panel.Size = new System.Drawing.Size(454, 6);
+            this.bonus_time_panel.TabIndex = 29;
+            // 
+            // bonus_time
+            // 
+            this.bonus_time.BackColor = System.Drawing.Color.Purple;
+            this.bonus_time.Dock = System.Windows.Forms.DockStyle.Left;
+            this.bonus_time.Location = new System.Drawing.Point(0, 0);
+            this.bonus_time.Name = "bonus_time";
+            this.bonus_time.Size = new System.Drawing.Size(0, 6);
+            this.bonus_time.TabIndex = 30;
+            this.bonus_time.Visible = false;
+            // 
+            // bonus_timer
+            // 
+            this.bonus_timer.Tick += new System.EventHandler(this.Bonus_timer_Tick);
             // 
             // Reactor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Gainsboro;
-            this.ClientSize = new System.Drawing.Size(454, 256);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(454, 276);
+            this.Controls.Add(this.bonus_time_panel);
+            this.Controls.Add(this.lose_pic);
             this.Controls.Add(this.start_btn);
             this.Controls.Add(this.question);
             this.Controls.Add(this.developer_name);
@@ -673,6 +730,7 @@
             this.Name = "Reactor";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Реактор";
+            this.TopMost = true;
             this.Load += new System.EventHandler(this.Reactor_Load);
             this.top_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn36)).EndInit();
@@ -711,6 +769,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.lose_pic)).EndInit();
+            this.bonus_time_panel.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -760,6 +820,11 @@
         private System.Windows.Forms.PictureBox cold_btn9;
         private System.Windows.Forms.PictureBox cold_btn8;
         private System.Windows.Forms.PictureBox cold_btn7;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label score_text;
+        private System.Windows.Forms.PictureBox lose_pic;
+        private System.Windows.Forms.Timer refresh_timer;
+        private System.Windows.Forms.Panel bonus_time_panel;
+        private System.Windows.Forms.Panel bonus_time;
+        private System.Windows.Forms.Timer bonus_timer;
     }
 }

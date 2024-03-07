@@ -21,7 +21,8 @@ namespace minigames.Colortimer
             ContentAlignment.MiddleLeft, ContentAlignment.MiddleCenter, ContentAlignment.MiddleRight,
             ContentAlignment.BottomLeft, ContentAlignment.BottomCenter, ContentAlignment.BottomRight
         };
-        private int current_color = 0, player_chose_color = 0, score = 0, max_score = 0;
+        private int current_color = 0, player_chose_color = 0, max_score = 0;
+        public static int score = 0;
         private Random rand = new Random();
         private static float difficulty_level = 0;
 
@@ -107,6 +108,7 @@ namespace minigames.Colortimer
                 color_text.Focus();
                 start_btn.Enabled = false;
                 time_left.Width = 400;
+                score = 0;
                 time_left.Visible = true;
                 if (!MainMenu.Language)
                     combo_text.Text = $"score: {score}\nmax score: {max_score}";
@@ -119,6 +121,8 @@ namespace minigames.Colortimer
 
         private void ColorTimer_Load(object sender, EventArgs e)
         {
+            score = 0;
+            max_score = MainMenu.mg1_max_score;
             if (!MainMenu.Language)
             {
                 Text = "Colortimer";
@@ -129,7 +133,6 @@ namespace minigames.Colortimer
                 combo_text.Text = $"\nмакс. счёт: {max_score}";
                 start_btn.Text = "СТАРТ";
             }
-            max_score = MainMenu.mg1_max_score;
         }
 
         private void ColorTimer_KeyPress(object sender, KeyPressEventArgs e)
@@ -177,7 +180,14 @@ namespace minigames.Colortimer
                 if (MainMenu.Language)
                     color_text.Text = colors[choice_color];
                 else
-                    color_text.Text = colors1[choice_color];
+                {
+                    if (choice_color == 2)
+                        color_text.Text = "Yellow";
+                    else if (choice_color == 4)
+                        color_text.Text = "Orange";
+                    else
+                        color_text.Text = colors1[choice_color];
+                }
                 color_text.ForeColor = colorArray[choice_color];
             }
             else
@@ -199,7 +209,14 @@ namespace minigames.Colortimer
                         if (MainMenu.Language)
                             color_text.Text = colors[choice_color];
                         else
-                            color_text.Text = colors1[choice_color];
+                        {
+                            if (choice_color == 2)
+                                color_text.Text = "Yellow";
+                            else if (choice_color == 4)
+                                color_text.Text = "Orange";
+                            else
+                                color_text.Text = colors1[choice_color];
+                        }
                         if (difficulty_level < 1)
                         {
                             color_text.ForeColor = colorArray[choice_color];

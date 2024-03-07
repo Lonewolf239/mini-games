@@ -7,6 +7,8 @@ using minigames.Colortimer;
 using minigames.Colortiles;
 using minigames.Math_o_light;
 using minigames._Reactor;
+using minigames.Rodrocket;
+using minigames.Hacker_man;
 
 namespace minigames
 {
@@ -18,7 +20,8 @@ namespace minigames
         }
 
         public static bool Language = false;
-        public static int mg1_max_score = 0, mg3_max_score = 0;
+        public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0;
+        public static float mg4_max_score = 0;
 
         private void Version_label_MouseClick(object sender, MouseEventArgs e)
         {
@@ -42,11 +45,24 @@ namespace minigames
                 mg_name2.Text = "ColorTiles";
                 mg_name3.Text = "Math-o-Light";
                 mg_name4.Text = "Reactor";
+                mg_name5.Text = "RodRocket";
+                mg_name6.Text = "Hackerman";
             }
         }
 
         private void Game_Closing(object sender, EventArgs e)
         {
+            if (ColorTimer.score > mg1_max_score)
+                mg1_max_score = ColorTimer.score;
+            if (MathOLight.score > mg3_max_score)
+                mg3_max_score = MathOLight.score;
+            if (Reactor.score > mg4_max_score)
+                mg4_max_score = Reactor.score;
+            if (RodRocket.score > mg5_max_score)
+                mg5_max_score = RodRocket.score;
+            if (Hackerman.score > mg6_max_score)
+                mg6_max_score = Hackerman.score;
+            WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
             ShowIcon = true;
             Show();
@@ -69,6 +85,7 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
+                WindowState = FormWindowState.Minimized;
                 Form1 form = new Form1();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
@@ -97,6 +114,7 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
+                WindowState = FormWindowState.Minimized;
                 ColorTimer form = new ColorTimer();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
@@ -125,6 +143,7 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
+                WindowState = FormWindowState.Minimized;
                 ColorTiles form = new ColorTiles();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
@@ -153,13 +172,14 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
+                WindowState = FormWindowState.Minimized;
                 MathOLight form = new MathOLight();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel3.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel3.BackColor = SystemColors.Control;
                 form.ShowDialog();
             }
         }
@@ -181,6 +201,7 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
+                WindowState = FormWindowState.Minimized;
                 Reactor form = new Reactor();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
@@ -192,7 +213,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 6: РыбалОчка)
+        //мини-игра 6: Удочкомёт
         private void Mg_name5_MouseEnter(object sender, EventArgs e)
         {
             mg_panel5.BorderStyle = BorderStyle.Fixed3D;
@@ -209,20 +230,19 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                /*
-                X form = new X();
+                WindowState = FormWindowState.Minimized;
+                RodRocket form = new RodRocket();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
-                form.ShowDialog();
-                */
+                mg_panel5.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel5.BackColor = SystemColors.Control;
+                form.ShowDialog();   
             }
         }
 
-        //мини-игра 7:
+        //мини-игра 7: Хацкер
         private void Mg_name6_MouseEnter(object sender, EventArgs e)
         {
             mg_panel6.BorderStyle = BorderStyle.Fixed3D;
@@ -239,16 +259,15 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                /*
-                X form = new X();
+                WindowState = FormWindowState.Minimized;
+                Hackerman form = new Hackerman();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel6.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel6.BackColor = SystemColors.Control;
                 form.ShowDialog();
-                */
             }
         }
 
@@ -270,13 +289,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel7.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel7.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -300,13 +320,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel8.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel8.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -330,13 +351,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel9.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel9.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -360,13 +382,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel10.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel10.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -390,13 +413,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel11.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel11.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -420,13 +444,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel12.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel12.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -450,13 +475,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel13.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel13.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -480,13 +506,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel14.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel14.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }
@@ -510,13 +537,14 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 /*
+                WindowState = FormWindowState.Minimized;
                 X form = new X();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
                 Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
+                mg_panel15.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel15.BackColor = SystemColors.Control;
                 form.ShowDialog();
                 */
             }

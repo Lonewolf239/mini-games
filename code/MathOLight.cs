@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Math_o_light
@@ -21,7 +14,8 @@ namespace minigames.Math_o_light
 
         private float input_num = 0, difficulty_level = 0,
             num1 = 0, num2 = 0, result;
-        private int score = 0, max_score = 0, choice_for_logic = 0;
+        private int max_score = 0, choice_for_logic = 0;
+        public static int score = 0;
         private char[] math_list = { '+', '-', '*' };
         private char math_doing = ' ';
         private bool in_game = false, fast = false;
@@ -30,6 +24,7 @@ namespace minigames.Math_o_light
         private void MathOLight_Load(object sender, EventArgs e)
         {
             max_score = MainMenu.mg3_max_score;
+            score = 0;
             if (!MainMenu.Language)
             {
                 Text = "Math-o-Light";
@@ -43,6 +38,7 @@ namespace minigames.Math_o_light
 
         private void Question_Click(object sender, EventArgs e)
         {
+            top_panel.Focus();
             if (MainMenu.Language)
                 MessageBox.Show("В верхней части окна появляется математическое уравнение, и вашей задачей будет решить его как можно быстрее. " +
                     "У вас будет ограниченное время на ввод ответа.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -59,8 +55,9 @@ namespace minigames.Math_o_light
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
+            top_panel.Focus();
             input.Text = "";
-            difficulty_level = 0;
+            difficulty_level = score = 0;
             start_btn.Enabled = false;
             Logic(0);
         }

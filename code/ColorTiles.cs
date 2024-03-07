@@ -29,7 +29,7 @@ namespace minigames.Colortiles
 
         private void Question_Click(object sender, EventArgs e)
         {
-            time_left_panel.Focus();
+            top_panel.Focus();
             if (MainMenu.Language)
                 MessageBox.Show("В течение нескольких секунд будут показаны цветные элементы в случайном порядке. " +
                     "Затем вам потребуется восстановить порядок, нажимая соответствующие кнопки в указанное время.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -94,7 +94,7 @@ namespace minigames.Colortiles
 
         private void Input_Color(int index)
         {
-            time_left_panel.Focus();
+            top_panel.Focus();
             if (pos < num_task && color_btn_1.Visible)
             {
                 Control[] answer = { answer_1, answer_2, answer_3, answer_4, answer_5, answer_6, answer_7, answer_8 };
@@ -105,7 +105,7 @@ namespace minigames.Colortiles
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
-            time_left_panel.Focus();
+            top_panel.Focus();
             if (!in_game)
             {
                 Control[] color_btn = { color_btn_1, color_btn_2, color_btn_3, color_btn_4, color_btn_5, color_btn_6, color_btn_7, color_btn_8 };
@@ -183,7 +183,7 @@ namespace minigames.Colortiles
 
         private void Clear_btn_Click(object sender, EventArgs e)
         {
-            time_left_panel.Focus();
+            top_panel.Focus();
             if (read_time == -1)
             {
                 if (pos > 0)
