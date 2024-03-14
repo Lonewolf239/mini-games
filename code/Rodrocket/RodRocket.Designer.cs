@@ -135,7 +135,7 @@
             // hp_text
             // 
             this.hp_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.hp_text.Location = new System.Drawing.Point(22, 53);
+            this.hp_text.Location = new System.Drawing.Point(18, 53);
             this.hp_text.Name = "hp_text";
             this.hp_text.Size = new System.Drawing.Size(36, 20);
             this.hp_text.TabIndex = 28;
@@ -275,8 +275,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(172, 216);
-            this.Controls.Add(this.by_text);
             this.Controls.Add(this.hp_pic);
+            this.Controls.Add(this.by_text);
             this.Controls.Add(this.developer_name);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.prog_name_panel);

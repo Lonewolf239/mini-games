@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Hackerman));
             this.start_btn = new System.Windows.Forms.Button();
             this.developer_name = new System.Windows.Forms.Label();
@@ -44,6 +45,7 @@
             this.attemps_text = new System.Windows.Forms.Label();
             this.by_text = new System.Windows.Forms.Label();
             this.score_text = new System.Windows.Forms.Label();
+            this.win_timer = new System.Windows.Forms.Timer(this.components);
             this.num1_panel.SuspendLayout();
             this.num2_panel.SuspendLayout();
             this.num3_panel.SuspendLayout();
@@ -186,26 +188,28 @@
             // 
             // top_panel
             // 
+            this.top_panel.BackColor = System.Drawing.Color.Gainsboro;
             this.top_panel.Controls.Add(this.num1_panel);
             this.top_panel.Controls.Add(this.num3_panel);
+            this.top_panel.Controls.Add(this.attemps_text);
             this.top_panel.Controls.Add(this.num2_panel);
             this.top_panel.Controls.Add(this.num4_panel);
             this.top_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
-            this.top_panel.Size = new System.Drawing.Size(267, 50);
+            this.top_panel.Size = new System.Drawing.Size(267, 77);
             this.top_panel.TabIndex = 27;
             this.top_panel.Visible = false;
             // 
             // attemps_text
             // 
+            this.attemps_text.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.attemps_text.Location = new System.Drawing.Point(0, 53);
             this.attemps_text.Name = "attemps_text";
             this.attemps_text.Size = new System.Drawing.Size(267, 24);
             this.attemps_text.TabIndex = 28;
-            this.attemps_text.Text = "Попытки: 4";
+            this.attemps_text.Text = "Попытки: 8";
             this.attemps_text.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.attemps_text.Visible = false;
             // 
             // by_text
             // 
@@ -229,6 +233,11 @@
             this.score_text.Text = "счёт: 0\r\nмакс. счёт: 0";
             this.score_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
+            // win_timer
+            // 
+            this.win_timer.Interval = 2000;
+            this.win_timer.Tick += new System.EventHandler(this.Win_timer_Tick);
+            // 
             // Hackerman
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -236,7 +245,6 @@
             this.ClientSize = new System.Drawing.Size(267, 160);
             this.Controls.Add(this.score_text);
             this.Controls.Add(this.by_text);
-            this.Controls.Add(this.attemps_text);
             this.Controls.Add(this.top_panel);
             this.Controls.Add(this.start_btn);
             this.Controls.Add(this.developer_name);
@@ -284,5 +292,6 @@
         private System.Windows.Forms.Label attemps_text;
         private System.Windows.Forms.Label by_text;
         private System.Windows.Forms.Label score_text;
+        private System.Windows.Forms.Timer win_timer;
     }
 }

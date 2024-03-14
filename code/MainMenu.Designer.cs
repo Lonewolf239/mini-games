@@ -121,7 +121,7 @@
             this.version_label.Name = "version_label";
             this.version_label.Size = new System.Drawing.Size(116, 13);
             this.version_label.TabIndex = 0;
-            this.version_label.Text = "v0.1.4 By.Lonewolf239";
+            this.version_label.Text = "v0.1.8 By.Lonewolf239";
             this.version_label.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.version_label.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Version_label_MouseClick);
             // 
@@ -352,7 +352,7 @@
             this.mg_name5.Name = "mg_name5";
             this.mg_name5.Size = new System.Drawing.Size(98, 23);
             this.mg_name5.TabIndex = 2;
-            this.mg_name5.Text = "soon...";
+            this.mg_name5.Text = "Удочкомёт";
             this.mg_name5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name5_MouseClick);
             this.mg_name5.MouseEnter += new System.EventHandler(this.Mg_name5_MouseEnter);
@@ -361,6 +361,7 @@
             // mg_icon_pic5
             // 
             this.mg_icon_pic5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic5.Image = global::minigames.Properties.Resources.Rodrocket;
             this.mg_icon_pic5.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic5.Name = "mg_icon_pic5";
             this.mg_icon_pic5.Size = new System.Drawing.Size(98, 50);
@@ -392,7 +393,7 @@
             this.mg_name6.Name = "mg_name6";
             this.mg_name6.Size = new System.Drawing.Size(98, 23);
             this.mg_name6.TabIndex = 2;
-            this.mg_name6.Text = "soon...";
+            this.mg_name6.Text = "Хацкер";
             this.mg_name6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name6_MouseClick);
             this.mg_name6.MouseEnter += new System.EventHandler(this.Mg_name6_MouseEnter);
@@ -401,6 +402,7 @@
             // mg_icon_pic6
             // 
             this.mg_icon_pic6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic6.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic6.Image")));
             this.mg_icon_pic6.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic6.Name = "mg_icon_pic6";
             this.mg_icon_pic6.Size = new System.Drawing.Size(98, 50);
@@ -427,12 +429,12 @@
             // mg_name7
             // 
             this.mg_name7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_name7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.mg_name7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.mg_name7.Location = new System.Drawing.Point(0, 50);
             this.mg_name7.Name = "mg_name7";
             this.mg_name7.Size = new System.Drawing.Size(98, 23);
             this.mg_name7.TabIndex = 2;
-            this.mg_name7.Text = "soon...";
+            this.mg_name7.Text = "Мини-Змейка";
             this.mg_name7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name7_MouseClick);
             this.mg_name7.MouseEnter += new System.EventHandler(this.Mg_name7_MouseEnter);
@@ -441,6 +443,7 @@
             // mg_icon_pic7
             // 
             this.mg_icon_pic7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic7.Image = global::minigames.Properties.Resources.snake1;
             this.mg_icon_pic7.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic7.Name = "mg_icon_pic7";
             this.mg_icon_pic7.Size = new System.Drawing.Size(98, 50);

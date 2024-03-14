@@ -9,6 +9,7 @@ using minigames.Math_o_light;
 using minigames._Reactor;
 using minigames.Rodrocket;
 using minigames.Hacker_man;
+using minigames.Snake_game;
 
 namespace minigames
 {
@@ -20,7 +21,7 @@ namespace minigames
         }
 
         public static bool Language = false;
-        public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0;
+        public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0;
         public static float mg4_max_score = 0;
 
         private void Version_label_MouseClick(object sender, MouseEventArgs e)
@@ -47,6 +48,8 @@ namespace minigames
                 mg_name4.Text = "Reactor";
                 mg_name5.Text = "RodRocket";
                 mg_name6.Text = "Hackerman";
+                mg_name7.Text = "Mini-Snake";
+                mg_name7.Font = new Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             }
         }
 
@@ -62,6 +65,8 @@ namespace minigames
                 mg5_max_score = RodRocket.score;
             if (Hackerman.score > mg6_max_score)
                 mg6_max_score = Hackerman.score;
+            if (SnakeGame.score > mg7_max_score)
+                mg7_max_score = SnakeGame.score;
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
             ShowIcon = true;
@@ -271,7 +276,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 8:
+        //мини-игра 8: Мини-Змейка
         private void Mg_name7_MouseEnter(object sender, EventArgs e)
         {
             mg_panel7.BorderStyle = BorderStyle.Fixed3D;
@@ -288,9 +293,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                /*
                 WindowState = FormWindowState.Minimized;
-                X form = new X();
+                SnakeGame form = new SnakeGame();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
@@ -298,7 +302,6 @@ namespace minigames
                 mg_panel7.BorderStyle = BorderStyle.FixedSingle;
                 mg_panel7.BackColor = SystemColors.Control;
                 form.ShowDialog();
-                */
             }
         }
 

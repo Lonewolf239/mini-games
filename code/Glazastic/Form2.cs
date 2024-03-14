@@ -1,7 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace minigames
+namespace lazastic
 {
     public partial class Form2 : Form
     {
@@ -11,7 +18,7 @@ namespace minigames
         }
 
         public static int dificult_choice = 10;
-        public static bool big_speed = false, unposible_mode = false, practic_mod = false;
+        public static bool big_speed = false, unposible_mode = false;
 
         private void Ez_CheckedChanged(object sender, EventArgs e)
         {
@@ -39,34 +46,12 @@ namespace minigames
                 ez.Checked = true;
             else if (Form1.widht_panels == 5)
                 hard.Checked = true;
-            big_speed = speed.Checked = Form1.big_speed;
+            speed.Checked = Form1.big_speed;
             if (Form1.unposible_mod)
             {
                 unposible_mode = unposible.Checked = true;
                 speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;
-                dificult_choice = 2;
             }
-            practic_mod = practic_mode.Checked = Form1.practic_mod;
-            if (practic_mod)
-                unposible.Enabled = false;
-            if (!MainMenu.Language)
-            {
-                Text = "Difficulty settings";
-                ez.Text = "Easily";
-                midle.Text = "Average";
-                hard.Text = "Hard";
-                speed.Text = "High speed";
-                practic_mode.Text = "Practice mode";
-            }
-        }
-
-        private void practic_mode_CheckedChanged(object sender, EventArgs e)
-        {
-            practic_mod = !practic_mod;
-            if (practic_mod)
-                unposible.Checked = unposible.Enabled = false;
-            else
-                unposible.Enabled = true;
         }
 
         private void Unposible_CheckedChanged(object sender, EventArgs e)
@@ -74,12 +59,12 @@ namespace minigames
             unposible_mode = !unposible_mode;
             if (unposible_mode)
             {
-                practic_mode.Enabled = speed.Checked = speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;
+                speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;
                 dificult_choice = 2;
             }
             else
             {
-                practic_mode.Enabled = speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = true;
+                speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = true;
                 dificult_choice = 10;
             }
         }

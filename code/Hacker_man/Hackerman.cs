@@ -75,7 +75,7 @@ namespace minigames.Hacker_man
                 current_attempts = attempts;
                 in_game = true;
                 Refresh_Text();
-                attemps_text.Visible = top_panel.Visible = true;
+                top_panel.Visible = true;
                 Generate_Password();
             }
             else
@@ -213,6 +213,23 @@ namespace minigames.Hacker_man
             }
         }
 
+        private void Win_timer_Tick(object sender, EventArgs e)
+        {
+            Control[] inputs = { num1_input, num2_input, num3_input, num4_input };
+            current_attempts = attempts;
+            score++;
+            Refresh_Text();
+            for (int i = 0; i < inputs.Length; i++)
+            {
+                inputs[i].Text = "";
+                inputs[i].BackColor = SystemColors.Window;
+                inputs[i].Enabled = true;
+            }
+            Generate_Password();
+            start_btn.Enabled = true;
+            win_timer.Stop();
+        }
+
         private void Generate_Password()
         {
             for (int i = 0; i < password.Length; i++)
@@ -263,16 +280,8 @@ namespace minigames.Hacker_man
             }
             else
             {
-                current_attempts = attempts;
-                score++;
-                Refresh_Text();
-                for (int i = 0; i < inputs.Length; i++)
-                {
-                    inputs[i].Text = "";
-                    inputs[i].BackColor = SystemColors.Window;
-                    inputs[i].Enabled = true;
-                }
-                Generate_Password();
+                start_btn.Enabled = false;
+                win_timer.Start();
             }
         }
     }
