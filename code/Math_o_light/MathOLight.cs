@@ -23,6 +23,7 @@ namespace minigames.Math_o_light
 
         private void MathOLight_Load(object sender, EventArgs e)
         {
+            Activate();
             max_score = MainMenu.mg3_max_score;
             score = 0;
             if (!MainMenu.Language)

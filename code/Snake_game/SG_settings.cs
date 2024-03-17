@@ -92,6 +92,7 @@ namespace minigames.Snake_game
 
         private void SG_settings_Load(object sender, EventArgs e)
         {
+            Activate();
             if (!MainMenu.Language)
             {
                 Text = "Settings";

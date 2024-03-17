@@ -27,6 +27,7 @@ namespace minigames.Hacker_man
 
         private void Hackerman_Load(object sender, EventArgs e)
         {
+            Activate();
             max_score = MainMenu.mg6_max_score;
             score = 0;
             if (!MainMenu.Language)

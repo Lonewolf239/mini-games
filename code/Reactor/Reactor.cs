@@ -30,6 +30,7 @@ namespace minigames._Reactor
 
         private void Reactor_Load(object sender, EventArgs e)
         {
+            Activate();
             score = 0;
             max_score = MainMenu.mg4_max_score;
             if (!MainMenu.Language)

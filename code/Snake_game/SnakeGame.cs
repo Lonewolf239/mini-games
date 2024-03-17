@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Snake_game
@@ -18,7 +12,7 @@ namespace minigames.Snake_game
             InitializeComponent();
         }
 
-        private static Random rand = new Random();
+        private static readonly Random rand = new Random();
         public static int score = 0, max_score = 0;
         private bool cycle_done = false, game_over = false, super_fruit_spawned = false;
         private int x = 3, y = 2, fruit_x, fruit_y, super_fruit_x, super_fruit_y, nTail;
@@ -48,8 +42,8 @@ namespace minigames.Snake_game
             new Control[40],
             new Control[40]
         };
-        private BorderStyle[] px_border = { BorderStyle.None, BorderStyle.FixedSingle, BorderStyle.Fixed3D };
-        private Color[] theme = { Color.Gainsboro, Color.FromArgb(12, 12, 50) };
+        private readonly BorderStyle[] px_border = { BorderStyle.None, BorderStyle.FixedSingle, BorderStyle.Fixed3D };
+        private readonly Color[] theme = { Color.Gainsboro, Color.FromArgb(12, 12, 50) };
         private int px_x = 16, px_y = 8, tile_size = 25, logic_interval = 500, px_style = 0, dark_theme = 0;
         public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 500, new_px_style = 0, new_dark_theme = 0;
         public static bool new_wall_killing = false;
@@ -127,6 +121,7 @@ namespace minigames.Snake_game
 
         private void SnakeGame_Load(object sender, EventArgs e)
         {
+            Activate();
             new_px_x = 16;
             new_px_y = 8;
             new_tile_size = 25;

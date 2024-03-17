@@ -1,4 +1,4 @@
-﻿namespace lazastic
+﻿namespace minigames
 {
     partial class Form2
     {
@@ -34,6 +34,7 @@
             this.ez = new System.Windows.Forms.RadioButton();
             this.speed = new System.Windows.Forms.CheckBox();
             this.unposible = new System.Windows.Forms.CheckBox();
+            this.practic_mode = new System.Windows.Forms.CheckBox();
             this.dificult_panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +45,7 @@
             this.dificult_panel.Controls.Add(this.ez);
             this.dificult_panel.Location = new System.Drawing.Point(6, 6);
             this.dificult_panel.Name = "dificult_panel";
-            this.dificult_panel.Size = new System.Drawing.Size(90, 72);
+            this.dificult_panel.Size = new System.Drawing.Size(100, 72);
             this.dificult_panel.TabIndex = 1;
             // 
             // hard
@@ -54,7 +55,7 @@
             this.hard.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.hard.Location = new System.Drawing.Point(0, 48);
             this.hard.Name = "hard";
-            this.hard.Size = new System.Drawing.Size(90, 24);
+            this.hard.Size = new System.Drawing.Size(100, 24);
             this.hard.TabIndex = 2;
             this.hard.Text = "Сложно";
             this.hard.UseVisualStyleBackColor = true;
@@ -68,9 +69,10 @@
             this.midle.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.midle.Location = new System.Drawing.Point(0, 24);
             this.midle.Name = "midle";
-            this.midle.Size = new System.Drawing.Size(90, 24);
+            this.midle.Size = new System.Drawing.Size(100, 24);
             this.midle.TabIndex = 1;
-            this.midle.Text = "Средне";
+            this.midle.TabStop = true;
+            this.midle.Text = "Средняя";
             this.midle.UseVisualStyleBackColor = true;
             this.midle.CheckedChanged += new System.EventHandler(this.Midle_CheckedChanged);
             // 
@@ -81,7 +83,7 @@
             this.ez.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ez.Location = new System.Drawing.Point(0, 0);
             this.ez.Name = "ez";
-            this.ez.Size = new System.Drawing.Size(90, 24);
+            this.ez.Size = new System.Drawing.Size(100, 24);
             this.ez.TabIndex = 0;
             this.ez.Text = "Легко";
             this.ez.UseVisualStyleBackColor = true;
@@ -113,11 +115,25 @@
             this.unposible.UseVisualStyleBackColor = true;
             this.unposible.CheckedChanged += new System.EventHandler(this.Unposible_CheckedChanged);
             // 
+            // practic_mode
+            // 
+            this.practic_mode.AutoSize = true;
+            this.practic_mode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.practic_mode.Location = new System.Drawing.Point(112, 54);
+            this.practic_mode.Name = "practic_mode";
+            this.practic_mode.Size = new System.Drawing.Size(152, 24);
+            this.practic_mode.TabIndex = 4;
+            this.practic_mode.TabStop = false;
+            this.practic_mode.Text = "Режим практики";
+            this.practic_mode.UseVisualStyleBackColor = true;
+            this.practic_mode.CheckedChanged += new System.EventHandler(this.practic_mode_CheckedChanged);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(277, 79);
+            this.Controls.Add(this.practic_mode);
             this.Controls.Add(this.unposible);
             this.Controls.Add(this.speed);
             this.Controls.Add(this.dificult_panel);
@@ -144,5 +160,6 @@
         private System.Windows.Forms.RadioButton ez;
         private System.Windows.Forms.CheckBox speed;
         private System.Windows.Forms.CheckBox unposible;
+        private System.Windows.Forms.CheckBox practic_mode;
     }
 }

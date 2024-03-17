@@ -10,6 +10,7 @@ using minigames._Reactor;
 using minigames.Rodrocket;
 using minigames.Hacker_man;
 using minigames.Snake_game;
+using minigames.Soundotron;
 
 namespace minigames
 {
@@ -20,8 +21,9 @@ namespace minigames
             InitializeComponent();
         }
 
-        public static bool Language = false;
-        public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0;
+        public static bool Language = false, sounds = true;
+        public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
+            mg8_max_score = 0;
         public static float mg4_max_score = 0;
 
         private void Version_label_MouseClick(object sender, MouseEventArgs e)
@@ -50,6 +52,7 @@ namespace minigames
                 mg_name6.Text = "Hackerman";
                 mg_name7.Text = "Mini-Snake";
                 mg_name7.Font = new Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+                mg_name8.Text = "Soundotron";
             }
         }
 
@@ -67,10 +70,35 @@ namespace minigames
                 mg6_max_score = Hackerman.score;
             if (SnakeGame.score > mg7_max_score)
                 mg7_max_score = SnakeGame.score;
+            if (SoundoTron.score > mg8_max_score)
+                mg8_max_score = SoundoTron.score;
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
             ShowIcon = true;
             Show();
+        }
+
+        private void Sounds_on_off_Click(object sender, EventArgs e)
+        {
+            sounds = !sounds;
+            if (!sounds)
+            {
+                mg_icon_pic8.BackgroundImage = Properties.Resources.soundotron;
+                mg_icon_pic8.Image = Properties.Resources._lock;
+                mg_panel8.BackColor = Color.Gray;
+            }
+            else
+            {
+                mg_icon_pic8.BackgroundImage = null;
+                mg_icon_pic8.Image =Properties.Resources.soundotron;
+                mg_panel8.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void About_mini_games_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Mini-Games — коллекция из 16 офлайн мини-игр, включающая в себя как стратегические головоломки, так и динамичные аркады. " +
+                "Интуитивный интерфейс обеспечивает непринужденное погружение в игру, делая сборник идеальным для быстрого развлечения в любое время.", "О приложении", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         //мини-игра 1: Глазастик
@@ -305,26 +333,31 @@ namespace minigames
             }
         }
 
-        //мини-игра 9:
+        //мини-игра 9: Звукотрон
         private void Mg_icon_pic8_MouseEnter(object sender, EventArgs e)
         {
-            mg_panel8.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel8.BackColor = Color.Gainsboro;
+            if (sounds)
+            {
+                mg_panel8.BorderStyle = BorderStyle.Fixed3D;
+                mg_panel8.BackColor = Color.Gainsboro;
+            }
         }
 
         private void Mg_icon_pic8_MouseLeave(object sender, EventArgs e)
         {
-            mg_panel8.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel8.BackColor = SystemColors.Control;
+            if (sounds)
+            {
+                mg_panel8.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel8.BackColor = SystemColors.Control;
+            }
         }
 
         private void Mg_icon_pic8_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && sounds)
             {
-                /*
                 WindowState = FormWindowState.Minimized;
-                X form = new X();
+                SoundoTron form = new SoundoTron();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
@@ -332,7 +365,6 @@ namespace minigames
                 mg_panel8.BorderStyle = BorderStyle.FixedSingle;
                 mg_panel8.BackColor = SystemColors.Control;
                 form.ShowDialog();
-                */
             }
         }
 

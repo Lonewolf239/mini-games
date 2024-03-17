@@ -40,6 +40,7 @@ namespace minigames.Colortiles
 
         private void ColorTiles_Load(object sender, EventArgs e)
         {
+            Activate();
             if (!MainMenu.Language)
                 Text = "ColorTiles";
             else

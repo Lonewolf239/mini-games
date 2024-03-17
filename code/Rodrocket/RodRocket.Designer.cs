@@ -297,6 +297,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TopMost = true;
             this.Load += new System.EventHandler(this.RodRocket_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RodRocket_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RodRocket_KeyUp);
             this.right_panel.ResumeLayout(false);
             this.right_game_panel.ResumeLayout(false);
             this.prog_name_panel.ResumeLayout(false);

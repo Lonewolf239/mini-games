@@ -26,6 +26,7 @@ namespace minigames.Rodrocket
 
         private void RodRocket_Load(object sender, EventArgs e)
         {
+            Activate();
             score = 0;
             max_score = MainMenu.mg5_max_score;
             if (!MainMenu.Language)
@@ -79,6 +80,18 @@ namespace minigames.Rodrocket
                 right_panel.Focus();
                 up = true;
             }
+        }
+
+        private void RodRocket_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+                up = true;
+        }
+
+        private void RodRocket_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space)
+                up = false;
         }
 
         private void Up_btn_MouseUp(object sender, MouseEventArgs e)
