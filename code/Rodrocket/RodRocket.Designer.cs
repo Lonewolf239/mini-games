@@ -296,6 +296,7 @@
             this.Name = "RodRocket";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.RodRocket_FormClosing);
             this.Load += new System.EventHandler(this.RodRocket_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.RodRocket_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.RodRocket_KeyUp);

@@ -203,6 +203,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Матемагнит";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MathOLight_FormClosing);
             this.Load += new System.EventHandler(this.MathOLight_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MathOLight_KeyPress);
             this.top_panel.ResumeLayout(false);

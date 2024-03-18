@@ -33,7 +33,7 @@ namespace minigames
                 if (rand_num < 60)
                     rand_num += 60;
                 finish_panel.Location = new Point(rand_num, 0);
-                finish2_panel.Left = 90 + finish_panel.Left;
+                finish2_panel.Left = hide_panel.Left + finish_panel.Left;
                 finish2_panel.BackColor = Color.Red;
                 finish2_panel.Visible = true;
                 if (!practic_mod)
@@ -58,12 +58,22 @@ namespace minigames
                     if (!practic_mod)
                         win++;
                     finish2_panel.BackColor = Color.LawnGreen;
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound win = new PlaySound(@"sounds\win.wav");
+                        win.Play(1);
+                    }
                 }
                 else
                 {
                     if (!practic_mod)
                         lose++;
                     finish2_panel.BackColor = Color.Red;
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                        game_over.Play(1);
+                    }
                 }
                 hide_panel.Visible = false;
             }
@@ -71,12 +81,15 @@ namespace minigames
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            int add = 1;
+            if (MainMenu.scaled)
+                add = (int)(add * MainMenu.scale_size);
             if (!big_speed && !unposible_mod)
-                progress_panel.Width++;
+                progress_panel.Width += add;
             else if (big_speed && !unposible_mod)
-                progress_panel.Width += 2;
+                progress_panel.Width += add * 2;
             else
-                progress_panel.Width += 3;
+                progress_panel.Width += add * 3;
             if (progress_panel.Width >= Width)
             {
                 if (!practic_mod)
@@ -108,7 +121,8 @@ namespace minigames
 
         private void Form2_Closing(object sender, EventArgs e)
         {
-            widht_panels = finish_panel.Width = finish2_panel.Width = Form2.dificult_choice;
+            timer1.Stop();
+            widht_panels = finish_panel.Width = finish2_panel.Width = (int)(Form2.dificult_choice * MainMenu.scale_size);
             big_speed = Form2.big_speed;
             unposible_mod = Form2.unposible_mode;
             practic_mod = Form2.practic_mod;
@@ -191,16 +205,33 @@ namespace minigames
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - (developer_name.Width + 10);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             if (!MainMenu.Language)
             {
-                Text = "EyeStop";
+                Text = "EyeStop"; 
                 lose_text.Text = "Loss 0%";
                 games_text.Text = "Winning 0%";
                 accurate.Text = "Accuracy 0px";
             }
             else
                 start_btn.Text = "СТАРТ";
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer1.Stop();
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -218,14 +249,14 @@ namespace minigames
 
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
-            show_settings.Location = new Point(2, 106);
-            show_settings.Size = new Size(36, 36);
+            show_settings.Location = new Point(show_settings.Location.X + 2, show_settings.Location.Y + 2);
+            show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
-            show_settings.Location = new Point(0, 104);
-            show_settings.Size = new Size(40, 40);
+            show_settings.Location = new Point(show_settings.Location.X - 2, show_settings.Location.Y - 2);
+            show_settings.Size = new Size(show_settings.Width + 4, show_settings.Height + 4);
         }
     }
 }

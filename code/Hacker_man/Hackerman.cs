@@ -5,8 +5,6 @@ using System.Data;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Hacker_man
@@ -27,6 +25,24 @@ namespace minigames.Hacker_man
 
         private void Hackerman_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in top_panel.Controls)
+                {
+                    if (text is TextBox)
+                        text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                }
+                developer_name.Left = Width-developer_name.Width-12;
+                by_text.Left = Width - by_text.Width - 12;
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             max_score = MainMenu.mg6_max_score;
             score = 0;
@@ -231,6 +247,11 @@ namespace minigames.Hacker_man
             win_timer.Stop();
         }
 
+        private void Hackerman_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            win_timer.Stop();
+        }
+
         private void Generate_Password()
         {
             for (int i = 0; i < password.Length; i++)
@@ -275,12 +296,22 @@ namespace minigames.Hacker_man
                             inputs[i].Enabled = false;
                         }
                     }
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                        game_over.Play(1);
+                    }
                     in_game = false;
                     Refresh_Text();
                 }
             }
             else
             {
+                if (MainMenu.sounds)
+                {
+                    PlaySound win = new PlaySound(@"sounds\win.wav");
+                    win.Play(1);
+                }
                 start_btn.Enabled = false;
                 win_timer.Start();
             }

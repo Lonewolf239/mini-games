@@ -23,6 +23,20 @@ namespace minigames.Math_o_light
 
         private void MathOLight_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                        text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in top_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - (developer_name.Width + 12);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             max_score = MainMenu.mg3_max_score;
             score = 0;
@@ -59,7 +73,7 @@ namespace minigames.Math_o_light
             top_panel.Focus();
             input.Text = "";
             difficulty_level = score = 0;
-            start_btn.Enabled = false;
+            question.Enabled = start_btn.Enabled = false;
             Logic(0);
         }
 
@@ -74,14 +88,22 @@ namespace minigames.Math_o_light
 
         private void Timer_Tick(object sender, EventArgs e)
         {
+            int minus = 1;
+            if (MainMenu.scaled)
+                minus = (int)(minus * MainMenu.scale_size);
             if (fast)
-                time_left.Width -= 10;
+                time_left.Width -= minus * 10;
             else
-                time_left.Width--;
+                time_left.Width -= minus;
             if (time_left.Width == 0)
             {
                 Logic(choice_for_logic);
             }
+        }
+
+        private void MathOLight_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer.Stop();
         }
 
         private void Input_TextChanged(object sender, EventArgs e)
@@ -105,14 +127,14 @@ namespace minigames.Math_o_light
 
         private void Enter_btn_MouseEnter(object sender, EventArgs e)
         {
-            enter_btn.Size = new Size(76, 36);
-            enter_btn.Location = new Point(232, 121);
+            enter_btn.Size = new Size(enter_btn.Width - 4, enter_btn.Height - 4);
+            enter_btn.Location = new Point(enter_btn.Left + 2, enter_btn.Top + 2);
         }
 
         private void Enter_btn_MouseLeave(object sender, EventArgs e)
         {
-            enter_btn.Size = new Size(80, 40);
-            enter_btn.Location = new Point(230, 119);
+            enter_btn.Size = new Size(enter_btn.Width + 4, enter_btn.Height + 4);
+            enter_btn.Location = new Point(enter_btn.Left - 2, enter_btn.Top - 2);
         }
 
         private void Enter_btn_MouseClick(object sender, MouseEventArgs e)
@@ -132,7 +154,12 @@ namespace minigames.Math_o_light
                 MainMenu.mg3_max_score = max_score = score;
             score = 0;
             task_text.ForeColor = Color.Red;
-            start_btn.Enabled = true;
+            if (MainMenu.sounds)
+            {
+                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                game_over.Play(1);
+            }
+            question.Enabled = start_btn.Enabled = true;
         }
 
         private void Logic(int choice)
@@ -176,7 +203,7 @@ namespace minigames.Math_o_light
                     result = num1 * num2;
                 }
                 task_text.Text = $"{num1} {math_doing} {num2} = ?";
-                time_left.Width = 345;
+                time_left.Width = time_left_panel.Width;
                 choice_for_logic = 1;
                 time_left_panel.Visible = true;
                 timer.Start();
@@ -190,13 +217,18 @@ namespace minigames.Math_o_light
                 if (input_num == result)
                 {
                     fast = true;
-                    time_left.Width = 345;
+                    time_left.Width = time_left_panel.Width;
                     choice_for_logic = 0;
                     timer.Start();
                     difficulty_level += 0.75f;
                     input_num = 0;
                     score++;
                     task_text.ForeColor = Color.LawnGreen;
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound win = new PlaySound(@"sounds\win.wav");
+                        win.Play(1);
+                    }
                 }
                 else
                     Game_Over();

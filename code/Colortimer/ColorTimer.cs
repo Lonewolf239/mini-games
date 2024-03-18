@@ -85,18 +85,21 @@ namespace minigames.Colortimer
 
         private void Timer1_Tick(object sender, EventArgs e)
         {
+            int add = 1;
+            if (MainMenu.scaled)
+                add = (int)(add * MainMenu.scale_size);
             if (difficulty_level < 1)
-                time_left.Width--;
+                time_left.Width -= add;
             else if (difficulty_level >= 1 && difficulty_level < 2)
-                time_left.Width -= 2;
+                time_left.Width -= add * 2;
             else if (difficulty_level >= 2 && difficulty_level < 3)
-                time_left.Width -= 3;
+                time_left.Width -= add * 3;
             else if (difficulty_level >= 3 && difficulty_level < 4)
-                time_left.Width -= 4;
+                time_left.Width -= add * 4;
             else if (difficulty_level >= 4 && difficulty_level < 5)
-                time_left.Width -= 5;
+                time_left.Width -= add * 5;
             else
-                time_left.Width -= 6;
+                time_left.Width -= add * 6;
             if (time_left.Width <= 0)
                 Lose_Game();
         }
@@ -106,8 +109,8 @@ namespace minigames.Colortimer
             if (start_btn.Enabled)
             {
                 color_text.Focus();
-                start_btn.Enabled = false;
-                time_left.Width = 400;
+                question.Enabled = start_btn.Enabled = false;
+                time_left.Width = time_left_panel.Width;
                 score = 0;
                 time_left.Visible = true;
                 if (!MainMenu.Language)
@@ -121,6 +124,21 @@ namespace minigames.Colortimer
 
         private void ColorTimer_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in btn_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                color_text.Font = new Font(color_text.Font.FontFamily, color_text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - (developer_name.Width + 12);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             score = 0;
             max_score = MainMenu.mg1_max_score;
@@ -169,6 +187,11 @@ namespace minigames.Colortimer
             }
         }
 
+        private void ColorTimer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer1.Stop();
+        }
+
         private void Logic()
         {
             int choice_color = rand.Next(8),
@@ -205,7 +228,7 @@ namespace minigames.Colortimer
                         else
                             combo_text.Text = $"счёт: {score}\nмакс. счёт: {max_score}";
                         difficulty_level += 0.075f;
-                        time_left.Width = 400;
+                        time_left.Width = time_left_panel.Width;
                         current_color = choice_color + 1;
                         if (MainMenu.Language)
                             color_text.Text = colors[choice_color];
@@ -263,7 +286,7 @@ namespace minigames.Colortimer
             if (score > max_score)
                 MainMenu.mg1_max_score = max_score = score;
             time_left.Visible = false;
-            start_btn.Enabled = true;
+            question.Enabled = start_btn.Enabled = true;
             current_color = 0;
             player_chose_color = 0;
             difficulty_level = 0;
@@ -274,6 +297,11 @@ namespace minigames.Colortimer
                 color_text.Text = "Вы проиграли...";
             else
                 color_text.Text = "You lose...";
+            if (MainMenu.sounds)
+            {
+                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                game_over.Play(1);
+            }
             if (!MainMenu.Language)
                 combo_text.Text = $"score: {score}\nmax score: {max_score}";
             else

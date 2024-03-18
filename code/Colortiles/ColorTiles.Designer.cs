@@ -102,6 +102,7 @@
             // 
             // time_panel
             // 
+            this.time_panel.BackColor = System.Drawing.Color.Gainsboro;
             this.time_panel.Controls.Add(this.time_left_panel);
             this.time_panel.Location = new System.Drawing.Point(0, 50);
             this.time_panel.Name = "time_panel";
@@ -519,6 +520,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Цветнашки";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ColorTiles_FormClosing);
             this.Load += new System.EventHandler(this.ColorTiles_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ColorTiles_KeyPress);
             this.top_panel.ResumeLayout(false);

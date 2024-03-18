@@ -92,6 +92,22 @@ namespace minigames.Snake_game
 
         private void SG_settings_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                {
+                    if (text is Button)
+                        text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                    else
+                        text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                }
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             if (!MainMenu.Language)
             {

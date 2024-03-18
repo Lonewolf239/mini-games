@@ -1,14 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrackBar;
 
 namespace minigames.Colortiles
 {
@@ -40,6 +33,22 @@ namespace minigames.Colortiles
 
         private void ColorTiles_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in btn_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - (developer_name.Width + 12);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
+            time_panel.Height = answer_panel.Top - taskpanel.Height;
+            time_panel.Top = taskpanel.Height;
             Activate();
             if (!MainMenu.Language)
                 Text = "ColorTiles";
@@ -163,7 +172,7 @@ namespace minigames.Colortiles
                 answer[i].BackColor = Color.DarkGray;
                 answer[i].BackgroundImage = denied_pic.Image;
             }
-            time_left_panel.Width = 400;
+            time_left_panel.Width = time_panel.Width;
             time_left_panel.Visible = taskpanel.Visible = true;
             read_time = 0;
             timer.Interval = 15;
@@ -173,7 +182,10 @@ namespace minigames.Colortiles
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            time_left_panel.Width--;
+            int add = 1;
+            if (MainMenu.scaled)
+                add = (int)(add * MainMenu.scale_size);
+            time_left_panel.Width -= add;
             if (time_left_panel.Width == 0)
             {
                 if (read_time == -1)
@@ -219,6 +231,11 @@ namespace minigames.Colortiles
 
         }
 
+        private void ColorTiles_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer.Stop();
+        }
+
         private void Logic()
         {
             if (read_time == 0)
@@ -229,7 +246,7 @@ namespace minigames.Colortiles
                Control[] color_btn = { color_btn_1, color_btn_2, color_btn_3, color_btn_4, color_btn_5, color_btn_6, color_btn_7, color_btn_8 };
                 for (int i = 0; i < color_btn.Length; i++)
                     color_btn[i].Visible = color_btn[i].Enabled = true;
-                time_left_panel.Width = 400;
+               time_left_panel.Width = time_panel.Width;
                 timer.Interval = 30;
                 answer_panel.Visible = true;
                 read_time = -1;
@@ -249,11 +266,16 @@ namespace minigames.Colortiles
                     if (answer[i].BackColor != tasks[i].BackColor)
                         all_right = false;
                 }
-                time_left_panel.Width = 400;
+               time_left_panel.Width = time_panel.Width;
                 taskpanel.Visible = true;
                 if (all_right)
                 {
                     time_left_panel.BackColor = Color.LawnGreen;
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound win = new PlaySound(@"sounds\win.wav");
+                        win.Play(1);
+                    }
                     difficult += 0.5f;
                     read_time = 2;
                     timer.Interval = 1;
@@ -262,6 +284,11 @@ namespace minigames.Colortiles
                 else
                 {
                     time_left_panel.BackColor = Color.Red;
+                    if (MainMenu.sounds)
+                    {
+                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                        game_over.Play(1);
+                    }
                     in_game = false;
                     if (!MainMenu.Language)
                         start_btn.Text = "START";

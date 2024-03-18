@@ -38,8 +38,8 @@
             this.black_btn = new System.Windows.Forms.Button();
             this.blue_btn = new System.Windows.Forms.Button();
             this.btn_panel = new System.Windows.Forms.Panel();
-            this.orange_btn = new System.Windows.Forms.Button();
             this.gray_btn = new System.Windows.Forms.Button();
+            this.orange_btn = new System.Windows.Forms.Button();
             this.top_panel = new System.Windows.Forms.Panel();
             this.color_panel = new System.Windows.Forms.Panel();
             this.combo_text = new System.Windows.Forms.Label();
@@ -186,23 +186,6 @@
             this.btn_panel.Size = new System.Drawing.Size(400, 50);
             this.btn_panel.TabIndex = 15;
             // 
-            // orange_btn
-            // 
-            this.orange_btn.BackColor = System.Drawing.Color.DarkOrange;
-            this.orange_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.orange_btn.Dock = System.Windows.Forms.DockStyle.Left;
-            this.orange_btn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.orange_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.orange_btn.ForeColor = System.Drawing.Color.White;
-            this.orange_btn.Location = new System.Drawing.Point(200, 0);
-            this.orange_btn.Name = "orange_btn";
-            this.orange_btn.Size = new System.Drawing.Size(50, 50);
-            this.orange_btn.TabIndex = 17;
-            this.orange_btn.TabStop = false;
-            this.orange_btn.Text = "5";
-            this.orange_btn.UseVisualStyleBackColor = false;
-            this.orange_btn.Click += new System.EventHandler(this.Orange_btn_Click);
-            // 
             // gray_btn
             // 
             this.gray_btn.BackColor = System.Drawing.Color.Gray;
@@ -219,6 +202,23 @@
             this.gray_btn.Text = "6";
             this.gray_btn.UseVisualStyleBackColor = false;
             this.gray_btn.Click += new System.EventHandler(this.Gray_btn_Click);
+            // 
+            // orange_btn
+            // 
+            this.orange_btn.BackColor = System.Drawing.Color.DarkOrange;
+            this.orange_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.orange_btn.Dock = System.Windows.Forms.DockStyle.Left;
+            this.orange_btn.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.orange_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.orange_btn.ForeColor = System.Drawing.Color.White;
+            this.orange_btn.Location = new System.Drawing.Point(200, 0);
+            this.orange_btn.Name = "orange_btn";
+            this.orange_btn.Size = new System.Drawing.Size(50, 50);
+            this.orange_btn.TabIndex = 17;
+            this.orange_btn.TabStop = false;
+            this.orange_btn.Text = "5";
+            this.orange_btn.UseVisualStyleBackColor = false;
+            this.orange_btn.Click += new System.EventHandler(this.Orange_btn_Click);
             // 
             // top_panel
             // 
@@ -333,6 +333,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Секундоцвет";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ColorTimer_FormClosing);
             this.Load += new System.EventHandler(this.ColorTimer_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ColorTimer_KeyPress);
             this.btn_panel.ResumeLayout(false);

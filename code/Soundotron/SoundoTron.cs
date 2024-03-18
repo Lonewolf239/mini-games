@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Soundotron
@@ -28,15 +21,15 @@ namespace minigames.Soundotron
         private readonly string[][] wav_files =
         {
             //piano
-            new string[] { @"piano\piano_do.wav", @"piano\piano_re.wav", @"piano\piano_mi.wav"},
+            new string[] { @"piano_do.wav", @"piano_re.wav", @"piano_mi.wav"},
             //guitar
-            new string[] { @"guitar\guitar_do.wav", @"guitar\guitar_re.wav", @"guitar\guitar_mi.wav"},
+            new string[] { @"guitar_do.wav", @"guitar_re.wav", @"guitar_mi.wav"},
             //drum
-            new string[] { @"drum\drum_do.wav", @"drum\drum_re.wav", @"drum\drum_mi.wav"},
+            new string[] { @"drum_do.wav", @"drum_re.wav", @"drum_mi.wav"},
             //violin
-            new string[] { @"violin\violin_do.wav", @"violin\violin_re.wav", @"violin\violin_mi.wav"},
+            new string[] { @"violin_do.wav", @"violin_re.wav", @"violin_mi.wav"},
             //clarinet
-            new string[] { @"clarinet\clarinet_do.wav", @"clarinet\clarinet_re.wav", @"clarinet\clarinet_mi.wav"},
+            new string[] { @"clarinet_do.wav", @"clarinet_re.wav", @"clarinet_mi.wav"},
         };
         private string[] sounds = new string[8], player_sounds = new string[8];
         private bool unlocked = false;
@@ -51,9 +44,15 @@ namespace minigames.Soundotron
         {
             score_text.Focus();
             if (MainMenu.Language)
-                MessageBox.Show("Управление:\nЛКМ — выбрать звук\nПКМ — прослушать звук", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Ваша цель состоит в том, чтобы повторить последовательность нот разных инструментов. " +
+                    "Чем дольше вы будете играть, тем больше инструментов будет открываться. " +
+                    "Однако, если вы проиграете, ваш прогресс будет сброшен." +
+                    "\nУправление:\nЛКМ — выбрать звук\nПКМ — прослушать звук", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
             else
-                MessageBox.Show("Controls:\nLMB — select sound\nRMB — listen to sound", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Your goal is to repeat a sequence of notes played by different instruments. " +
+                    "The longer you play, the more instruments will be unlocked. However, " +
+                    "if you lose, your progress will be reset." +
+                    "\nControls:\nLMB — select sound\nRMB — listen to sound", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void Piano_icon_MouseEnter(object sender, EventArgs e)
@@ -260,6 +259,20 @@ namespace minigames.Soundotron
 
         private void SoundoTron_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in bottom_interface.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - developer_name.Width - 16;
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             score = 0;
             max_score = MainMenu.mg8_max_score;
@@ -271,7 +284,7 @@ namespace minigames.Soundotron
             }
             else
                 score_text.Text = $"счёт: 0   макс. счёт: {max_score}";
-            piano_panel.Top = guitar_panel.Top = drum_panel.Top = violin_panel.Top = clarinet_panel.Top = 62;
+            piano_panel.Top = guitar_panel.Top = drum_panel.Top = violin_panel.Top = clarinet_panel.Top = 5;
         }
 
         private void Start_btn_Click(object sender, EventArgs e)
@@ -288,7 +301,13 @@ namespace minigames.Soundotron
         private void Play_Sound(string path)
         {
             sound = new PlaySound(path);
-            sound.Play();
+            sound.Play(0.5f);
+        }
+
+        private void SoundoTron_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            sounds_generate.Stop();
+            time_timer.Stop();
         }
 
         private void Time_timer_Tick(object sender, EventArgs e)
@@ -334,6 +353,11 @@ namespace minigames.Soundotron
             }
             if (!all_right)
             {
+                if (MainMenu.sounds)
+                {
+                    PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                    game_over.Play(1);
+                }
                 time_timer.Stop();
                 if (score > max_score)
                     max_score = score;
@@ -346,6 +370,11 @@ namespace minigames.Soundotron
             }
             else
             {
+                if (MainMenu.sounds)
+                {
+                    PlaySound win = new PlaySound(@"sounds\win.wav");
+                    win.Play(1);
+                }
                 time_timer.Stop();
                 time.Width = 0;
                 difficult += 0.75f;

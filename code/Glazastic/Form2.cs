@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace minigames
@@ -35,6 +36,19 @@ namespace minigames
 
         private void Form2_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in dificult_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in settings_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             if (Form1.widht_panels == 20)
                 ez.Checked = true;
@@ -44,7 +58,7 @@ namespace minigames
             if (Form1.unposible_mod)
             {
                 unposible_mode = unposible.Checked = true;
-                speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;
+                practic_mode.Enabled = speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;
                 dificult_choice = 2;
             }
             practic_mod = practic_mode.Checked = Form1.practic_mod;

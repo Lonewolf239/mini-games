@@ -35,7 +35,9 @@
             this.speed = new System.Windows.Forms.CheckBox();
             this.unposible = new System.Windows.Forms.CheckBox();
             this.practic_mode = new System.Windows.Forms.CheckBox();
+            this.settings_panel = new System.Windows.Forms.Panel();
             this.dificult_panel.SuspendLayout();
+            this.settings_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // dificult_panel
@@ -43,9 +45,10 @@
             this.dificult_panel.Controls.Add(this.hard);
             this.dificult_panel.Controls.Add(this.midle);
             this.dificult_panel.Controls.Add(this.ez);
-            this.dificult_panel.Location = new System.Drawing.Point(6, 6);
+            this.dificult_panel.Dock = System.Windows.Forms.DockStyle.Left;
+            this.dificult_panel.Location = new System.Drawing.Point(0, 0);
             this.dificult_panel.Name = "dificult_panel";
-            this.dificult_panel.Size = new System.Drawing.Size(100, 72);
+            this.dificult_panel.Size = new System.Drawing.Size(100, 74);
             this.dificult_panel.TabIndex = 1;
             // 
             // hard
@@ -92,10 +95,11 @@
             // speed
             // 
             this.speed.AutoSize = true;
+            this.speed.Dock = System.Windows.Forms.DockStyle.Top;
             this.speed.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.speed.Location = new System.Drawing.Point(112, 30);
+            this.speed.Location = new System.Drawing.Point(0, 24);
             this.speed.Name = "speed";
-            this.speed.Size = new System.Drawing.Size(166, 24);
+            this.speed.Size = new System.Drawing.Size(177, 24);
             this.speed.TabIndex = 2;
             this.speed.TabStop = false;
             this.speed.Text = "Высокая скорость";
@@ -105,10 +109,11 @@
             // unposible
             // 
             this.unposible.AutoSize = true;
+            this.unposible.Dock = System.Windows.Forms.DockStyle.Top;
             this.unposible.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.unposible.Location = new System.Drawing.Point(112, 6);
+            this.unposible.Location = new System.Drawing.Point(0, 0);
             this.unposible.Name = "unposible";
-            this.unposible.Size = new System.Drawing.Size(148, 24);
+            this.unposible.Size = new System.Drawing.Size(177, 24);
             this.unposible.TabIndex = 3;
             this.unposible.TabStop = false;
             this.unposible.Text = "Unposible 99.9%";
@@ -118,24 +123,35 @@
             // practic_mode
             // 
             this.practic_mode.AutoSize = true;
+            this.practic_mode.BackColor = System.Drawing.SystemColors.Control;
+            this.practic_mode.Dock = System.Windows.Forms.DockStyle.Top;
             this.practic_mode.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.practic_mode.Location = new System.Drawing.Point(112, 54);
+            this.practic_mode.Location = new System.Drawing.Point(0, 48);
             this.practic_mode.Name = "practic_mode";
-            this.practic_mode.Size = new System.Drawing.Size(152, 24);
+            this.practic_mode.Size = new System.Drawing.Size(177, 24);
             this.practic_mode.TabIndex = 4;
             this.practic_mode.TabStop = false;
             this.practic_mode.Text = "Режим практики";
-            this.practic_mode.UseVisualStyleBackColor = true;
+            this.practic_mode.UseVisualStyleBackColor = false;
             this.practic_mode.CheckedChanged += new System.EventHandler(this.practic_mode_CheckedChanged);
+            // 
+            // settings_panel
+            // 
+            this.settings_panel.Controls.Add(this.practic_mode);
+            this.settings_panel.Controls.Add(this.speed);
+            this.settings_panel.Controls.Add(this.unposible);
+            this.settings_panel.Dock = System.Windows.Forms.DockStyle.Right;
+            this.settings_panel.Location = new System.Drawing.Point(100, 0);
+            this.settings_panel.Name = "settings_panel";
+            this.settings_panel.Size = new System.Drawing.Size(177, 74);
+            this.settings_panel.TabIndex = 5;
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(277, 79);
-            this.Controls.Add(this.practic_mode);
-            this.Controls.Add(this.unposible);
-            this.Controls.Add(this.speed);
+            this.ClientSize = new System.Drawing.Size(277, 74);
+            this.Controls.Add(this.settings_panel);
             this.Controls.Add(this.dificult_panel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -148,8 +164,9 @@
             this.Load += new System.EventHandler(this.Form2_Load);
             this.dificult_panel.ResumeLayout(false);
             this.dificult_panel.PerformLayout();
+            this.settings_panel.ResumeLayout(false);
+            this.settings_panel.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -161,5 +178,6 @@
         private System.Windows.Forms.CheckBox speed;
         private System.Windows.Forms.CheckBox unposible;
         private System.Windows.Forms.CheckBox practic_mode;
+        private System.Windows.Forms.Panel settings_panel;
     }
 }

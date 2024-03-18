@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Rodrocket
@@ -26,8 +20,22 @@ namespace minigames.Rodrocket
 
         private void RodRocket_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             score = 0;
+            cursor_panel.Top = right_game_panel.Height - cursor_panel.Height;
+            task_panel.Top = right_game_panel.Height - task_panel.Height;
+            progress_panel.Top = right_game_panel.Height;
             max_score = MainMenu.mg5_max_score;
             if (!MainMenu.Language)
             {
@@ -94,6 +102,14 @@ namespace minigames.Rodrocket
                 up = false;
         }
 
+        private void RodRocket_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            progress_refresh.Stop();
+            game_timer.Stop();
+            score_timer.Stop();
+            hp_timer.Stop();
+        }
+
         private void Up_btn_MouseUp(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
@@ -117,8 +133,8 @@ namespace minigames.Rodrocket
             pause_min = 40;
             pause_max = 60;
             difficult = added_score = score = update_need = 0;
-            cursor_panel.Top = 166;
-            task_panel.Top = 105;
+            cursor_panel.Top = right_game_panel.Height - cursor_panel.Height;
+            task_panel.Top = right_game_panel.Height - task_panel.Height;
             right_panel.Focus();
             game_timer.Start();
             progress_refresh.Start();
@@ -126,15 +142,18 @@ namespace minigames.Rodrocket
 
         private void Progress_panel_Resize(object sender, EventArgs e)
         {
-            progress_panel.Top = 176 - progress_panel.Height;
+            progress_panel.Top = right_game_panel.Height - progress_panel.Height;
         }
 
         private void Progress_Refresh_Tick(object sender, EventArgs e)
         {
             if (update_need > 0)
             {
+                int add = 1;
+                if (MainMenu.scaled)
+                    add = (int)(add * MainMenu.scale_size);
                 update_need--;
-                progress_panel.Height++;
+                progress_panel.Height += add;
             }
             if (progress_panel.Top <= 0)
             {
@@ -177,6 +196,9 @@ namespace minigames.Rodrocket
 
         private void Game_timer_Tick(object sender, EventArgs e)
         {
+            int add = 1;
+            if (MainMenu.scaled)
+                add = (int)(add * MainMenu.scale_size);
             if (pause <= 0)
             {
                 if (rand.Next(2) == 1)
@@ -190,22 +212,22 @@ namespace minigames.Rodrocket
             if (up_task)
             {
                 if (task_panel.Top > 0)
-                    task_panel.Top--;
+                    task_panel.Top-= add;
             }
             else
             {
-                if (task_panel.Top < 105)
-                    task_panel.Top++;
+                if (task_panel.Top < right_game_panel.Height - task_panel.Height)
+                    task_panel.Top+= add;
             }
             if (up)
             {
                 if (cursor_panel.Top > 0)
-                    cursor_panel.Top -= 2;
+                    cursor_panel.Top -= add * 2;
             }
             else
             {
-                if (cursor_panel.Top < 166)
-                    cursor_panel.Top += 2;
+                if (cursor_panel.Top < right_game_panel.Height - cursor_panel.Height)
+                    cursor_panel.Top += add * 2;
             }
             if (cursor_panel.Top >= task_panel.Top && cursor_panel.Bottom <= task_panel.Bottom)
             {
@@ -246,6 +268,11 @@ namespace minigames.Rodrocket
 
         private void Game_Over()
         {
+            if (MainMenu.sounds)
+            {
+                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+                game_over.Play(1);
+            }
             question.Enabled = start_btn.Enabled = true;
             up_btn.Enabled = false;
             progress_panel.Height = 0;

@@ -96,6 +96,7 @@
             // 
             // num1_panel
             // 
+            this.num1_panel.AutoSize = true;
             this.num1_panel.Controls.Add(this.num1_input);
             this.num1_panel.Location = new System.Drawing.Point(25, 0);
             this.num1_panel.Name = "num1_panel";
@@ -119,6 +120,7 @@
             // 
             // num2_panel
             // 
+            this.num2_panel.AutoSize = true;
             this.num2_panel.Controls.Add(this.num2_input);
             this.num2_panel.Location = new System.Drawing.Point(81, 0);
             this.num2_panel.Name = "num2_panel";
@@ -142,6 +144,7 @@
             // 
             // num3_panel
             // 
+            this.num3_panel.AutoSize = true;
             this.num3_panel.Controls.Add(this.num3_input);
             this.num3_panel.Location = new System.Drawing.Point(137, 0);
             this.num3_panel.Name = "num3_panel";
@@ -165,6 +168,7 @@
             // 
             // num4_panel
             // 
+            this.num4_panel.AutoSize = true;
             this.num4_panel.Controls.Add(this.num4_input);
             this.num4_panel.Location = new System.Drawing.Point(193, 0);
             this.num4_panel.Name = "num4_panel";
@@ -259,6 +263,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Хацкер";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Hackerman_FormClosing);
             this.Load += new System.EventHandler(this.Hackerman_Load);
             this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Hackerman_KeyPress);
             this.num1_panel.ResumeLayout(false);
@@ -270,6 +275,7 @@
             this.num4_panel.ResumeLayout(false);
             this.num4_panel.PerformLayout();
             this.top_panel.ResumeLayout(false);
+            this.top_panel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
