@@ -116,7 +116,7 @@
             this.unposible.Size = new System.Drawing.Size(177, 24);
             this.unposible.TabIndex = 3;
             this.unposible.TabStop = false;
-            this.unposible.Text = "Unposible 99.9%";
+            this.unposible.Text = "Impossible 99.9%";
             this.unposible.UseVisualStyleBackColor = true;
             this.unposible.CheckedChanged += new System.EventHandler(this.Unposible_CheckedChanged);
             // 

@@ -53,9 +53,9 @@
             this.size_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.size_list.FormattingEnabled = true;
             this.size_list.Items.AddRange(new object[] {
-            "Большой",
-            "Средний",
-            "Маленький"});
+            "40x20",
+            "16x8",
+            "8x4"});
             this.size_list.Location = new System.Drawing.Point(135, 0);
             this.size_list.Name = "size_list";
             this.size_list.Size = new System.Drawing.Size(157, 32);
@@ -77,9 +77,10 @@
             this.speed_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.speed_list.FormattingEnabled = true;
             this.speed_list.Items.AddRange(new object[] {
-            "Большая",
-            "Средняя",
-            "Маленькая"});
+            "100%",
+            "75%",
+            "50%",
+            "25%"});
             this.speed_list.Location = new System.Drawing.Point(135, 38);
             this.speed_list.Name = "speed_list";
             this.speed_list.Size = new System.Drawing.Size(157, 32);
@@ -120,7 +121,7 @@
             this.style_list.Items.AddRange(new object[] {
             "Классический",
             "Границы",
-            "3D"});
+            "3D-Границы"});
             this.style_list.Location = new System.Drawing.Point(135, 76);
             this.style_list.Name = "style_list";
             this.style_list.Size = new System.Drawing.Size(157, 32);

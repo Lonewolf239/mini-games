@@ -17,21 +17,25 @@ namespace minigames
         private void Ez_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 20;
+            INIReader.SetKey("config.ini", "Glazastic", "difficulty", "0");
         }
 
         private void Midle_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 10;
+            INIReader.SetKey("config.ini", "Glazastic", "difficulty", "1");
         }
 
         private void Hard_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 5;
+            INIReader.SetKey("config.ini", "Glazastic", "difficulty", "2");
         }
 
         private void speed_CheckedChanged(object sender, EventArgs e)
         {
             big_speed = !big_speed;
+            INIReader.SetKey("config.ini", "Glazastic", "big_speed", Convert.ToString(big_speed));
         }
 
         private void Form2_Load(object sender, EventArgs e)
@@ -78,6 +82,7 @@ namespace minigames
         private void practic_mode_CheckedChanged(object sender, EventArgs e)
         {
             practic_mod = !practic_mod;
+            INIReader.SetKey("config.ini", "Glazastic", "practice_mode", Convert.ToString(practic_mod));
             if (practic_mod)
                 unposible.Checked = unposible.Enabled = false;
             else
@@ -87,6 +92,7 @@ namespace minigames
         private void Unposible_CheckedChanged(object sender, EventArgs e)
         {
             unposible_mode = !unposible_mode;
+            INIReader.SetKey("config.ini", "Glazastic", "impossible", Convert.ToString(unposible_mode));
             if (unposible_mode)
             {
                 practic_mode.Enabled = speed.Checked = speed.Enabled = hard.Enabled = midle.Enabled = ez.Enabled = false;

@@ -30,6 +30,20 @@ namespace minigames._Reactor
 
         private void Reactor_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                foreach (Control text in top_panel.Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                developer_name.Left = Width - (developer_name.Width + 12);
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             Activate();
             score = 0;
             max_score = MainMenu.mg4_max_score;
@@ -112,6 +126,11 @@ namespace minigames._Reactor
             cold_btn11, cold_btn12, cold_btn13, cold_btn14, cold_btn15, cold_btn16, cold_btn17, cold_btn18, cold_btn19, cold_btn20,
             cold_btn21, cold_btn22, cold_btn23, cold_btn24, cold_btn25, cold_btn26, cold_btn27, cold_btn28, cold_btn29, cold_btn30,
             cold_btn31, cold_btn32, cold_btn33, cold_btn34, cold_btn35, cold_btn36 };
+            if (MainMenu.sounds)
+            {
+                PlaySound sound = new PlaySound(@"sounds\boop.wav");
+                sound.Play(1);
+            }
             if (trap_btn[i] == 1)
                 Game_Over();
             else if (trap_btn[i] == 0)
@@ -181,6 +200,11 @@ namespace minigames._Reactor
                 btns[i].Visible = false;
                 station[i] = 0;
                 trap_btn[i] = 0;
+            }
+            if (MainMenu.sounds)
+            {
+                PlaySound sound = new PlaySound(@"sounds\explosion.wav");
+                sound.Play(0.4f);
             }
             top_panel.BackColor = Color.Black;
             top_panel.BackgroundImage = lose_pic.Image;
@@ -339,6 +363,13 @@ namespace minigames._Reactor
             }
         }
 
+        private void Reactor_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            wait_timer.Stop();
+            refresh_timer.Stop();
+            bonus_timer.Stop();
+        }
+
         private void Score_text_MouseHover(object sender, EventArgs e)
         {
             tip = new ToolTip();
@@ -370,7 +401,10 @@ namespace minigames._Reactor
 
         private void Bonus_timer_Tick(object sender, EventArgs e)
         {
-            bonus_time.Width -= 3;
+            if (MainMenu.scaled)
+                bonus_time.Width -= 6;
+            else
+                bonus_time.Width -= 3;
             if (bonus_time.Width <= 0)
             {
                 bonus_timer.Stop();

@@ -731,6 +731,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Реактор";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reactor_FormClosing);
             this.Load += new System.EventHandler(this.Reactor_Load);
             this.top_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn36)).EndInit();

@@ -118,8 +118,6 @@ namespace minigames.Hacker_man
                 {
                     num1_input.BackColor = SystemColors.Window;
                     input_password[0] = Convert.ToInt32(num1_input.Text);
-                    if (num1_input.TextLength == 1)
-                        num2_input.Focus();
                 }
                 catch (Exception)
                 {
@@ -136,8 +134,6 @@ namespace minigames.Hacker_man
                 {
                     num2_input.BackColor = SystemColors.Window;
                     input_password[1] = Convert.ToInt32(num2_input.Text);
-                    if (num2_input.TextLength == 1)
-                        num3_input.Focus();
                 }
                 catch (Exception)
                 {
@@ -154,8 +150,6 @@ namespace minigames.Hacker_man
                 {
                     num3_input.BackColor = SystemColors.Window;
                     input_password[2] = Convert.ToInt32(num3_input.Text);
-                    if (num3_input.TextLength == 1)
-                        num4_input.Focus();
                 }
                 catch (Exception)
                 {
@@ -172,8 +166,6 @@ namespace minigames.Hacker_man
                 {
                     num4_input.BackColor = SystemColors.Window;
                     input_password[3] = Convert.ToInt32(num4_input.Text);
-                    if (num4_input.TextLength == 1)
-                        top_panel.Focus();
                 }
                 catch (Exception)
                 {

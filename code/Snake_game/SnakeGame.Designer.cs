@@ -52,7 +52,7 @@
             // 
             // logic
             // 
-            this.logic.Interval = 500;
+            this.logic.Interval = 375;
             this.logic.Tick += new System.EventHandler(this.Logic_Tick);
             // 
             // start_btn

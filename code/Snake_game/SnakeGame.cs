@@ -5,6 +5,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
 
 namespace minigames.Snake_game
 {
@@ -18,8 +19,8 @@ namespace minigames.Snake_game
         private PlaySound ost, sound;
         private static readonly Random rand = new Random();
         public static int score = 0, max_score = 0;
-        private bool cycle_done = false, game_over = false, super_fruit_spawned = false, super_puper_fruit_spawned = false, can_tp = false, teleported = false, in_game = false;
-        private int x = 3, y = 2, fruit_x, fruit_y, super_fruit_x, super_fruit_y, super_puper_fruit_x, super_puper_fruit_y, nTail;
+        private bool cycle_done = false, game_over = false, super_fruit_spawned = false, super_puper_fruit_spawned = false, cut_fruit_spawned = false, can_tp = false, teleported = false, in_game = false;
+        private int x = 3, y = 2, fruit_x, fruit_y, super_fruit_x, super_fruit_y, super_puper_fruit_x, super_puper_fruit_y, cut_fruit_x, cut_fruit_y, nTail;
         private int[] tailX = new int[800], tailY = new int[800];
         private enum Direction { STOP = 0, LEFT, RIGHT, UP, DOWN };
         private Direction dir;
@@ -48,8 +49,10 @@ namespace minigames.Snake_game
         };
         private readonly BorderStyle[] px_border = { BorderStyle.None, BorderStyle.FixedSingle, BorderStyle.Fixed3D };
         private readonly Color[] theme = { Color.Gainsboro, Color.FromArgb(12, 12, 50) };
-        private int px_x = 16, px_y = 8, tile_size = 25, logic_interval = 500, px_style = 0, dark_theme = 0;
-        public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 500, new_px_style = 0, new_dark_theme = 0;
+        private int px_x = 16, px_y = 8, tile_size = 25, logic_interval = 300, px_style = 0, dark_theme = 1;
+        public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 300, new_px_style = 0, new_dark_theme = 1;
+        public static bool new_wall_killing = false;
+        private bool wall_killing = false;
 
         private void SnakeGame_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -58,26 +61,11 @@ namespace minigames.Snake_game
             logic.Stop();
         }
 
-        public static bool new_wall_killing = false;
-        private bool wall_killing = false;
-
         private void Question_Click(object sender, EventArgs e)
         {
             top_panel.Focus();
-            if (!MainMenu.Language)
-                MessageBox.Show("\"Mini-Snake\" is a classic game, where your goal is to eat as many apples as possible and become the biggest snake.\n" +
-                    "-------------------------------\nControls:\nUse WASD or arrow keys to control the snake.\n" +
-                    "-------------------------------\nTypes of fruits:" +
-                    "\n- Red: regular fruit, adds 1 point when eaten." +
-                    "\n- Violet: super-fruit, adds 10 points when eaten." +
-                    "\n- Blue: Distorted fruits, when eaten, are worth 2 points and allow you to teleport to the mouse cursor.", "Rules of the game", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            else
-                MessageBox.Show("\"Мини-Змейка\" - это классическая игра, в которой ваша задача состоит в том, чтобы съесть как можно больше яблок и стать самой большой змеей.\n" +
-                    "-------------------------------\nУправление:\nИспользуйте клавиши WASD или стрелки для управления змейкой.\n" +
-                    "-------------------------------\nВиды фруктов:" +
-                    "\n- Красные: обычные фрукты, при съедении приносят 1 очко." +
-                    "\n- Фиолетовые: супер-фрукты, каждый из которых приносит 10 очков." +
-                    "\n- Синие: искаженные фрукты, при съедении приносят 2 очка и позволяют телепортироваться к курсору мыши.", "Правила игры", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            SG_about _form = new SG_about();
+            _form.ShowDialog();
         }
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
@@ -125,6 +113,22 @@ namespace minigames.Snake_game
                 wall_killing = new_wall_killing;
                 px_style = new_px_style;
                 dark_theme = new_dark_theme;
+                int size = 0, speed = 0;
+                if (tile_size == 25)
+                    size = 1;
+                else if (tile_size == 50)
+                    size = 2;
+                if (logic_interval == 300)
+                    speed = 1;
+                else if (logic_interval == 350)
+                    speed = 2;
+                else if (logic_interval == 400)
+                    speed = 3;
+                INIReader.SetKey("config.ini", "Snake_game", "size", Convert.ToString(size));
+                INIReader.SetKey("config.ini", "Snake_game", "speed", Convert.ToString(speed));
+                INIReader.SetKey("config.ini", "Snake_game", "style", Convert.ToString(px_style));
+                INIReader.SetKey("config.ini", "Snake_game", "dark_theme", Convert.ToString(dark_theme));
+                INIReader.SetKey("config.ini", "Snake_game", "wall_kills", Convert.ToString(wall_killing));
                 Draw_Interface();
             }
             else
@@ -160,12 +164,46 @@ namespace minigames.Snake_game
                 Top = centerY - (Height / 2);
             }
             Activate();
-            new_px_x = 16;
-            new_px_y = 8;
-            new_tile_size = 25;
-            new_logic_interval = 500;
-            new_px_style = 0;
-            new_dark_theme = 0;
+            switch (INIReader.GetInt("config.ini", "Snake_game", "size"))
+            {
+                case 0:
+                    px_x = new_px_x = 40;
+                    px_y = new_px_y = 20;
+                    tile_size = new_tile_size = 10;
+                    break;
+                case 2:
+                    px_x = new_px_x = 8;
+                    px_y = new_px_y = 4;
+                    tile_size = new_tile_size = 50;
+                    break;
+                default:
+                    px_x = new_px_x = 16;
+                    px_y = new_px_y = 8;
+                    tile_size = new_tile_size = 25;
+                    break;
+            }
+            switch (INIReader.GetInt("config.ini", "Snake_game", "speed"))
+            {
+                case 0:
+                    logic_interval = new_logic_interval = 250;
+                    break;
+                case 2:
+                    logic_interval = new_logic_interval = 350;
+                    break;
+                case 3:
+                    logic_interval = new_logic_interval = 400;
+                    break;
+                default:
+                    logic_interval = new_logic_interval = 300;
+                    break;
+            }
+            new_px_style = px_style = INIReader.GetInt("config.ini", "Snake_game", "style");
+            if (px_style != 0 || px_style != 1 || px_style != 2)
+                new_px_style = px_style = 0;
+            new_dark_theme = dark_theme = INIReader.GetInt("config.ini", "Snake_game", "dark_theme");
+            if (dark_theme != 0 || dark_theme != 1)
+                new_dark_theme = dark_theme = 0;
+            new_wall_killing = wall_killing = INIReader.GetBool("config.ini", "Snake_game", "wall_kills");
             max_score = MainMenu.mg7_max_score;
             if (!MainMenu.Language)
             {
@@ -180,7 +218,6 @@ namespace minigames.Snake_game
 
         private void Draw_Interface()
         {
-            logic.Interval = logic_interval;
             top_panel.Controls.Clear();
             pxs = null;
             pxs = new Control[][]
@@ -258,50 +295,32 @@ namespace minigames.Snake_game
 
         private void Start_Game()
         {
-            if (!in_game)
+            logic.Interval = logic_interval;
+            game_over = false;
+            in_game = true;
+            score = nTail = 0;
+            x = rand.Next(0, px_x);
+            y = rand.Next(0, px_y);
+            do
             {
-                game_over = false;
-                in_game = true;
-                score = nTail = 0;
-                x = rand.Next(0, px_x);
-                y = rand.Next(0, px_y);
-                do
-                {
-                    fruit_x = rand.Next(0, px_x);
-                    fruit_y = rand.Next(0, px_y);
-                } while (x == fruit_x && y == fruit_y);
-                tailX = tailY = null;
-                tailY = new int[800];
-                tailX = new int[800];
-                dir = Direction.STOP;
-                if (!MainMenu.Language)
-                {
-                    start_btn.Text = "STOP";
-                    score_text.Text = $"score: {score}   max score: {max_score}";
-                }
-                else
-                {
-                    start_btn.Text = "СТОП";
-                    score_text.Text = $"счёт: {score}   макс. счёт: {max_score}";
-                }
-                question.Enabled = false;
-                logic.Start();
-                if (MainMenu.sounds)
-                {
-                    ost?.Dispose();
-                    ost = new PlaySound(@"sounds\snake_game_ost.wav");
-                    ost.LoopPlay(0.4f);
-                }
-            }
+                fruit_x = rand.Next(0, px_x);
+                fruit_y = rand.Next(0, px_y);
+            } while (x == fruit_x && y == fruit_y);
+            tailX = tailY = null;
+            tailY = new int[800];
+            tailX = new int[800];
+            dir = Direction.STOP;
+            if (!MainMenu.Language)
+                score_text.Text = $"score: {score}   max score: {max_score}";
             else
+                score_text.Text = $"счёт: {score}   макс. счёт: {max_score}";
+            start_btn.Enabled = question.Enabled = false;
+            logic.Start();
+            if (MainMenu.sounds)
             {
-
-                if (!MainMenu.Language)
-                    start_btn.Text = "START";
-                else
-                    start_btn.Text = "СТАРТ";
-                in_game = false;
-                game_over = true;
+                ost?.Dispose();
+                ost = new PlaySound(@"sounds\snake_game_ost.wav");
+                ost.LoopPlay(0.4f);
             }
         }
 
@@ -310,17 +329,23 @@ namespace minigames.Snake_game
             if (spawn_supers)
             {
                 double posibly = rand.NextDouble();
-                if (posibly <= 0.20f)
+                if (posibly <= 0.15f)
                 {
                     super_fruit_x = rand.Next(0, px_x);
                     super_fruit_y = rand.Next(0, px_y);
                     super_fruit_spawned = true;
                 }
-                else if (posibly > 0.20f && posibly <= 0.45f && !can_tp)
+                else if (posibly > 0.15f && posibly <= 0.40f && !can_tp)
                 {
                     super_puper_fruit_x = rand.Next(0, px_x);
                     super_puper_fruit_y = rand.Next(0, px_y);
                     super_puper_fruit_spawned = true;
+                }
+                else if (posibly > 0.40f && posibly <= 0.5f)
+                {
+                    cut_fruit_x = rand.Next(0, px_x);
+                    cut_fruit_y = rand.Next(0, px_y);
+                    cut_fruit_spawned = true;
                 }
             }
             fruit_x = rand.Next(0, px_x);
@@ -388,6 +413,8 @@ namespace minigames.Snake_game
                     eated = super_fruit_spawned = false;
                 else if (super_puper_fruit_spawned)
                     eated = super_puper_fruit_spawned = false;
+                else if (cut_fruit_spawned)
+                    eated = cut_fruit_spawned = false;
                 if (!MainMenu.Language)
                     score_text.Text = $"score: {score}   max score: {max_score}";
                 else
@@ -413,9 +440,29 @@ namespace minigames.Snake_game
             else if (x == super_puper_fruit_x && y == super_puper_fruit_y && super_puper_fruit_spawned)
             {
                 nTail++;
-                score+=2;
+                score += 2;
                 can_tp = true;
                 super_puper_fruit_spawned = false;
+                if (MainMenu.sounds)
+                {
+                    sound = new PlaySound(@"sounds\apple.wav");
+                    sound.Play(0.4f);
+                }
+                if (!MainMenu.Language)
+                    score_text.Text = $"score: {score}   max score: {max_score}";
+                else
+                    score_text.Text = $"счёт: {score}   макс. счёт: {max_score}";
+                Spawn_Fruit(false);
+            }
+            else if (x == cut_fruit_x && y == cut_fruit_y && cut_fruit_spawned)
+            {
+                nTail -= 5;
+                if (nTail < 1)
+                    nTail = 1;
+                score -= 3;
+                if (score < 0)
+                    score = 0;
+                cut_fruit_spawned = false;
                 if (MainMenu.sounds)
                 {
                     sound = new PlaySound(@"sounds\apple.wav");
@@ -474,6 +521,8 @@ namespace minigames.Snake_game
                         pxs[i][j].BackColor = Color.Purple;
                     else if (super_puper_fruit_x == j && super_puper_fruit_y == i && !game_over && super_puper_fruit_spawned)
                         pxs[i][j].BackColor = Color.Navy;
+                    else if (cut_fruit_x == j && cut_fruit_y == i && !game_over && cut_fruit_spawned)
+                        pxs[i][j].BackColor = Color.FromArgb(41, 195, 123);
                     else if (pxs[i][j].BackColor == Color.Orange || pxs[i][j].BackColor == Color.LightBlue)
                     {
                         bool print = false;
@@ -534,17 +583,22 @@ namespace minigames.Snake_game
                     dir = Direction.UP;
                 }
                 else if (e.KeyCode == Keys.Space)
+                    game_over = true;
+                cycle_done = false;
+            }
+            else
+            {
+                if (e.KeyCode == Keys.Space)
                 {
                     if (start_btn.Enabled)
                         Start_Game();
                 }
-                cycle_done = false;
             }
         }
 
         private void Tile_Clicked(object sender, MouseEventArgs e)
         {
-            if (can_tp && !game_over)
+            if (can_tp && !game_over && e.Button == MouseButtons.Left)
             {
                 for (int i = 0; i < px_y; i++)
                 {
@@ -571,7 +625,8 @@ namespace minigames.Snake_game
         private void Game_Over()
         {
             ost?.Dispose();
-            question.Enabled = true;
+            start_btn.Enabled = question.Enabled = true;
+            can_tp = teleported = super_fruit_spawned = super_puper_fruit_spawned = cut_fruit_spawned = in_game = false;
             if (score > max_score)
                 max_score = score;
             if (!MainMenu.Language)

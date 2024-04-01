@@ -218,20 +218,68 @@ namespace minigames
                 Top = centerY - (Height / 2);
             }
             Activate();
-            if (!MainMenu.Language)
+            switch (INIReader.GetInt("config.ini", "Glazastic", "difficulty"))
             {
-                Text = "EyeStop"; 
-                lose_text.Text = "Loss 0%";
-                games_text.Text = "Winning 0%";
-                accurate.Text = "Accuracy 0px";
+                case 0:
+                    widht_panels = 20;
+                    break;
+                case 2:
+                    widht_panels = 5;
+                    break;
+                default:
+                    widht_panels = 10;
+                    break;
+            }
+            big_speed = INIReader.GetBool("config.ini", "Glazastic", "big_speed");
+            unposible_mod = INIReader.GetBool("config.ini", "Glazastic", "impossible");
+            practic_mod = INIReader.GetBool("config.ini", "Glazastic", "practice_mode");
+            win = INIReader.GetInt("config.ini", "Glazastic", "win");
+            lose = INIReader.GetInt("config.ini", "Glazastic", "lose");
+            games = INIReader.GetInt("config.ini", "Glazastic", "games");
+            float percent = 0, percent_lose = 0;
+            if (games != 0)
+            {
+                percent = Convert.ToSingle(win) / games * 100;
+                percent_lose = Convert.ToSingle(lose) / games * 100;
+            }
+            if (MainMenu.Language)
+            {
+                lose_text.Text = $"Проигрыш {percent_lose:0.#}%";
+                games_text.Text = $"Выигрыш {percent:0.#}%";
+                accurate.Text = "Точность 0px";
+                start_btn.Text = "СТАРТ";
             }
             else
-                start_btn.Text = "СТАРТ";
+            {
+                Text = "EyeStop";
+                lose_text.Text = $"Loss {percent_lose:0.#}%";
+                games_text.Text = $"Winning {percent:0.#}%";
+                accurate.Text = "Accuracy 0px";
+            }
+            if (practic_mod)
+            {
+                if (MainMenu.Language)
+                    games_text.Text = "Режим практики";
+                else
+                    games_text.Text = "Practice mode";
+                lose_text.Visible = accurate.Visible = false;
+            }
+            else
+            {
+                if (MainMenu.Language)
+                    games_text.Text = "Выигрыш 0%";
+                else
+                    games_text.Text = "Winning 0%";
+                lose_text.Visible = accurate.Visible = true;
+            }
         }
 
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
+            INIReader.SetKey("config.ini", "Glazastic", "win", Convert.ToString(win));
+            INIReader.SetKey("config.ini", "Glazastic", "lose", Convert.ToString(lose));
+            INIReader.SetKey("config.ini", "Glazastic", "games", Convert.ToString(games));
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)

@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Snake_game
@@ -52,12 +45,14 @@ namespace minigames.Snake_game
             if (setuped)
             {
                 speed_text.Focus();
-                if (speed_list.SelectedIndex == 2)
-                    SnakeGame.new_logic_interval = 750;
-                else if (speed_list.SelectedIndex == 1)
-                    SnakeGame.new_logic_interval = 500;
-                else
+                if (speed_list.SelectedIndex == 0)
                     SnakeGame.new_logic_interval = 250;
+                else if (speed_list.SelectedIndex == 1)
+                    SnakeGame.new_logic_interval = 300;
+                else if (speed_list.SelectedIndex == 2)
+                    SnakeGame.new_logic_interval = 350;
+                else
+                    SnakeGame.new_logic_interval = 400;
             }
         }
 
@@ -118,19 +113,14 @@ namespace minigames.Snake_game
                 walls_killing.Text = "Walls kill";
                 style_text.Text = "Style:";
                 dark_theme.Text = "Dark theme";
-                size_list.Items.Clear();
-                speed_list.Items.Clear();
                 style_list.Items.Clear();
-                string[] en_items = { "Large", "Medium", "Small" };
-                string[] en_border_items = { "Classic", "Borders", "3D" };
-                size_list.Items.AddRange(en_items);
-                speed_list.Items.AddRange(en_items);
+                string[] en_border_items = { "Classic", "Borders", "3D-Borders" };
                 style_list.Items.AddRange(en_border_items);
                 size_list.Left -= 40;
                 speed_list.Left -= 40;
                 style_list.Left -= 40;
-                accept_button.Left -= 52;
-                ClientSize = new Size(252, 177);
+                accept_button.Left -= 48;
+                ClientSize = new Size(256, 177);
             }
             accepted = false;
             if (SnakeGame.new_px_x == 40 && SnakeGame.new_px_y == 20)
@@ -141,10 +131,12 @@ namespace minigames.Snake_game
                 size_list.SelectedIndex = 2;
             if (SnakeGame.new_logic_interval == 250)
                 speed_list.SelectedIndex = 0;
-            else  if (SnakeGame.new_logic_interval == 500)
+            else if (SnakeGame.new_logic_interval == 300)
                 speed_list.SelectedIndex = 1;
-            else
+            else if (SnakeGame.new_logic_interval == 350)
                 speed_list.SelectedIndex = 2;
+            else
+                speed_list.SelectedIndex = 3;
             if (SnakeGame.new_dark_theme == 1)
                 dark_theme.Checked = true;
             style_list.SelectedIndex = SnakeGame.new_px_style;

@@ -10,16 +10,57 @@ namespace minigames
 
         public PlaySound(string path)
         {
-            file = new WaveFileReader(path);
-            playing = new WaveOutEvent();
-            playing.Init(file);
+            try
+            {
+                file = new WaveFileReader(path);
+                playing = new WaveOutEvent();
+                playing.Init(file);
+            }
+            catch (Exception)
+            {
+                Dispose();
+            }
         }
 
-        public void Play()
+        public void Play(float volume)
         {
-            playing.Volume = 0.5f;
-            playing.Play();
-            playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Stoped);
+            try
+            {
+                playing.Volume = volume;
+                playing.Play();
+                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Stoped);
+            }
+            catch (Exception)
+            {
+                Dispose();
+            }
+        }
+
+        public void LoopPlay(float volume)
+        {
+            try
+            {
+                playing.Volume = volume;
+                playing.Play();
+                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
+            }
+            catch (Exception)
+            {
+                Dispose();
+            }
+        }
+
+        private void Loop(object sender, EventArgs e)
+        {
+            try
+            {
+                file.Position = 0;
+                playing.Play();
+            }
+            catch (Exception)
+            {
+                Dispose();
+            }
         }
 
         public long Check()
