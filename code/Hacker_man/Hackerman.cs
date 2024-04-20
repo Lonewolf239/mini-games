@@ -32,8 +32,8 @@ namespace minigames.Hacker_man
                     text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
                 foreach (Control text in top_panel.Controls)
                 {
-                    if (text is TextBox)
-                        text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                    foreach (Control text1 in text.Controls)
+                        text1.Font = new Font(text1.Font.FontFamily, text1.Font.Size * MainMenu.scale_size);
                 }
                 developer_name.Left = Width-developer_name.Width-12;
                 by_text.Left = Width - by_text.Width - 12;

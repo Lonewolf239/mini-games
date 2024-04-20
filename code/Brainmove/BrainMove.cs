@@ -37,7 +37,6 @@ namespace minigames.Brainmove
 
         private void BrainMove_FormClosing(object sender, FormClosingEventArgs e)
         {
-            timer1.Stop();
         }
 
         private void BrainMove_Load(object sender, EventArgs e)
@@ -60,13 +59,12 @@ namespace minigames.Brainmove
                 Text = "Brainmove";
                 start_btn.Text = "START";
             }
-            timer1.Start();
         }
 
         private void start_btn_Click(object sender, EventArgs e)
         {
             top_panel.Focus();
-            Spawn_Tiles();
+            //Spawn_Tiles();
         }
 
         private void question_Click(object sender, EventArgs e)
@@ -84,17 +82,6 @@ namespace minigames.Brainmove
                 new Control[24],
                 new Control[24]
             };
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            string dots = "";
-            for (int j = 0; j < i; j++)
-            {
-                dots += ".";
-            }
-            i = (i < 3) ? i + 1 : 1;
-            label1.Text = $"Working in progress{dots}";
         }
     }
 }

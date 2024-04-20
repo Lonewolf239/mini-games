@@ -3,7 +3,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Globalization;
-using System.IO;
+using System.Net;
+using IniReader;
 using minigames.Colortimer;
 using minigames.Colortiles;
 using minigames.Math_o_light;
@@ -18,22 +19,115 @@ namespace minigames
 {
     public partial class MainMenu : Form
     {
-        public MainMenu()
-        {
-            InitializeComponent();
-        }
-
+        public static readonly string iniFolder = "config.ini";
+        private readonly string current_version = "|0.1.9.5|";
         private SizeF originalScale = new SizeF(1.0f, 1.0f);
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
             mg8_max_score = 0;
         public static float mg4_max_score = 0;
-        private string[][] language_text =
+        private readonly string[][] language_text =
         {
           new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Мини-Змейка", "Звукотрон", "Мозгодвиж", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." },
           new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Mini-Snake", "Soundotron", "Brainmove", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." }
         };
+
+        public MainMenu()
+        {
+            InitializeComponent();
+        }
+
+        private void Check_Update(bool auto)
+        {
+            string title = "Доступно обновление!", message = $"Вышло новое обновление! Хотите установить его?\nТекущая версия: {current_version.Replace("|","")}\nАктуальная версия: ";
+            if (!Check_Language())
+            {
+                title = "Update available!";
+                message = $"New update is out! Want to install it?\nCurrent version: {current_version.Replace("|","")}\nActual version: ";
+            }
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadStringCompleted += (sender, e) =>
+                {
+                    if (e.Error != null)
+                    {
+                        if (e.Error.HResult == -2146233079)
+                        {
+                            if (!auto)
+                            {
+                                message = "Не удалось установить соединение с сервером обновлений. Проверьте подключение к интернету.";
+                                title = "Ошибка подключения";
+                                if (!Language)
+                                {
+                                    message = "Failed to establish a connection with the update server. Please check your internet connection.";
+                                    title = "Connection Error";
+                                }
+                                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                        else
+                        {
+                            if (!auto)
+                            {
+                                message = $"Во время загрузки обновления произошла ошибка! {e.Error.Message}.";
+                                title = $"Ошибка {e.Error.HResult}!";
+                                if (!Language)
+                                {
+                                    message = $"An error occurred while downloading the update! {e.Error.Message}.";
+                                    title = $"Error {e.Error.HResult}!";
+                                }
+                                MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (!e.Result.Contains(current_version))
+                        {
+                            message += e.Result.Replace("|", "");
+                            if (MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                            {
+                                Hide();
+                                WindowState = FormWindowState.Minimized;
+                                Downloading _form = new Downloading();
+                                Downloading.language = Check_Language();
+                                _form.ShowDialog();
+                            }
+                        }
+                        else
+                        {
+                            if (!auto)
+                            {
+                                if (Language)
+                                    MessageBox.Show("У вас уже установлена последняя версия программы.", "Версия актуальная", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                else
+                                    MessageBox.Show("You already have the latest version of the program installed.", "Version is current", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
+                        }
+                    }
+                };
+                webClient.DownloadStringAsync(new Uri("https://base-escape.ru/version_MG.txt"));
+            }
+        }
+
+        private void Update_check_Click(object sender, EventArgs e)
+        {
+            Check_Update(false);
+        }
+
+        private void Auto_update_CheckedChanged(object sender, EventArgs e)
+        {
+            INIReader.SetKey(iniFolder, "CONFIG", "auto_update", auto_update.Checked);
+        }
+
+        private bool Check_Language()
+        {
+            CultureInfo ci = CultureInfo.InstalledUICulture;
+            string language = ci.Name.ToLower();
+            string[] supportedLanguages = { "ru", "uk", "be", "kk", "ky" };
+            return Array.Exists(supportedLanguages, lang => lang.Equals(language) || lang.Equals(language.Substring(0, 2)));
+        }
 
         private void Exit_Click(object sender, EventArgs e)
         {
@@ -45,7 +139,7 @@ namespace minigames
             Process.Start(new ProcessStartInfo("https://github.com/Lonewolf239") { UseShellExecute = true });
         }
 
-        private void WebsyteToolStripMenuItem_Click(object sender, EventArgs e)
+        private void Websyte_Click(object sender, EventArgs e)
         {
             Process.Start(new ProcessStartInfo("https://base-escape.ru") { UseShellExecute = true });
         }
@@ -66,32 +160,24 @@ namespace minigames
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
-            CultureInfo ci = CultureInfo.InstalledUICulture;
-            string language = ci.Name.ToLower();
-            string[] supportedLanguages = { "ru", "uk", "be", "kk", "ky" };
-            bool isSupportedLanguage = Array.Exists(supportedLanguages, lang => lang.Equals(language) || lang.Equals(language.Substring(0, 2)));
-            if (!File.Exists("config.ini"))
-            {
-                string str = "[CONFIG]\nsounds=True\nlanguage=True\nscale=1\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
-                File.WriteAllText("config.ini", str);
-            }
+            bool isSupportedLanguage = Check_Language();
+            string str = $"[CONFIG]\nsounds=True\nlanguage={isSupportedLanguage}\nscale=1\nauto_update=True\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
+            INIReader.CreateIniFileIfNotExist(iniFolder, str);
+            isSupportedLanguage = INIReader.GetBool(iniFolder, "CONFIG", "language");
+            sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds");
+            scale_size = INIReader.GetSingle(iniFolder, "CONFIG", "scale");
+            auto_update.Checked = INIReader.GetBool(iniFolder, "CONFIG", "auto_update");
+            if (scale_size == 1.5f || scale_size == 2 || scale_size == 3)
+                SetScale();
             else
-            {
-                isSupportedLanguage = INIReader.GetBool("config.ini", "CONFIG", "language");
-                sounds = INIReader.GetBool("config.ini", "CONFIG", "sounds");
-                scale_size = INIReader.GetSingle("config.ini", "CONFIG", "scale");
-                if (scale_size == 1.5f || scale_size == 2 || scale_size == 3)
-                    SetScale();
-                else
-                    scale_size = 1;
-                mg1_max_score = INIReader.GetInt("config.ini", "Colortimer", "max_score");
-                mg3_max_score = INIReader.GetInt("config.ini", "Math_o_light", "max_score");
-                mg4_max_score = INIReader.GetSingle("config.ini", "Reactor", "max_score");
-                mg5_max_score = INIReader.GetInt("config.ini", "Rodrocket", "max_score");
-                mg6_max_score = INIReader.GetInt("config.ini", "Hacker_man", "max_score");
-                mg7_max_score = INIReader.GetInt("config.ini", "Snake_game", "max_score");
-                mg8_max_score = INIReader.GetInt("config.ini", "Soundotron", "max_score");
-            }
+                scale_size = 1;
+            mg1_max_score = INIReader.GetInt(iniFolder, "Colortimer", "max_score");
+            mg3_max_score = INIReader.GetInt(iniFolder, "Math_o_light", "max_score");
+            mg4_max_score = INIReader.GetSingle(iniFolder, "Reactor", "max_score");
+            mg5_max_score = INIReader.GetInt(iniFolder, "Rodrocket", "max_score");
+            mg6_max_score = INIReader.GetInt(iniFolder, "Hacker_man", "max_score");
+            mg7_max_score = INIReader.GetInt(iniFolder, "Snake_game", "max_score");
+            mg8_max_score = INIReader.GetInt(iniFolder, "Soundotron", "max_score");
             if (isSupportedLanguage)
             {
                 russian_check.Checked = true;
@@ -99,6 +185,8 @@ namespace minigames
             }
             else
                 Change_Language(false);
+            if (auto_update.Checked)
+                Check_Update(true);
             sounds_on_off.Checked = sounds;
             if (!sounds)
             {
@@ -161,7 +249,7 @@ namespace minigames
             if (original.Checked)
             {
                 scale_size = 1;
-                INIReader.SetKey("config.ini", "CONFIG", "scale", Convert.ToString(scale_size));
+                INIReader.SetKey(iniFolder, "CONFIG", "scale", scale_size);
                 O_o.Checked = anstapabal.Checked = big.Checked = scaled = false;
                 Return_Original();
             }
@@ -191,7 +279,7 @@ namespace minigames
             if (big.Checked)
             {
                 scale_size = 1.5f;
-                INIReader.SetKey("config.ini", "CONFIG", "scale", Convert.ToString(scale_size));
+                INIReader.SetKey(iniFolder, "CONFIG", "scale", scale_size);
                 SetScale();
             }
             else
@@ -203,7 +291,7 @@ namespace minigames
             if (anstapabal.Checked)
             {
                 scale_size = 2;
-                INIReader.SetKey("config.ini", "CONFIG", "scale", Convert.ToString(scale_size));
+                INIReader.SetKey(iniFolder, "CONFIG", "scale", scale_size);
                 SetScale();
             }
             else
@@ -215,7 +303,7 @@ namespace minigames
             if (O_o.Checked)
             {
                 scale_size = 3;
-                INIReader.SetKey("config.ini", "CONFIG", "scale", Convert.ToString(scale_size));
+                INIReader.SetKey(iniFolder, "CONFIG", "scale", scale_size);
                 SetScale();
             }
             else
@@ -233,7 +321,7 @@ namespace minigames
 
         private void Change_Language(bool type)
         {
-            INIReader.SetKey("config.ini", "CONFIG", "language", Convert.ToString(Language));
+            INIReader.SetKey(iniFolder, "CONFIG", "language", Language);
             Control[] texts = { glazastic_name, mg_name1, mg_name2, mg_name3, mg_name4, mg_name5, mg_name6, mg_name7, mg_name8, mg_name9, mg_name10, mg_name11, mg_name12, mg_name13, mg_name14, mg_name15 };
             int index;
             if (type)
@@ -253,6 +341,9 @@ namespace minigames
                 scale.Text = "Масштаб";
                 clear_data.Text = "Стереть данные";
                 exit.Text = "Выйти";
+                update.Text = "Обновление";
+                update_check.Text = "Проверить наличие";
+                auto_update.Text = "Авто-обновление";
             }
             else
             {
@@ -271,6 +362,9 @@ namespace minigames
                 scale.Text = "Scale";
                 clear_data.Text = "Clear data";
                 exit.Text = "Exit";
+                update.Text = "Update";
+                update_check.Text = "Check for update";
+                auto_update.Text = "Auto-Update";
             }
             for (int i = 0; i < texts.Length; i++)
                 texts[i].Text = language_text[index][i];
@@ -278,8 +372,9 @@ namespace minigames
 
         private void Clear_data_Click(object sender, EventArgs e)
         {
-            string str = "[CONFIG]\nsounds=True\nlanguage=True\nscale=1\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
-            File.WriteAllText("config.ini", str);
+            bool isSupportedLanguage = Check_Language();
+            string str = $"[CONFIG]\nsounds=True\nlanguage={isSupportedLanguage}\nscale=1\nauto_update=True\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
+            INIReader.CreateIniFile(iniFolder, str);
             Application.Restart();
         }
 
@@ -299,13 +394,13 @@ namespace minigames
                 mg7_max_score = SnakeGame.score;
             if (SoundoTron.score > mg8_max_score)
                 mg8_max_score = SoundoTron.score;
-            INIReader.SetKey("config.ini", "Colortimer", "max_score", Convert.ToString(mg1_max_score));
-            INIReader.SetKey("config.ini", "Math_o_light", "max_score", Convert.ToString(mg3_max_score));
-            INIReader.SetKey("config.ini", "Reactor", "max_score", Convert.ToString(mg4_max_score));
-            INIReader.SetKey("config.ini", "Rodrocket", "max_score", Convert.ToString(mg5_max_score));
-            INIReader.SetKey("config.ini", "Hacker_man", "max_score", Convert.ToString(mg6_max_score));
-            INIReader.SetKey("config.ini", "Snake_game", "max_score", Convert.ToString(mg7_max_score));
-            INIReader.SetKey("config.ini", "Soundotron", "max_score", Convert.ToString(mg8_max_score));
+            INIReader.SetKey(iniFolder, "Colortimer", "max_score", mg1_max_score);
+            INIReader.SetKey(iniFolder, "Math_o_light", "max_score",mg3_max_score);
+            INIReader.SetKey(iniFolder, "Reactor", "max_score", mg4_max_score);
+            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", mg5_max_score);
+            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", mg6_max_score);
+            INIReader.SetKey(iniFolder, "Snake_game", "max_score", mg7_max_score);
+            INIReader.SetKey(iniFolder, "Soundotron", "max_score", mg8_max_score);
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
             ShowIcon = true;
@@ -327,7 +422,7 @@ namespace minigames
                 mg_icon_pic8.Image =Properties.Resources.soundotron;
                 mg_panel8.BackColor = SystemColors.Control;
             }
-            INIReader.SetKey("config.ini", "CONFIG", "sounds", Convert.ToString(sounds));
+            INIReader.SetKey(iniFolder, "CONFIG", "sounds", sounds);
         }
 
         private void About_mini_games_Click(object sender, EventArgs e)

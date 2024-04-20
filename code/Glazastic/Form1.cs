@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using IniReader;
 
 namespace minigames
 {
@@ -218,7 +219,7 @@ namespace minigames
                 Top = centerY - (Height / 2);
             }
             Activate();
-            switch (INIReader.GetInt("config.ini", "Glazastic", "difficulty"))
+            switch (INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "difficulty"))
             {
                 case 0:
                     widht_panels = 20;
@@ -230,12 +231,12 @@ namespace minigames
                     widht_panels = 10;
                     break;
             }
-            big_speed = INIReader.GetBool("config.ini", "Glazastic", "big_speed");
-            unposible_mod = INIReader.GetBool("config.ini", "Glazastic", "impossible");
-            practic_mod = INIReader.GetBool("config.ini", "Glazastic", "practice_mode");
-            win = INIReader.GetInt("config.ini", "Glazastic", "win");
-            lose = INIReader.GetInt("config.ini", "Glazastic", "lose");
-            games = INIReader.GetInt("config.ini", "Glazastic", "games");
+            big_speed = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "big_speed");
+            unposible_mod = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "impossible");
+            practic_mod = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "practice_mode");
+            win = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "win");
+            lose = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "lose");
+            games = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "games");
             float percent = 0, percent_lose = 0;
             if (games != 0)
             {
@@ -277,9 +278,9 @@ namespace minigames
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
-            INIReader.SetKey("config.ini", "Glazastic", "win", Convert.ToString(win));
-            INIReader.SetKey("config.ini", "Glazastic", "lose", Convert.ToString(lose));
-            INIReader.SetKey("config.ini", "Glazastic", "games", Convert.ToString(games));
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "win", win);
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "lose", lose);
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "games", games);
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)

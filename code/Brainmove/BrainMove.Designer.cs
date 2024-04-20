@@ -28,14 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(BrainMove));
             this.start_btn = new System.Windows.Forms.Button();
             this.developer_name = new System.Windows.Forms.Label();
             this.question = new System.Windows.Forms.Button();
             this.top_panel = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,18 +90,13 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.label1.Location = new System.Drawing.Point(0, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(409, 165);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Working in progress...";
+            this.label1.Text = "Work on Brainmove will begin soon... I promise.";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 500;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // BrainMove
             // 
@@ -137,6 +130,5 @@
         private System.Windows.Forms.Button question;
         private System.Windows.Forms.Panel top_panel;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Timer timer1;
     }
 }

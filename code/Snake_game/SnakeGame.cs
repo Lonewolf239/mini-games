@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
-using System.Runtime.InteropServices;
+using IniReader;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
 
 namespace minigames.Snake_game
 {
@@ -124,11 +121,11 @@ namespace minigames.Snake_game
                     speed = 2;
                 else if (logic_interval == 400)
                     speed = 3;
-                INIReader.SetKey("config.ini", "Snake_game", "size", Convert.ToString(size));
-                INIReader.SetKey("config.ini", "Snake_game", "speed", Convert.ToString(speed));
-                INIReader.SetKey("config.ini", "Snake_game", "style", Convert.ToString(px_style));
-                INIReader.SetKey("config.ini", "Snake_game", "dark_theme", Convert.ToString(dark_theme));
-                INIReader.SetKey("config.ini", "Snake_game", "wall_kills", Convert.ToString(wall_killing));
+                INIReader.SetKey(MainMenu.iniFolder, "Snake_game", "size", size);
+                INIReader.SetKey(MainMenu.iniFolder, "Snake_game", "speed", speed);
+                INIReader.SetKey(MainMenu.iniFolder, "Snake_game", "style", px_style);
+                INIReader.SetKey(MainMenu.iniFolder, "Snake_game", "dark_theme", dark_theme);
+                INIReader.SetKey(MainMenu.iniFolder, "Snake_game", "wall_kills", wall_killing);
                 Draw_Interface();
             }
             else
@@ -164,7 +161,7 @@ namespace minigames.Snake_game
                 Top = centerY - (Height / 2);
             }
             Activate();
-            switch (INIReader.GetInt("config.ini", "Snake_game", "size"))
+            switch (INIReader.GetInt(MainMenu.iniFolder, "Snake_game", "size"))
             {
                 case 0:
                     px_x = new_px_x = 40;
@@ -182,7 +179,7 @@ namespace minigames.Snake_game
                     tile_size = new_tile_size = 25;
                     break;
             }
-            switch (INIReader.GetInt("config.ini", "Snake_game", "speed"))
+            switch (INIReader.GetInt(MainMenu.iniFolder, "Snake_game", "speed"))
             {
                 case 0:
                     logic_interval = new_logic_interval = 250;
@@ -197,13 +194,13 @@ namespace minigames.Snake_game
                     logic_interval = new_logic_interval = 300;
                     break;
             }
-            new_px_style = px_style = INIReader.GetInt("config.ini", "Snake_game", "style");
-            if (px_style != 0 || px_style != 1 || px_style != 2)
+            new_px_style = px_style = INIReader.GetInt(MainMenu.iniFolder, "Snake_game", "style");
+            if (px_style != 0 && px_style != 1 && px_style != 2)
                 new_px_style = px_style = 0;
-            new_dark_theme = dark_theme = INIReader.GetInt("config.ini", "Snake_game", "dark_theme");
-            if (dark_theme != 0 || dark_theme != 1)
+            new_dark_theme = dark_theme = INIReader.GetInt(MainMenu.iniFolder, "Snake_game", "dark_theme");
+            if (dark_theme != 0 && dark_theme != 1)
                 new_dark_theme = dark_theme = 0;
-            new_wall_killing = wall_killing = INIReader.GetBool("config.ini", "Snake_game", "wall_kills");
+            new_wall_killing = wall_killing = INIReader.GetBool(MainMenu.iniFolder, "Snake_game", "wall_kills");
             max_score = MainMenu.mg7_max_score;
             if (!MainMenu.Language)
             {
@@ -394,11 +391,12 @@ namespace minigames.Snake_game
                 }
             }
             if (game_over)
+            {
                 can_tp = false;
+                logic.Stop();
+            }
             Draw_Snake(game_over);
             teleported = false;
-            if (game_over)
-                logic.Stop();
             if (x == fruit_x && y == fruit_y)
             {
                 bool eated = true;
@@ -626,7 +624,7 @@ namespace minigames.Snake_game
         {
             ost?.Dispose();
             start_btn.Enabled = question.Enabled = true;
-            can_tp = teleported = super_fruit_spawned = super_puper_fruit_spawned = cut_fruit_spawned = in_game = false;
+            can_tp = teleported = super_fruit_spawned = super_puper_fruit_spawned = cut_fruit_spawned = cycle_done = in_game = false;
             if (score > max_score)
                 max_score = score;
             if (!MainMenu.Language)
