@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.control_panel = new System.Windows.Forms.Panel();
+            this.control_space = new System.Windows.Forms.Label();
             this.control_pic = new System.Windows.Forms.PictureBox();
             this.control_text = new System.Windows.Forms.Label();
             this.fruit_panel = new System.Windows.Forms.Panel();
@@ -42,7 +43,6 @@
             this.red_fruit_panel = new System.Windows.Forms.Panel();
             this.fruit_name_text = new System.Windows.Forms.Label();
             this.ok = new System.Windows.Forms.Button();
-            this.control_space = new System.Windows.Forms.Label();
             this.control_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.control_pic)).BeginInit();
             this.fruit_panel.SuspendLayout();
@@ -60,6 +60,18 @@
             this.control_panel.Name = "control_panel";
             this.control_panel.Size = new System.Drawing.Size(526, 166);
             this.control_panel.TabIndex = 0;
+            // 
+            // control_space
+            // 
+            this.control_space.Dock = System.Windows.Forms.DockStyle.Top;
+            this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.control_space.Location = new System.Drawing.Point(0, 144);
+            this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.control_space.Name = "control_space";
+            this.control_space.Size = new System.Drawing.Size(524, 20);
+            this.control_space.TabIndex = 2;
+            this.control_space.Text = "Для остановки игры нажмите: SPACE";
+            this.control_space.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // control_pic
             // 
@@ -218,26 +230,16 @@
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.Ok_Click);
             // 
-            // control_space
-            // 
-            this.control_space.Dock = System.Windows.Forms.DockStyle.Top;
-            this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.control_space.Location = new System.Drawing.Point(0, 144);
-            this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(524, 20);
-            this.control_space.TabIndex = 2;
-            this.control_space.Text = "Для остановки игры нажмите: SPACE";
-            this.control_space.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
             // SG_about
             // 
+            this.AcceptButton = this.ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(526, 381);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.fruit_panel);
             this.Controls.Add(this.control_panel);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(5);

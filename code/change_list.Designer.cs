@@ -51,6 +51,7 @@
             // 
             this.ok.AutoSize = true;
             this.ok.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.ok.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.ok.Location = new System.Drawing.Point(304, 274);
@@ -64,11 +65,13 @@
             // 
             // change_list
             // 
+            this.AcceptButton = this.ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 321);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.changes_list);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

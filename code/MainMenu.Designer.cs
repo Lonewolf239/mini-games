@@ -104,6 +104,7 @@
             this.websyte = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.about_mini_games = new System.Windows.Forms.ToolStripMenuItem();
+            this.update_error = new System.Windows.Forms.PictureBox();
             this.glazastic_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.glazastic_icon_pic)).BeginInit();
             this.mg_panel1.SuspendLayout();
@@ -138,6 +139,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic12)).BeginInit();
             this.interface_panel.SuspendLayout();
             this.info_menu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.update_error)).BeginInit();
             this.SuspendLayout();
             // 
             // version_label
@@ -149,7 +151,7 @@
             this.version_label.Name = "version_label";
             this.version_label.Size = new System.Drawing.Size(125, 13);
             this.version_label.TabIndex = 0;
-            this.version_label.Text = "v0.1.9.5 By.Lonewolf239";
+            this.version_label.Text = "v0.1.9.6 By.Lonewolf239";
             this.version_label.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.version_label.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Version_label_MouseClick);
             // 
@@ -539,7 +541,7 @@
             this.mg_name9.Name = "mg_name9";
             this.mg_name9.Size = new System.Drawing.Size(98, 23);
             this.mg_name9.TabIndex = 2;
-            this.mg_name9.Text = "Мозгодвиж";
+            this.mg_name9.Text = "СудоСага";
             this.mg_name9.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name9_MouseClick);
             this.mg_name9.MouseEnter += new System.EventHandler(this.Mg_name9_MouseEnter);
@@ -548,7 +550,7 @@
             // mg_icon_pic9
             // 
             this.mg_icon_pic9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.brainmove;
+            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.sudoku;
             this.mg_icon_pic9.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic9.Name = "mg_icon_pic9";
             this.mg_icon_pic9.Size = new System.Drawing.Size(98, 50);
@@ -821,7 +823,6 @@
             this.info_menu.Name = "info_menu";
             this.info_menu.Size = new System.Drawing.Size(399, 24);
             this.info_menu.TabIndex = 15;
-            this.info_menu.Text = "menuStrip1";
             // 
             // settings
             // 
@@ -848,7 +849,7 @@
             this.sounds_on_off.CheckState = System.Windows.Forms.CheckState.Checked;
             this.sounds_on_off.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.sounds_on_off.Name = "sounds_on_off";
-            this.sounds_on_off.Size = new System.Drawing.Size(161, 22);
+            this.sounds_on_off.Size = new System.Drawing.Size(180, 22);
             this.sounds_on_off.Text = "Звуки";
             this.sounds_on_off.TextImageRelation = System.Windows.Forms.TextImageRelation.TextBeforeImage;
             this.sounds_on_off.ToolTipText = "Включить/отключить внутриигровые звуки";
@@ -857,7 +858,7 @@
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // language_menu
             // 
@@ -865,7 +866,7 @@
             this.russian_check,
             this.english_check});
             this.language_menu.Name = "language_menu";
-            this.language_menu.Size = new System.Drawing.Size(161, 22);
+            this.language_menu.Size = new System.Drawing.Size(180, 22);
             this.language_menu.Text = "Язык";
             // 
             // russian_check
@@ -873,7 +874,7 @@
             this.russian_check.CheckOnClick = true;
             this.russian_check.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.russian_check.Name = "russian_check";
-            this.russian_check.Size = new System.Drawing.Size(119, 22);
+            this.russian_check.Size = new System.Drawing.Size(180, 22);
             this.russian_check.Text = "Русский";
             this.russian_check.Click += new System.EventHandler(this.Russian_check_Click);
             // 
@@ -882,7 +883,7 @@
             this.english_check.CheckOnClick = true;
             this.english_check.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.english_check.Name = "english_check";
-            this.english_check.Size = new System.Drawing.Size(119, 22);
+            this.english_check.Size = new System.Drawing.Size(180, 22);
             this.english_check.Text = "English";
             this.english_check.Click += new System.EventHandler(this.English_check_Click);
             // 
@@ -894,14 +895,14 @@
             this.big,
             this.original});
             this.scale.Name = "scale";
-            this.scale.Size = new System.Drawing.Size(161, 22);
+            this.scale.Size = new System.Drawing.Size(180, 22);
             this.scale.Text = "Масштаб";
             // 
             // O_o
             // 
             this.O_o.CheckOnClick = true;
             this.O_o.Name = "O_o";
-            this.O_o.Size = new System.Drawing.Size(102, 22);
+            this.O_o.Size = new System.Drawing.Size(180, 22);
             this.O_o.Text = "300%";
             this.O_o.Click += new System.EventHandler(this.O_o_Click);
             // 
@@ -909,7 +910,7 @@
             // 
             this.anstapabal.CheckOnClick = true;
             this.anstapabal.Name = "anstapabal";
-            this.anstapabal.Size = new System.Drawing.Size(102, 22);
+            this.anstapabal.Size = new System.Drawing.Size(180, 22);
             this.anstapabal.Text = "200%";
             this.anstapabal.Click += new System.EventHandler(this.Anstapabal_Click);
             // 
@@ -918,7 +919,7 @@
             this.big.CheckOnClick = true;
             this.big.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.big.Name = "big";
-            this.big.Size = new System.Drawing.Size(102, 22);
+            this.big.Size = new System.Drawing.Size(180, 22);
             this.big.Text = "150%";
             this.big.Click += new System.EventHandler(this.Big_Click);
             // 
@@ -929,19 +930,19 @@
             this.original.CheckState = System.Windows.Forms.CheckState.Checked;
             this.original.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
             this.original.Name = "original";
-            this.original.Size = new System.Drawing.Size(102, 22);
+            this.original.Size = new System.Drawing.Size(180, 22);
             this.original.Text = "100%";
             this.original.Click += new System.EventHandler(this.Original_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // clear_data
             // 
             this.clear_data.Name = "clear_data";
-            this.clear_data.Size = new System.Drawing.Size(161, 22);
+            this.clear_data.Size = new System.Drawing.Size(180, 22);
             this.clear_data.Text = "Стереть данные";
             this.clear_data.Click += new System.EventHandler(this.Clear_data_Click);
             // 
@@ -951,7 +952,7 @@
             this.update_check,
             this.auto_update});
             this.update.Name = "update";
-            this.update.Size = new System.Drawing.Size(161, 22);
+            this.update.Size = new System.Drawing.Size(180, 22);
             this.update.Text = "Обновление";
             // 
             // update_check
@@ -974,13 +975,13 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(158, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // exit
             // 
             this.exit.Name = "exit";
             this.exit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exit.Size = new System.Drawing.Size(161, 22);
+            this.exit.Size = new System.Drawing.Size(180, 22);
             this.exit.Text = "Выйти";
             this.exit.Click += new System.EventHandler(this.Exit_Click);
             // 
@@ -1039,14 +1040,30 @@
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 
+            // update_error
+            // 
+            this.update_error.BackColor = System.Drawing.Color.Transparent;
+            this.update_error.Image = global::minigames.Properties.Resources.warning;
+            this.update_error.Location = new System.Drawing.Point(380, 0);
+            this.update_error.Name = "update_error";
+            this.update_error.Size = new System.Drawing.Size(20, 20);
+            this.update_error.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.update_error.TabIndex = 16;
+            this.update_error.TabStop = false;
+            this.update_error.Visible = false;
+            this.update_error.MouseEnter += new System.EventHandler(this.Update_error_MouseEnter);
+            this.update_error.MouseLeave += new System.EventHandler(this.Update_error_MouseLeave);
+            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 339);
+            this.Controls.Add(this.update_error);
             this.Controls.Add(this.version_label);
             this.Controls.Add(this.interface_panel);
             this.Controls.Add(this.info_menu);
+            this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.info_menu;
@@ -1091,6 +1108,7 @@
             this.interface_panel.ResumeLayout(false);
             this.info_menu.ResumeLayout(false);
             this.info_menu.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.update_error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -1173,5 +1191,6 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
         private System.Windows.Forms.ToolStripMenuItem update_check;
         private System.Windows.Forms.ToolStripMenuItem auto_update;
+        private System.Windows.Forms.PictureBox update_error;
     }
 }

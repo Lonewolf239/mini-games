@@ -13,14 +13,14 @@ using minigames.Rodrocket;
 using minigames.Hacker_man;
 using minigames.Snake_game;
 using minigames.Soundotron;
-using minigames.Brainmove;
+using minigames._Sudoku;
 
 namespace minigames
 {
     public partial class MainMenu : Form
     {
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.1.9.5|";
+        private readonly string current_version = "|0.1.9.6|";
         private SizeF originalScale = new SizeF(1.0f, 1.0f);
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
@@ -29,9 +29,11 @@ namespace minigames
         public static float mg4_max_score = 0;
         private readonly string[][] language_text =
         {
-          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Мини-Змейка", "Звукотрон", "Мозгодвиж", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." },
-          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Mini-Snake", "Soundotron", "Brainmove", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." }
+          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Мини-Змейка", "Звукотрон", "СудоСага", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." },
+          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Mini-Snake", "Soundotron", "SudoSaga", "soon...", "soon...", "soon...", "soon...", "soon...", "soon..." }
         };
+        private string default_config;
+        private ToolTip g;
 
         public MainMenu()
         {
@@ -52,6 +54,11 @@ namespace minigames
                 {
                     if (e.Error != null)
                     {
+                        if (auto)
+                        {
+                            update_error.Visible = true;
+                            update_check.Image = update_error.Image;
+                        }
                         if (e.Error.HResult == -2146233079)
                         {
                             if (!auto)
@@ -83,11 +90,50 @@ namespace minigames
                     }
                     else
                     {
+                        update_error.Visible = false;
+                        update_check.Image = null;
                         if (!e.Result.Contains(current_version))
                         {
                             message += e.Result.Replace("|", "");
                             if (MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
+                                string str = $"[CONFIG]\n"+
+                                    $"sounds={sounds}\n" +
+                                    $"language={Language}\n" +
+                                    $"scale={scale_size}\n" +
+                                    $"auto_update={auto_update}\n" +
+                                    $"[Glazastic]\n" +
+                                    $"difficulty={INIReader.GetInt(iniFolder, "Glazastic", "difficulty")}\n" +
+                                    $"impossible={INIReader.GetBool(iniFolder, "Glazastic", "impossible")}\n" +
+                                    $"big_speed={INIReader.GetBool(iniFolder, "Glazastic", "big_speed")}\n" +
+                                    $"practice_mode={INIReader.GetBool(iniFolder, "Glazastic", "practice_mode")}\n" +
+                                    $"win={INIReader.GetInt(iniFolder, "Glazastic", "win")}\n" +
+                                    $"lose={INIReader.GetInt(iniFolder, "Glazastic", "lose")}\n" +
+                                    $"games={INIReader.GetInt(iniFolder, "Glazastic", "games")}\n" +
+                                    $"[Colortimer]\n" +
+                                    $"max_score={mg1_max_score}\n" +
+                                    $"[Math_o_light]\n" +
+                                    $"max_score={mg3_max_score}\n" +
+                                    $"[Reactor]\n" +
+                                    $"max_score={mg4_max_score}\n" +
+                                    $"[Rodrocket]\n" +
+                                    $"max_score={mg5_max_score}\n" +
+                                    $"[Hacker_man]\n" +
+                                    $"max_score={mg6_max_score}\n" +
+                                    $"[Snake_game]\n" +
+                                    $"size={INIReader.GetInt(iniFolder, "Snake_game", "size")}\n" +
+                                    $"speed={INIReader.GetInt(iniFolder, "Snake_game", "speed")}\n" +
+                                    $"style={INIReader.GetInt(iniFolder, "Snake_game", "style")}\n" +
+                                    $"dark_theme={INIReader.GetInt(iniFolder, "Snake_game", "dark_theme")}\n" +
+                                    $"wall_kills={INIReader.GetBool(iniFolder, "Snake_game", "wall_kills")}\n" +
+                                    $"max_score={mg7_max_score}\n" +
+                                    $"[Soundotron]\n" +
+                                    $"max_score={mg8_max_score}\n" +
+                                    $"[SudoSaga]\n" +
+                                    $"difficulty=0\n" +
+                                    $"prefill=True\n" +
+                                    $"death_time=False";
+                                INIReader.CreateIniFile(iniFolder, str);
                                 Hide();
                                 WindowState = FormWindowState.Minimized;
                                 Downloading _form = new Downloading();
@@ -119,6 +165,27 @@ namespace minigames
         private void Auto_update_CheckedChanged(object sender, EventArgs e)
         {
             INIReader.SetKey(iniFolder, "CONFIG", "auto_update", auto_update.Checked);
+        }
+
+        private void Update_error_MouseEnter(object sender, EventArgs e)
+        {
+            string title = "Внимание", message = "Не удалось проверить актуальность версии";
+            if (!Language)
+            {
+                title = "Attention";
+                message = "Failed to check the version's validity";
+            }
+            g = new ToolTip
+            {
+                ToolTipTitle = title,
+                ToolTipIcon = ToolTipIcon.Warning
+            };
+            g.SetToolTip(update_error, message);
+        }
+
+        private void Update_error_MouseLeave(object sender, EventArgs e)
+        {
+            g.Dispose();
         }
 
         private bool Check_Language()
@@ -160,13 +227,13 @@ namespace minigames
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
-            bool isSupportedLanguage = Check_Language();
-            string str = $"[CONFIG]\nsounds=True\nlanguage={isSupportedLanguage}\nscale=1\nauto_update=True\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
-            INIReader.CreateIniFileIfNotExist(iniFolder, str);
-            isSupportedLanguage = INIReader.GetBool(iniFolder, "CONFIG", "language");
-            sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds");
-            scale_size = INIReader.GetSingle(iniFolder, "CONFIG", "scale");
-            auto_update.Checked = INIReader.GetBool(iniFolder, "CONFIG", "auto_update");
+            Language = Check_Language();
+            default_config = $"[CONFIG]\nsounds=True\nlanguage={Language}\nscale=1\nauto_update=True\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0\n[SudoSaga]\ndifficulty=0\nprefill=True\ndeath_time=False";
+            INIReader.CreateIniFileIfNotExist(iniFolder, default_config);
+            Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
+            sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
+            scale_size = INIReader.GetSingle(iniFolder, "CONFIG", "scale", 1);
+            auto_update.Checked = INIReader.GetBool(iniFolder, "CONFIG", "auto_update", true);
             if (scale_size == 1.5f || scale_size == 2 || scale_size == 3)
                 SetScale();
             else
@@ -178,11 +245,8 @@ namespace minigames
             mg6_max_score = INIReader.GetInt(iniFolder, "Hacker_man", "max_score");
             mg7_max_score = INIReader.GetInt(iniFolder, "Snake_game", "max_score");
             mg8_max_score = INIReader.GetInt(iniFolder, "Soundotron", "max_score");
-            if (isSupportedLanguage)
-            {
+            if (Language)
                 russian_check.Checked = true;
-                Language = true;
-            }
             else
                 Change_Language(false);
             if (auto_update.Checked)
@@ -372,9 +436,8 @@ namespace minigames
 
         private void Clear_data_Click(object sender, EventArgs e)
         {
-            bool isSupportedLanguage = Check_Language();
-            string str = $"[CONFIG]\nsounds=True\nlanguage={isSupportedLanguage}\nscale=1\nauto_update=True\n[Glazastic]\ndifficulty=1\nimpossible=False\nbig_speed=False\npractice_mode=False\nwin=0\nlose=0\ngames=0\n[Colortimer]\nmax_score=0\n[Math_o_light]\nmax_score=0\n[Reactor]\nmax_score=0\n[Rodrocket]\nmax_score=0\n[Hacker_man]\nmax_score=0\n[Snake_game]\nsize=1\nspeed=1\nstyle=0\ndark_theme=1\nwall_kills=False\nmax_score=0\n[Soundotron]\nmax_score=0";
-            INIReader.CreateIniFile(iniFolder, str);
+            Language = Check_Language();
+            INIReader.CreateIniFile(iniFolder, default_config);
             Application.Restart();
         }
 
@@ -702,7 +765,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 10: Мозгодвиж
+        //мини-игра 10: СудоСага
         private void Mg_name9_MouseEnter(object sender, EventArgs e)
         {
             mg_panel9.BorderStyle = BorderStyle.Fixed3D;
@@ -720,7 +783,7 @@ namespace minigames
             if (e.Button == MouseButtons.Left)
             {
                 WindowState = FormWindowState.Minimized;
-                BrainMove form = new BrainMove();
+                Sudoku form = new Sudoku();
                 form.FormClosing += new FormClosingEventHandler(Game_Closing);
                 ShowInTaskbar = false;
                 ShowIcon = false;
@@ -731,7 +794,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 11:
+        //мини-игра 11: ?RPG DEMO?
         private void Mg_icon_pic10_MouseEnter(object sender, EventArgs e)
         {
             mg_panel10.BorderStyle = BorderStyle.Fixed3D;

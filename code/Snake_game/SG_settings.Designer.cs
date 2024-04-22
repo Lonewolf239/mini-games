@@ -153,6 +153,7 @@
             // 
             // SG_settings
             // 
+            this.AcceptButton = this.accept_button;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(304, 177);
@@ -165,6 +166,7 @@
             this.Controls.Add(this.speed_text);
             this.Controls.Add(this.size_list);
             this.Controls.Add(this.size_text);
+            this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(6);
