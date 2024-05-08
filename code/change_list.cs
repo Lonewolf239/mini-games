@@ -11,6 +11,8 @@ namespace minigames
             InitializeComponent();
         }
 
+        private string key = "";
+
         private void Changes_list_Enter(object sender, EventArgs e)
         {
             Focus();
@@ -25,6 +27,28 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.2.1",
+                "______________________________________________________",
+                "• Added a new game \"Tanks\"",
+                "• Added bug reporting system",
+                "• Minor improvements for future changes",
+                "• Visual improvement",
+                "• Some bugs fixed",
+                "\n",
+                "\t\t\tv0.2",
+                "______________________________________________________",
+                "• Added 2 new games: \"2048\" and \"Ping-Pong\"",
+                "• Improved stability",
+                "• Minor improvements for future changes",
+                "• Visual improvement",
+                "• Some bugs fixed",
+                "\n",
+                "\t\t\tv0.1.9.6.1",
+                "______________________________________________________",
+                "• Developments have been made for future changes",
+                "• Visual improvements",
+                "• Improved stability",
+                "\n",
                 "\t\t\tv0.1.9.6",
                 "______________________________________________________",
                 "• Added new game \"SudoSaga\"",
@@ -51,7 +75,7 @@ namespace minigames
                 "\n",
                 "\t\t\tv0.1.9.2",
                 "_____________________________________________________",
-                "• Gameplay improvements to \"Mini Snake\"",
+                "• Gameplay improvements to \"Mini-Snake\"",
                 "• Added list of changes",
                 "• Improved stability",
                 "• Visual improvements",
@@ -59,7 +83,7 @@ namespace minigames
                 "\n",
                 "\t\t\tv0.1.9.1",
                 "_____________________________________________________",
-                "• Gameplay improvements to \"Mini Snake\"",
+                "• Gameplay improvements to \"Mini-Snake\"",
                 "• Added the ability to scale the interface",
                 "• Added new sounds",
                 "• Improved stability",
@@ -112,11 +136,41 @@ namespace minigames
                 "• Added new game \"ColorTiles\"",
                 "• Some bugs fixed"
             };
+            foreach (string text in list)
+            {
+                if (text.Contains("\n"))
+                    break;
+                if (text.Contains("_____________________________________________________"))
+                    continue;
+                richTextBox1.Text += text.Replace("\t", "").Replace("• ", "") + "\n";
+            }
             if (MainMenu.Language)
             {
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.2.1",
+                    "______________________________________________________",
+                    "• Добавлена ​​новая игра \"Танчики\"",
+                    "• Добавлена ​​система отчетов об ошибках",
+                    "• Небольшие улучшения для будущих изменений",
+                    "• Визуальные улучшения",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2",
+                    "______________________________________________________",
+                    "• Добавлены 2 новые игры: \"2048\" и \"Пинг-Понг\"",
+                    "• Улучшена стабильность",
+                    "• Незначительные улучшения для будущих изменений",
+                    "• Визуальные улучшения",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.1.9.6.1",
+                    "______________________________________________________",
+                    "• Внесены изменения для будущих изменений",
+                    "• Визуальные улучшения",
+                    "• Улучшена стабильность",
+                    "\n",
                     "\t\t\tv0.1.9.6",
                     "______________________________________________________",
                     "• Добавлена новая игра \"СудоСага\"",
@@ -207,6 +261,18 @@ namespace minigames
             }
             changes_list.Items.AddRange(list);
             ok.Left = (Width - ok.Width) / 2;
+        }
+
+        private void Change_list_KeyDown(object sender, KeyEventArgs e)
+        {
+            key += e.KeyCode.ToString();
+            if (key == "DEV")
+                richTextBox1.Visible = !richTextBox1.Visible;
+            else if (key == "DEVEscape")
+            {
+                richTextBox1.Visible = !richTextBox1.Visible;
+                key = null;
+            }
         }
     }
 }

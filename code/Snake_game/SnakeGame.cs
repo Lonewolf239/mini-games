@@ -13,7 +13,7 @@ namespace minigames.Snake_game
             InitializeComponent();
         }
 
-        private PlaySound ost, sound;
+        private PlaySound ost, sound = new PlaySound(@"sounds\apple.wav"), tp = new PlaySound(@"sounds\tp.wav");
         private static readonly Random rand = new Random();
         public static int score = 0, max_score = 0;
         private bool cycle_done = false, game_over = false, super_fruit_spawned = false, super_puper_fruit_spawned = false, cut_fruit_spawned = false, can_tp = false, teleported = false, in_game = false;
@@ -50,6 +50,8 @@ namespace minigames.Snake_game
         public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 300, new_px_style = 0, new_dark_theme = 1;
         public static bool new_wall_killing = false;
         private bool wall_killing = false;
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+                        game_over_sound = new PlaySound(@"sounds\game_over.wav");
 
         private void SnakeGame_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -403,10 +405,7 @@ namespace minigames.Snake_game
                 nTail++;
                 score++;
                 if (MainMenu.sounds)
-                {
-                    sound = new PlaySound(@"sounds\apple.wav");
                     sound.Play(0.4f);
-                }
                 if (super_fruit_spawned)
                     eated = super_fruit_spawned = false;
                 else if (super_puper_fruit_spawned)
@@ -425,10 +424,7 @@ namespace minigames.Snake_game
                 score += 10;
                 super_fruit_spawned = false;
                 if (MainMenu.sounds)
-                {
-                    sound = new PlaySound(@"sounds\apple.wav");
                     sound.Play(0.4f);
-                }
                 if (!MainMenu.Language)
                     score_text.Text = $"score: {score}   max score: {max_score}";
                 else
@@ -442,10 +438,7 @@ namespace minigames.Snake_game
                 can_tp = true;
                 super_puper_fruit_spawned = false;
                 if (MainMenu.sounds)
-                {
-                    sound = new PlaySound(@"sounds\apple.wav");
                     sound.Play(0.4f);
-                }
                 if (!MainMenu.Language)
                     score_text.Text = $"score: {score}   max score: {max_score}";
                 else
@@ -462,10 +455,7 @@ namespace minigames.Snake_game
                     score = 0;
                 cut_fruit_spawned = false;
                 if (MainMenu.sounds)
-                {
-                    sound = new PlaySound(@"sounds\apple.wav");
                     sound.Play(0.4f);
-                }
                 if (!MainMenu.Language)
                     score_text.Text = $"score: {score}   max score: {max_score}";
                 else
@@ -592,6 +582,8 @@ namespace minigames.Snake_game
                         Start_Game();
                 }
             }
+            if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Tile_Clicked(object sender, MouseEventArgs e)
@@ -604,7 +596,6 @@ namespace minigames.Snake_game
                     {
                         if (sender == pxs[i][j])
                         {
-                            PlaySound tp = new PlaySound(@"sounds\tp.wav");
                             tp.Play(0.5f);
                             pxs[y][x].BackColor = theme[dark_theme];
                             pxs[tailY[1]][tailX[1]].BackColor = Color.Orange;

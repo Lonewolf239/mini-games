@@ -266,7 +266,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Hackerman_FormClosing);
             this.Load += new System.EventHandler(this.Hackerman_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Hackerman_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Hackerman_KeyDown);
             this.num1_panel.ResumeLayout(false);
             this.num1_panel.PerformLayout();
             this.num2_panel.ResumeLayout(false);

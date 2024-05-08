@@ -68,6 +68,7 @@
             this.disable_prefill.Name = "disable_prefill";
             this.disable_prefill.Size = new System.Drawing.Size(337, 28);
             this.disable_prefill.TabIndex = 5;
+            this.disable_prefill.TabStop = false;
             this.disable_prefill.Text = "Автоматическое предзаполнение";
             this.disable_prefill.UseVisualStyleBackColor = true;
             this.disable_prefill.CheckedChanged += new System.EventHandler(this.Disable_prefill_CheckedChanged);
@@ -79,6 +80,7 @@
             this.death_timer.Name = "death_timer";
             this.death_timer.Size = new System.Drawing.Size(205, 28);
             this.death_timer.TabIndex = 6;
+            this.death_timer.TabStop = false;
             this.death_timer.Text = "Гонки со временем";
             this.death_timer.UseVisualStyleBackColor = true;
             this.death_timer.CheckedChanged += new System.EventHandler(this.Death_timer_CheckedChanged);

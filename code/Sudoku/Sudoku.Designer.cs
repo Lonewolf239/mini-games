@@ -1304,6 +1304,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "СудоСага";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sudoku_FormClosing);
             this.Load += new System.EventHandler(this.Sudoku_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Sudoku_KeyDown);
             this.square_1.ResumeLayout(false);

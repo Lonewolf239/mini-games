@@ -22,6 +22,8 @@ namespace minigames.Hacker_man
         private int[] password = { 0, 0, 0, 0 }, input_password = { 0, 0, 0, 0 };
         private Random rand = new Random();
         private bool in_game = false;
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+                        game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Hackerman_Load(object sender, EventArgs e)
         {
@@ -174,12 +176,6 @@ namespace minigames.Hacker_man
             }
         }
 
-        private void Hackerman_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-                Start_btn_Click(sender, e);
-        }
-
         private void Num1_input_Enter(object sender, EventArgs e)
         {
             num1_input.Text = "";
@@ -242,6 +238,16 @@ namespace minigames.Hacker_man
         private void Hackerman_FormClosing(object sender, FormClosingEventArgs e)
         {
             win_timer.Stop();
+            win?.Dispose();
+            game_over?.Dispose();
+        }
+
+        private void Hackerman_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                Start_btn_Click(sender, e);
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Generate_Password()
@@ -289,10 +295,7 @@ namespace minigames.Hacker_man
                         }
                     }
                     if (MainMenu.sounds)
-                    {
-                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                         game_over.Play(1);
-                    }
                     in_game = false;
                     Refresh_Text();
                 }
@@ -300,10 +303,7 @@ namespace minigames.Hacker_man
             else
             {
                 if (MainMenu.sounds)
-                {
-                    PlaySound win = new PlaySound(@"sounds\win.wav");
                     win.Play(1);
-                }
                 start_btn.Enabled = false;
                 win_timer.Start();
             }

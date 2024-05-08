@@ -16,6 +16,8 @@ namespace minigames
         private static int win = 0, lose = 0, games = 0;
         public static int widht_panels = 10;
         public static bool big_speed = false, unposible_mod = false, practic_mod = false;
+        private readonly PlaySound win_sound = new PlaySound(@"sounds\win.wav"),
+                        game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Start_btn_Click(object sender, EventArgs e)
         {
@@ -60,10 +62,7 @@ namespace minigames
                         win++;
                     finish2_panel.BackColor = Color.LawnGreen;
                     if (MainMenu.sounds)
-                    {
-                        PlaySound win = new PlaySound(@"sounds\win.wav");
-                        win.Play(1);
-                    }
+                        win_sound.Play(1);
                 }
                 else
                 {
@@ -71,10 +70,7 @@ namespace minigames
                         lose++;
                     finish2_panel.BackColor = Color.Red;
                     if (MainMenu.sounds)
-                    {
-                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                         game_over.Play(1);
-                    }
                 }
                 hide_panel.Visible = false;
             }
@@ -123,6 +119,8 @@ namespace minigames
         private void Form2_Closing(object sender, EventArgs e)
         {
             timer1.Stop();
+            win_sound?.Dispose();
+            game_over?.Dispose();
             widht_panels = finish_panel.Width = finish2_panel.Width = (int)(Form2.dificult_choice * MainMenu.scale_size);
             big_speed = Form2.big_speed;
             unposible_mod = Form2.unposible_mode;
@@ -283,11 +281,12 @@ namespace minigames
             INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "games", games);
         }
 
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            top_panel.Focus();
-            if (e.KeyChar == (char)32)
+            if (e.KeyCode == Keys.Space)
                 Start_Stop_Game();
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)

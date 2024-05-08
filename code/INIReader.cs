@@ -10,7 +10,7 @@ namespace IniReader
     /// <br></br>
     /// Developer: <a href="https://github.com/Lonewolf239">Lonewolf239</a>
     /// <br></br>
-    /// <b>Version: 1.3</b>
+    /// <b>Version: 1.3.1</b>
     /// </summary>
     internal class INIReader
     {
@@ -589,6 +589,10 @@ namespace IniReader
         {
             try
             {
+                if (!SectionExist(path, section))
+                    AddSection(path, section);
+                if (!KeyExist(path, section, key))
+                    return AddKeyInSection(path, section, key, value);
                 bool key_exist = false;
                 string[][] data = GetData(path);
                 string[] parts = new string[2];

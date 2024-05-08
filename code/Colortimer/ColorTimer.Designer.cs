@@ -336,7 +336,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ColorTimer_FormClosing);
             this.Load += new System.EventHandler(this.ColorTimer_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ColorTimer_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ColorTimer_KeyDown);
             this.btn_panel.ResumeLayout(false);
             this.top_panel.ResumeLayout(false);
             this.color_panel.ResumeLayout(false);

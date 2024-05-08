@@ -523,7 +523,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ColorTiles_FormClosing);
             this.Load += new System.EventHandler(this.ColorTiles_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.ColorTiles_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ColorTiles_KeyDown);
             this.top_panel.ResumeLayout(false);
             this.time_panel.ResumeLayout(false);
             this.answer_panel.ResumeLayout(false);

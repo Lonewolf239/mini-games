@@ -206,7 +206,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MathOLight_FormClosing);
             this.Load += new System.EventHandler(this.MathOLight_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.MathOLight_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MathOLight_KeyDown);
             this.top_panel.ResumeLayout(false);
             this.time_left_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.enter_btn)).EndInit();

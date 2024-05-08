@@ -208,7 +208,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
             this.top_panel.ResumeLayout(false);
             this.hide_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();

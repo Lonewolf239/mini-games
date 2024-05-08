@@ -26,28 +26,35 @@ namespace minigames
         {
             try
             {
+                file.Position = 0;
                 playing.Volume = volume;
                 playing.Play();
-                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Stoped);
             }
-            catch (Exception)
+            catch { }
+        }
+
+        public void PlayWithDispose(float volume)
+        {
+            try
             {
-                Dispose();
+                file.Position = 0;
+                playing.Volume = volume;
+                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Stoped);
+                playing.Play();
             }
+            catch { }
+        }
+
+        private void Stoped(object sender, EventArgs e)
+        {
+            Dispose();
         }
 
         public void LoopPlay(float volume)
         {
-            try
-            {
-                playing.Volume = volume;
-                playing.Play();
-                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
-            }
-            catch (Exception)
-            {
-                Dispose();
-            }
+            playing.Volume = volume;
+            playing.Play();
+            playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
         }
 
         private void Loop(object sender, EventArgs e)
@@ -57,20 +64,12 @@ namespace minigames
                 file.Position = 0;
                 playing.Play();
             }
-            catch (Exception)
-            {
-                Dispose();
-            }
+            catch { }
         }
 
         public long Check()
         {
             return playing.GetPosition();
-        }
-
-        private void Stoped(object sender, EventArgs e)
-        {
-            Dispose();
         }
 
         public void Dispose()

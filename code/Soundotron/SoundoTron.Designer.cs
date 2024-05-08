@@ -545,6 +545,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
             this.MaximizeBox = false;
             this.Name = "SoundoTron";
@@ -553,6 +554,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SoundoTron_FormClosing);
             this.Load += new System.EventHandler(this.SoundoTron_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SoundoTron_KeyDown);
             this.piano_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.piano_mi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.piano_re)).EndInit();

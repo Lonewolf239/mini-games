@@ -726,6 +726,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.Name = "Reactor";
@@ -734,6 +735,7 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Reactor_FormClosing);
             this.Load += new System.EventHandler(this.Reactor_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Reactor_KeyDown);
             this.top_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn36)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.cold_btn35)).EndInit();

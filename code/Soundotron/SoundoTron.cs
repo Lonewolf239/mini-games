@@ -33,6 +33,8 @@ namespace minigames.Soundotron
         };
         private string[] sounds = new string[8], player_sounds = new string[8];
         private bool unlocked = false;
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+                        game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -301,13 +303,22 @@ namespace minigames.Soundotron
         private void Play_Sound(string path)
         {
             sound = new PlaySound(path);
-            sound.Play(0.5f);
+            sound.PlayWithDispose(0.5f);
         }
 
         private void SoundoTron_FormClosing(object sender, FormClosingEventArgs e)
         {
             sounds_generate.Stop();
             time_timer.Stop();
+            sound?.Dispose();
+            win?.Dispose();
+            game_over?.Dispose();
+        }
+
+        private void SoundoTron_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Time_timer_Tick(object sender, EventArgs e)
@@ -354,10 +365,7 @@ namespace minigames.Soundotron
             if (!all_right)
             {
                 if (MainMenu.sounds)
-                {
-                    PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                     game_over.Play(1);
-                }
                 time_timer.Stop();
                 if (score > max_score)
                     max_score = score;
@@ -371,10 +379,7 @@ namespace minigames.Soundotron
             else
             {
                 if (MainMenu.sounds)
-                {
-                    PlaySound win = new PlaySound(@"sounds\win.wav");
                     win.Play(1);
-                }
                 time_timer.Stop();
                 time.Width = 0;
                 difficult += 0.75f;

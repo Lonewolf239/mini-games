@@ -17,6 +17,7 @@ namespace minigames.Rodrocket
         private int update_need = 0, added_score = 0, max_score = 0, pause, pause_min, pause_max;
         public static int score = 0;
         private bool up = false, up_task = false;
+        private readonly PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void RodRocket_Load(object sender, EventArgs e)
         {
@@ -94,6 +95,8 @@ namespace minigames.Rodrocket
         {
             if (e.KeyCode == Keys.Space)
                 up = true;
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void RodRocket_KeyUp(object sender, KeyEventArgs e)
@@ -108,6 +111,7 @@ namespace minigames.Rodrocket
             game_timer.Stop();
             score_timer.Stop();
             hp_timer.Stop();
+            game_over?.Dispose();
         }
 
         private void Up_btn_MouseUp(object sender, MouseEventArgs e)
@@ -269,10 +273,7 @@ namespace minigames.Rodrocket
         private void Game_Over()
         {
             if (MainMenu.sounds)
-            {
-                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                 game_over.Play(1);
-            }
             question.Enabled = start_btn.Enabled = true;
             up_btn.Enabled = false;
             progress_panel.Height = 0;

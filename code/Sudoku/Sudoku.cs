@@ -14,10 +14,13 @@ namespace minigames._Sudoku
         }
 
         private readonly Random rand = new Random();
+        private int x, y;
         private int[][] numbers;
-        private int minutes = 0, seconds = 0;
+        private int minutes = 0, seconds = 0, _minutes = 0, _seconds;
         public static int  difficulty = 0;
         public static bool prefill = true, death_time = false;
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+         game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -55,6 +58,11 @@ namespace minigames._Sudoku
                 start_btn.Text = "START";
             }
             difficulty = INIReader.GetInt(MainMenu.iniFolder, "SudoSaga", "difficulty", 0);
+            if (difficulty < 0 || difficulty > 2)
+            {
+                difficulty = 0;
+                INIReader.SetKey(MainMenu.iniFolder, "SudoSaga", "difficulty", 0);
+            }
             prefill = INIReader.GetBool(MainMenu.iniFolder, "SudoSaga", "prefill", true);
             death_time = INIReader.GetBool(MainMenu.iniFolder, "SudoSaga", "death_time", false);
         }
@@ -171,7 +179,8 @@ namespace minigames._Sudoku
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            string minutes_space = "0", seconds_space = "0";
+            string minutes_space = "0", seconds_space = "0", minutes_space1 = "0", seconds_space1 = "0";
+            
             if (!death_time)
             {
                 seconds++;
@@ -198,23 +207,36 @@ namespace minigames._Sudoku
                     Start_btn_Click(sender, e);
                 }
             }
+            _seconds = 60 - seconds;
+            if(_seconds > 59)
+            {
+                _minutes++;
+                _seconds = 0;
+            }
             if (seconds > 9)
                 seconds_space = null;
             if (minutes > 9)
                 minutes_space = null;
-            if (MainMenu.Language)
+            if (_seconds > 9)
+                seconds_space1 = null;
+            if (_minutes > 9)
+                minutes_space1 = null;
+            if (minutes >= 0)
             {
-                if (!death_time)
-                    timer_text.Text = $"Времени прошло: {minutes_space}{minutes}:{seconds_space}{seconds}";
+                if (MainMenu.Language)
+                {
+                    if (!death_time)
+                        timer_text.Text = $"Времени прошло: {minutes_space}{minutes}:{seconds_space}{seconds}";
+                    else
+                        timer_text.Text = $"Осталось времени: {minutes_space}{minutes}:{seconds_space}{seconds} / {minutes_space1}{_minutes}:{seconds_space1}{_seconds}";
+                }
                 else
-                    timer_text.Text = $"Осталось времени: {minutes_space}{minutes}:{seconds_space}{seconds}";
-            }
-            else
-            {
-                if (!death_time)
-                    timer_text.Text = $"Time elapsed: {minutes_space}{minutes}:{seconds_space}{seconds}";
-                else
-                    timer_text.Text = $"Time left: {minutes_space}{minutes}:{seconds_space}{seconds}";
+                {
+                    if (!death_time)
+                        timer_text.Text = $"Time elapsed: {minutes_space}{minutes}:{seconds_space}{seconds}";
+                    else
+                        timer_text.Text = $"Time left: {minutes_space}{minutes}:{seconds_space}{seconds} / {minutes_space1}{_minutes}:{seconds_space1}{_seconds}";
+                }
             }
         }
 
@@ -229,8 +251,66 @@ namespace minigames._Sudoku
 
         private void Sudoku_KeyDown(object sender, KeyEventArgs e)
         {
+            TextBox[][] inputs =
+            {
+                new TextBox[]
+                {
+                    input_1_1, input_2_1, input_3_1, input_1_2, input_2_2, input_3_2, input_1_3, input_2_3, input_3_3
+                },
+                new TextBox[]
+                {
+                    input_4_1, input_5_1, input_6_1, input_4_2, input_5_2, input_6_2, input_4_3, input_5_3, input_6_3
+                },
+                new TextBox[]
+                {
+                    input_7_1, input_8_1, input_9_1, input_7_2, input_8_2, input_9_2, input_7_3, input_8_3, input_9_3
+                },
+                new TextBox[]
+                {
+                    input_1_4, input_2_4, input_3_4, input_1_5, input_2_5, input_3_5, input_1_6, input_2_6, input_3_6
+                },
+                new TextBox[]
+                {
+                    input_4_4, input_5_4, input_6_4, input_4_5, input_5_5, input_6_5, input_4_6, input_5_6, input_6_6
+                },
+                new TextBox[]
+                {
+                    input_7_4, input_8_4, input_9_4, input_7_5, input_8_5, input_9_5, input_7_6, input_8_6, input_9_6
+                },
+                new TextBox[]
+                {
+                    input_1_7, input_2_7, input_3_7, input_1_8, input_2_8, input_3_8, input_1_9, input_2_9, input_3_9
+                },
+                new TextBox[]
+                {
+                    input_4_7, input_5_7, input_6_7, input_4_8, input_5_8, input_6_8, input_4_9, input_5_9, input_6_9
+                },
+                new TextBox[]
+                {
+                    input_7_7, input_8_7, input_9_7, input_7_8, input_8_8, input_9_8, input_7_9, input_8_9, input_9_9
+                }
+            };
             if (e.KeyCode == Keys.Space)
                 Start_btn_Click(sender, e);
+            else if (e.KeyCode == Keys.Left)
+                x--;
+            else if (e.KeyCode == Keys.Right)
+                x++;
+            else if (e.KeyCode == Keys.Up)
+                y--;
+            else if (e.KeyCode == Keys.Down)
+                y++;
+            else if (e.KeyCode == Keys.Escape)
+                Close();
+            if (x < 0)
+                x = 8;
+            if (x > 8)
+                x = 0;
+            if (y < 0)
+                y = 8;
+            if (y > 8)
+                y = 0;
+            inputs[y][x].Focus();
         }
 
         private void Show_settings_MouseEnter(object sender, EventArgs e)
@@ -240,6 +320,13 @@ namespace minigames._Sudoku
                 show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
                 show_settings.Location = new Point(2, show_settings.Top + 2);
             }
+        }
+
+        private void Sudoku_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            timer.Stop();
+            win?.Dispose();
+            game_over?.Dispose();
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
@@ -319,10 +406,9 @@ namespace minigames._Sudoku
                     {
                         if (rand.NextDouble() <= 0.06f && prefill)
                         {
-                            int new_num;
-                            do
+                            int new_num = rand.Next(1, 10);
+                            while (!CheckCorrect(j, i, new_num))
                                 new_num = rand.Next(1, 10);
-                            while (!CheckCorrect(j, i, new_num));
                             numbers[i][j] = new_num;
                             inputs[i][j].Text = numbers[i][j].ToString();
                             inputs[i][j].BackColor = Color.LightGray;
@@ -345,7 +431,7 @@ namespace minigames._Sudoku
                     if (!death_time)
                         timer_text.Text = $"Времени прошло: 00:00";
                     else
-                        timer_text.Text = $"Осталось времени: {minutes}:00";
+                        timer_text.Text = $"Осталось времени: {minutes}:00 / 00:00";
                     start_btn.Text = "СТОП";
                 }
                 else
@@ -353,9 +439,11 @@ namespace minigames._Sudoku
                     if (!death_time)
                         timer_text.Text = $"Time elapsed: 00:00";
                     else
-                        timer_text.Text = $"Time left: {minutes}:00";
+                        timer_text.Text = $"Time left: {minutes}:00 / 00:00";
                     start_btn.Text = "STOP";
                 }
+                inputs[4][4].Focus();
+                x = y = 4;
                 timer.Start();
             }
             else
@@ -389,7 +477,15 @@ namespace minigames._Sudoku
                             inputs[i][j].BackColor = Color.Lime;
                         }
                     }
+                    if (MainMenu.sounds)
+                        win.Play(1);
                 }
+                else
+                {
+                    if (MainMenu.sounds)
+                        game_over.Play(1);
+                }
+                
             }
         }
     }

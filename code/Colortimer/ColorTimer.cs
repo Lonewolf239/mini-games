@@ -25,6 +25,7 @@ namespace minigames.Colortimer
         public static int score = 0;
         private Random rand = new Random();
         private static float difficulty_level = 0;
+        private readonly PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Question_Click(object sender, EventArgs e)
         {
@@ -154,28 +155,6 @@ namespace minigames.Colortimer
             }
         }
 
-        private void ColorTimer_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)49)
-                Input_Logic(0);
-            else if (e.KeyChar == (char)50)
-                Input_Logic(1);
-            else if (e.KeyChar == (char)51)
-                Input_Logic(2);
-            else if (e.KeyChar == (char)52)
-                Input_Logic(3);
-            else if (e.KeyChar == (char)53)
-                Input_Logic(4);
-            else if (e.KeyChar == (char)54)
-                Input_Logic(5);
-            else if (e.KeyChar == (char)55)
-                Input_Logic(6);
-            else if (e.KeyChar == (char)56)
-                Input_Logic(7);
-            else if (e.KeyChar == (char)13)
-                Start_btn_Click(sender, e);
-        }
-
         private void Input_Logic(int btn_index)
         {
             color_text.Focus();
@@ -190,6 +169,31 @@ namespace minigames.Colortimer
         private void ColorTimer_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
+            game_over?.Dispose();
+        }
+
+        private void ColorTimer_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D1)
+                Input_Logic(0);
+            else if (e.KeyCode == Keys.D2)
+                Input_Logic(1);
+            else if (e.KeyCode == Keys.D3)
+                Input_Logic(2);
+            else if (e.KeyCode == Keys.D4)
+                Input_Logic(3);
+            else if (e.KeyCode == Keys.D5)
+                Input_Logic(4);
+            else if (e.KeyCode == Keys.D6)
+                Input_Logic(5);
+            else if (e.KeyCode == Keys.D7)
+                Input_Logic(6);
+            else if (e.KeyCode == Keys.D8)
+                Input_Logic(7);
+            else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+                Start_btn_Click(sender, e);
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Logic()
@@ -298,10 +302,7 @@ namespace minigames.Colortimer
             else
                 color_text.Text = "You lose...";
             if (MainMenu.sounds)
-            {
-                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                 game_over.Play(1);
-            }
             if (!MainMenu.Language)
                 combo_text.Text = $"score: {score}\nmax score: {max_score}";
             else

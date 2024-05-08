@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(change_list));
             this.changes_list = new System.Windows.Forms.ListBox();
             this.ok = new System.Windows.Forms.Button();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
             this.SuspendLayout();
             // 
             // changes_list
@@ -63,18 +64,29 @@
             this.ok.UseVisualStyleBackColor = true;
             this.ok.Click += new System.EventHandler(this.ok_Click);
             // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(13, 48);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(432, 170);
+            this.richTextBox1.TabIndex = 29;
+            this.richTextBox1.Text = "";
+            this.richTextBox1.Visible = false;
+            // 
             // change_list
             // 
             this.AcceptButton = this.ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(484, 321);
+            this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.changes_list);
             this.DoubleBuffered = true;
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -84,6 +96,7 @@
             this.Text = "List of changes";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.Change_list_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Change_list_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -93,5 +106,6 @@
 
         private System.Windows.Forms.ListBox changes_list;
         private System.Windows.Forms.Button ok;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }

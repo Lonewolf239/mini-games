@@ -27,6 +27,8 @@ namespace minigames._Reactor
         private float max_score = 0, overload = 5, old_overload, pause;
         public static float score = 0;
         private ToolTip tip;
+        private readonly PlaySound boop = new PlaySound(@"sounds\boop.wav"),
+         explosion = new PlaySound(@"sounds\explosion.wav");
 
         private void Reactor_Load(object sender, EventArgs e)
         {
@@ -127,10 +129,7 @@ namespace minigames._Reactor
             cold_btn21, cold_btn22, cold_btn23, cold_btn24, cold_btn25, cold_btn26, cold_btn27, cold_btn28, cold_btn29, cold_btn30,
             cold_btn31, cold_btn32, cold_btn33, cold_btn34, cold_btn35, cold_btn36 };
             if (MainMenu.sounds)
-            {
-                PlaySound sound = new PlaySound(@"sounds\boop.wav");
-                sound.Play(1);
-            }
+                boop.Play(1);
             if (trap_btn[i] == 1)
                 Game_Over();
             else if (trap_btn[i] == 0)
@@ -202,10 +201,7 @@ namespace minigames._Reactor
                 trap_btn[i] = 0;
             }
             if (MainMenu.sounds)
-            {
-                PlaySound sound = new PlaySound(@"sounds\explosion.wav");
-                sound.Play(0.4f);
-            }
+                explosion.Play(0.4f);
             top_panel.BackColor = Color.Black;
             top_panel.BackgroundImage = lose_pic.Image;
             if (!MainMenu.Language)
@@ -214,7 +210,7 @@ namespace minigames._Reactor
                 score_text.Text = $" счёт: {score:0.#}     макс. счёт: {max_score:0.#}     перегрузка: {overload:0.##}%";
         }
 
-        private void Start_btn_Click(object sender, EventArgs e)
+        private void StartGame()
         {
             top_panel.BackgroundImage = null;
             top_panel.BackColor = Color.FromArgb(12, 12, 50);
@@ -224,7 +220,6 @@ namespace minigames._Reactor
                 score_text.Text = $" score: {score:0.#}     max score: {max_score:0.#}     overload: {overload:0.##}%";
             else
                 score_text.Text = $" счёт: {score:0.#}     макс. счёт: {max_score:0.#}     перегрузка: {overload:0.##}%";
-            top_panel.Focus();
             bonus_created = in_bonus = question.Enabled = start_btn.Enabled = false;
             in_game = true;
             Control[] btns = { cold_btn1, cold_btn2, cold_btn3, cold_btn4, cold_btn5, cold_btn6, cold_btn7, cold_btn8, cold_btn9, cold_btn10,
@@ -250,6 +245,12 @@ namespace minigames._Reactor
             }
             wait_timer.Start();
             refresh_timer.Start();
+        }
+
+        private void Start_btn_Click(object sender, EventArgs e)
+        {
+            top_panel.Focus();
+            StartGame();
         }
 
         private void Spawn_btns()
@@ -368,6 +369,16 @@ namespace minigames._Reactor
             wait_timer.Stop();
             refresh_timer.Stop();
             bonus_timer.Stop();
+            explosion?.Dispose();
+            boop?.Dispose();
+        }
+
+        private void Reactor_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Space && start_btn.Enabled)
+                StartGame();
+            if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Score_text_MouseHover(object sender, EventArgs e)

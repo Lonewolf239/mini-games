@@ -20,6 +20,8 @@ namespace minigames.Math_o_light
         private char math_doing = ' ';
         private bool in_game = false, fast = false;
         private Random rand = new Random();
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+                        game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void MathOLight_Load(object sender, EventArgs e)
         {
@@ -77,15 +79,6 @@ namespace minigames.Math_o_light
             Logic(0);
         }
 
-        private void MathOLight_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)13)
-            {
-                MouseEventArgs args = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
-                Enter_btn_MouseClick(null, args);
-            }
-        }
-
         private void Timer_Tick(object sender, EventArgs e)
         {
             int minus = 1;
@@ -104,6 +97,19 @@ namespace minigames.Math_o_light
         private void MathOLight_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer.Stop();
+            win?.Dispose();
+            game_over?.Dispose();
+        }
+
+        private void MathOLight_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                MouseEventArgs args = new MouseEventArgs(MouseButtons.Left, 0, 0, 0, 0);
+                Enter_btn_MouseClick(null, args);
+            }
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Input_TextChanged(object sender, EventArgs e)
@@ -155,10 +161,7 @@ namespace minigames.Math_o_light
             score = 0;
             task_text.ForeColor = Color.Red;
             if (MainMenu.sounds)
-            {
-                PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                 game_over.Play(1);
-            }
             question.Enabled = start_btn.Enabled = true;
         }
 
@@ -225,10 +228,7 @@ namespace minigames.Math_o_light
                     score++;
                     task_text.ForeColor = Color.LawnGreen;
                     if (MainMenu.sounds)
-                    {
-                        PlaySound win = new PlaySound(@"sounds\win.wav");
                         win.Play(1);
-                    }
                 }
                 else
                     Game_Over();

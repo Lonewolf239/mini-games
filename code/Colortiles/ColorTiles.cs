@@ -19,6 +19,8 @@ namespace minigames.Colortiles
         private int pos = 0, num_task;
         private float difficult = 0;
         private bool in_game = false;
+        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
+                        game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Question_Click(object sender, EventArgs e)
         {
@@ -206,34 +208,37 @@ namespace minigames.Colortiles
             }
         }
 
-        private void ColorTiles_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (e.KeyChar == (char)49)
-                Input_Color(0);
-            else if (e.KeyChar == (char)50)
-                Input_Color(1);
-            else if (e.KeyChar == (char)51)
-                Input_Color(2);
-            else if (e.KeyChar == (char)52)
-                Input_Color(3);
-            else if (e.KeyChar == (char)53)
-                Input_Color(4);
-            else if (e.KeyChar == (char)54)
-                Input_Color(5);
-            else if (e.KeyChar == (char)55)
-                Input_Color(6);
-            else if (e.KeyChar == (char)56)
-                Input_Color(7);
-            else if (e.KeyChar == (char)8)
-                Clear_btn_Click(sender, e);
-            else if (e.KeyChar == (char)13)
-                Start_btn_Click(sender, e);
-
-        }
-
         private void ColorTiles_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer.Stop();
+            win?.Dispose();
+            game_over?.Dispose();
+        }
+
+        private void ColorTiles_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.D1)
+                Input_Color(0);
+            else if (e.KeyCode == Keys.D2)
+                Input_Color(1);
+            else if (e.KeyCode == Keys.D3)
+                Input_Color(2);
+            else if (e.KeyCode == Keys.D4)
+                Input_Color(3);
+            else if (e.KeyCode == Keys.D5)
+                Input_Color(4);
+            else if (e.KeyCode == Keys.D6)
+                Input_Color(5);
+            else if (e.KeyCode == Keys.D7)
+                Input_Color(6);
+            else if (e.KeyCode == Keys.D8)
+                Input_Color(7);
+            else if (e.KeyCode == Keys.Back)
+                Clear_btn_Click(sender, e);
+            else if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Space)
+                Start_btn_Click(sender, e);
+            else if (e.KeyCode == Keys.Escape)
+                Close();
         }
 
         private void Logic()
@@ -272,10 +277,7 @@ namespace minigames.Colortiles
                 {
                     time_left_panel.BackColor = Color.LawnGreen;
                     if (MainMenu.sounds)
-                    {
-                        PlaySound win = new PlaySound(@"sounds\win.wav");
                         win.Play(1);
-                    }
                     difficult += 0.5f;
                     read_time = 2;
                     timer.Interval = 1;
@@ -285,10 +287,7 @@ namespace minigames.Colortiles
                 {
                     time_left_panel.BackColor = Color.Red;
                     if (MainMenu.sounds)
-                    {
-                        PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
                         game_over.Play(1);
-                    }
                     in_game = false;
                     if (!MainMenu.Language)
                         start_btn.Text = "START";
