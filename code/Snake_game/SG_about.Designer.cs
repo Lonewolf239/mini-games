@@ -144,11 +144,13 @@
             this.super_puper_fruit_text.Location = new System.Drawing.Point(32, 80);
             this.super_puper_fruit_text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.super_puper_fruit_text.Name = "super_puper_fruit_text";
-            this.super_puper_fruit_text.Size = new System.Drawing.Size(493, 42);
+            this.super_puper_fruit_text.Size = new System.Drawing.Size(492, 42);
             this.super_puper_fruit_text.TabIndex = 6;
             this.super_puper_fruit_text.Text = "искаженный фрукт, при употреблении добавляет 2 очка и позволяет телепортироваться" +
     " к курсору мыши";
             this.super_puper_fruit_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.super_puper_fruit_text.MouseEnter += new System.EventHandler(this.Super_puper_fruit_panel_MouseEnter);
+            this.super_puper_fruit_text.MouseLeave += new System.EventHandler(this.Super_puper_fruit_panel_MouseLeave);
             // 
             // super_puper_fruit_panel
             // 
@@ -159,6 +161,8 @@
             this.super_puper_fruit_panel.Name = "super_puper_fruit_panel";
             this.super_puper_fruit_panel.Size = new System.Drawing.Size(25, 25);
             this.super_puper_fruit_panel.TabIndex = 5;
+            this.super_puper_fruit_panel.MouseEnter += new System.EventHandler(this.Super_puper_fruit_panel_MouseEnter);
+            this.super_puper_fruit_panel.MouseLeave += new System.EventHandler(this.Super_puper_fruit_panel_MouseLeave);
             // 
             // super_fruit_text
             // 

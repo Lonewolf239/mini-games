@@ -206,7 +206,7 @@ namespace minigames.Snake_game
             max_score = MainMenu.mg7_max_score;
             if (!MainMenu.Language)
             {
-                Text = "Mini-Snake";
+                Text = "Snake";
                 start_btn.Text = "START";
                 score_text.Text = $"score: 0   max score: {max_score}";
             }

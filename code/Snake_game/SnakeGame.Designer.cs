@@ -139,7 +139,7 @@
             this.MaximizeBox = false;
             this.Name = "SnakeGame";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Мини-Змейка";
+            this.Text = "Змейка";
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SnakeGame_FormClosing);
             this.Load += new System.EventHandler(this.SnakeGame_Load);

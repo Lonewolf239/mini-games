@@ -267,10 +267,10 @@ namespace minigames._Tanks
 
         private void Player1_timer_Tick(object sender, EventArgs e)
         {
-            int move = (int)(4 * MainMenu.scale_size);
+            int move = (int)MainMenu.scale_size;
             if (player1 == PlayersDirection.UP)
             {
-                if (player1_tank.Top >= 4)
+                if (player1_tank.Top >= MainMenu.scale_size)
                 {
                     player1_tank.Top -= move;
                     if (player1_tank.Bounds.IntersectsWith(player2_tank.Bounds) && player2_tank.Visible)
@@ -288,7 +288,7 @@ namespace minigames._Tanks
             }
             else if (player1 == PlayersDirection.LEFT)
             {
-                if (player1_tank.Left >= 4)
+                if (player1_tank.Left >= MainMenu.scale_size)
                 {
                     player1_tank.Left -= move;
                     if (player1_tank.Bounds.IntersectsWith(player2_tank.Bounds) && player2_tank.Visible)
@@ -308,10 +308,10 @@ namespace minigames._Tanks
 
         private void Player2_timer_Tick(object sender, EventArgs e)
         {
-            int move = (int)(4 * MainMenu.scale_size);
+            int move = (int)MainMenu.scale_size;
             if (player2 == PlayersDirection.UP)
             {
-                if (player2_tank.Top >= 4)
+                if (player2_tank.Top >= MainMenu.scale_size)
                 {
                     player2_tank.Top -= move;
                     if (player2_tank.Bounds.IntersectsWith(player1_tank.Bounds) && player1_tank.Visible)
@@ -329,7 +329,7 @@ namespace minigames._Tanks
             }
             else if (player2 == PlayersDirection.LEFT)
             {
-                if (player2_tank.Left >= 4)
+                if (player2_tank.Left >= MainMenu.scale_size)
                 {
                     player2_tank.Left -= move;
                     if (player2_tank.Bounds.IntersectsWith(player1_tank.Bounds) && player1_tank.Visible)
@@ -532,11 +532,11 @@ namespace minigames._Tanks
             }
             foreach (Control obj in game_interface.Controls)
             {
-                if (!(obj is Panel) && !(obj is Label))
+                if (obj.Name.EndsWith("_tank"))
                 {
                     foreach (Control panel in game_interface.Controls)
                     {
-                        if (panel is Panel && panel.Name.StartsWith("ground_panel"))
+                        if (panel.Name.StartsWith("ground_panel"))
                         {
                             if (obj.Bounds.IntersectsWith(panel.Bounds))
                             {

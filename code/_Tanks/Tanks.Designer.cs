@@ -49,8 +49,8 @@
             this.reloading2 = new System.Windows.Forms.Panel();
             this.logic_timer = new System.Windows.Forms.Timer(this.components);
             this.game_interface = new System.Windows.Forms.Panel();
-            this.game_over_text = new System.Windows.Forms.Label();
             this.ground_panel_1_water = new System.Windows.Forms.Panel();
+            this.game_over_text = new System.Windows.Forms.Label();
             this.ground_panel_0 = new System.Windows.Forms.Panel();
             this.ground_panel_4 = new System.Windows.Forms.Panel();
             this.ground_panel_3 = new System.Windows.Forms.Panel();
@@ -82,12 +82,12 @@
             // 
             // player1_timer
             // 
-            this.player1_timer.Interval = 50;
+            this.player1_timer.Interval = 12;
             this.player1_timer.Tick += new System.EventHandler(this.Player1_timer_Tick);
             // 
             // player2_timer
             // 
-            this.player2_timer.Interval = 50;
+            this.player2_timer.Interval = 12;
             this.player2_timer.Tick += new System.EventHandler(this.Player2_timer_Tick);
             // 
             // bullets_timer
@@ -245,6 +245,17 @@
             this.game_interface.Size = new System.Drawing.Size(512, 271);
             this.game_interface.TabIndex = 8;
             // 
+            // ground_panel_1_water
+            // 
+            this.ground_panel_1_water.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
+            this.ground_panel_1_water.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ground_panel_1_water.Location = new System.Drawing.Point(0, 0);
+            this.ground_panel_1_water.Margin = new System.Windows.Forms.Padding(0);
+            this.ground_panel_1_water.Name = "ground_panel_1_water";
+            this.ground_panel_1_water.Size = new System.Drawing.Size(512, 50);
+            this.ground_panel_1_water.TabIndex = 5;
+            this.ground_panel_1_water.Visible = false;
+            // 
             // game_over_text
             // 
             this.game_over_text.AutoSize = true;
@@ -256,17 +267,6 @@
             this.game_over_text.Text = "DRAW";
             this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.game_over_text.Visible = false;
-            // 
-            // ground_panel_1_water
-            // 
-            this.ground_panel_1_water.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.ground_panel_1_water.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.ground_panel_1_water.Location = new System.Drawing.Point(0, 0);
-            this.ground_panel_1_water.Margin = new System.Windows.Forms.Padding(0);
-            this.ground_panel_1_water.Name = "ground_panel_1_water";
-            this.ground_panel_1_water.Size = new System.Drawing.Size(512, 50);
-            this.ground_panel_1_water.TabIndex = 5;
-            this.ground_panel_1_water.Visible = false;
             // 
             // ground_panel_0
             // 

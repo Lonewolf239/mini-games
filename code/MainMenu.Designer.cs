@@ -150,9 +150,9 @@
             this.version_label.Dock = System.Windows.Forms.DockStyle.Top;
             this.version_label.Location = new System.Drawing.Point(0, 326);
             this.version_label.Name = "version_label";
-            this.version_label.Size = new System.Drawing.Size(116, 13);
+            this.version_label.Size = new System.Drawing.Size(61, 13);
             this.version_label.TabIndex = 0;
-            this.version_label.Text = "v0.2.1 By.Lonewolf239";
+            this.version_label.Text = "[VERSION]";
             this.version_label.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             this.version_label.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Version_label_MouseClick);
             // 
@@ -460,12 +460,12 @@
             // mg_name7
             // 
             this.mg_name7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_name7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.mg_name7.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.mg_name7.Location = new System.Drawing.Point(0, 50);
             this.mg_name7.Name = "mg_name7";
             this.mg_name7.Size = new System.Drawing.Size(98, 23);
             this.mg_name7.TabIndex = 2;
-            this.mg_name7.Text = "Мини-Змейка";
+            this.mg_name7.Text = "Змейка";
             this.mg_name7.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name7_MouseClick);
             this.mg_name7.MouseEnter += new System.EventHandler(this.Mg_name7_MouseEnter);
@@ -732,7 +732,7 @@
             this.mg_name13.Name = "mg_name13";
             this.mg_name13.Size = new System.Drawing.Size(98, 23);
             this.mg_name13.TabIndex = 2;
-            this.mg_name13.Text = "soon...";
+            this.mg_name13.Text = "Тутрис";
             this.mg_name13.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name13.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name13_MouseClick);
             this.mg_name13.MouseEnter += new System.EventHandler(this.Mg_name13_MouseEnter);
@@ -741,7 +741,7 @@
             // mg_icon_pic13
             // 
             this.mg_icon_pic13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic13.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic13.Image")));
+            this.mg_icon_pic13.Image = global::minigames.Properties.Resources.tetris;
             this.mg_icon_pic13.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic13.Name = "mg_icon_pic13";
             this.mg_icon_pic13.Size = new System.Drawing.Size(98, 50);

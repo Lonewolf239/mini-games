@@ -17,6 +17,8 @@ namespace minigames.Snake_game
             InitializeComponent();
         }
 
+        private how_tp how_Tp;
+
         private void SG_about_Load(object sender, EventArgs e)
         {
             if (MainMenu.scaled)
@@ -52,6 +54,26 @@ namespace minigames.Snake_game
         private void Ok_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+
+        private void Super_puper_fruit_panel_MouseEnter(object sender, EventArgs e)
+        {
+            if (how_Tp != null)
+                return;
+            how_Tp = new how_tp();
+            how_Tp.Left = Cursor.Position.X - 50;
+            how_Tp.Top = Cursor.Position.Y - how_Tp.Height - 20;
+            how_Tp.Show();
+        }
+
+        private void Super_puper_fruit_panel_MouseLeave(object sender, EventArgs e)
+        {
+            if (how_Tp != null)
+            {
+                how_Tp.Close();
+                how_Tp = null;
+            }
         }
     }
 }

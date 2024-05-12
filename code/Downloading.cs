@@ -38,8 +38,9 @@ namespace minigames
             }
             client.DownloadProgressChanged += (Sender, E) =>
             {
-                    download_progress.Width = (int)((double)E.BytesReceived / E.TotalBytesToReceive * download_progress_panel.Width);
-                    progress.Text = $"{(Convert.ToDouble(E.BytesReceived) / E.TotalBytesToReceive) * 100:0.#}%";
+                download_progress.Width = (int)((double)E.BytesReceived / E.TotalBytesToReceive * download_progress_panel.Width);
+                progress.Text = $"{(Convert.ToDouble(E.BytesReceived) / E.TotalBytesToReceive) * 100:0.#}%";
+                size_label.Text = $"{Convert.ToDouble(E.BytesReceived) / 1024 / 1024:0.##}MB / {Convert.ToDouble(E.TotalBytesToReceive) / 1024 / 1024:0.##}MB";
             };
             client.DownloadFileCompleted += (Sender, E) =>
             {

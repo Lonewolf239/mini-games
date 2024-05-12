@@ -17,6 +17,7 @@ using minigames._Sudoku;
 using minigames._2048;
 using minigames._Ping_Pong;
 using minigames._Tanks;
+using minigames._Tetris;
 using minigames._Fabric;
 
 namespace minigames
@@ -24,17 +25,17 @@ namespace minigames
     public partial class MainMenu : Form
     {
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.2.1|";
+        private readonly string current_version = "|0.2.2|";
         private SizeF originalScale = new SizeF(1.0f, 1.0f);
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
-            mg8_max_score = 0, mg10_max_score = 0;
+            mg8_max_score = 0, mg10_max_score = 0, mg13_max_score = 0;
         public static float mg4_max_score = 0;
         private readonly string[][] language_text =
         {
-          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Мини-Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "soon...", "soon...", "soon..." },
-          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Mini-Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks-Game", "soon...", "soon...", "soon..." }
+          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "soon...", "soon..." },
+          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "soon...", "soon..." }
         };
         private string default_config;
         private bool update_exist = false;
@@ -102,52 +103,6 @@ namespace minigames
                             message += e.Result.Replace("|", "");
                             if (update_exist || MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                string str = $"[CONFIG]\n"+
-                                    $"sounds = {sounds}\n" +
-                                    $"language = {Language}\n" +
-                                    $"scale = {scale_size}\n" +
-                                    $"auto_update = {auto_update}\n" +
-                                    $"[Glazastic]\n" +
-                                    $"difficulty = {INIReader.GetInt(iniFolder, "Glazastic", "difficulty")}\n" +
-                                    $"impossible = {INIReader.GetBool(iniFolder, "Glazastic", "impossible")}\n" +
-                                    $"big_speed = {INIReader.GetBool(iniFolder, "Glazastic", "big_speed")}\n" +
-                                    $"practice_mode = {INIReader.GetBool(iniFolder, "Glazastic", "practice_mode")}\n" +
-                                    $"win = {INIReader.GetInt(iniFolder, "Glazastic", "win")}\n" +
-                                    $"lose = {INIReader.GetInt(iniFolder, "Glazastic", "lose")}\n" +
-                                    $"games = {INIReader.GetInt(iniFolder, "Glazastic", "games")}\n" +
-                                    $"[Colortimer]\n" +
-                                    $"max_score = {mg1_max_score}\n" +
-                                    $"[Math_o_light]\n" +
-                                    $"max_score = {mg3_max_score}\n" +
-                                    $"[Reactor]\n" +
-                                    $"max_score = {mg4_max_score}\n" +
-                                    $"[Rodrocket]\n" +
-                                    $"max_score = {mg5_max_score}\n" +
-                                    $"[Hacker_man]\n" +
-                                    $"max_score = {mg6_max_score}\n" +
-                                    $"[Snake_game]\n" +
-                                    $"size = {INIReader.GetInt(iniFolder, "Snake_game", "size")}\n" +
-                                    $"speed = {INIReader.GetInt(iniFolder, "Snake_game", "speed")}\n" +
-                                    $"style = {INIReader.GetInt(iniFolder, "Snake_game", "style")}\n" +
-                                    $"dark_theme = {INIReader.GetInt(iniFolder, "Snake_game", "dark_theme")}\n" +
-                                    $"wall_kills = {INIReader.GetBool(iniFolder, "Snake_game", "wall_kills")}\n" +
-                                    $"max_score = {mg7_max_score}\n" +
-                                    $"[Soundotron]\n" +
-                                    $"max_score = {mg8_max_score}\n" +
-                                    $"[SudoSaga]\n" +
-                                    $"difficulty = 0\n" +
-                                    $"prefill = True\n" +
-                                    $"death_time = False\n" +
-                                    $"[2048]\n" +
-                                    $"max_score = {mg10_max_score}\n" +
-                                    $"[FABRICA]\n" +
-                                    $"jump_key=W\n" +
-                                    $"left_key=A\n" +
-                                    $"right_key=D\n" +
-                                    $"shoot_key=Space\n" +
-                                    $"restart_key=R\n" +
-                                    $"pause_key=Pause";
-                                INIReader.CreateIniFile(iniFolder, str);
                                 Hide();
                                 WindowState = FormWindowState.Minimized;
                                 Downloading _form = new Downloading();
@@ -267,8 +222,9 @@ namespace minigames
 
         private void MainMenu_Load(object sender, EventArgs e)
         {
+            version_label.Text = $"v{current_version.Replace("|", "")} By.Lonewolf239";
             Language = Check_Language();
-            default_config = $"[CONFIG]\nsounds = True\nlanguage = {Language}\nscale = 1\nauto_update = True\n[Glazastic]\ndifficulty = 1\nimpossible = False\nbig_speed = False\npractice_mode = False\nwin = 0\nlose = 0\ngames = 0\n[Colortimer]\nmax_score = 0\n[Math_o_light]\nmax_score = 0\n[Reactor]\nmax_score = 0\n[Rodrocket]\nmax_score = 0\n[Hacker_man]\nmax_score = 0\n[Snake_game]\nsize = 1\nspeed = 1\nstyle = 0\ndark_theme = 1\nwall_kills = False\nmax_score = 0\n[Soundotron]\nmax_score = 0\n[SudoSaga]\ndifficulty = 0\nprefill = True\ndeath_time = False\n[2048]\nnmax_score = 0\n[FABRICA]\njump_key=W\nleft_key=A\nright_key=D\nshoot_key=Space\nrestart_key=R\npause_key=Pause";
+            default_config = $"[CONFIG]\nsounds = True\nlanguage = {Language}\nscale = 1\nauto_update = True\n[Glazastic]\ndifficulty = 1\nimpossible = False\nbig_speed = False\npractice_mode = False\nwin = 0\nlose = 0\ngames = 0\n[Colortimer]\nmax_score = 0\n[Math_o_light]\nmax_score = 0\n[Reactor]\nmax_score = 0\n[Rodrocket]\nmax_score = 0\n[Hacker_man]\nmax_score = 0\n[Snake_game]\nsize = 1\nspeed = 1\nstyle = 0\ndark_theme = 1\nwall_kills = False\nmax_score = 0\n[Soundotron]\nmax_score = 0\n[SudoSaga]\ndifficulty = 0\nprefill = True\ndeath_time = False\n[2048]\nmax_score = 0\n[FABRICA]\njump_key=W\nleft_key=A\nright_key=D\nshoot_key=Space\nrestart_key=R\npause_key=Pause\n[Tanks]\nup_pl1=W\ndown_pl1=S\nleft_pl1=A\nright_pl1=D\nshot_pl1=Space\nup_pl2=Up\ndown_pl2=Down\nleft_pl2=Left\nright_pl2=Right\nshot_pl2=Enter\n[Tetris]\nmax_score=0";
             INIReader.CreateIniFileIfNotExist(iniFolder, default_config);
             Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
             sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
@@ -286,6 +242,7 @@ namespace minigames
             mg7_max_score = INIReader.GetInt(iniFolder, "Snake_game", "max_score");
             mg8_max_score = INIReader.GetInt(iniFolder, "Soundotron", "max_score");
             mg10_max_score = INIReader.GetInt(iniFolder, "2048", "max_score");
+            mg13_max_score = INIReader.GetInt(iniFolder, "Tetris", "max_score");
             if (Language)
                 russian_check.Checked = true;
             else
@@ -338,17 +295,13 @@ namespace minigames
         {
             Text_Scale(true);
             if (Language)
-            {
                 mg_name1.Font = new Font(mg_name1.Font.FontFamily, 9.75f);
-                mg_name7.Font = new Font(mg_name7.Font.FontFamily, 9.75f);
-            }
-            else
-                mg_name12.Font = new Font(mg_name12.Font.FontFamily, 10.5f);
             mg_name3.Font = new Font(mg_name3.Font.FontFamily, 9.75f);
             Scale(new SizeF(1.0f / originalScale.Width, 1.0f / originalScale.Height));
             version_label.Font = new Font(version_label.Font.FontFamily, 8.25F);
             originalScale = new SizeF(1.0f, 1.0f);
             CenterScreen();
+            Refresh();
         }
 
         private void Original_Click(object sender, EventArgs e)
@@ -379,6 +332,7 @@ namespace minigames
             originalScale = new SizeF(originalScale.Width * scale_size, originalScale.Height * scale_size);
             Scale(new SizeF(scale_size, scale_size));
             CenterScreen();
+            Refresh();
         }
 
         private void Big_Click(object sender, EventArgs e)
@@ -438,7 +392,6 @@ namespace minigames
                 english_check.Checked = false;
                 mg_name1.Font = new Font("Microsoft Sans Serif", 9.75F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
                 mg_name7.Font = new Font("Microsoft Sans Serif", 9.75F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
-                mg_name12.Font = new Font("Microsoft Sans Serif", 12F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
                 settings.Text = "Настройки";
                 sounds_on_off.Text = "Звуки";
                 sounds_on_off.ToolTipText = "Включить/отключить внутриигровые звуки";
@@ -463,7 +416,6 @@ namespace minigames
                 english_check.Checked = true;
                 mg_name1.Font = new Font("Microsoft Sans Serif", 12F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
                 mg_name7.Font = new Font("Microsoft Sans Serif", 12F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
-                mg_name12.Font = new Font("Microsoft Sans Serif", 10.5F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
                 settings.Text = "Settings";
                 sounds_on_off.Text = "Sounds";
                 sounds_on_off.ToolTipText = "Enable/disable in-game sounds";
@@ -493,39 +445,6 @@ namespace minigames
             Application.Restart();
         }
 
-        private void Game_Closing(object sender, EventArgs e)
-        {
-            if (ColorTimer.score > mg1_max_score)
-                mg1_max_score = ColorTimer.score;
-            if (MathOLight.score > mg3_max_score)
-                mg3_max_score = MathOLight.score;
-            if (Reactor.score > mg4_max_score)
-                mg4_max_score = Reactor.score;
-            if (RodRocket.score > mg5_max_score)
-                mg5_max_score = RodRocket.score;
-            if (Hackerman.score > mg6_max_score)
-                mg6_max_score = Hackerman.score;
-            if (SnakeGame.score > mg7_max_score)
-                mg7_max_score = SnakeGame.score;
-            if (SoundoTron.score > mg8_max_score)
-                mg8_max_score = SoundoTron.score;
-            if (MG2048.score > mg10_max_score)
-                mg10_max_score = MG2048.score;
-            INIReader.SetKey(iniFolder, "Colortimer", "max_score", mg1_max_score);
-            INIReader.SetKey(iniFolder, "Math_o_light", "max_score",mg3_max_score);
-            INIReader.SetKey(iniFolder, "Reactor", "max_score", mg4_max_score);
-            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", mg5_max_score);
-            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", mg6_max_score);
-            INIReader.SetKey(iniFolder, "Snake_game", "max_score", mg7_max_score);
-            INIReader.SetKey(iniFolder, "Soundotron", "max_score", mg8_max_score);
-            INIReader.SetKey(iniFolder, "2048", "max_score", mg10_max_score);
-            WindowState = FormWindowState.Normal;
-            ShowInTaskbar = true;
-            ShowIcon = true;
-            Show();
-            Refresh();
-        }
-
         private void Sounds_on_off_Click(object sender, EventArgs e)
         {
             sounds = !sounds;
@@ -552,6 +471,42 @@ namespace minigames
             else
                 MessageBox.Show("Mini-Games is a collection of 16 offline mini-games, including both strategic puzzles and dynamic arcade games. " +
                     "The intuitive interface ensures effortless immersion, making the collection ideal for quick fun anytime.", "About the app", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void Game_Closing(object sender, EventArgs e)
+        {
+            if (ColorTimer.score > mg1_max_score)
+                mg1_max_score = ColorTimer.score;
+            if (MathOLight.score > mg3_max_score)
+                mg3_max_score = MathOLight.score;
+            if (Reactor.score > mg4_max_score)
+                mg4_max_score = Reactor.score;
+            if (RodRocket.score > mg5_max_score)
+                mg5_max_score = RodRocket.score;
+            if (Hackerman.score > mg6_max_score)
+                mg6_max_score = Hackerman.score;
+            if (SnakeGame.score > mg7_max_score)
+                mg7_max_score = SnakeGame.score;
+            if (SoundoTron.score > mg8_max_score)
+                mg8_max_score = SoundoTron.score;
+            if (MG2048.score > mg10_max_score)
+                mg10_max_score = MG2048.score;
+            if (Tetris.score > mg13_max_score)
+                mg13_max_score = Tetris.score;
+            INIReader.SetKey(iniFolder, "Colortimer", "max_score", mg1_max_score);
+            INIReader.SetKey(iniFolder, "Math_o_light", "max_score", mg3_max_score);
+            INIReader.SetKey(iniFolder, "Reactor", "max_score", mg4_max_score);
+            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", mg5_max_score);
+            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", mg6_max_score);
+            INIReader.SetKey(iniFolder, "Snake_game", "max_score", mg7_max_score);
+            INIReader.SetKey(iniFolder, "Soundotron", "max_score", mg8_max_score);
+            INIReader.SetKey(iniFolder, "2048", "max_score", mg10_max_score);
+            INIReader.SetKey(iniFolder, "Tetris", "max_score", mg13_max_score);
+            WindowState = FormWindowState.Normal;
+            ShowInTaskbar = true;
+            ShowIcon = true;
+            Show();
+            Refresh();
         }
 
         //мини-игра 1: Глазастик
@@ -908,7 +863,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 13:
+        //мини-игра 13: Танчики
         private void Mg_icon_pic12_MouseEnter(object sender, EventArgs e)
         {
             mg_panel12.BorderStyle = BorderStyle.Fixed3D;
@@ -937,7 +892,7 @@ namespace minigames
             }
         }
 
-        //мини-игра 14:
+        //мини-игра 14: Тетрис
         private void Mg_name13_MouseEnter(object sender, EventArgs e)
         {
             mg_panel13.BorderStyle = BorderStyle.Fixed3D;
@@ -954,15 +909,15 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                //WindowState = FormWindowState.Minimized;
-                //X form = new X();
-                //form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                //ShowInTaskbar = false;
-                //ShowIcon = false;
-                //Hide();
-                //mg_panel13.BorderStyle = BorderStyle.FixedSingle;
-                //mg_panel13.BackColor = SystemColors.Control;
-                //form.ShowDialog();
+                WindowState = FormWindowState.Minimized;
+                Tetris form = new Tetris();
+                form.FormClosing += new FormClosingEventHandler(Game_Closing);
+                ShowInTaskbar = false;
+                ShowIcon = false;
+                Hide();
+                mg_panel13.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel13.BackColor = SystemColors.Control;
+                form.ShowDialog();
             }
         }
 
