@@ -29,7 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Fabric));
             this.ground_panel_0 = new System.Windows.Forms.Panel();
+            this.hp_icon = new System.Windows.Forms.PictureBox();
+            this.hp_panel_interface = new System.Windows.Forms.Panel();
+            this.hp_interface = new System.Windows.Forms.Panel();
             this.rebind_task = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.pause_btn = new System.Windows.Forms.Button();
@@ -65,10 +69,12 @@
             this.enemy_1 = new System.Windows.Forms.PictureBox();
             this.teleport_2 = new System.Windows.Forms.PictureBox();
             this.teleport_3 = new System.Windows.Forms.PictureBox();
-            this.hp_panel_interface = new System.Windows.Forms.Panel();
-            this.hp_icon = new System.Windows.Forms.PictureBox();
-            this.hp_interface = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.boss_hp_panel_interface = new System.Windows.Forms.Panel();
+            this.boss_hp_interface = new System.Windows.Forms.Panel();
             this.ground_panel_0.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hp_icon)).BeginInit();
+            this.hp_panel_interface.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.ground_panel_5_.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.medkit_0)).BeginInit();
@@ -84,13 +90,14 @@
             ((System.ComponentModel.ISupportInitialize)(this.enemy_1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teleport_2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.teleport_3)).BeginInit();
-            this.hp_panel_interface.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.hp_icon)).BeginInit();
+            this.boss_hp_panel_interface.SuspendLayout();
             this.SuspendLayout();
             // 
             // ground_panel_0
             // 
             this.ground_panel_0.BackColor = System.Drawing.Color.Black;
+            this.ground_panel_0.Controls.Add(this.boss_hp_panel_interface);
+            this.ground_panel_0.Controls.Add(this.label1);
             this.ground_panel_0.Controls.Add(this.hp_icon);
             this.ground_panel_0.Controls.Add(this.hp_panel_interface);
             this.ground_panel_0.Controls.Add(this.rebind_task);
@@ -100,6 +107,34 @@
             this.ground_panel_0.Name = "ground_panel_0";
             this.ground_panel_0.Size = new System.Drawing.Size(1028, 100);
             this.ground_panel_0.TabIndex = 0;
+            // 
+            // hp_icon
+            // 
+            this.hp_icon.Image = global::minigames.Properties.Resources._100HP;
+            this.hp_icon.Location = new System.Drawing.Point(426, 68);
+            this.hp_icon.Name = "hp_icon";
+            this.hp_icon.Size = new System.Drawing.Size(20, 20);
+            this.hp_icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.hp_icon.TabIndex = 14;
+            this.hp_icon.TabStop = false;
+            // 
+            // hp_panel_interface
+            // 
+            this.hp_panel_interface.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.hp_panel_interface.Controls.Add(this.hp_interface);
+            this.hp_panel_interface.Location = new System.Drawing.Point(452, 67);
+            this.hp_panel_interface.Name = "hp_panel_interface";
+            this.hp_panel_interface.Size = new System.Drawing.Size(174, 20);
+            this.hp_panel_interface.TabIndex = 3;
+            // 
+            // hp_interface
+            // 
+            this.hp_interface.BackColor = System.Drawing.Color.Red;
+            this.hp_interface.Dock = System.Windows.Forms.DockStyle.Left;
+            this.hp_interface.Location = new System.Drawing.Point(0, 0);
+            this.hp_interface.Name = "hp_interface";
+            this.hp_interface.Size = new System.Drawing.Size(170, 16);
+            this.hp_interface.TabIndex = 0;
             // 
             // rebind_task
             // 
@@ -371,7 +406,7 @@
             // 
             // enemyboss_5
             // 
-            this.enemyboss_5.Image = global::minigames.Properties.Resources.player;
+            this.enemyboss_5.Image = ((System.Drawing.Image)(resources.GetObject("enemyboss_5.Image")));
             this.enemyboss_5.Location = new System.Drawing.Point(135, 276);
             this.enemyboss_5.Name = "enemyboss_5";
             this.enemyboss_5.Size = new System.Drawing.Size(125, 125);
@@ -400,7 +435,7 @@
             // 
             // enemy_4
             // 
-            this.enemy_4.Image = global::minigames.Properties.Resources.player;
+            this.enemy_4.Image = ((System.Drawing.Image)(resources.GetObject("enemy_4.Image")));
             this.enemy_4.Location = new System.Drawing.Point(612, 50);
             this.enemy_4.Name = "enemy_4";
             this.enemy_4.Size = new System.Drawing.Size(75, 75);
@@ -443,7 +478,7 @@
             // 
             // enemy_3
             // 
-            this.enemy_3.Image = global::minigames.Properties.Resources.player;
+            this.enemy_3.Image = ((System.Drawing.Image)(resources.GetObject("enemy_3.Image")));
             this.enemy_3.Location = new System.Drawing.Point(147, 139);
             this.enemy_3.Name = "enemy_3";
             this.enemy_3.Size = new System.Drawing.Size(75, 75);
@@ -453,7 +488,7 @@
             // 
             // enemy_2
             // 
-            this.enemy_2.Image = global::minigames.Properties.Resources.player;
+            this.enemy_2.Image = ((System.Drawing.Image)(resources.GetObject("enemy_2.Image")));
             this.enemy_2.Location = new System.Drawing.Point(612, 330);
             this.enemy_2.Name = "enemy_2";
             this.enemy_2.Size = new System.Drawing.Size(75, 75);
@@ -463,7 +498,7 @@
             // 
             // enemy_1
             // 
-            this.enemy_1.Image = global::minigames.Properties.Resources.player;
+            this.enemy_1.Image = ((System.Drawing.Image)(resources.GetObject("enemy_1.Image")));
             this.enemy_1.Location = new System.Drawing.Point(331, 330);
             this.enemy_1.Name = "enemy_1";
             this.enemy_1.Size = new System.Drawing.Size(75, 75);
@@ -489,33 +524,37 @@
             this.teleport_3.TabIndex = 21;
             this.teleport_3.TabStop = false;
             // 
-            // hp_panel_interface
+            // label1
             // 
-            this.hp_panel_interface.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.hp_panel_interface.Controls.Add(this.hp_interface);
-            this.hp_panel_interface.Location = new System.Drawing.Point(452, 67);
-            this.hp_panel_interface.Name = "hp_panel_interface";
-            this.hp_panel_interface.Size = new System.Drawing.Size(174, 20);
-            this.hp_panel_interface.TabIndex = 3;
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label1.ForeColor = System.Drawing.Color.White;
+            this.label1.Location = new System.Drawing.Point(633, 64);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(61, 24);
+            this.label1.TabIndex = 15;
+            this.label1.Text = "BOSS";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label1.Visible = false;
             // 
-            // hp_icon
+            // boss_hp_panel_interface
             // 
-            this.hp_icon.Image = global::minigames.Properties.Resources._100HP;
-            this.hp_icon.Location = new System.Drawing.Point(426, 68);
-            this.hp_icon.Name = "hp_icon";
-            this.hp_icon.Size = new System.Drawing.Size(20, 20);
-            this.hp_icon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.hp_icon.TabIndex = 14;
-            this.hp_icon.TabStop = false;
+            this.boss_hp_panel_interface.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.boss_hp_panel_interface.Controls.Add(this.boss_hp_interface);
+            this.boss_hp_panel_interface.Location = new System.Drawing.Point(700, 67);
+            this.boss_hp_panel_interface.Name = "boss_hp_panel_interface";
+            this.boss_hp_panel_interface.Size = new System.Drawing.Size(174, 20);
+            this.boss_hp_panel_interface.TabIndex = 16;
+            this.boss_hp_panel_interface.Visible = false;
             // 
-            // hp_interface
+            // boss_hp_interface
             // 
-            this.hp_interface.BackColor = System.Drawing.Color.Red;
-            this.hp_interface.Dock = System.Windows.Forms.DockStyle.Left;
-            this.hp_interface.Location = new System.Drawing.Point(0, 0);
-            this.hp_interface.Name = "hp_interface";
-            this.hp_interface.Size = new System.Drawing.Size(170, 16);
-            this.hp_interface.TabIndex = 0;
+            this.boss_hp_interface.BackColor = System.Drawing.Color.Red;
+            this.boss_hp_interface.Dock = System.Windows.Forms.DockStyle.Left;
+            this.boss_hp_interface.Location = new System.Drawing.Point(0, 0);
+            this.boss_hp_interface.Name = "boss_hp_interface";
+            this.boss_hp_interface.Size = new System.Drawing.Size(170, 16);
+            this.boss_hp_interface.TabIndex = 0;
             // 
             // Fabric
             // 
@@ -557,6 +596,8 @@
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.Fabric_KeyUp);
             this.ground_panel_0.ResumeLayout(false);
             this.ground_panel_0.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.hp_icon)).EndInit();
+            this.hp_panel_interface.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ground_panel_5_.ResumeLayout(false);
@@ -574,8 +615,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.enemy_1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teleport_2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.teleport_3)).EndInit();
-            this.hp_panel_interface.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.hp_icon)).EndInit();
+            this.boss_hp_panel_interface.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -621,5 +661,8 @@
         private System.Windows.Forms.Panel hp_panel_interface;
         private System.Windows.Forms.PictureBox hp_icon;
         private System.Windows.Forms.Panel hp_interface;
+        private System.Windows.Forms.Panel boss_hp_panel_interface;
+        private System.Windows.Forms.Panel boss_hp_interface;
+        private System.Windows.Forms.Label label1;
     }
 }

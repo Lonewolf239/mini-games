@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace minigames.Snake_game
@@ -30,11 +24,9 @@ namespace minigames.Snake_game
                         text1.Font = new Font(text1.Font.FontFamily, text1.Font.Size * MainMenu.scale_size);
                     text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
                 }
-                Screen screen = Screen.FromPoint(Cursor.Position);
-                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
-                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
-                Left = centerX - (Width / 2);
-                Top = centerY - (Height / 2);
+                int centerX = Owner.Left + (Owner.Width - Width) / 2;
+                int centerY = Owner.Top + (Owner.Height - Height) / 2;
+                Location = new Point(centerX, centerY);
             }
             Activate();
             if (!MainMenu.Language)

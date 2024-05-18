@@ -13,20 +13,22 @@ using minigames.Rodrocket;
 using minigames.Hacker_man;
 using minigames.Snake_game;
 using minigames.Soundotron;
+using minigames._Fabric;
 using minigames._Sudoku;
 using minigames._2048;
 using minigames._Ping_Pong;
 using minigames._Tanks;
 using minigames._Tetris;
-using minigames._Fabric;
+using minigames._Sapper;
+using minigames._SLIL;
 
 namespace minigames
 {
     public partial class MainMenu : Form
     {
+
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.2.2|";
-        private SizeF originalScale = new SizeF(1.0f, 1.0f);
+        private readonly string current_version = "|0.2.3|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -34,8 +36,8 @@ namespace minigames
         public static float mg4_max_score = 0;
         private readonly string[][] language_text =
         {
-          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "soon...", "soon..." },
-          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "soon...", "soon..." }
+          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "Сапёр", "Лабезумие" },
+          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "Sapper", "Mazeness" }
         };
         private string default_config;
         private bool update_exist = false;
@@ -224,7 +226,7 @@ namespace minigames
         {
             version_label.Text = $"v{current_version.Replace("|", "")} By.Lonewolf239";
             Language = Check_Language();
-            default_config = $"[CONFIG]\nsounds = True\nlanguage = {Language}\nscale = 1\nauto_update = True\n[Glazastic]\ndifficulty = 1\nimpossible = False\nbig_speed = False\npractice_mode = False\nwin = 0\nlose = 0\ngames = 0\n[Colortimer]\nmax_score = 0\n[Math_o_light]\nmax_score = 0\n[Reactor]\nmax_score = 0\n[Rodrocket]\nmax_score = 0\n[Hacker_man]\nmax_score = 0\n[Snake_game]\nsize = 1\nspeed = 1\nstyle = 0\ndark_theme = 1\nwall_kills = False\nmax_score = 0\n[Soundotron]\nmax_score = 0\n[SudoSaga]\ndifficulty = 0\nprefill = True\ndeath_time = False\n[2048]\nmax_score = 0\n[FABRICA]\njump_key=W\nleft_key=A\nright_key=D\nshoot_key=Space\nrestart_key=R\npause_key=Pause\n[Tanks]\nup_pl1=W\ndown_pl1=S\nleft_pl1=A\nright_pl1=D\nshot_pl1=Space\nup_pl2=Up\ndown_pl2=Down\nleft_pl2=Left\nright_pl2=Right\nshot_pl2=Enter\n[Tetris]\nmax_score=0";
+            default_config = $"[CONFIG]\nsounds = True\nlanguage = {Language}\nscale = 1\nauto_update = True\n[Glazastic]\ndifficulty = 1\nimpossible = False\nbig_speed = False\npractice_mode = False\nwin = 0\nlose = 0\ngames = 0\n[Colortimer]\nmax_score = 0\n[Math_o_light]\nmax_score = 0\n[Reactor]\nmax_score = 0\n[Rodrocket]\nmax_score = 0\n[Hacker_man]\nmax_score = 0\n[Snake_game]\nsize = 1\nspeed = 1\nstyle = 0\ndark_theme = 1\nwall_kills = False\nmax_score = 0\n[Soundotron]\nmax_score = 0\n[SudoSaga]\ndifficulty = 0\nprefill = True\ndeath_time = False\n[2048]\nmax_score = 0\n[FABRICA]\njump_key=W\nleft_key=A\nright_key=D\nshoot_key=Space\nrestart_key=R\npause_key=Pause\n[Tanks]\nup_pl1=W\ndown_pl1=S\nleft_pl1=A\nright_pl1=D\nshot_pl1=Space\nup_pl2=Up\ndown_pl2=Down\nleft_pl2=Left\nright_pl2=Right\nshot_pl2=Enter\n[Tetris]\nmax_score=0\ndifficulty=0";
             INIReader.CreateIniFileIfNotExist(iniFolder, default_config);
             Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
             sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
@@ -276,34 +278,6 @@ namespace minigames
             Change_Language(false);
         }
 
-        private void Text_Scale(bool return_text)
-        {
-            info_menu.Font = new Font(info_menu.Font.FontFamily, 9f * scale_size);
-            foreach (Control panels in interface_panel.Controls)
-            {
-                foreach (Control text in panels.Controls)
-                {
-                    if (return_text)
-                        text.Font = new Font(text.Font.FontFamily, 12f);
-                    else
-                        text.Font = new Font(text.Font.FontFamily, 9.75f * scale_size);
-                }
-            }
-        }
-
-        private void Return_Original()
-        {
-            Text_Scale(true);
-            if (Language)
-                mg_name1.Font = new Font(mg_name1.Font.FontFamily, 9.75f);
-            mg_name3.Font = new Font(mg_name3.Font.FontFamily, 9.75f);
-            Scale(new SizeF(1.0f / originalScale.Width, 1.0f / originalScale.Height));
-            version_label.Font = new Font(version_label.Font.FontFamily, 8.25F);
-            originalScale = new SizeF(1.0f, 1.0f);
-            CenterScreen();
-            Refresh();
-        }
-
         private void Original_Click(object sender, EventArgs e)
         {
             if (original.Checked)
@@ -311,7 +285,6 @@ namespace minigames
                 scale_size = 1;
                 INIReader.SetKey(iniFolder, "CONFIG", "scale", scale_size);
                 O_o.Checked = anstapabal.Checked = big.Checked = scaled = false;
-                Return_Original();
             }
             else
                 original.Checked = true;
@@ -319,20 +292,13 @@ namespace minigames
 
         private void SetScale()
         {
-            Return_Original();
             O_o.Checked = anstapabal.Checked = big.Checked = original.Checked = scaled = true;
-            Text_Scale(false);
             if (scale_size == 1.5f)
                 O_o.Checked = anstapabal.Checked = original.Checked = false;
             else if (scale_size == 2)
                 O_o.Checked = big.Checked = original.Checked = false;
             else if (scale_size == 3)
                 anstapabal.Checked = big.Checked = original.Checked = false;
-            version_label.Font = new Font(version_label.Font.FontFamily, version_label.Font.Size * scale_size);
-            originalScale = new SizeF(originalScale.Width * scale_size, originalScale.Height * scale_size);
-            Scale(new SizeF(scale_size, scale_size));
-            CenterScreen();
-            Refresh();
         }
 
         private void Big_Click(object sender, EventArgs e)
@@ -371,15 +337,6 @@ namespace minigames
                 O_o.Checked = true;
         }
 
-        private void CenterScreen()
-        {
-            Screen screen = Screen.FromPoint(Cursor.Position);
-            int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
-            int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
-            Left = centerX - (Width / 2);
-            Top = centerY - (Height / 2);
-        }
-
         private void Change_Language(bool type)
         {
             INIReader.SetKey(iniFolder, "CONFIG", "language", Language);
@@ -390,8 +347,8 @@ namespace minigames
                 index = 0;
                 russian_check.Checked = true;
                 english_check.Checked = false;
-                mg_name1.Font = new Font("Microsoft Sans Serif", 9.75F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
-                mg_name7.Font = new Font("Microsoft Sans Serif", 9.75F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+                mg_name1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
+                mg_name7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
                 settings.Text = "Настройки";
                 sounds_on_off.Text = "Звуки";
                 sounds_on_off.ToolTipText = "Включить/отключить внутриигровые звуки";
@@ -414,8 +371,8 @@ namespace minigames
                 index = 1;
                 russian_check.Checked = false;
                 english_check.Checked = true;
-                mg_name1.Font = new Font("Microsoft Sans Serif", 12F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
-                mg_name7.Font = new Font("Microsoft Sans Serif", 12F * scale_size, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+                mg_name1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+                mg_name7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
                 settings.Text = "Settings";
                 sounds_on_off.Text = "Sounds";
                 sounds_on_off.ToolTipText = "Enable/disable in-game sounds";
@@ -473,7 +430,7 @@ namespace minigames
                     "The intuitive interface ensures effortless immersion, making the collection ideal for quick fun anytime.", "About the app", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void Game_Closing(object sender, EventArgs e)
+        private void GameClosing(object sender, EventArgs e)
         {
             if (ColorTimer.score > mg1_max_score)
                 mg1_max_score = ColorTimer.score;
@@ -509,6 +466,18 @@ namespace minigames
             Refresh();
         }
 
+        private void OpenGame(Form form, Panel panel)
+        {
+            WindowState = FormWindowState.Minimized;
+            panel.BorderStyle = BorderStyle.FixedSingle;
+            panel.BackColor = SystemColors.Control;
+            form.FormClosing += new FormClosingEventHandler(GameClosing);
+            ShowInTaskbar = false;
+            ShowIcon = false;
+            Hide();
+            form.ShowDialog();
+        }
+
         //мини-игра 1: Глазастик
         private void Glazastic_panel_MouseEnter(object sender, EventArgs e)
         {
@@ -526,15 +495,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Form1 form = new Form1();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-                glazastic_panel.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, glazastic_panel);
             }
         }
 
@@ -555,15 +517,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 ColorTimer form = new ColorTimer();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel1.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel1.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel1);
             }
         }
 
@@ -584,15 +539,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 ColorTiles form = new ColorTiles();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel2.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel2.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel2);
             }
         }
 
@@ -613,15 +561,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 MathOLight form = new MathOLight();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel3.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel3.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel3);
             }
         }
 
@@ -642,15 +583,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Reactor form = new Reactor();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel4.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel4.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel4);
             }
         }
 
@@ -671,15 +605,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 RodRocket form = new RodRocket();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel5.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel5.BackColor = SystemColors.Control;
-                form.ShowDialog();   
+                OpenGame(form, mg_panel5);
             }
         }
 
@@ -700,15 +627,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Hackerman form = new Hackerman();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel6.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel6.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel6);
             }
         }
 
@@ -729,15 +649,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 SnakeGame form = new SnakeGame();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel7.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel7.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel7);
             }
         }
 
@@ -764,15 +677,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left && sounds)
             {
-                WindowState = FormWindowState.Minimized;
                 SoundoTron form = new SoundoTron();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel8.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel8.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel8);
             }
         }
 
@@ -793,15 +699,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Sudoku form = new Sudoku();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel9.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel9.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel9);
             }
         }
 
@@ -822,15 +721,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 MG2048 form = new MG2048();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel10.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel10.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel10);
             }
         }
 
@@ -851,15 +743,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Ping_Pong form = new Ping_Pong();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel11.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel11.BackColor = SystemColors.Control;
-                form.Show();
+                OpenGame(form, mg_panel11);
             }
         }
 
@@ -880,15 +765,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Tanks form = new Tanks();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel12.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel12.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel12);
             }
         }
 
@@ -909,73 +787,52 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                WindowState = FormWindowState.Minimized;
                 Tetris form = new Tetris();
-                form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                ShowInTaskbar = false;
-                ShowIcon = false;
-                Hide();
-                mg_panel13.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel13.BackColor = SystemColors.Control;
-                form.ShowDialog();
+                OpenGame(form, mg_panel13);
             }
         }
 
-        //мини-игра 15:
+        //мини-игра 15: Сапёр
         private void Mg_icon_pic14_MouseEnter(object sender, EventArgs e)
         {
-            mg_panel14.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel14.BackColor = Color.Gainsboro;
+                mg_panel14.BorderStyle = BorderStyle.Fixed3D;
+                mg_panel14.BackColor = Color.Gainsboro;
         }
 
         private void Mg_icon_pic14_MouseLeave(object sender, EventArgs e)
         {
-            mg_panel14.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel14.BackColor = SystemColors.Control;
+                mg_panel14.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel14.BackColor = SystemColors.Control;
         }
 
         private void Mg_icon_pic14_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                //WindowState = FormWindowState.Minimized;
-                //X form = new X();
-                //form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                //ShowInTaskbar = false;
-                //ShowIcon = false;
-                //Hide();
-                //mg_panel14.BorderStyle = BorderStyle.FixedSingle;
-                //mg_panel14.BackColor = SystemColors.Control;
-                //form.ShowDialog();
+                //Sapper form = new Sapper();
+                //OpenGame(form, mg_panel14);
             }
         }
 
-        //мини-игра 16:
+        //мини-игра 16: Лабезумие
         private void Mg_name15_MouseEnter(object sender, EventArgs e)
         {
-            mg_panel15.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel15.BackColor = Color.Gainsboro;
+                mg_panel15.BorderStyle = BorderStyle.Fixed3D;
+                mg_panel15.BackColor = Color.Gainsboro;
         }
 
         private void Mg_name15_MouseLeave(object sender, EventArgs e)
         {
-            mg_panel15.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel15.BackColor = SystemColors.Control;
+                mg_panel15.BorderStyle = BorderStyle.FixedSingle;
+                mg_panel15.BackColor = SystemColors.Control;
         }
 
         private void Mg_name15_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                //WindowState = FormWindowState.Minimized;
-                //X form = new X();
-                //form.FormClosing += new FormClosingEventHandler(Game_Closing);
-                //ShowInTaskbar = false;
-                //ShowIcon = false;
-                //Hide();
-                //mg_panel15.BorderStyle = BorderStyle.FixedSingle;
-                //mg_panel15.BackColor = SystemColors.Control;
-                //form.ShowDialog();
+                SLIL form = new SLIL();
+                OpenGame(form, mg_panel15);
             }
         }
 

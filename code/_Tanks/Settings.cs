@@ -70,11 +70,13 @@ namespace minigames._Tanks
                     "Protective shaft",
                     "Impenetrable line"
                 };
+                fast_reload.Text = "Fast recharge:";
             }
             map_list.Items.AddRange(maps);
             Activate();
             keys = Tanks.keys;
             map_list.SelectedIndex = Tanks.map_choice;
+            fast_reload.Checked = Tanks.fast_reload;
             if (!Tanks.inverted)
             {
                 inverted.Value = 0;
@@ -280,6 +282,12 @@ namespace minigames._Tanks
             INIReader.SetKey(MainMenu.iniFolder, "Tanks", "inverted", Tanks.inverted);
         }
 
+        private void Fast_reload_CheckedChanged(object sender, EventArgs e)
+        {
+            Tanks.fast_reload = fast_reload.Checked;
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "fast_reload", Tanks.fast_reload);
+        }
+
         private void Player1_group_HelpRequested(object sender, HelpEventArgs hlpevent)
         {
             if (MainMenu.Language)
@@ -325,21 +333,29 @@ namespace minigames._Tanks
             if (MainMenu.Language)
                 MessageBox.Show("Используйте переключатель, чтобы поменять местами игрока 1 и игрока 2", "Подсказка", MessageBoxButtons.OK);
             else
-                MessageBox.Show("Use the switch to invert the position of player 1 and player 2\r\n", "Hint", MessageBoxButtons.OK);
+                MessageBox.Show("Use the switch to invert the position of player 1 and player 2", "Hint", MessageBoxButtons.OK);
+        }
+
+        private void Fast_reload_HelpRequested(object sender, HelpEventArgs hlpevent)
+        {
+            if (MainMenu.Language)
+                MessageBox.Show("Используйте переключатель, чтобы включить или отключить быструю перезарядку", "Подсказка", MessageBoxButtons.OK);
+            else
+                MessageBox.Show("Use the switch to enable or disable fast recharge", "Hint", MessageBoxButtons.OK);
         }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e)
         {
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "up_pl1", keys[0][0].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "down_pl1", keys[1][0].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "left_pl1", keys[2][0].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "right_pl1", keys[3][0].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "shot_pl1", keys[4][0].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "up_pl2", keys[0][1].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "down_pl2", keys[1][1].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "left_pl2", keys[2][1].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "right_pl2", keys[3][1].ToString());
-            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "shot_pl2", keys[4][1].ToString());
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "up_pl1", keys[0][0]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "down_pl1", keys[1][0]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "left_pl1", keys[2][0]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "right_pl1", keys[3][0]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "shot_pl1", keys[4][0]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "up_pl2", keys[0][1]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "down_pl2", keys[1][1]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "left_pl2", keys[2][1]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "right_pl2", keys[3][1]);
+            INIReader.SetKey(MainMenu.iniFolder, "Tanks", "shot_pl2", keys[4][1]);
             Tanks.keys = keys;
         }
     }

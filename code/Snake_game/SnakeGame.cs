@@ -64,6 +64,7 @@ namespace minigames.Snake_game
         {
             top_panel.Focus();
             SG_about _form = new SG_about();
+            _form.Owner = this;
             _form.ShowDialog();
         }
 
@@ -97,6 +98,7 @@ namespace minigames.Snake_game
             {
                 SG_settings form = new SG_settings();
                 form.FormClosing += new FormClosingEventHandler(Settings_Closing);
+                form.Owner = this;
                 form.ShowDialog();
             }
         }

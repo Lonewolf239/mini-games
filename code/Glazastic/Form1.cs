@@ -112,6 +112,7 @@ namespace minigames
                     start_btn.Text = "СТАРТ";
                 Form2 form = new Form2();
                 form.FormClosing += new FormClosingEventHandler(Form2_Closing);
+                form.Owner = this;
                 form.ShowDialog();
             }
         }

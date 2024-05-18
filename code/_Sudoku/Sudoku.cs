@@ -343,6 +343,7 @@ namespace minigames._Sudoku
             if (!timer.Enabled)
             {
                 SS_Settings form = new SS_Settings();
+                form.Owner = this;
                 form.ShowDialog();
             }
         }

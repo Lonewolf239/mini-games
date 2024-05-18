@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace minigames._Tanks
 {
@@ -29,7 +30,7 @@ namespace minigames._Tanks
         private Dictionary<PlayersDirection, Bitmap> player2_rotatedImages = new Dictionary<PlayersDirection, Bitmap>();
         private bool player1_canShoot = false, player2_canShoot = false;
         public static int map_choice = 1;
-        public static bool inverted = false;
+        public static bool inverted = false, fast_reload = false;
         public static Keys[][] keys =
         {
             new Keys[] { Keys.W, Keys.Up },
@@ -142,6 +143,7 @@ namespace minigames._Tanks
             }
             map_choice = INIReader.GetInt(MainMenu.iniFolder, "Tanks", "map", 0);
             inverted = INIReader.GetBool(MainMenu.iniFolder, "Tanks", "inverted", inverted);
+            fast_reload = INIReader.GetBool(MainMenu.iniFolder, "Tanks", "fast_reload", fast_reload);
             if (map_choice < 0 || map_choice > 4)
                 map_choice = 0;
             player1_hp_panel.Width = player1_hp3.Right + 4;
@@ -654,7 +656,10 @@ namespace minigames._Tanks
                 player1_reloading.Stop();
             else
             {
-                reloading1.Width += (int)(1 * MainMenu.scale_size);
+                int time = 1;
+                if (fast_reload)
+                    time = 2;
+                reloading1.Width += (int)(time * MainMenu.scale_size);
                 if(reloading1.Width >= reloading1_background.Width)
                 {
                     player1_canShoot = true;
@@ -669,7 +674,10 @@ namespace minigames._Tanks
                 player2_reloading.Stop();
             else
             {
-                reloading2.Width += (int)(1 * MainMenu.scale_size);
+                int time = 1;
+                if (fast_reload)
+                    time = 2;
+                reloading2.Width += (int)(time * MainMenu.scale_size);
                 if (reloading2.Width >= reloading2_background.Width)
                 {
                     player2_canShoot = true;

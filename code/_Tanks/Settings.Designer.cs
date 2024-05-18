@@ -52,6 +52,7 @@
             this.inverted = new System.Windows.Forms.TrackBar();
             this.pl1_inverted_text = new System.Windows.Forms.Label();
             this.pl2_inverted_text = new System.Windows.Forms.Label();
+            this.fast_reload = new System.Windows.Forms.CheckBox();
             this.controls_group.SuspendLayout();
             this.player2_group.SuspendLayout();
             this.player1_group.SuspendLayout();
@@ -341,7 +342,7 @@
             // 
             // inverted
             // 
-            this.inverted.Location = new System.Drawing.Point(160, 236);
+            this.inverted.Location = new System.Drawing.Point(160, 264);
             this.inverted.Maximum = 1;
             this.inverted.Name = "inverted";
             this.inverted.Size = new System.Drawing.Size(56, 45);
@@ -355,7 +356,7 @@
             // 
             this.pl1_inverted_text.AutoSize = true;
             this.pl1_inverted_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.pl1_inverted_text.Location = new System.Drawing.Point(56, 245);
+            this.pl1_inverted_text.Location = new System.Drawing.Point(56, 273);
             this.pl1_inverted_text.Name = "pl1_inverted_text";
             this.pl1_inverted_text.Size = new System.Drawing.Size(98, 24);
             this.pl1_inverted_text.TabIndex = 9;
@@ -366,18 +367,34 @@
             // 
             this.pl2_inverted_text.AutoSize = true;
             this.pl2_inverted_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
-            this.pl2_inverted_text.Location = new System.Drawing.Point(222, 245);
+            this.pl2_inverted_text.Location = new System.Drawing.Point(222, 273);
             this.pl2_inverted_text.Name = "pl2_inverted_text";
             this.pl2_inverted_text.Size = new System.Drawing.Size(98, 24);
             this.pl2_inverted_text.TabIndex = 10;
             this.pl2_inverted_text.Text = "PLAYER 2";
             this.pl2_inverted_text.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.Inverted_HelpRequested);
             // 
+            // fast_reload
+            // 
+            this.fast_reload.AutoSize = true;
+            this.fast_reload.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.fast_reload.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F);
+            this.fast_reload.Location = new System.Drawing.Point(12, 236);
+            this.fast_reload.Name = "fast_reload";
+            this.fast_reload.Size = new System.Drawing.Size(232, 28);
+            this.fast_reload.TabIndex = 12;
+            this.fast_reload.TabStop = false;
+            this.fast_reload.Text = "Быстрая перезарядка:";
+            this.fast_reload.UseVisualStyleBackColor = true;
+            this.fast_reload.CheckedChanged += new System.EventHandler(this.Fast_reload_CheckedChanged);
+            this.fast_reload.HelpRequested += new System.Windows.Forms.HelpEventHandler(this.Fast_reload_HelpRequested);
+            // 
             // Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(389, 283);
+            this.ClientSize = new System.Drawing.Size(389, 310);
+            this.Controls.Add(this.fast_reload);
             this.Controls.Add(this.pl2_inverted_text);
             this.Controls.Add(this.pl1_inverted_text);
             this.Controls.Add(this.inverted);
@@ -436,5 +453,6 @@
         private System.Windows.Forms.TrackBar inverted;
         private System.Windows.Forms.Label pl1_inverted_text;
         private System.Windows.Forms.Label pl2_inverted_text;
+        private System.Windows.Forms.CheckBox fast_reload;
     }
 }

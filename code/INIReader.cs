@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace IniReader
 {
@@ -327,7 +328,7 @@ namespace IniReader
                             AddKeyInSection(path, section, key, default_value);
                     }
                 }
-                return default_value;
+                return result;
             }
             catch
             {

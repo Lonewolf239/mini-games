@@ -44,6 +44,7 @@
             this.refresh_timer = new System.Windows.Forms.Timer(this.components);
             this.logic_timer = new System.Windows.Forms.Timer(this.components);
             this.falling_tiles_timer = new System.Windows.Forms.Timer(this.components);
+            this.move_tiles = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             this.next_figure_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.next_figure_picture)).BeginInit();
@@ -189,8 +190,13 @@
             // 
             // falling_tiles_timer
             // 
-            this.falling_tiles_timer.Interval = 250;
+            this.falling_tiles_timer.Interval = 500;
             this.falling_tiles_timer.Tick += new System.EventHandler(this.Falling_tiles_timer_Tick);
+            // 
+            // move_tiles
+            // 
+            this.move_tiles.Interval = 200;
+            this.move_tiles.Tick += new System.EventHandler(this.Move_tiles_Tick);
             // 
             // Tetris
             // 
@@ -242,5 +248,6 @@
         private System.Windows.Forms.Timer falling_tiles_timer;
         private System.Windows.Forms.PictureBox next_figure_picture;
         private System.Windows.Forms.Label game_over_text;
+        private System.Windows.Forms.Timer move_tiles;
     }
 }

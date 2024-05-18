@@ -138,12 +138,12 @@ namespace minigames._Fabric
                     btn.Text = e.KeyCode.ToString();
                     keys[rebinding] = e.KeyCode;
                     in_rebind = rebind_task.Visible = false;
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "jump_key", keys[0].ToString());
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "left_key", keys[1].ToString());
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "right_key", keys[2].ToString());
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "shoot_key", keys[3].ToString());
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "restart_key", keys[4].ToString());
-                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "pause_key", keys[5].ToString());
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "jump_key", keys[0]);
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "left_key", keys[1]);
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "right_key", keys[2]);
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "shoot_key", keys[3]);
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "restart_key", keys[4]);
+                    INIReader.SetKey(MainMenu.iniFolder, "FABRICA", "pause_key", keys[5]);
                 }
                 else
                 {
@@ -427,6 +427,7 @@ namespace minigames._Fabric
                 }
             }
             hp_interface.Width = (int)((double)hp / 100 * hp_panel_interface.Width);
+            boss_hp_interface.Width = (int)((double)boss_hp / 100 * boss_hp_panel_interface.Width);
             if (bulletRemein == 0 && enemyCount != 0 && !bullets_box_0.Visible && !bullets_box_1.Visible)
             {
                 bullets_box_0.Location = new Point(rand.Next(ground_panel_4_.Left, Width - (ground_panel_5_.Left + bullets_box_0.Width)) + rand.Next(ground_panel_4_.Left, Width - (ground_panel_5_.Left + bullets_box_0.Width)), -bullets_box_0.Height);
@@ -442,7 +443,7 @@ namespace minigames._Fabric
             else if (boss_hp <= 0)
                 mgs = "YOU WIN";
             if (enemyboss_5.Visible)
-                boss = $"BOSS HP: {boss_hp:0}\n";
+                label1.Visible = boss_hp_panel_interface.Visible = true;
             debug_text.Text = $"DEBUG:\nBullet Count: {bulletCount}\nBullet Remein: {bulletRemein}\nEnemy Count: {enemyCount}\nPosition:\nX: {player.Left}\nY: {Height-player.Top}\nHeight: {jumpHeight}\n{boss}{mgs}";
             Invalidate();
         }
@@ -484,27 +485,6 @@ namespace minigames._Fabric
             enemy_2.Invalidate();
             enemy_4.Image.RotateFlip(RotateFlipType.Rotate180FlipY);
             enemy_4.Invalidate();
-            if (MainMenu.scaled)
-            {
-                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
-                foreach (Control text in Controls)
-                {
-                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
-                    foreach (Control text1 in text.Controls)
-                    {
-                        if(text1.Name != "debug_text")
-                        text1.Font = new Font(text1.Font.FontFamily, text1.Font.Size * MainMenu.scale_size);
-                        foreach (Control text2 in text1.Controls)
-                            text2.Font = new Font(text2.Font.FontFamily, text2.Font.Size * MainMenu.scale_size);
-                    }
-                }
-                Screen screen = Screen.FromPoint(Cursor.Position);
-                JUMP_HEIGHT *= (int)MainMenu.scale_size;
-                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
-                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
-                Left = centerX - (Width / 2);
-                Top = centerY - (Height / 2);
-            }
             int count = 0;
             foreach (Control obj in Controls)
             {

@@ -32,54 +32,55 @@
             this.version_label = new System.Windows.Forms.Label();
             this.glazastic_panel = new System.Windows.Forms.Panel();
             this.glazastic_name = new System.Windows.Forms.Label();
-            this.glazastic_icon_pic = new System.Windows.Forms.PictureBox();
             this.mg_panel1 = new System.Windows.Forms.Panel();
             this.mg_name1 = new System.Windows.Forms.Label();
-            this.mg_icon_pic1 = new System.Windows.Forms.PictureBox();
             this.mg_panel2 = new System.Windows.Forms.Panel();
             this.mg_name2 = new System.Windows.Forms.Label();
-            this.mg_icon_pic2 = new System.Windows.Forms.PictureBox();
             this.mg_panel3 = new System.Windows.Forms.Panel();
             this.mg_name3 = new System.Windows.Forms.Label();
-            this.mg_icon_pic3 = new System.Windows.Forms.PictureBox();
             this.mg_panel4 = new System.Windows.Forms.Panel();
             this.mg_name4 = new System.Windows.Forms.Label();
-            this.mg_icon_pic4 = new System.Windows.Forms.PictureBox();
             this.mg_panel5 = new System.Windows.Forms.Panel();
             this.mg_name5 = new System.Windows.Forms.Label();
-            this.mg_icon_pic5 = new System.Windows.Forms.PictureBox();
             this.mg_panel6 = new System.Windows.Forms.Panel();
             this.mg_name6 = new System.Windows.Forms.Label();
-            this.mg_icon_pic6 = new System.Windows.Forms.PictureBox();
             this.mg_panel7 = new System.Windows.Forms.Panel();
             this.mg_name7 = new System.Windows.Forms.Label();
-            this.mg_icon_pic7 = new System.Windows.Forms.PictureBox();
             this.mg_panel8 = new System.Windows.Forms.Panel();
             this.mg_name8 = new System.Windows.Forms.Label();
-            this.mg_icon_pic8 = new System.Windows.Forms.PictureBox();
             this.mg_panel9 = new System.Windows.Forms.Panel();
             this.mg_name9 = new System.Windows.Forms.Label();
-            this.mg_icon_pic9 = new System.Windows.Forms.PictureBox();
             this.mg_panel10 = new System.Windows.Forms.Panel();
             this.mg_name10 = new System.Windows.Forms.Label();
-            this.mg_icon_pic10 = new System.Windows.Forms.PictureBox();
             this.mg_panel11 = new System.Windows.Forms.Panel();
             this.mg_name11 = new System.Windows.Forms.Label();
-            this.mg_icon_pic11 = new System.Windows.Forms.PictureBox();
             this.mg_panel15 = new System.Windows.Forms.Panel();
             this.mg_name15 = new System.Windows.Forms.Label();
-            this.mg_icon_pic15 = new System.Windows.Forms.PictureBox();
             this.mg_panel14 = new System.Windows.Forms.Panel();
             this.mg_name14 = new System.Windows.Forms.Label();
-            this.mg_icon_pic14 = new System.Windows.Forms.PictureBox();
             this.mg_panel13 = new System.Windows.Forms.Panel();
             this.mg_name13 = new System.Windows.Forms.Label();
-            this.mg_icon_pic13 = new System.Windows.Forms.PictureBox();
             this.mg_panel12 = new System.Windows.Forms.Panel();
             this.mg_name12 = new System.Windows.Forms.Label();
-            this.mg_icon_pic12 = new System.Windows.Forms.PictureBox();
             this.interface_panel = new System.Windows.Forms.Panel();
             this.info_menu = new System.Windows.Forms.MenuStrip();
+            this.update_error = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic15 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic14 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic13 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic12 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic11 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic10 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic9 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic8 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic6 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic5 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic7 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic4 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic3 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic2 = new System.Windows.Forms.PictureBox();
+            this.mg_icon_pic1 = new System.Windows.Forms.PictureBox();
+            this.glazastic_icon_pic = new System.Windows.Forms.PictureBox();
             this.settings = new System.Windows.Forms.ToolStripMenuItem();
             this.sounds_on_off = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -105,42 +106,41 @@
             this.websyte = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.about_mini_games = new System.Windows.Forms.ToolStripMenuItem();
-            this.update_error = new System.Windows.Forms.PictureBox();
             this.glazastic_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.glazastic_icon_pic)).BeginInit();
             this.mg_panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic1)).BeginInit();
             this.mg_panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic2)).BeginInit();
             this.mg_panel3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic3)).BeginInit();
             this.mg_panel4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic4)).BeginInit();
             this.mg_panel5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic5)).BeginInit();
             this.mg_panel6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic6)).BeginInit();
             this.mg_panel7.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic7)).BeginInit();
             this.mg_panel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic8)).BeginInit();
             this.mg_panel9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic9)).BeginInit();
             this.mg_panel10.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic10)).BeginInit();
             this.mg_panel11.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic11)).BeginInit();
             this.mg_panel15.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic15)).BeginInit();
             this.mg_panel14.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic14)).BeginInit();
             this.mg_panel13.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic13)).BeginInit();
             this.mg_panel12.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic12)).BeginInit();
             this.interface_panel.SuspendLayout();
             this.info_menu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.update_error)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.glazastic_icon_pic)).BeginInit();
             this.SuspendLayout();
             // 
             // version_label
@@ -183,20 +183,6 @@
             this.glazastic_name.MouseEnter += new System.EventHandler(this.Glazastic_panel_MouseEnter);
             this.glazastic_name.MouseLeave += new System.EventHandler(this.Label1_MouseLeave);
             // 
-            // glazastic_icon_pic
-            // 
-            this.glazastic_icon_pic.Dock = System.Windows.Forms.DockStyle.Top;
-            this.glazastic_icon_pic.Image = global::minigames.Properties.Resources.icon;
-            this.glazastic_icon_pic.Location = new System.Drawing.Point(0, 0);
-            this.glazastic_icon_pic.Name = "glazastic_icon_pic";
-            this.glazastic_icon_pic.Size = new System.Drawing.Size(98, 50);
-            this.glazastic_icon_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.glazastic_icon_pic.TabIndex = 2;
-            this.glazastic_icon_pic.TabStop = false;
-            this.glazastic_icon_pic.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Glazastic_icon_pic_MouseClick);
-            this.glazastic_icon_pic.MouseEnter += new System.EventHandler(this.Glazastic_panel_MouseEnter);
-            this.glazastic_icon_pic.MouseLeave += new System.EventHandler(this.Label1_MouseLeave);
-            // 
             // mg_panel1
             // 
             this.mg_panel1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -223,20 +209,6 @@
             this.mg_name1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name1_MouseClick);
             this.mg_name1.MouseEnter += new System.EventHandler(this.Mg_name1_MouseEnter);
             this.mg_name1.MouseLeave += new System.EventHandler(this.Mg_name1_MouseLeave);
-            // 
-            // mg_icon_pic1
-            // 
-            this.mg_icon_pic1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic1.Image = global::minigames.Properties.Resources.clortimer;
-            this.mg_icon_pic1.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic1.Name = "mg_icon_pic1";
-            this.mg_icon_pic1.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic1.TabIndex = 2;
-            this.mg_icon_pic1.TabStop = false;
-            this.mg_icon_pic1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name1_MouseClick);
-            this.mg_icon_pic1.MouseEnter += new System.EventHandler(this.Mg_name1_MouseEnter);
-            this.mg_icon_pic1.MouseLeave += new System.EventHandler(this.Mg_name1_MouseLeave);
             // 
             // mg_panel2
             // 
@@ -265,20 +237,6 @@
             this.mg_name2.MouseEnter += new System.EventHandler(this.Mg_name2_MouseEnter);
             this.mg_name2.MouseLeave += new System.EventHandler(this.Mg_name2_MouseLeave);
             // 
-            // mg_icon_pic2
-            // 
-            this.mg_icon_pic2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic2.Image = global::minigames.Properties.Resources.colortiles;
-            this.mg_icon_pic2.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic2.Name = "mg_icon_pic2";
-            this.mg_icon_pic2.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic2.TabIndex = 2;
-            this.mg_icon_pic2.TabStop = false;
-            this.mg_icon_pic2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name2_MouseClick);
-            this.mg_icon_pic2.MouseEnter += new System.EventHandler(this.Mg_name2_MouseEnter);
-            this.mg_icon_pic2.MouseLeave += new System.EventHandler(this.Mg_name2_MouseLeave);
-            // 
             // mg_panel3
             // 
             this.mg_panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -305,20 +263,6 @@
             this.mg_name3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name3_MouseClick);
             this.mg_name3.MouseEnter += new System.EventHandler(this.Mg_name3_MouseEnter);
             this.mg_name3.MouseLeave += new System.EventHandler(this.Mg_name3_MouseLeave);
-            // 
-            // mg_icon_pic3
-            // 
-            this.mg_icon_pic3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic3.Image = global::minigames.Properties.Resources.math_o_light;
-            this.mg_icon_pic3.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic3.Name = "mg_icon_pic3";
-            this.mg_icon_pic3.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic3.TabIndex = 2;
-            this.mg_icon_pic3.TabStop = false;
-            this.mg_icon_pic3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name3_MouseClick);
-            this.mg_icon_pic3.MouseEnter += new System.EventHandler(this.Mg_name3_MouseEnter);
-            this.mg_icon_pic3.MouseLeave += new System.EventHandler(this.Mg_name3_MouseLeave);
             // 
             // mg_panel4
             // 
@@ -347,21 +291,6 @@
             this.mg_name4.MouseEnter += new System.EventHandler(this.Mg_name4_MouseEnter);
             this.mg_name4.MouseLeave += new System.EventHandler(this.Mg_name4_MouseLeave);
             // 
-            // mg_icon_pic4
-            // 
-            this.mg_icon_pic4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.mg_icon_pic4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic4.Image = global::minigames.Properties.Resources.reactor;
-            this.mg_icon_pic4.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic4.Name = "mg_icon_pic4";
-            this.mg_icon_pic4.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic4.TabIndex = 2;
-            this.mg_icon_pic4.TabStop = false;
-            this.mg_icon_pic4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name4_MouseClick);
-            this.mg_icon_pic4.MouseEnter += new System.EventHandler(this.Mg_name4_MouseEnter);
-            this.mg_icon_pic4.MouseLeave += new System.EventHandler(this.Mg_name4_MouseLeave);
-            // 
             // mg_panel5
             // 
             this.mg_panel5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -388,20 +317,6 @@
             this.mg_name5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name5_MouseClick);
             this.mg_name5.MouseEnter += new System.EventHandler(this.Mg_name5_MouseEnter);
             this.mg_name5.MouseLeave += new System.EventHandler(this.Mg_name5_MouseLeave);
-            // 
-            // mg_icon_pic5
-            // 
-            this.mg_icon_pic5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic5.Image = global::minigames.Properties.Resources.Rodrocket;
-            this.mg_icon_pic5.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic5.Name = "mg_icon_pic5";
-            this.mg_icon_pic5.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic5.TabIndex = 2;
-            this.mg_icon_pic5.TabStop = false;
-            this.mg_icon_pic5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name5_MouseClick);
-            this.mg_icon_pic5.MouseEnter += new System.EventHandler(this.Mg_name5_MouseEnter);
-            this.mg_icon_pic5.MouseLeave += new System.EventHandler(this.Mg_name5_MouseLeave);
             // 
             // mg_panel6
             // 
@@ -430,20 +345,6 @@
             this.mg_name6.MouseEnter += new System.EventHandler(this.Mg_name6_MouseEnter);
             this.mg_name6.MouseLeave += new System.EventHandler(this.Mg_name6_MouseLeave);
             // 
-            // mg_icon_pic6
-            // 
-            this.mg_icon_pic6.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic6.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic6.Image")));
-            this.mg_icon_pic6.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic6.Name = "mg_icon_pic6";
-            this.mg_icon_pic6.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic6.TabIndex = 2;
-            this.mg_icon_pic6.TabStop = false;
-            this.mg_icon_pic6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name6_MouseClick);
-            this.mg_icon_pic6.MouseEnter += new System.EventHandler(this.Mg_name6_MouseEnter);
-            this.mg_icon_pic6.MouseLeave += new System.EventHandler(this.Mg_name6_MouseLeave);
-            // 
             // mg_panel7
             // 
             this.mg_panel7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -471,20 +372,6 @@
             this.mg_name7.MouseEnter += new System.EventHandler(this.Mg_name7_MouseEnter);
             this.mg_name7.MouseLeave += new System.EventHandler(this.Mg_name7_MouseLeave);
             // 
-            // mg_icon_pic7
-            // 
-            this.mg_icon_pic7.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic7.Image = global::minigames.Properties.Resources.snake;
-            this.mg_icon_pic7.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic7.Name = "mg_icon_pic7";
-            this.mg_icon_pic7.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic7.TabIndex = 2;
-            this.mg_icon_pic7.TabStop = false;
-            this.mg_icon_pic7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name7_MouseClick);
-            this.mg_icon_pic7.MouseEnter += new System.EventHandler(this.Mg_name7_MouseEnter);
-            this.mg_icon_pic7.MouseLeave += new System.EventHandler(this.Mg_name7_MouseLeave);
-            // 
             // mg_panel8
             // 
             this.mg_panel8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -508,21 +395,6 @@
             this.mg_name8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic8_MouseClick);
             this.mg_name8.MouseEnter += new System.EventHandler(this.Mg_icon_pic8_MouseEnter);
             this.mg_name8.MouseLeave += new System.EventHandler(this.Mg_icon_pic8_MouseLeave);
-            // 
-            // mg_icon_pic8
-            // 
-            this.mg_icon_pic8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.mg_icon_pic8.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic8.Image = global::minigames.Properties.Resources.soundotron;
-            this.mg_icon_pic8.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic8.Name = "mg_icon_pic8";
-            this.mg_icon_pic8.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic8.TabIndex = 2;
-            this.mg_icon_pic8.TabStop = false;
-            this.mg_icon_pic8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic8_MouseClick);
-            this.mg_icon_pic8.MouseEnter += new System.EventHandler(this.Mg_icon_pic8_MouseEnter);
-            this.mg_icon_pic8.MouseLeave += new System.EventHandler(this.Mg_icon_pic8_MouseLeave);
             // 
             // mg_panel9
             // 
@@ -548,20 +420,6 @@
             this.mg_name9.MouseEnter += new System.EventHandler(this.Mg_name9_MouseEnter);
             this.mg_name9.MouseLeave += new System.EventHandler(this.Mg_name9_MouseLeave);
             // 
-            // mg_icon_pic9
-            // 
-            this.mg_icon_pic9.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.sudoku;
-            this.mg_icon_pic9.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic9.Name = "mg_icon_pic9";
-            this.mg_icon_pic9.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic9.TabIndex = 2;
-            this.mg_icon_pic9.TabStop = false;
-            this.mg_icon_pic9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name9_MouseClick);
-            this.mg_icon_pic9.MouseEnter += new System.EventHandler(this.Mg_name9_MouseEnter);
-            this.mg_icon_pic9.MouseLeave += new System.EventHandler(this.Mg_name9_MouseLeave);
-            // 
             // mg_panel10
             // 
             this.mg_panel10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -585,20 +443,6 @@
             this.mg_name10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic10_MouseClick);
             this.mg_name10.MouseEnter += new System.EventHandler(this.Mg_icon_pic10_MouseEnter);
             this.mg_name10.MouseLeave += new System.EventHandler(this.Mg_icon_pic10_MouseLeave);
-            // 
-            // mg_icon_pic10
-            // 
-            this.mg_icon_pic10.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic10.Image = global::minigames.Properties.Resources._2048;
-            this.mg_icon_pic10.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic10.Name = "mg_icon_pic10";
-            this.mg_icon_pic10.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic10.TabIndex = 2;
-            this.mg_icon_pic10.TabStop = false;
-            this.mg_icon_pic10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic10_MouseClick);
-            this.mg_icon_pic10.MouseEnter += new System.EventHandler(this.Mg_icon_pic10_MouseEnter);
-            this.mg_icon_pic10.MouseLeave += new System.EventHandler(this.Mg_icon_pic10_MouseLeave);
             // 
             // mg_panel11
             // 
@@ -624,20 +468,6 @@
             this.mg_name11.MouseEnter += new System.EventHandler(this.Mg_icon_pic11_MouseEnter);
             this.mg_name11.MouseLeave += new System.EventHandler(this.Mg_icon_pic11_MouseLeave);
             // 
-            // mg_icon_pic11
-            // 
-            this.mg_icon_pic11.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic11.Image = global::minigames.Properties.Resources.ping_pong;
-            this.mg_icon_pic11.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic11.Name = "mg_icon_pic11";
-            this.mg_icon_pic11.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic11.TabIndex = 2;
-            this.mg_icon_pic11.TabStop = false;
-            this.mg_icon_pic11.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic11_MouseClick);
-            this.mg_icon_pic11.MouseEnter += new System.EventHandler(this.Mg_icon_pic11_MouseEnter);
-            this.mg_icon_pic11.MouseLeave += new System.EventHandler(this.Mg_icon_pic11_MouseLeave);
-            // 
             // mg_panel15
             // 
             this.mg_panel15.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -656,25 +486,11 @@
             this.mg_name15.Name = "mg_name15";
             this.mg_name15.Size = new System.Drawing.Size(98, 23);
             this.mg_name15.TabIndex = 2;
-            this.mg_name15.Text = "soon...";
+            this.mg_name15.Text = "Лабезумие";
             this.mg_name15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name15.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name15_MouseClick);
             this.mg_name15.MouseEnter += new System.EventHandler(this.Mg_name15_MouseEnter);
             this.mg_name15.MouseLeave += new System.EventHandler(this.Mg_name15_MouseLeave);
-            // 
-            // mg_icon_pic15
-            // 
-            this.mg_icon_pic15.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic15.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic15.Image")));
-            this.mg_icon_pic15.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic15.Name = "mg_icon_pic15";
-            this.mg_icon_pic15.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic15.TabIndex = 2;
-            this.mg_icon_pic15.TabStop = false;
-            this.mg_icon_pic15.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name15_MouseClick);
-            this.mg_icon_pic15.MouseEnter += new System.EventHandler(this.Mg_name15_MouseEnter);
-            this.mg_icon_pic15.MouseLeave += new System.EventHandler(this.Mg_name15_MouseLeave);
             // 
             // mg_panel14
             // 
@@ -694,25 +510,11 @@
             this.mg_name14.Name = "mg_name14";
             this.mg_name14.Size = new System.Drawing.Size(98, 23);
             this.mg_name14.TabIndex = 2;
-            this.mg_name14.Text = "soon...";
+            this.mg_name14.Text = "Сапёр";
             this.mg_name14.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name14.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic14_MouseClick);
             this.mg_name14.MouseEnter += new System.EventHandler(this.Mg_icon_pic14_MouseEnter);
             this.mg_name14.MouseLeave += new System.EventHandler(this.Mg_icon_pic14_MouseLeave);
-            // 
-            // mg_icon_pic14
-            // 
-            this.mg_icon_pic14.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic14.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic14.Image")));
-            this.mg_icon_pic14.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic14.Name = "mg_icon_pic14";
-            this.mg_icon_pic14.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic14.TabIndex = 2;
-            this.mg_icon_pic14.TabStop = false;
-            this.mg_icon_pic14.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic14_MouseClick);
-            this.mg_icon_pic14.MouseEnter += new System.EventHandler(this.Mg_icon_pic14_MouseEnter);
-            this.mg_icon_pic14.MouseLeave += new System.EventHandler(this.Mg_icon_pic14_MouseLeave);
             // 
             // mg_panel13
             // 
@@ -738,20 +540,6 @@
             this.mg_name13.MouseEnter += new System.EventHandler(this.Mg_name13_MouseEnter);
             this.mg_name13.MouseLeave += new System.EventHandler(this.Mg_name13_MouseLeave);
             // 
-            // mg_icon_pic13
-            // 
-            this.mg_icon_pic13.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic13.Image = global::minigames.Properties.Resources.tetris;
-            this.mg_icon_pic13.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic13.Name = "mg_icon_pic13";
-            this.mg_icon_pic13.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic13.TabIndex = 2;
-            this.mg_icon_pic13.TabStop = false;
-            this.mg_icon_pic13.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name13_MouseClick);
-            this.mg_icon_pic13.MouseEnter += new System.EventHandler(this.Mg_name13_MouseEnter);
-            this.mg_icon_pic13.MouseLeave += new System.EventHandler(this.Mg_name13_MouseLeave);
-            // 
             // mg_panel12
             // 
             this.mg_panel12.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -775,20 +563,6 @@
             this.mg_name12.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic12_MouseClick);
             this.mg_name12.MouseEnter += new System.EventHandler(this.Mg_icon_pic12_MouseEnter);
             this.mg_name12.MouseLeave += new System.EventHandler(this.Mg_icon_pic12_MouseLeave);
-            // 
-            // mg_icon_pic12
-            // 
-            this.mg_icon_pic12.Dock = System.Windows.Forms.DockStyle.Top;
-            this.mg_icon_pic12.Image = global::minigames.Properties.Resources.tank;
-            this.mg_icon_pic12.Location = new System.Drawing.Point(0, 0);
-            this.mg_icon_pic12.Name = "mg_icon_pic12";
-            this.mg_icon_pic12.Size = new System.Drawing.Size(98, 50);
-            this.mg_icon_pic12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mg_icon_pic12.TabIndex = 2;
-            this.mg_icon_pic12.TabStop = false;
-            this.mg_icon_pic12.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic12_MouseClick);
-            this.mg_icon_pic12.MouseEnter += new System.EventHandler(this.Mg_icon_pic12_MouseEnter);
-            this.mg_icon_pic12.MouseLeave += new System.EventHandler(this.Mg_icon_pic12_MouseLeave);
             // 
             // interface_panel
             // 
@@ -824,6 +598,246 @@
             this.info_menu.Name = "info_menu";
             this.info_menu.Size = new System.Drawing.Size(399, 24);
             this.info_menu.TabIndex = 15;
+            // 
+            // update_error
+            // 
+            this.update_error.BackColor = System.Drawing.Color.Transparent;
+            this.update_error.Image = global::minigames.Properties.Resources.warning;
+            this.update_error.Location = new System.Drawing.Point(380, 0);
+            this.update_error.Name = "update_error";
+            this.update_error.Size = new System.Drawing.Size(20, 20);
+            this.update_error.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.update_error.TabIndex = 16;
+            this.update_error.TabStop = false;
+            this.update_error.Visible = false;
+            this.update_error.MouseEnter += new System.EventHandler(this.Update_error_MouseEnter);
+            this.update_error.MouseLeave += new System.EventHandler(this.Update_error_MouseLeave);
+            // 
+            // mg_icon_pic15
+            // 
+            this.mg_icon_pic15.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic15.Image = global::minigames.Properties.Resources.labyrinth;
+            this.mg_icon_pic15.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic15.Name = "mg_icon_pic15";
+            this.mg_icon_pic15.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic15.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic15.TabIndex = 2;
+            this.mg_icon_pic15.TabStop = false;
+            this.mg_icon_pic15.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name15_MouseClick);
+            this.mg_icon_pic15.MouseEnter += new System.EventHandler(this.Mg_name15_MouseEnter);
+            this.mg_icon_pic15.MouseLeave += new System.EventHandler(this.Mg_name15_MouseLeave);
+            // 
+            // mg_icon_pic14
+            // 
+            this.mg_icon_pic14.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic14.Image = global::minigames.Properties.Resources.coming_soon;
+            this.mg_icon_pic14.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic14.Name = "mg_icon_pic14";
+            this.mg_icon_pic14.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic14.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic14.TabIndex = 2;
+            this.mg_icon_pic14.TabStop = false;
+            this.mg_icon_pic14.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic14_MouseClick);
+            this.mg_icon_pic14.MouseEnter += new System.EventHandler(this.Mg_icon_pic14_MouseEnter);
+            this.mg_icon_pic14.MouseLeave += new System.EventHandler(this.Mg_icon_pic14_MouseLeave);
+            // 
+            // mg_icon_pic13
+            // 
+            this.mg_icon_pic13.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic13.Image = global::minigames.Properties.Resources.tetris;
+            this.mg_icon_pic13.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic13.Name = "mg_icon_pic13";
+            this.mg_icon_pic13.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic13.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic13.TabIndex = 2;
+            this.mg_icon_pic13.TabStop = false;
+            this.mg_icon_pic13.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name13_MouseClick);
+            this.mg_icon_pic13.MouseEnter += new System.EventHandler(this.Mg_name13_MouseEnter);
+            this.mg_icon_pic13.MouseLeave += new System.EventHandler(this.Mg_name13_MouseLeave);
+            // 
+            // mg_icon_pic12
+            // 
+            this.mg_icon_pic12.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic12.Image = global::minigames.Properties.Resources.tank;
+            this.mg_icon_pic12.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic12.Name = "mg_icon_pic12";
+            this.mg_icon_pic12.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic12.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic12.TabIndex = 2;
+            this.mg_icon_pic12.TabStop = false;
+            this.mg_icon_pic12.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic12_MouseClick);
+            this.mg_icon_pic12.MouseEnter += new System.EventHandler(this.Mg_icon_pic12_MouseEnter);
+            this.mg_icon_pic12.MouseLeave += new System.EventHandler(this.Mg_icon_pic12_MouseLeave);
+            // 
+            // mg_icon_pic11
+            // 
+            this.mg_icon_pic11.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic11.Image = global::minigames.Properties.Resources.ping_pong;
+            this.mg_icon_pic11.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic11.Name = "mg_icon_pic11";
+            this.mg_icon_pic11.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic11.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic11.TabIndex = 2;
+            this.mg_icon_pic11.TabStop = false;
+            this.mg_icon_pic11.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic11_MouseClick);
+            this.mg_icon_pic11.MouseEnter += new System.EventHandler(this.Mg_icon_pic11_MouseEnter);
+            this.mg_icon_pic11.MouseLeave += new System.EventHandler(this.Mg_icon_pic11_MouseLeave);
+            // 
+            // mg_icon_pic10
+            // 
+            this.mg_icon_pic10.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic10.Image = global::minigames.Properties.Resources._2048;
+            this.mg_icon_pic10.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic10.Name = "mg_icon_pic10";
+            this.mg_icon_pic10.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic10.TabIndex = 2;
+            this.mg_icon_pic10.TabStop = false;
+            this.mg_icon_pic10.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic10_MouseClick);
+            this.mg_icon_pic10.MouseEnter += new System.EventHandler(this.Mg_icon_pic10_MouseEnter);
+            this.mg_icon_pic10.MouseLeave += new System.EventHandler(this.Mg_icon_pic10_MouseLeave);
+            // 
+            // mg_icon_pic9
+            // 
+            this.mg_icon_pic9.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.sudoku;
+            this.mg_icon_pic9.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic9.Name = "mg_icon_pic9";
+            this.mg_icon_pic9.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic9.TabIndex = 2;
+            this.mg_icon_pic9.TabStop = false;
+            this.mg_icon_pic9.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name9_MouseClick);
+            this.mg_icon_pic9.MouseEnter += new System.EventHandler(this.Mg_name9_MouseEnter);
+            this.mg_icon_pic9.MouseLeave += new System.EventHandler(this.Mg_name9_MouseLeave);
+            // 
+            // mg_icon_pic8
+            // 
+            this.mg_icon_pic8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.mg_icon_pic8.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic8.Image = global::minigames.Properties.Resources.soundotron;
+            this.mg_icon_pic8.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic8.Name = "mg_icon_pic8";
+            this.mg_icon_pic8.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic8.TabIndex = 2;
+            this.mg_icon_pic8.TabStop = false;
+            this.mg_icon_pic8.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_icon_pic8_MouseClick);
+            this.mg_icon_pic8.MouseEnter += new System.EventHandler(this.Mg_icon_pic8_MouseEnter);
+            this.mg_icon_pic8.MouseLeave += new System.EventHandler(this.Mg_icon_pic8_MouseLeave);
+            // 
+            // mg_icon_pic6
+            // 
+            this.mg_icon_pic6.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic6.Image = ((System.Drawing.Image)(resources.GetObject("mg_icon_pic6.Image")));
+            this.mg_icon_pic6.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic6.Name = "mg_icon_pic6";
+            this.mg_icon_pic6.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic6.TabIndex = 2;
+            this.mg_icon_pic6.TabStop = false;
+            this.mg_icon_pic6.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name6_MouseClick);
+            this.mg_icon_pic6.MouseEnter += new System.EventHandler(this.Mg_name6_MouseEnter);
+            this.mg_icon_pic6.MouseLeave += new System.EventHandler(this.Mg_name6_MouseLeave);
+            // 
+            // mg_icon_pic5
+            // 
+            this.mg_icon_pic5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic5.Image = global::minigames.Properties.Resources.Rodrocket;
+            this.mg_icon_pic5.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic5.Name = "mg_icon_pic5";
+            this.mg_icon_pic5.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic5.TabIndex = 2;
+            this.mg_icon_pic5.TabStop = false;
+            this.mg_icon_pic5.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name5_MouseClick);
+            this.mg_icon_pic5.MouseEnter += new System.EventHandler(this.Mg_name5_MouseEnter);
+            this.mg_icon_pic5.MouseLeave += new System.EventHandler(this.Mg_name5_MouseLeave);
+            // 
+            // mg_icon_pic7
+            // 
+            this.mg_icon_pic7.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic7.Image = global::minigames.Properties.Resources.snake;
+            this.mg_icon_pic7.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic7.Name = "mg_icon_pic7";
+            this.mg_icon_pic7.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic7.TabIndex = 2;
+            this.mg_icon_pic7.TabStop = false;
+            this.mg_icon_pic7.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name7_MouseClick);
+            this.mg_icon_pic7.MouseEnter += new System.EventHandler(this.Mg_name7_MouseEnter);
+            this.mg_icon_pic7.MouseLeave += new System.EventHandler(this.Mg_name7_MouseLeave);
+            // 
+            // mg_icon_pic4
+            // 
+            this.mg_icon_pic4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.mg_icon_pic4.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic4.Image = global::minigames.Properties.Resources.reactor;
+            this.mg_icon_pic4.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic4.Name = "mg_icon_pic4";
+            this.mg_icon_pic4.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic4.TabIndex = 2;
+            this.mg_icon_pic4.TabStop = false;
+            this.mg_icon_pic4.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name4_MouseClick);
+            this.mg_icon_pic4.MouseEnter += new System.EventHandler(this.Mg_name4_MouseEnter);
+            this.mg_icon_pic4.MouseLeave += new System.EventHandler(this.Mg_name4_MouseLeave);
+            // 
+            // mg_icon_pic3
+            // 
+            this.mg_icon_pic3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic3.Image = global::minigames.Properties.Resources.math_o_light;
+            this.mg_icon_pic3.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic3.Name = "mg_icon_pic3";
+            this.mg_icon_pic3.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic3.TabIndex = 2;
+            this.mg_icon_pic3.TabStop = false;
+            this.mg_icon_pic3.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name3_MouseClick);
+            this.mg_icon_pic3.MouseEnter += new System.EventHandler(this.Mg_name3_MouseEnter);
+            this.mg_icon_pic3.MouseLeave += new System.EventHandler(this.Mg_name3_MouseLeave);
+            // 
+            // mg_icon_pic2
+            // 
+            this.mg_icon_pic2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic2.Image = global::minigames.Properties.Resources.colortiles;
+            this.mg_icon_pic2.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic2.Name = "mg_icon_pic2";
+            this.mg_icon_pic2.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic2.TabIndex = 2;
+            this.mg_icon_pic2.TabStop = false;
+            this.mg_icon_pic2.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name2_MouseClick);
+            this.mg_icon_pic2.MouseEnter += new System.EventHandler(this.Mg_name2_MouseEnter);
+            this.mg_icon_pic2.MouseLeave += new System.EventHandler(this.Mg_name2_MouseLeave);
+            // 
+            // mg_icon_pic1
+            // 
+            this.mg_icon_pic1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.mg_icon_pic1.Image = global::minigames.Properties.Resources.clortimer;
+            this.mg_icon_pic1.Location = new System.Drawing.Point(0, 0);
+            this.mg_icon_pic1.Name = "mg_icon_pic1";
+            this.mg_icon_pic1.Size = new System.Drawing.Size(98, 50);
+            this.mg_icon_pic1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mg_icon_pic1.TabIndex = 2;
+            this.mg_icon_pic1.TabStop = false;
+            this.mg_icon_pic1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_name1_MouseClick);
+            this.mg_icon_pic1.MouseEnter += new System.EventHandler(this.Mg_name1_MouseEnter);
+            this.mg_icon_pic1.MouseLeave += new System.EventHandler(this.Mg_name1_MouseLeave);
+            // 
+            // glazastic_icon_pic
+            // 
+            this.glazastic_icon_pic.Dock = System.Windows.Forms.DockStyle.Top;
+            this.glazastic_icon_pic.Image = global::minigames.Properties.Resources.icon;
+            this.glazastic_icon_pic.Location = new System.Drawing.Point(0, 0);
+            this.glazastic_icon_pic.Name = "glazastic_icon_pic";
+            this.glazastic_icon_pic.Size = new System.Drawing.Size(98, 50);
+            this.glazastic_icon_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.glazastic_icon_pic.TabIndex = 2;
+            this.glazastic_icon_pic.TabStop = false;
+            this.glazastic_icon_pic.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Glazastic_icon_pic_MouseClick);
+            this.glazastic_icon_pic.MouseEnter += new System.EventHandler(this.Glazastic_panel_MouseEnter);
+            this.glazastic_icon_pic.MouseLeave += new System.EventHandler(this.Label1_MouseLeave);
             // 
             // settings
             // 
@@ -1049,20 +1063,6 @@
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 
-            // update_error
-            // 
-            this.update_error.BackColor = System.Drawing.Color.Transparent;
-            this.update_error.Image = global::minigames.Properties.Resources.warning;
-            this.update_error.Location = new System.Drawing.Point(380, 0);
-            this.update_error.Name = "update_error";
-            this.update_error.Size = new System.Drawing.Size(20, 20);
-            this.update_error.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.update_error.TabIndex = 16;
-            this.update_error.TabStop = false;
-            this.update_error.Visible = false;
-            this.update_error.MouseEnter += new System.EventHandler(this.Update_error_MouseEnter);
-            this.update_error.MouseLeave += new System.EventHandler(this.Update_error_MouseLeave);
-            // 
             // MainMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1085,41 +1085,41 @@
             this.Load += new System.EventHandler(this.MainMenu_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainMenu_KeyDown);
             this.glazastic_panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.glazastic_icon_pic)).EndInit();
             this.mg_panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic1)).EndInit();
             this.mg_panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic2)).EndInit();
             this.mg_panel3.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic3)).EndInit();
             this.mg_panel4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic4)).EndInit();
             this.mg_panel5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic5)).EndInit();
             this.mg_panel6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic6)).EndInit();
             this.mg_panel7.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic7)).EndInit();
             this.mg_panel8.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic8)).EndInit();
             this.mg_panel9.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic9)).EndInit();
             this.mg_panel10.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic10)).EndInit();
             this.mg_panel11.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic11)).EndInit();
             this.mg_panel15.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic15)).EndInit();
             this.mg_panel14.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic14)).EndInit();
             this.mg_panel13.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic13)).EndInit();
             this.mg_panel12.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic12)).EndInit();
             this.interface_panel.ResumeLayout(false);
             this.info_menu.ResumeLayout(false);
             this.info_menu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.update_error)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.mg_icon_pic1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.glazastic_icon_pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

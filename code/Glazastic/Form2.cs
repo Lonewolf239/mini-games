@@ -48,11 +48,9 @@ namespace minigames
                     text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
                 foreach (Control text in settings_panel.Controls)
                     text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
-                Screen screen = Screen.FromPoint(Cursor.Position);
-                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
-                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
-                Left = centerX - (Width / 2);
-                Top = centerY - (Height / 2);
+                int centerX = Owner.Left + (Owner.Width - Width) / 2;
+                int centerY = Owner.Top + (Owner.Height - Height) / 2;
+                Location = new Point(centerX, centerY);
             }
             Activate();
             if (Form1.widht_panels == 20)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IniReader;
+using System;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -82,8 +83,10 @@ namespace minigames._Tetris
             },
         };
         private readonly int[] px_coordinates = new int[8];
-        public static int score = 0, max_score = 0;
+        public static int score = 0, max_score = 0, difficult_chooce = 0;
         private int next_figure, current_figure;
+        private int faling_pause = 800;
+        private int[] difficult = { 800, 400, 200 };
         private enum Direction { NONE, LEFT, RIGHT };
         private Direction player;
 
@@ -96,7 +99,10 @@ namespace minigames._Tetris
         private void Question_Click(object sender, EventArgs e)
         {
             top_panel.Focus();
-            T_about form = new T_about();
+            T_about form = new T_about
+            {
+                Owner = this
+            };
             form.ShowDialog();
         }
 
@@ -105,10 +111,14 @@ namespace minigames._Tetris
             refresh_timer.Stop();
             logic_timer.Stop();
             falling_tiles_timer.Stop();
+            move_tiles.Stop();
         }
 
         private void Tetris_Load(object sender, EventArgs e)
         {
+            difficult_chooce = INIReader.GetInt(MainMenu.iniFolder, "Tetris", "difficulty");
+            if (difficult_chooce < 0 || difficult_chooce > 2)
+                difficult_chooce = 0;
             for (int i = 0; i < playing_field.Length; i++)
             {
                 playing_field[i] = new Panel[10];
@@ -170,10 +180,11 @@ namespace minigames._Tetris
                 field_fullness[i] = new int[10];
             next_figure = rand.Next(8);
             CreateFigure();
-            falling_tiles_timer.Interval = 200;
+            faling_pause = falling_tiles_timer.Interval = difficult[difficult_chooce];
             refresh_timer.Start();
             logic_timer.Start();
             falling_tiles_timer.Start();
+            move_tiles.Start();
         }
 
         private void Logic_timer_Tick(object sender, EventArgs e)
@@ -194,8 +205,11 @@ namespace minigames._Tetris
                 if (need_disposed)
                 {
                     deleted++;
-                    if (falling_tiles_timer.Interval > 75)
-                        falling_tiles_timer.Interval -= 5;
+                    if (falling_tiles_timer.Interval > 250)
+                    {
+                        faling_pause -= 15;
+                        falling_tiles_timer.Interval = faling_pause;
+                    }
                     for (int k = i; k > 0; k--)
                     {
                         for (int j = 0; j < playing_field[k].Length; j++)
@@ -210,7 +224,7 @@ namespace minigames._Tetris
                 }
             }
             if (deleted > 0)
-                score += deleted;
+                score += deleted * 10;
             for (int j = 0; j < playing_field[0].Length; j++)
             {
                 if (field_fullness[0][j] == 1)
@@ -225,9 +239,21 @@ namespace minigames._Tetris
         {
             next_figure_picture.Image = figures_list[next_figure];
             score_text.Text = $"score:\n{score}\nmax score:\n{max_score}";
-            for (int i = 0; i < playing_field.Length; i++)
+            for (int i = 0; i < field_fullness.Length; i++)
             {
-                for (int j = 0; j < playing_field[i].Length; j++)
+                for (int j = 0; j < field_fullness[i].Length; j++)
+                {
+                    for (int k = 0; k < px_coordinates.Length; k += 2)
+                    {
+                        field_fullness[px_coordinates[k]][px_coordinates[k + 1]] = 2;
+                        if (field_fullness[i][j] != 1)
+                            field_fullness[i][j] = 0;
+                    }
+                }
+            }
+            for (int i = 0; i < field_fullness.Length; i++)
+            {
+                for (int j = 0; j < field_fullness[i].Length; j++)
                 {
                     if (field_fullness[i][j] == 1)
                         playing_field[i][j].BackColor = Color.DarkGray;
@@ -251,59 +277,28 @@ namespace minigames._Tetris
 
         private void Falling_tiles_timer_Tick(object sender, EventArgs e)
         {
-            bool touched_left_edge = false, touched_right_edge = false;
             for (int i = 0; i < px_coordinates.Length; i += 2)
             {
-                int y = px_coordinates[i];
-                int x = px_coordinates[i + 1];
-                try
+                if (field_fullness[px_coordinates[i]][px_coordinates[i + 1]] != 1)
                 {
-                    if ((x == 0 || field_fullness[y][x - 1] == 1) && player == Direction.LEFT)
+                    int y = px_coordinates[i];
+                    int x = px_coordinates[i + 1];
+                    try
                     {
-                        touched_left_edge = true;
-                        break;
+                        if (y == playing_field.Length - 1 || field_fullness[y + 1][x] == 1)
+                        {
+                            for (int j = 0; j < px_coordinates.Length; j += 2)
+                                field_fullness[px_coordinates[j]][px_coordinates[j + 1]] = 1;
+                            score += 1;
+                            CreateFigure();
+                            return;
+                        }
                     }
-                    if ((x == field_fullness[y].Length - 1 || field_fullness[y][x + 1] == 1) && player == Direction.RIGHT)
-                    {
-                        touched_right_edge = true;
-                        break;
-                    }
+                    catch { }
                 }
-                catch { }
             }
             for (int i = 0; i < px_coordinates.Length; i += 2)
-            {
-                int y = px_coordinates[i];
-                int x = px_coordinates[i + 1];
-                field_fullness[y][x] = 0;
-                try
-                {
-                    if (y == playing_field.Length - 1 || field_fullness[y + 1][x] == 1)
-                    {
-                        for (int j = 0; j < px_coordinates.Length; j += 2)
-                            field_fullness[px_coordinates[j]][px_coordinates[j + 1]] = 1;
-                        CreateFigure();
-                        return;
-                    }
-                }
-                catch { }
-            }
-            for (int i = 0; i < px_coordinates.Length; i += 2)
-            {
                 px_coordinates[i]++;
-                switch (player)
-                {
-                    case Direction.LEFT:
-                        if (!touched_left_edge)
-                            px_coordinates[i + 1]--;
-                        break;
-                    case Direction.RIGHT:
-                        if (!touched_right_edge)
-                            px_coordinates[i + 1]++;
-                        break;
-                }
-                field_fullness[px_coordinates[i]][px_coordinates[i + 1]] = 2;
-            }
         }
 
         private void Tetris_KeyDown(object sender, KeyEventArgs e)
@@ -314,7 +309,9 @@ namespace minigames._Tetris
                     player = Direction.LEFT;
                 else if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
                     player = Direction.RIGHT;
-                else if (e.KeyCode == Keys.R)
+                else if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                    falling_tiles_timer.Interval = 100;
+                else if (e.KeyCode == Keys.Space)
                 {
                     if (current_figure != 0)
                     {
@@ -347,6 +344,44 @@ namespace minigames._Tetris
             }
         }
 
+        private void Move_tiles_Tick(object sender, EventArgs e)
+        {
+            bool touched_left_edge = false, touched_right_edge = false;
+            for (int i = 0; i < px_coordinates.Length; i += 2)
+            {
+                int y = px_coordinates[i];
+                int x = px_coordinates[i + 1];
+                try
+                {
+                    if ((x == 0 || field_fullness[y][x - 1] == 1) && player == Direction.LEFT)
+                    {
+                        touched_left_edge = true;
+                        break;
+                    }
+                    if ((x == field_fullness[y].Length - 1 || field_fullness[y][x + 1] == 1) && player == Direction.RIGHT)
+                    {
+                        touched_right_edge = true;
+                        break;
+                    }
+                }
+                catch { }
+            }
+            for (int i = 0; i < px_coordinates.Length; i += 2)
+            {
+                switch (player)
+                {
+                    case Direction.LEFT:
+                        if (!touched_left_edge)
+                            px_coordinates[i + 1]--;
+                        break;
+                    case Direction.RIGHT:
+                        if (!touched_right_edge)
+                            px_coordinates[i + 1]++;
+                        break;
+                }
+            }
+        }
+
         private void Tetris_KeyUp(object sender, KeyEventArgs e)
         {
             if (!start_btn.Enabled)
@@ -354,6 +389,8 @@ namespace minigames._Tetris
                 if (((e.KeyCode == Keys.A || e.KeyCode == Keys.Left) && player == Direction.LEFT) ||
                     ((e.KeyCode == Keys.D || e.KeyCode == Keys.Right) && player == Direction.RIGHT))
                     player = Direction.NONE;
+                else if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                    falling_tiles_timer.Interval = faling_pause;
             }
         }
 
