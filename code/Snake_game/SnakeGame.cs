@@ -50,8 +50,7 @@ namespace minigames.Snake_game
         public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 300, new_px_style = 0, new_dark_theme = 1;
         public static bool new_wall_killing = false;
         private bool wall_killing = false;
-        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
-                        game_over_sound = new PlaySound(@"sounds\game_over.wav");
+        private readonly PlaySound game_over_sound = new PlaySound(@"sounds\game_over.wav");
 
         private void SnakeGame_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -63,8 +62,10 @@ namespace minigames.Snake_game
         private void Question_Click(object sender, EventArgs e)
         {
             top_panel.Focus();
-            SG_about _form = new SG_about();
-            _form.Owner = this;
+            SG_about _form = new SG_about
+            {
+                Owner = this
+            };
             _form.ShowDialog();
         }
 
@@ -616,6 +617,8 @@ namespace minigames.Snake_game
         private void Game_Over()
         {
             ost?.Dispose();
+            if (MainMenu.sounds)
+                game_over_sound.Play(1);
             start_btn.Enabled = question.Enabled = true;
             can_tp = teleported = super_fruit_spawned = super_puper_fruit_spawned = cut_fruit_spawned = cycle_done = in_game = false;
             if (score > max_score)

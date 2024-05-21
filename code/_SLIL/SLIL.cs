@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using MazeGenerator;
 using IniReader;
 using System.Diagnostics;
+using System.Threading.Tasks;
 
 namespace minigames._SLIL
 {
@@ -20,29 +21,32 @@ namespace minigames._SLIL
 
         private static readonly Maze MazeGenerator = new Maze();
         private readonly Random rand = new Random();
-        private const int SCREEN_HEIGHT = 228, SCREEN_WIDTH = 344;
+        private const int SCREEN_HEIGHT = 228, SCREEN_WIDTH = 400;
         private static int MazeHeight;
         private static int MazeWidth;
+        public static int CustomMazeHeight;
+        public static int CustomMazeWidth;
         private int MAP_WIDTH;
-        private const int START_EASY = 5, START_NORMAL = 10, START_HARD = 15;
+        private const int START_EASY = 5, START_NORMAL = 10, START_HARD = 15, START_VERY_HARD = 20;
         private const double DEPTH = 8;
         private const double FOV = Math.PI / 3;
         private double player_x = 1.5d, player_y = 1.5d, player_a = 0;
         public static double LOOK_SPEED = 1.75f;
         private const double MOVE_SPEED = 1.75d;
+        private double RUN_SPEED = 0;
         private static string MAP = "";
         private static readonly Bitmap SCREEN = new Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
         private int seconds, minutes, fps;
         public static int difficulty = 2, old_difficulty;
-        private enum Direction { STOP, FORWARD, BACK, LEFT, RIGHT };
-        private Direction playerDirection = Direction.STOP;
-        private Direction lookDirection = Direction.STOP;
+        private enum Direction { STOP, FORWARD, BACK, LEFT, RIGHT, WALK, RUN };
+        private Direction playerDirection = Direction.STOP, lookDirection = Direction.STOP, playerMoveStyle = Direction.WALK;
         private DateTime total_time = DateTime.Now;
-        private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4 };
+        private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4};
         private int currentIndex = 0;
         private bool show_finish = true, map_presed = false;
+        public static bool SHOW_FINISH = true;
         private map_form form;
-        private PlaybackState playbackState = new PlaybackState();
+        private readonly PlaybackState playbackState = new PlaybackState();
         private PlaySound[] step =
         { 
             new PlaySound(@"sounds\step_0.wav"), 
@@ -51,7 +55,7 @@ namespace minigames._SLIL
             new PlaySound(@"sounds\step_3.wav"),
             new PlaySound(@"sounds\step_4.wav")
         };
-        private PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+        private readonly PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -63,8 +67,8 @@ namespace minigames._SLIL
         {
             if (start_btn.Enabled)
             {
-                show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
-                show_settings.Location = new Point(2, show_settings.Top + 2);
+                show_settings.Size = new Size(36, 36);
+                show_settings.Location = new Point(2, 264);
             }
         }
 
@@ -72,8 +76,8 @@ namespace minigames._SLIL
         {
             if (start_btn.Enabled)
             {
-                show_settings.Size = new Size(show_settings.Width + 4, show_settings.Height + 4);
-                show_settings.Location = new Point(0, show_settings.Top - 2);
+                show_settings.Size = new Size(40, 40);
+                show_settings.Location = new Point(0, 262);
             }
         }
 
@@ -104,7 +108,7 @@ namespace minigames._SLIL
                     currentIndex = 0;
                 }
                 int index = soundIndices[currentIndex];
-                bool completed = await step[index].PlayWithWait(0.6f, playbackState);
+                bool completed = await step[index].PlayWithWait(0.45f, playbackState);
                 if (completed)
                     currentIndex++;
             }
@@ -136,6 +140,11 @@ namespace minigames._SLIL
 
         private void SLIL_KeyDown(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.ShiftKey)
+            {
+                if (stamina_panel.Width >= 175)
+                    playerMoveStyle = Direction.RUN;
+            }
             if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
                 playerDirection = Direction.FORWARD;
             if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
@@ -184,6 +193,8 @@ namespace minigames._SLIL
 
         private void SLIL_KeyUp(object sender, KeyEventArgs e)
         {
+            if (e.KeyCode == Keys.ShiftKey)
+                playerMoveStyle = Direction.WALK;
             if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up || e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
                 playerDirection = Direction.STOP;
             if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left ||  e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
@@ -207,8 +218,33 @@ namespace minigames._SLIL
         private void SLIL_Deactivate(object sender, EventArgs e)
         {
             if (!map_presed)
+            {
                 lookDirection = playerDirection = Direction.STOP;
+                playerMoveStyle = Direction.WALK;
+            }
             map_presed = false;
+        }
+
+        private void Stamina_timer_Tick(object sender, EventArgs e)
+        {
+            if (playerMoveStyle == Direction.RUN && playerDirection == Direction.FORWARD)
+            {
+                stamina_panel.Visible = true;
+                stamina_panel.Width--;
+                if (stamina_panel.Width == 0)
+                {
+                    playerMoveStyle = Direction.WALK;
+                }
+            }
+            else
+            {
+                stamina_panel.Width += 2;
+                if(stamina_panel.Width >= display.Width)
+                {
+                    stamina_panel.Width = display.Width;
+                    stamina_panel.Visible = false;
+                }
+            }
         }
 
         private void PlayerMove(double elapsed_time)
@@ -222,15 +258,28 @@ namespace minigames._SLIL
                     player_a -= elapsed_time * LOOK_SPEED;
                     break;
             }
+            switch (playerMoveStyle)
+            {
+                case Direction.RUN:
+                    if (playerDirection == Direction.FORWARD)
+                        RUN_SPEED = MOVE_SPEED;
+                    else
+                        RUN_SPEED = 1;
+                    break;
+                case Direction.WALK:
+                    RUN_SPEED = 1;
+                    break;
+            }
+            double move = MOVE_SPEED * RUN_SPEED * elapsed_time;
             switch (playerDirection)
             {
                 case Direction.FORWARD:
-                    player_x += Math.Sin(player_a) * MOVE_SPEED * elapsed_time;
-                    player_y += Math.Cos(player_a) * MOVE_SPEED * elapsed_time;
+                    player_x += Math.Sin(player_a) * move;
+                    player_y += Math.Cos(player_a) * move;
                     if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '#')
                     {
-                        player_x -= Math.Sin(player_a) * MOVE_SPEED * elapsed_time;
-                        player_y -= Math.Cos(player_a) * MOVE_SPEED * elapsed_time;
+                        player_x -= Math.Sin(player_a) * move;
+                        player_y -= Math.Cos(player_a) * move;
                     }
                     else if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '&')
                     {
@@ -239,12 +288,12 @@ namespace minigames._SLIL
                     }
                     break;
                 case Direction.BACK:
-                    player_x -= Math.Sin(player_a) * MOVE_SPEED * elapsed_time;
-                    player_y -= Math.Cos(player_a) * MOVE_SPEED * elapsed_time;
+                    player_x -= Math.Sin(player_a) * move;
+                    player_y -= Math.Cos(player_a) * move;
                     if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '#')
                     {
-                        player_x += Math.Sin(player_a) * MOVE_SPEED * elapsed_time;
-                        player_y += Math.Cos(player_a) * MOVE_SPEED * elapsed_time;
+                        player_x += Math.Sin(player_a) * move;
+                        player_y += Math.Cos(player_a) * move;
                     }
                     else if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '&')
                     {
@@ -264,10 +313,17 @@ namespace minigames._SLIL
             }
             LOOK_SPEED = INIReader.GetDouble(MainMenu.iniFolder, "SLIL", "look_speed", 1.75);
             difficulty = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "difficulty", 1);
+            SHOW_FINISH = INIReader.GetBool(MainMenu.iniFolder, "SLIL", "show_finish", true);
+            CustomMazeHeight = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "custom_maze_height", 10);
+            CustomMazeWidth = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "custom_maze_width", 10);
             if (LOOK_SPEED < 1 || LOOK_SPEED > 4.5d)
                 LOOK_SPEED = 1.75d;
-            if (difficulty < 0 || difficulty > 2)
+            if (difficulty < 0 || difficulty > 4)
                 difficulty = 1;
+            if (CustomMazeHeight < 2 || CustomMazeHeight > 150)
+                CustomMazeHeight = 10;
+            if (CustomMazeWidth < 2 || CustomMazeWidth > 150)
+                CustomMazeWidth = 10;
             old_difficulty = difficulty;
             Activate();
         }
@@ -298,6 +354,7 @@ namespace minigames._SLIL
             time_remein.Stop();
             step_sound_timer.Stop();
             map_timer.Stop();
+            stamina_timer.Stop();
             game_over?.Dispose();
             for (int i = 0; i < step.Length; i++)
                 step[i]?.Dispose();
@@ -365,22 +422,22 @@ namespace minigames._SLIL
                 }
                 if (is_bound)
                     color = Color.White;
-                else if (distance < DEPTH / 4.25)
+                else if (distance < DEPTH / 4)
                     color = Color.Silver;
-                else if (distance < DEPTH / 3.25)
+                else if (distance < DEPTH / 3)
                     color = Color.DarkGray;
-                else if (distance < DEPTH / 2.25)
+                else if (distance < DEPTH / 2)
                     color = Color.Gray;
                 else if (distance < DEPTH)
                     color = Color.DimGray;
                 else
                     color = Color.Black;
-                int celling = (int)(SCREEN_HEIGHT / 2d - SCREEN_HEIGHT / FOV / distance);
+                int celling = (int)(SCREEN_HEIGHT / 2.25d - (SCREEN_HEIGHT * FOV) / distance);
                 int floor = SCREEN_HEIGHT - celling;
                 for (int y = 0; y < SCREEN_HEIGHT; y++)
                 {
                     if (y <= celling)
-                        SCREEN.SetPixel(x, y, Color.Blue);
+                        SCREEN.SetPixel(x, y, Color.LightSlateGray);
                     else if (y > celling && y <= floor)
                     {
                         if (!hit_finish)
@@ -392,11 +449,11 @@ namespace minigames._SLIL
                     {
                         double d = 1 - (y - SCREEN_HEIGHT / 2d) / (SCREEN_HEIGHT / 2d);
                         if (d < 0.25d)
-                            SCREEN.SetPixel(x, y, Color.FromArgb(12, 12, 100));
-                        else if (d < 0.5d)
-                            SCREEN.SetPixel(x, y, Color.FromArgb(10, 10, 75));
-                        else if (d < 0.75d)
-                            SCREEN.SetPixel(x, y, Color.FromArgb(6, 6, 45));
+                            SCREEN.SetPixel(x, y, Color.FromArgb(80, 80, 80));
+                        else if (d < 0.50d)
+                            SCREEN.SetPixel(x, y, Color.FromArgb(60, 60, 60));
+                        else if (d < 0.735d)
+                            SCREEN.SetPixel(x, y, Color.FromArgb(40, 40, 40));
                         else
                             SCREEN.SetPixel(x, y, Color.Black);
                     }
@@ -418,24 +475,40 @@ namespace minigames._SLIL
             seconds = 0;
             player_x = player_y = 1.5d;
             player_a = 0;
+            stamina_panel.Width = display.Width;
+            stamina_panel.Visible = false;
             lookDirection = playerDirection = Direction.STOP;
+            playerMoveStyle = Direction.WALK;
             if (difficulty == 0)
+            {
+                minutes = START_VERY_HARD;
+                MazeHeight = MazeWidth = 25;
+                show_finish = false;
+            }
+            else if (difficulty == 1)
             {
                 minutes = START_HARD;
                 MazeHeight = MazeWidth = 20;
                 show_finish = false;
             }
-            else if (difficulty == 1)
+            else if (difficulty == 2)
             {
                 minutes = START_NORMAL;
                 MazeHeight = MazeWidth = 15;
-                show_finish = true;
+                show_finish = SHOW_FINISH;
             }
-            else
+            else if (difficulty == 3)
             {
                 minutes = START_EASY;
                 MazeHeight = MazeWidth = 10;
-                show_finish = true;
+                show_finish = SHOW_FINISH;
+            }
+            else
+            {
+                minutes = 9999;
+                MazeHeight = CustomMazeHeight;
+                MazeWidth = CustomMazeWidth;
+                show_finish = SHOW_FINISH;
             }
             MAP_WIDTH = MazeWidth * 3 + 1;
             InitMap();
@@ -447,6 +520,7 @@ namespace minigames._SLIL
             status_text.Text = $"FPS: {fps} | TIME LEFT: {space_0}{minutes}:{space_1}{seconds}";
             raycast.Start();
             time_remein.Start();
+            stamina_timer.Start();
             if (MainMenu.sounds)
                 step_sound_timer.Start();
         }
@@ -457,6 +531,9 @@ namespace minigames._SLIL
             time_remein.Stop();
             step_sound_timer.Stop();
             map_timer.Stop();
+            stamina_timer.Stop();
+            stamina_panel.Width = display.Width;
+            stamina_panel.Visible = false;
             if (form != null)
             {
                 form.Close();
@@ -466,7 +543,7 @@ namespace minigames._SLIL
             status_text.Text = "";
             if (win == 1)
             {
-                if (difficulty > 0)
+                if (difficulty > 0 && difficulty != 4)
                     difficulty--;
                 StartGame();
             }

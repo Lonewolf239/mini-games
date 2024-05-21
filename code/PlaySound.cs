@@ -54,7 +54,6 @@ namespace minigames
         {
             if (state.IsPlaying)
                 return false;
-
             try
             {
                 file.Position = 0;

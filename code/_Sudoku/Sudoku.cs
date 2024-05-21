@@ -179,8 +179,7 @@ namespace minigames._Sudoku
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            string minutes_space = "0", seconds_space = "0", minutes_space1 = "0", seconds_space1 = "0";
-            
+            string minutes_space = "0", seconds_space = "0", minutes_space1 = "0", seconds_space1 = "0";            
             if (!death_time)
             {
                 seconds++;
@@ -342,8 +341,10 @@ namespace minigames._Sudoku
         {
             if (!timer.Enabled)
             {
-                SS_Settings form = new SS_Settings();
-                form.Owner = this;
+                SS_Settings form = new SS_Settings
+                {
+                    Owner = this
+                };
                 form.ShowDialog();
             }
         }

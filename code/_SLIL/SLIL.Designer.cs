@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLIL));
             this.top_panel = new System.Windows.Forms.Panel();
+            this.stamina_panel = new System.Windows.Forms.Panel();
+            this.game_over_text = new System.Windows.Forms.Label();
             this.display = new System.Windows.Forms.PictureBox();
             this.status_text = new System.Windows.Forms.Label();
             this.start_btn = new System.Windows.Forms.Button();
@@ -38,11 +40,11 @@
             this.time_remein = new System.Windows.Forms.Timer(this.components);
             this.step_sound_timer = new System.Windows.Forms.Timer(this.components);
             this.map_timer = new System.Windows.Forms.Timer(this.components);
-            this.show_settings = new System.Windows.Forms.PictureBox();
             this.question = new System.Windows.Forms.Button();
             this.by = new System.Windows.Forms.Label();
             this.developer_name = new System.Windows.Forms.Label();
-            this.game_over_text = new System.Windows.Forms.Label();
+            this.stamina_timer = new System.Windows.Forms.Timer(this.components);
+            this.show_settings = new System.Windows.Forms.PictureBox();
             this.top_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
@@ -52,21 +54,45 @@
             // 
             this.top_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
             this.top_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.top_panel.Controls.Add(this.stamina_panel);
             this.top_panel.Controls.Add(this.game_over_text);
             this.top_panel.Controls.Add(this.display);
             this.top_panel.Controls.Add(this.status_text);
             this.top_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
-            this.top_panel.Size = new System.Drawing.Size(348, 256);
+            this.top_panel.Size = new System.Drawing.Size(404, 256);
             this.top_panel.TabIndex = 0;
+            // 
+            // stamina_panel
+            // 
+            this.stamina_panel.BackColor = System.Drawing.Color.Lime;
+            this.stamina_panel.Location = new System.Drawing.Point(0, 246);
+            this.stamina_panel.Name = "stamina_panel";
+            this.stamina_panel.Size = new System.Drawing.Size(400, 6);
+            this.stamina_panel.TabIndex = 3;
+            this.stamina_panel.Visible = false;
+            // 
+            // game_over_text
+            // 
+            this.game_over_text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
+            this.game_over_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.game_over_text.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.game_over_text.ForeColor = System.Drawing.Color.White;
+            this.game_over_text.Location = new System.Drawing.Point(0, 24);
+            this.game_over_text.Name = "game_over_text";
+            this.game_over_text.Size = new System.Drawing.Size(400, 228);
+            this.game_over_text.TabIndex = 2;
+            this.game_over_text.Text = "GAME OVER";
+            this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.game_over_text.Visible = false;
             // 
             // display
             // 
             this.display.Dock = System.Windows.Forms.DockStyle.Fill;
             this.display.Location = new System.Drawing.Point(0, 24);
             this.display.Name = "display";
-            this.display.Size = new System.Drawing.Size(344, 228);
+            this.display.Size = new System.Drawing.Size(400, 228);
             this.display.TabIndex = 0;
             this.display.TabStop = false;
             // 
@@ -79,7 +105,7 @@
             this.status_text.ForeColor = System.Drawing.Color.White;
             this.status_text.Location = new System.Drawing.Point(0, 0);
             this.status_text.Name = "status_text";
-            this.status_text.Size = new System.Drawing.Size(344, 24);
+            this.status_text.Size = new System.Drawing.Size(400, 24);
             this.status_text.TabIndex = 1;
             this.status_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -117,19 +143,6 @@
             this.map_timer.Interval = 1;
             this.map_timer.Tick += new System.EventHandler(this.Map_timer_Tick);
             // 
-            // show_settings
-            // 
-            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
-            this.show_settings.Location = new System.Drawing.Point(0, 262);
-            this.show_settings.Name = "show_settings";
-            this.show_settings.Size = new System.Drawing.Size(40, 40);
-            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.show_settings.TabIndex = 38;
-            this.show_settings.TabStop = false;
-            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
-            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
-            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
-            // 
             // question
             // 
             this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
@@ -148,7 +161,7 @@
             // 
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
             this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.by.Location = new System.Drawing.Point(237, 260);
+            this.by.Location = new System.Drawing.Point(293, 260);
             this.by.Name = "by";
             this.by.Size = new System.Drawing.Size(111, 21);
             this.by.TabIndex = 41;
@@ -160,7 +173,7 @@
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
             this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.developer_name.Location = new System.Drawing.Point(214, 281);
+            this.developer_name.Location = new System.Drawing.Point(270, 281);
             this.developer_name.Name = "developer_name";
             this.developer_name.Size = new System.Drawing.Size(134, 21);
             this.developer_name.TabIndex = 40;
@@ -168,25 +181,29 @@
             this.developer_name.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.developer_name.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Developer_name_MouseClick);
             // 
-            // game_over_text
+            // stamina_timer
             // 
-            this.game_over_text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
-            this.game_over_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.game_over_text.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.game_over_text.ForeColor = System.Drawing.Color.White;
-            this.game_over_text.Location = new System.Drawing.Point(0, 24);
-            this.game_over_text.Name = "game_over_text";
-            this.game_over_text.Size = new System.Drawing.Size(344, 228);
-            this.game_over_text.TabIndex = 2;
-            this.game_over_text.Text = "GAME OVER";
-            this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.game_over_text.Visible = false;
+            this.stamina_timer.Interval = 10;
+            this.stamina_timer.Tick += new System.EventHandler(this.Stamina_timer_Tick);
+            // 
+            // show_settings
+            // 
+            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
+            this.show_settings.Location = new System.Drawing.Point(0, 262);
+            this.show_settings.Name = "show_settings";
+            this.show_settings.Size = new System.Drawing.Size(40, 40);
+            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.show_settings.TabIndex = 38;
+            this.show_settings.TabStop = false;
+            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
+            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
+            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
             // 
             // SLIL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(348, 302);
+            this.ClientSize = new System.Drawing.Size(404, 302);
             this.Controls.Add(this.by);
             this.Controls.Add(this.developer_name);
             this.Controls.Add(this.question);
@@ -231,5 +248,7 @@
         private System.Windows.Forms.Label by;
         private System.Windows.Forms.Label developer_name;
         private System.Windows.Forms.Label game_over_text;
+        private System.Windows.Forms.Timer stamina_timer;
+        private System.Windows.Forms.Panel stamina_panel;
     }
 }

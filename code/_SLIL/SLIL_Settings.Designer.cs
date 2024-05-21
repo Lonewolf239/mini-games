@@ -32,7 +32,14 @@
             this.look_speed = new System.Windows.Forms.TrackBar();
             this.difficulty_text = new System.Windows.Forms.Label();
             this.difficulty_list = new System.Windows.Forms.ComboBox();
+            this.show_finish = new System.Windows.Forms.CheckBox();
+            this.width_map_input = new System.Windows.Forms.NumericUpDown();
+            this.height_map_text = new System.Windows.Forms.Label();
+            this.width_map_text = new System.Windows.Forms.Label();
+            this.height_map_input = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
             this.SuspendLayout();
             // 
             // look_speed_text
@@ -75,20 +82,104 @@
             this.difficulty_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.difficulty_list.FormattingEnabled = true;
             this.difficulty_list.Items.AddRange(new object[] {
+            "Очень сложно",
             "Сложно",
             "Нормально",
-            "Легко"});
+            "Легко",
+            "Custom"});
             this.difficulty_list.Location = new System.Drawing.Point(161, 66);
             this.difficulty_list.Name = "difficulty_list";
             this.difficulty_list.Size = new System.Drawing.Size(157, 32);
             this.difficulty_list.TabIndex = 3;
             this.difficulty_list.TabStop = false;
+            this.difficulty_list.SelectedIndexChanged += new System.EventHandler(this.Difficulty_list_SelectedIndexChanged);
+            // 
+            // show_finish
+            // 
+            this.show_finish.AutoSize = true;
+            this.show_finish.Location = new System.Drawing.Point(7, 104);
+            this.show_finish.Name = "show_finish";
+            this.show_finish.Size = new System.Drawing.Size(208, 28);
+            this.show_finish.TabIndex = 4;
+            this.show_finish.Text = "Отображать финиш";
+            this.show_finish.UseVisualStyleBackColor = true;
+            // 
+            // width_map_input
+            // 
+            this.width_map_input.Location = new System.Drawing.Point(94, 184);
+            this.width_map_input.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.width_map_input.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.width_map_input.Name = "width_map_input";
+            this.width_map_input.Size = new System.Drawing.Size(120, 29);
+            this.width_map_input.TabIndex = 5;
+            this.width_map_input.TabStop = false;
+            this.width_map_input.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+            // 
+            // height_map_text
+            // 
+            this.height_map_text.AutoSize = true;
+            this.height_map_text.Location = new System.Drawing.Point(12, 151);
+            this.height_map_text.Name = "height_map_text";
+            this.height_map_text.Size = new System.Drawing.Size(76, 24);
+            this.height_map_text.TabIndex = 6;
+            this.height_map_text.Text = "Высота";
+            this.height_map_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // width_map_text
+            // 
+            this.width_map_text.AutoSize = true;
+            this.width_map_text.Location = new System.Drawing.Point(12, 186);
+            this.width_map_text.Name = "width_map_text";
+            this.width_map_text.Size = new System.Drawing.Size(78, 24);
+            this.width_map_text.TabIndex = 7;
+            this.width_map_text.Text = "Ширина";
+            this.width_map_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // height_map_input
+            // 
+            this.height_map_input.Location = new System.Drawing.Point(94, 149);
+            this.height_map_input.Maximum = new decimal(new int[] {
+            150,
+            0,
+            0,
+            0});
+            this.height_map_input.Minimum = new decimal(new int[] {
+            2,
+            0,
+            0,
+            0});
+            this.height_map_input.Name = "height_map_input";
+            this.height_map_input.Size = new System.Drawing.Size(120, 29);
+            this.height_map_input.TabIndex = 8;
+            this.height_map_input.TabStop = false;
+            this.height_map_input.Value = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
             // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(327, 130);
+            this.ClientSize = new System.Drawing.Size(386, 233);
+            this.Controls.Add(this.height_map_input);
+            this.Controls.Add(this.width_map_text);
+            this.Controls.Add(this.height_map_text);
+            this.Controls.Add(this.width_map_input);
+            this.Controls.Add(this.show_finish);
             this.Controls.Add(this.difficulty_list);
             this.Controls.Add(this.difficulty_text);
             this.Controls.Add(this.look_speed);
@@ -109,6 +200,8 @@
             this.Load += new System.EventHandler(this.SLIL_Settings_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SLIL_Settings_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -120,5 +213,10 @@
         private System.Windows.Forms.TrackBar look_speed;
         private System.Windows.Forms.Label difficulty_text;
         private System.Windows.Forms.ComboBox difficulty_list;
+        private System.Windows.Forms.CheckBox show_finish;
+        private System.Windows.Forms.NumericUpDown width_map_input;
+        private System.Windows.Forms.Label height_map_text;
+        private System.Windows.Forms.NumericUpDown height_map_input;
+        private System.Windows.Forms.Label width_map_text;
     }
 }

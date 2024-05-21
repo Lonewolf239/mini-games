@@ -35,6 +35,7 @@
             this.question = new System.Windows.Forms.Button();
             this.by = new System.Windows.Forms.Label();
             this.developer_name = new System.Windows.Forms.Label();
+            this.its_bomb = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,6 +58,9 @@
             this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.show_settings.TabIndex = 33;
             this.show_settings.TabStop = false;
+            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
+            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
+            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
             // 
             // start_btn
             // 
@@ -70,6 +74,7 @@
             this.start_btn.TabStop = false;
             this.start_btn.Text = "СТАРТ";
             this.start_btn.UseVisualStyleBackColor = true;
+            this.start_btn.Click += new System.EventHandler(this.Start_btn_Click);
             // 
             // question
             // 
@@ -83,6 +88,7 @@
             this.question.TabStop = false;
             this.question.Text = "?";
             this.question.UseVisualStyleBackColor = true;
+            this.question.Click += new System.EventHandler(this.Question_Click);
             // 
             // by
             // 
@@ -107,11 +113,21 @@
             this.developer_name.Text = "Lonewolf239";
             this.developer_name.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // its_bomb
+            // 
+            this.its_bomb.AutoSize = true;
+            this.its_bomb.Location = new System.Drawing.Point(191, 373);
+            this.its_bomb.Name = "its_bomb";
+            this.its_bomb.Size = new System.Drawing.Size(0, 24);
+            this.its_bomb.TabIndex = 36;
+            this.its_bomb.Visible = false;
+            // 
             // Sapper
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(364, 413);
+            this.Controls.Add(this.its_bomb);
             this.Controls.Add(this.by);
             this.Controls.Add(this.developer_name);
             this.Controls.Add(this.show_settings);
@@ -123,13 +139,15 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.Name = "Sapper";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Сапёр";
             this.TopMost = true;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Sapper_FormClosing);
             this.Load += new System.EventHandler(this.Sapper_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Sapper_KeyDown);
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,5 +162,6 @@
         private System.Windows.Forms.Button question;
         private System.Windows.Forms.Label by;
         private System.Windows.Forms.Label developer_name;
+        private System.Windows.Forms.Label its_bomb;
     }
 }

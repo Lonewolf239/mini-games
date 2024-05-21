@@ -28,7 +28,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.2.3|";
+        private readonly string current_version = "|0.2.4|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -809,8 +809,8 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                //Sapper form = new Sapper();
-                //OpenGame(form, mg_panel14);
+                Sapper form = new Sapper();
+                OpenGame(form, mg_panel14);
             }
         }
 

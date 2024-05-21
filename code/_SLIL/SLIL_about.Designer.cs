@@ -50,7 +50,7 @@
             this.control_panel.Location = new System.Drawing.Point(0, 0);
             this.control_panel.Margin = new System.Windows.Forms.Padding(2);
             this.control_panel.Name = "control_panel";
-            this.control_panel.Size = new System.Drawing.Size(526, 184);
+            this.control_panel.Size = new System.Drawing.Size(526, 204);
             this.control_panel.TabIndex = 1;
             // 
             // control_space
@@ -60,10 +60,10 @@
             this.control_space.Location = new System.Drawing.Point(0, 144);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(524, 40);
+            this.control_space.Size = new System.Drawing.Size(524, 60);
             this.control_space.TabIndex = 2;
-            this.control_space.Text = "Чтобы открыть карту нажмите Space \\ Tab \\ M\r\nДля остановки игры нажмите: ESC";
-            this.control_space.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.control_space.Text = "Карта: Space \\ Tab \\ M\r\nБег: Shift\r\nДля остановки игры нажмите: ESC";
+            this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // control_pic
             // 
@@ -97,7 +97,7 @@
             this.ok.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ok.Location = new System.Drawing.Point(419, 241);
+            this.ok.Location = new System.Drawing.Point(419, 261);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(95, 41);
             this.ok.TabIndex = 27;
@@ -111,7 +111,7 @@
             this.fruit_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fruit_panel.Controls.Add(this.rules_text);
             this.fruit_panel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.fruit_panel.Location = new System.Drawing.Point(0, 184);
+            this.fruit_panel.Location = new System.Drawing.Point(0, 204);
             this.fruit_panel.Margin = new System.Windows.Forms.Padding(2);
             this.fruit_panel.Name = "fruit_panel";
             this.fruit_panel.Size = new System.Drawing.Size(526, 52);
@@ -134,7 +134,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ok;
-            this.ClientSize = new System.Drawing.Size(526, 288);
+            this.ClientSize = new System.Drawing.Size(526, 308);
             this.Controls.Add(this.fruit_panel);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.control_panel);
