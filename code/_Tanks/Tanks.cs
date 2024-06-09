@@ -1,15 +1,9 @@
 ﻿using IniReader;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace minigames._Tanks
 {
@@ -56,19 +50,13 @@ namespace minigames._Tanks
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
             if (start_btn.Enabled)
-            {
-                show_settings.Location = new Point(show_settings.Left + 2, show_settings.Top + 2);
-                show_settings.Size = new Size(show_settings.Height - 4, show_settings.Width - 4);
-            }
+                show_settings.Image = Properties.Resources.setting_pressed_btn;
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
             if (start_btn.Enabled)
-            {
-                show_settings.Location = new Point(show_settings.Left - 2, show_settings.Top - 2);
-                show_settings.Size = new Size(show_settings.Height + 4, show_settings.Width + 4);
-            }
+                show_settings.Image = Properties.Resources.setting_btn;
         }
 
         private void Show_settings_MouseClick(object sender, MouseEventArgs e)

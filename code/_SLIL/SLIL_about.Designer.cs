@@ -30,19 +30,22 @@
         {
             this.control_panel = new System.Windows.Forms.Panel();
             this.control_space = new System.Windows.Forms.Label();
-            this.control_pic = new System.Windows.Forms.PictureBox();
             this.control_text = new System.Windows.Forms.Label();
             this.ok = new System.Windows.Forms.Button();
             this.fruit_panel = new System.Windows.Forms.Panel();
             this.rules_text = new System.Windows.Forms.Label();
+            this.mouse_pic = new System.Windows.Forms.PictureBox();
+            this.control_pic = new System.Windows.Forms.PictureBox();
             this.control_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).BeginInit();
             this.fruit_panel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.mouse_pic)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).BeginInit();
             this.SuspendLayout();
             // 
             // control_panel
             // 
             this.control_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.control_panel.Controls.Add(this.mouse_pic);
             this.control_panel.Controls.Add(this.control_space);
             this.control_panel.Controls.Add(this.control_pic);
             this.control_panel.Controls.Add(this.control_text);
@@ -55,7 +58,6 @@
             // 
             // control_space
             // 
-            this.control_space.Dock = System.Windows.Forms.DockStyle.Top;
             this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.control_space.Location = new System.Drawing.Point(0, 144);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -64,19 +66,6 @@
             this.control_space.TabIndex = 2;
             this.control_space.Text = "Карта: Space \\ Tab \\ M\r\nБег: Shift\r\nДля остановки игры нажмите: ESC";
             this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // control_pic
-            // 
-            this.control_pic.BackColor = System.Drawing.Color.White;
-            this.control_pic.Dock = System.Windows.Forms.DockStyle.Top;
-            this.control_pic.Image = global::minigames.Properties.Resources.control;
-            this.control_pic.Location = new System.Drawing.Point(0, 20);
-            this.control_pic.Margin = new System.Windows.Forms.Padding(2);
-            this.control_pic.Name = "control_pic";
-            this.control_pic.Size = new System.Drawing.Size(524, 124);
-            this.control_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.control_pic.TabIndex = 0;
-            this.control_pic.TabStop = false;
             // 
             // control_text
             // 
@@ -128,6 +117,30 @@
             this.rules_text.TabIndex = 0;
             this.rules_text.Text = "Цель игры - пройти случайно сгенерированный лабиринт за определённое время.";
             // 
+            // mouse_pic
+            // 
+            this.mouse_pic.BackColor = System.Drawing.Color.White;
+            this.mouse_pic.Image = global::minigames.Properties.Resources.mouse;
+            this.mouse_pic.Location = new System.Drawing.Point(395, 20);
+            this.mouse_pic.Margin = new System.Windows.Forms.Padding(2);
+            this.mouse_pic.Name = "mouse_pic";
+            this.mouse_pic.Size = new System.Drawing.Size(130, 124);
+            this.mouse_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.mouse_pic.TabIndex = 3;
+            this.mouse_pic.TabStop = false;
+            // 
+            // control_pic
+            // 
+            this.control_pic.BackColor = System.Drawing.Color.White;
+            this.control_pic.Image = global::minigames.Properties.Resources.control;
+            this.control_pic.Location = new System.Drawing.Point(0, 20);
+            this.control_pic.Margin = new System.Windows.Forms.Padding(2);
+            this.control_pic.Name = "control_pic";
+            this.control_pic.Size = new System.Drawing.Size(395, 124);
+            this.control_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.control_pic.TabIndex = 0;
+            this.control_pic.TabStop = false;
+            // 
             // SLIL_about
             // 
             this.AcceptButton = this.ok;
@@ -150,8 +163,9 @@
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SLIL_about_Load);
             this.control_panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).EndInit();
             this.fruit_panel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.mouse_pic)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -166,5 +180,6 @@
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Panel fruit_panel;
         private System.Windows.Forms.Label rules_text;
+        private System.Windows.Forms.PictureBox mouse_pic;
     }
 }

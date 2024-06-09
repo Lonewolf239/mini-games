@@ -18,19 +18,19 @@ namespace minigames
         private void Ez_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 20;
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", "0");
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", 0);
         }
 
         private void Midle_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 10;
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", "1");
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", 1);
         }
 
         private void Hard_CheckedChanged(object sender, EventArgs e)
         {
             dificult_choice = 5;
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", "2");
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "difficulty", 2);
         }
 
         private void speed_CheckedChanged(object sender, EventArgs e)

@@ -17,6 +17,8 @@ namespace minigames
         private bool complete = false, canceled = false;
         public static bool language = true;
         private readonly WebClient client = new WebClient();
+        private long lastBytesReceived = 0;
+        private DateTime lastUpdateTime = DateTime.Now;
 
         private void Downloading_Load(object sender, EventArgs e)
         {
@@ -38,9 +40,25 @@ namespace minigames
             }
             client.DownloadProgressChanged += (Sender, E) =>
             {
-                download_progress.Width = (int)((double)E.BytesReceived / E.TotalBytesToReceive * download_progress_panel.Width);
-                progress.Text = $"{(Convert.ToDouble(E.BytesReceived) / E.TotalBytesToReceive) * 100:0.#}%";
-                size_label.Text = $"{Convert.ToDouble(E.BytesReceived) / 1024 / 1024:0.##}MB / {Convert.ToDouble(E.TotalBytesToReceive) / 1024 / 1024:0.##}MB";
+                long currentBytesReceived = E.BytesReceived;
+                TimeSpan elapsedTime = DateTime.Now - lastUpdateTime;
+                if (elapsedTime.TotalSeconds > 0)
+                {
+                    long bytesReceived = currentBytesReceived - lastBytesReceived;
+                    double speed = bytesReceived / elapsedTime.TotalSeconds / 1024;
+                    string type = "KB";
+                    download_progress.Width = (int)((double)E.BytesReceived / E.TotalBytesToReceive * download_progress_panel.Width);
+                    progress.Text = $"{(Convert.ToDouble(E.BytesReceived) / E.TotalBytesToReceive) * 100:0.#}%";
+                    size_label.Text = $"{Convert.ToDouble(E.BytesReceived) / 1024 / 1024:0.##}MB / {Convert.ToDouble(E.TotalBytesToReceive) / 1024 / 1024:0.##}MB";
+                    if(speed >= 1024)
+                    {
+                        type = "MB";
+                        speed /= 1024;
+                    }
+                    speed_label.Text = $"{speed:0.##} {type}/s";
+                    lastBytesReceived = currentBytesReceived;
+                    lastUpdateTime = DateTime.Now;
+                }
             };
             client.DownloadFileCompleted += (Sender, E) =>
             {

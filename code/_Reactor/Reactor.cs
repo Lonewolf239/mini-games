@@ -452,7 +452,5 @@ namespace minigames._Reactor
         {
             tip?.Dispose();
         }
-
-
     }
 }

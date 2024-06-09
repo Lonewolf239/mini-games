@@ -1274,7 +1274,7 @@
             // 
             // show_settings
             // 
-            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
+            this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
             this.show_settings.Location = new System.Drawing.Point(0, 361);
             this.show_settings.Name = "show_settings";
             this.show_settings.Size = new System.Drawing.Size(40, 40);

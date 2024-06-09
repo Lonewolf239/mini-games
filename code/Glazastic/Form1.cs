@@ -233,9 +233,9 @@ namespace minigames
             big_speed = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "big_speed");
             unposible_mod = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "impossible");
             practic_mod = INIReader.GetBool(MainMenu.iniFolder, "Glazastic", "practice_mode");
-            win = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "win");
-            lose = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "lose");
-            games = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "games");
+            win = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "win") / 13;
+            lose = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "lose") / 13;
+            games = INIReader.GetInt(MainMenu.iniFolder, "Glazastic", "games") / 13;
             float percent = 0, percent_lose = 0;
             if (games != 0)
             {
@@ -277,9 +277,9 @@ namespace minigames
         private void Form1_FormClosing(object sender, FormClosingEventArgs e)
         {
             timer1.Stop();
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "win", win);
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "lose", lose);
-            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "games", games);
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "win", win * 13);
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "lose", lose * 13);
+            INIReader.SetKey(MainMenu.iniFolder, "Glazastic", "games", games * 13);
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -298,14 +298,12 @@ namespace minigames
 
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
-            show_settings.Location = new Point(show_settings.Location.X + 2, show_settings.Location.Y + 2);
-            show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
+            show_settings.Image = Properties.Resources.setting_pressed_btn;
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
-            show_settings.Location = new Point(show_settings.Location.X - 2, show_settings.Location.Y - 2);
-            show_settings.Size = new Size(show_settings.Width + 4, show_settings.Height + 4);
+            show_settings.Image = Properties.Resources.setting_btn;
         }
     }
 }

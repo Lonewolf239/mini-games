@@ -14,10 +14,7 @@ namespace minigames._SLIL
 
         private look_speed_percent form;
 
-        private void Look_speed_Enter(object sender, EventArgs e)
-        {
-            look_speed_text.Focus();
-        }
+        private void Look_speed_Enter(object sender, EventArgs e) => look_speed_text.Focus();
 
         private void SLIL_Settings_Load(object sender, EventArgs e)
         {
@@ -27,12 +24,14 @@ namespace minigames._SLIL
                 look_speed_text.Text = "Sensitivity";
                 difficulty_text.Text = "Difficulty";
                 show_finish.Text = "Show finish";
+                reset_btn.Text = "Reset";
                 difficulty_list.Items.Clear();
                 string[] dif = { "Very hard", "Hard", "Normal", "Easy", "Custom" };
                 difficulty_list.Items.AddRange(dif);
             }
             look_speed.Left = look_speed_text.Right + 6;
             difficulty_list.Left = look_speed.Left - 22;
+            reset_btn.Left = difficulty_list.Right - reset_btn.Width;
             Width = look_speed.Right + 36;
             Height = show_finish.Bottom + 48;
             int centerX = Owner.Left + (Owner.Width - Width) / 2;
@@ -112,5 +111,7 @@ namespace minigames._SLIL
             else
                 Height = show_finish.Bottom + 48;
         }
+
+        private void Reset_btn_Click(object sender, EventArgs e) => look_speed.Value = 175;
     }
 }

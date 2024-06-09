@@ -45,6 +45,7 @@
             this.developer_name = new System.Windows.Forms.Label();
             this.stamina_timer = new System.Windows.Forms.Timer(this.components);
             this.show_settings = new System.Windows.Forms.PictureBox();
+            this.mouse_timer = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
@@ -93,8 +94,10 @@
             this.display.Location = new System.Drawing.Point(0, 24);
             this.display.Name = "display";
             this.display.Size = new System.Drawing.Size(400, 228);
+            this.display.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.display.TabIndex = 0;
             this.display.TabStop = false;
+            this.display.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Display_MouseMove);
             // 
             // status_text
             // 
@@ -188,7 +191,7 @@
             // 
             // show_settings
             // 
-            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
+            this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
             this.show_settings.Location = new System.Drawing.Point(0, 262);
             this.show_settings.Name = "show_settings";
             this.show_settings.Size = new System.Drawing.Size(40, 40);
@@ -198,6 +201,11 @@
             this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
             this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
             this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
+            // 
+            // mouse_timer
+            // 
+            this.mouse_timer.Interval = 1;
+            this.mouse_timer.Tick += new System.EventHandler(this.Mouse_timer_Tick);
             // 
             // SLIL
             // 
@@ -250,5 +258,6 @@
         private System.Windows.Forms.Label game_over_text;
         private System.Windows.Forms.Timer stamina_timer;
         private System.Windows.Forms.Panel stamina_panel;
+        private System.Windows.Forms.Timer mouse_timer;
     }
 }

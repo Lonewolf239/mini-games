@@ -78,19 +78,13 @@ namespace minigames.Snake_game
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
             if (!in_game)
-            {
-                show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
-                show_settings.Location = new Point(2, show_settings.Top + 2);
-            }
+                show_settings.Image = Properties.Resources.setting_pressed_btn;
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
             if (!in_game)
-            {
-                show_settings.Size = new Size(show_settings.Width + 4, show_settings.Height + 4);
-                show_settings.Location = new Point(0, show_settings.Top - 2);
-            }
+                show_settings.Image = Properties.Resources.setting_btn;
         }
 
         private void Show_settings_MouseClick(object sender, MouseEventArgs e)

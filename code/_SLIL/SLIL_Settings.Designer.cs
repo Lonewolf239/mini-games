@@ -37,6 +37,7 @@
             this.height_map_text = new System.Windows.Forms.Label();
             this.width_map_text = new System.Windows.Forms.Label();
             this.height_map_input = new System.Windows.Forms.NumericUpDown();
+            this.reset_btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -101,6 +102,7 @@
             this.show_finish.Name = "show_finish";
             this.show_finish.Size = new System.Drawing.Size(208, 28);
             this.show_finish.TabIndex = 4;
+            this.show_finish.TabStop = false;
             this.show_finish.Text = "Отображать финиш";
             this.show_finish.UseVisualStyleBackColor = true;
             // 
@@ -170,11 +172,25 @@
             0,
             0});
             // 
+            // reset_btn
+            // 
+            this.reset_btn.AutoSize = true;
+            this.reset_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.reset_btn.Location = new System.Drawing.Point(240, 102);
+            this.reset_btn.Name = "reset_btn";
+            this.reset_btn.Size = new System.Drawing.Size(78, 36);
+            this.reset_btn.TabIndex = 9;
+            this.reset_btn.TabStop = false;
+            this.reset_btn.Text = "Сброс";
+            this.reset_btn.UseVisualStyleBackColor = true;
+            this.reset_btn.Click += new System.EventHandler(this.Reset_btn_Click);
+            // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 233);
+            this.Controls.Add(this.reset_btn);
             this.Controls.Add(this.height_map_input);
             this.Controls.Add(this.width_map_text);
             this.Controls.Add(this.height_map_text);
@@ -218,5 +234,6 @@
         private System.Windows.Forms.Label height_map_text;
         private System.Windows.Forms.NumericUpDown height_map_input;
         private System.Windows.Forms.Label width_map_text;
+        private System.Windows.Forms.Button reset_btn;
     }
 }

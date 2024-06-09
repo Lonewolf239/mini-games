@@ -276,6 +276,10 @@ namespace minigames.Colortimer
                                 color_text.ForeColor = Color.White;
                             color_text.TextAlign = content[rand_content];
                         }
+                        if (color_panel.BackColor == Color.Black)
+                            combo_text.ForeColor = Color.White;
+                        else
+                            combo_text.ForeColor = SystemColors.ControlText;
                         timer1.Start();
                     }
                     else

@@ -62,7 +62,7 @@
             this.ok.TabStop = false;
             this.ok.Text = "OK";
             this.ok.UseVisualStyleBackColor = true;
-            this.ok.Click += new System.EventHandler(this.ok_Click);
+            this.ok.Click += new System.EventHandler(this.Ok_Click);
             // 
             // richTextBox1
             // 

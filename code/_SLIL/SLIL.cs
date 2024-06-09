@@ -8,7 +8,6 @@ using System.Windows.Forms;
 using MazeGenerator;
 using IniReader;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 namespace minigames._SLIL
 {
@@ -39,7 +38,7 @@ namespace minigames._SLIL
         private int seconds, minutes, fps;
         public static int difficulty = 2, old_difficulty;
         private enum Direction { STOP, FORWARD, BACK, LEFT, RIGHT, WALK, RUN };
-        private Direction playerDirection = Direction.STOP, lookDirection = Direction.STOP, playerMoveStyle = Direction.WALK;
+        private Direction playerDirection = Direction.STOP, strafeDirection = Direction.STOP, playerMoveStyle = Direction.WALK;
         private DateTime total_time = DateTime.Now;
         private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4};
         private int currentIndex = 0;
@@ -66,19 +65,13 @@ namespace minigames._SLIL
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
             if (start_btn.Enabled)
-            {
-                show_settings.Size = new Size(36, 36);
-                show_settings.Location = new Point(2, 264);
-            }
+                show_settings.Image = Properties.Resources.setting_pressed_btn;
         }
 
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
             if (start_btn.Enabled)
-            {
-                show_settings.Size = new Size(40, 40);
-                show_settings.Location = new Point(0, 262);
-            }
+                show_settings.Image = Properties.Resources.setting_btn;
         }
 
         private void Show_settings_MouseClick(object sender, MouseEventArgs e)
@@ -100,7 +93,7 @@ namespace minigames._SLIL
 
         private async void Step_sound_timer_Tick(object sender, EventArgs e)
         {
-            if ((playerDirection == Direction.FORWARD || playerDirection == Direction.BACK) && !playbackState.IsPlaying)
+            if ((playerDirection != Direction.STOP || strafeDirection != Direction.STOP) && !playbackState.IsPlaying)
             {
                 if (currentIndex >= soundIndices.Count)
                 {
@@ -142,7 +135,7 @@ namespace minigames._SLIL
         {
             if (e.KeyCode == Keys.ShiftKey)
             {
-                if (stamina_panel.Width >= 175)
+                if (stamina_panel.Width >= (int)(275 * MainMenu.scale_size))
                     playerMoveStyle = Direction.RUN;
             }
             if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
@@ -150,10 +143,10 @@ namespace minigames._SLIL
             if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
                 playerDirection = Direction.BACK;
             if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
-                lookDirection = Direction.LEFT;
+                strafeDirection = Direction.LEFT;
             if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
-                lookDirection = Direction.RIGHT;
-            if(e.KeyCode == Keys.M || e.KeyCode == Keys.Tab || e.KeyCode == Keys.Space)
+                strafeDirection = Direction.RIGHT;
+            if (e.KeyCode == Keys.M || e.KeyCode == Keys.Tab || e.KeyCode == Keys.Space)
             {
                 if (!start_btn.Enabled)
                 {
@@ -182,7 +175,7 @@ namespace minigames._SLIL
             }
             if (e.KeyCode == Keys.Space && start_btn.Enabled)
                 StartGame();
-            if(e.KeyCode == Keys.Escape)
+            if (e.KeyCode == Keys.Escape)
             {
                 if (start_btn.Enabled)
                     Close();
@@ -197,8 +190,8 @@ namespace minigames._SLIL
                 playerMoveStyle = Direction.WALK;
             if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up || e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
                 playerDirection = Direction.STOP;
-            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left ||  e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
-                lookDirection = Direction.STOP;
+            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left || e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+                strafeDirection = Direction.STOP;
         }
 
         private void Map_timer_Tick(object sender, EventArgs e)
@@ -210,16 +203,26 @@ namespace minigames._SLIL
             form.show_finish = show_finish;
         }
 
-        private void SLIL_LocationChanged(object sender, EventArgs e)
+        private void SLIL_LocationChanged(object sender, EventArgs e) => strafeDirection = playerDirection = Direction.STOP;
+
+        private void Mouse_timer_Tick(object sender, EventArgs e)
         {
-            lookDirection = playerDirection = Direction.STOP;
+            Rectangle displayRectangle = new Rectangle
+            {
+                Location = display.PointToScreen(Point.Empty),
+                Width = display.Width,
+                Height = display.Height
+            };
+            Point cursorPosition = Cursor.Position;
+            if (!displayRectangle.Contains(cursorPosition))
+                Cursor.Position = display.PointToScreen(new Point(display.Width / 2, display.Height / 2));
         }
 
         private void SLIL_Deactivate(object sender, EventArgs e)
         {
             if (!map_presed)
             {
-                lookDirection = playerDirection = Direction.STOP;
+                strafeDirection = playerDirection = Direction.STOP;
                 playerMoveStyle = Direction.WALK;
             }
             map_presed = false;
@@ -230,16 +233,14 @@ namespace minigames._SLIL
             if (playerMoveStyle == Direction.RUN && playerDirection == Direction.FORWARD)
             {
                 stamina_panel.Visible = true;
-                stamina_panel.Width--;
+                stamina_panel.Width -= (int)(3 * MainMenu.scale_size);
                 if (stamina_panel.Width == 0)
-                {
                     playerMoveStyle = Direction.WALK;
-                }
             }
             else
             {
-                stamina_panel.Width += 2;
-                if(stamina_panel.Width >= display.Width)
+                stamina_panel.Width += (int)(2 * MainMenu.scale_size); ;
+                if (stamina_panel.Width >= display.Width)
                 {
                     stamina_panel.Width = display.Width;
                     stamina_panel.Visible = false;
@@ -247,22 +248,24 @@ namespace minigames._SLIL
             }
         }
 
+        private void Display_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!start_btn.Enabled)
+            {
+                int x = display.Width / 2;
+                int X = e.X - x;
+                player_a -= ((X / (double)x) / 10) * LOOK_SPEED;
+                Cursor.Position = display.PointToScreen(new Point(x, display.Height / 2));
+            }
+        }
+
         private void PlayerMove(double elapsed_time)
         {
-            switch (lookDirection)
-            {
-                case Direction.LEFT:
-                    player_a += elapsed_time * LOOK_SPEED;
-                    break;
-                case Direction.RIGHT:
-                    player_a -= elapsed_time * LOOK_SPEED;
-                    break;
-            }
             switch (playerMoveStyle)
             {
                 case Direction.RUN:
                     if (playerDirection == Direction.FORWARD)
-                        RUN_SPEED = MOVE_SPEED;
+                        RUN_SPEED = 2.25f;
                     else
                         RUN_SPEED = 1;
                     break;
@@ -271,6 +274,37 @@ namespace minigames._SLIL
                     break;
             }
             double move = MOVE_SPEED * RUN_SPEED * elapsed_time;
+            switch (strafeDirection)
+            {
+                case Direction.LEFT:
+                    player_x += Math.Cos(player_a) * move / 1.4f;
+                    player_y -= Math.Sin(player_a) * move / 1.4f;
+                    if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '#')
+                    {
+                        player_x -= Math.Cos(player_a) * move / 1.4f;
+                        player_y += Math.Sin(player_a) * move / 1.4f;
+                    }
+                    else if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '&')
+                    {
+                        GameOver(1);
+                        return;
+                    }
+                    break;
+                case Direction.RIGHT:
+                    player_x -= Math.Cos(player_a) * move / 1.4f;
+                    player_y += Math.Sin(player_a) * move / 1.4f;
+                    if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '#')
+                    {
+                        player_x += Math.Cos(player_a) * move / 1.4f;
+                        player_y -= Math.Sin(player_a) * move / 1.4f;
+                    }
+                    else if (MAP[(int)player_y * MAP_WIDTH + (int)player_x] == '&')
+                    {
+                        GameOver(1);
+                        return;
+                    }
+                    break;
+            }
             switch (playerDirection)
             {
                 case Direction.FORWARD:
@@ -306,6 +340,22 @@ namespace minigames._SLIL
 
         private void SLIL_Load(object sender, EventArgs e)
         {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                {
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+                    foreach (Control text1 in text.Controls)
+                        text1.Font = new Font(text1.Font.FontFamily, text1.Font.Size * MainMenu.scale_size);
+                }
+                Screen screen = Screen.FromPoint(Cursor.Position);
+                developer_name.Left = Width - (developer_name.Width + 12);
+                int centerX = screen.Bounds.Left + (screen.Bounds.Width / 2);
+                int centerY = screen.Bounds.Top + (screen.Bounds.Height / 2);
+                Left = centerX - (Width / 2);
+                Top = centerY - (Height / 2);
+            }
             if (!MainMenu.Language)
             {
                 Text = "Mazeness";
@@ -472,12 +522,16 @@ namespace minigames._SLIL
         private void StartGame()
         {
             game_over_text.Visible = question.Enabled = start_btn.Enabled = false;
+            int x = display.PointToScreen(Point.Empty).X + (display.Width / 2);
+            int y = display.PointToScreen(Point.Empty).Y + (display.Height / 2);
+            Cursor.Position = new Point(x, y);
+            Cursor.Hide();
             seconds = 0;
             player_x = player_y = 1.5d;
             player_a = 0;
             stamina_panel.Width = display.Width;
             stamina_panel.Visible = false;
-            lookDirection = playerDirection = Direction.STOP;
+            strafeDirection = playerDirection = Direction.STOP;
             playerMoveStyle = Direction.WALK;
             if (difficulty == 0)
             {
@@ -521,6 +575,7 @@ namespace minigames._SLIL
             raycast.Start();
             time_remein.Start();
             stamina_timer.Start();
+            mouse_timer.Start();
             if (MainMenu.sounds)
                 step_sound_timer.Start();
         }
@@ -532,6 +587,7 @@ namespace minigames._SLIL
             step_sound_timer.Stop();
             map_timer.Stop();
             stamina_timer.Stop();
+            mouse_timer.Stop();
             stamina_panel.Width = display.Width;
             stamina_panel.Visible = false;
             if (form != null)
@@ -555,6 +611,7 @@ namespace minigames._SLIL
                 difficulty = old_difficulty;
             }
             display.Image = null;
+            Cursor.Show();
         }
     }
 }

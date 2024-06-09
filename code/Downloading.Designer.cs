@@ -35,6 +35,7 @@
             this.download_progress = new System.Windows.Forms.Panel();
             this.cancel = new System.Windows.Forms.Button();
             this.size_label = new System.Windows.Forms.Label();
+            this.speed_label = new System.Windows.Forms.Label();
             this.download_progress_panel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -102,6 +103,17 @@
             this.size_label.Text = "0MB / 0MB";
             this.size_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
+            // speed_label
+            // 
+            this.speed_label.AutoSize = true;
+            this.speed_label.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.speed_label.Location = new System.Drawing.Point(8, 78);
+            this.speed_label.Name = "speed_label";
+            this.speed_label.Size = new System.Drawing.Size(55, 20);
+            this.speed_label.TabIndex = 6;
+            this.speed_label.Text = "0 KB/s";
+            this.speed_label.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
             // Downloading
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -109,6 +121,7 @@
             this.CancelButton = this.cancel;
             this.ClientSize = new System.Drawing.Size(427, 101);
             this.ControlBox = false;
+            this.Controls.Add(this.speed_label);
             this.Controls.Add(this.size_label);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.download_progress_panel);
@@ -140,5 +153,6 @@
         private System.Windows.Forms.Panel download_progress;
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Label size_label;
+        private System.Windows.Forms.Label speed_label;
     }
 }

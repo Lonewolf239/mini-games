@@ -1,5 +1,4 @@
-﻿using minigames.Math_o_light;
-using System;
+﻿using System;
 using System.Threading;
 using System.Windows.Forms;
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
@@ -28,7 +29,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.2.4|";
+        private readonly string current_version = "|0.2.4.3|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -236,15 +237,15 @@ namespace minigames
                 SetScale();
             else
                 scale_size = 1;
-            mg1_max_score = INIReader.GetInt(iniFolder, "Colortimer", "max_score");
-            mg3_max_score = INIReader.GetInt(iniFolder, "Math_o_light", "max_score");
-            mg4_max_score = INIReader.GetSingle(iniFolder, "Reactor", "max_score");
-            mg5_max_score = INIReader.GetInt(iniFolder, "Rodrocket", "max_score");
-            mg6_max_score = INIReader.GetInt(iniFolder, "Hacker_man", "max_score");
-            mg7_max_score = INIReader.GetInt(iniFolder, "Snake_game", "max_score");
-            mg8_max_score = INIReader.GetInt(iniFolder, "Soundotron", "max_score");
-            mg10_max_score = INIReader.GetInt(iniFolder, "2048", "max_score");
-            mg13_max_score = INIReader.GetInt(iniFolder, "Tetris", "max_score");
+            mg1_max_score = GetMaxScore("Colortimer");
+            mg3_max_score = GetMaxScore("Math_o_light");
+            mg4_max_score = GetMaxScore("Reactor");
+            mg5_max_score = GetMaxScore("Rodrocket");
+            mg6_max_score = GetMaxScore("Hacker_man");
+            mg7_max_score = GetMaxScore("Snake_game");
+            mg8_max_score = GetMaxScore("Soundotron");
+            mg10_max_score = GetMaxScore("2048");
+            mg13_max_score = GetMaxScore("Tetris");
             if (Language)
                 russian_check.Checked = true;
             else
@@ -256,14 +257,22 @@ namespace minigames
             {
                 mg_icon_pic8.BackgroundImage = Properties.Resources.soundotron;
                 mg_icon_pic8.Image = Properties.Resources._lock;
-                mg_panel8.BackColor = Color.Gray;
+                mg_panel_8.BackColor = Color.Gray;
             }
             else
             {
                 mg_icon_pic8.BackgroundImage = null;
                 mg_icon_pic8.Image = Properties.Resources.soundotron;
-                mg_panel8.BackColor = SystemColors.Control;
+                mg_panel_8.BackColor = SystemColors.Control;
             }
+        }
+
+        private int GetMaxScore(string section)
+        {
+            double max_score = INIReader.GetDouble(iniFolder, section, "max_score");
+            if ((max_score / 13) * 2 == Convert.ToInt32((max_score / 13) * 2))
+                return (int)((max_score / 13) * 2);
+            return 0;
         }
 
         private void Russian_check_Click(object sender, EventArgs e)
@@ -340,7 +349,7 @@ namespace minigames
         private void Change_Language(bool type)
         {
             INIReader.SetKey(iniFolder, "CONFIG", "language", Language);
-            Control[] texts = { glazastic_name, mg_name1, mg_name2, mg_name3, mg_name4, mg_name5, mg_name6, mg_name7, mg_name8, mg_name9, mg_name10, mg_name11, mg_name12, mg_name13, mg_name14, mg_name15 };
+            Control[] texts = { mg_name0, mg_name1, mg_name2, mg_name3, mg_name4, mg_name5, mg_name6, mg_name7, mg_name8, mg_name9, mg_name10, mg_name11, mg_name12, mg_name13, mg_name14, mg_name15 };
             int index;
             if (type)
             {
@@ -348,7 +357,7 @@ namespace minigames
                 russian_check.Checked = true;
                 english_check.Checked = false;
                 mg_name1.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
-                mg_name7.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
+                mg_name3.Font = new Font("Microsoft Sans Serif", 9.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
                 settings.Text = "Настройки";
                 sounds_on_off.Text = "Звуки";
                 sounds_on_off.ToolTipText = "Включить/отключить внутриигровые звуки";
@@ -372,7 +381,7 @@ namespace minigames
                 russian_check.Checked = false;
                 english_check.Checked = true;
                 mg_name1.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
-                mg_name7.Font = new Font("Microsoft Sans Serif", 12F, FontStyle.Regular, GraphicsUnit.Point, 204);
+                mg_name3.Font = new Font("Microsoft Sans Serif", 10.75F, FontStyle.Regular, GraphicsUnit.Point, 204);
                 settings.Text = "Settings";
                 sounds_on_off.Text = "Sounds";
                 sounds_on_off.ToolTipText = "Enable/disable in-game sounds";
@@ -409,13 +418,13 @@ namespace minigames
             {
                 mg_icon_pic8.BackgroundImage = Properties.Resources.soundotron;
                 mg_icon_pic8.Image = Properties.Resources._lock;
-                mg_panel8.BackColor = Color.Gray;
+                mg_panel_8.BackColor = Color.Gray;
             }
             else
             {
                 mg_icon_pic8.BackgroundImage = null;
                 mg_icon_pic8.Image =Properties.Resources.soundotron;
-                mg_panel8.BackColor = SystemColors.Control;
+                mg_panel_8.BackColor = SystemColors.Control;
             }
             INIReader.SetKey(iniFolder, "CONFIG", "sounds", sounds);
         }
@@ -450,15 +459,15 @@ namespace minigames
                 mg10_max_score = MG2048.score;
             if (Tetris.score > mg13_max_score)
                 mg13_max_score = Tetris.score;
-            INIReader.SetKey(iniFolder, "Colortimer", "max_score", mg1_max_score);
-            INIReader.SetKey(iniFolder, "Math_o_light", "max_score", mg3_max_score);
-            INIReader.SetKey(iniFolder, "Reactor", "max_score", mg4_max_score);
-            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", mg5_max_score);
-            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", mg6_max_score);
-            INIReader.SetKey(iniFolder, "Snake_game", "max_score", mg7_max_score);
-            INIReader.SetKey(iniFolder, "Soundotron", "max_score", mg8_max_score);
-            INIReader.SetKey(iniFolder, "2048", "max_score", mg10_max_score);
-            INIReader.SetKey(iniFolder, "Tetris", "max_score", mg13_max_score);
+            INIReader.SetKey(iniFolder, "Colortimer", "max_score", ((double)mg1_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Math_o_light", "max_score", ((double)mg3_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Reactor", "max_score", ((double)mg4_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", ((double)mg5_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", ((double)mg6_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Snake_game", "max_score", ((double)mg7_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Soundotron", "max_score", ((double)mg8_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "2048", "max_score", ((double)mg10_max_score / 2) * 13);
+            INIReader.SetKey(iniFolder, "Tetris", "max_score", ((double)mg13_max_score / 2) * 13);
             WindowState = FormWindowState.Normal;
             ShowInTaskbar = true;
             ShowIcon = true;
@@ -478,361 +487,187 @@ namespace minigames
             form.ShowDialog();
         }
 
-        //мини-игра 1: Глазастик
-        private void Glazastic_panel_MouseEnter(object sender, EventArgs e)
+        private void GameButton_MouseEnter(object sender, EventArgs e)
         {
-            glazastic_panel.BorderStyle = BorderStyle.Fixed3D;
-            glazastic_panel.BackColor = Color.Gainsboro;
+            Control element = sender as Control;
+            if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
+                return;
+            if (element is Panel)
+            {
+                Panel obj = element as Panel;
+                obj.BorderStyle = BorderStyle.Fixed3D;
+                obj.BackColor = Color.Gainsboro;
+            }
+            else
+            {
+                Control parent = element.Parent;
+                Panel obj = parent as Panel;
+                obj.BorderStyle = BorderStyle.Fixed3D;
+                obj.BackColor = Color.Gainsboro;
+            }
         }
 
-        private void Label1_MouseLeave(object sender, EventArgs e)
+        private void GameButton_MouseLeave(object sender, EventArgs e)
         {
-            glazastic_panel.BorderStyle = BorderStyle.FixedSingle;
-            glazastic_panel.BackColor = SystemColors.Control;
+            Control element = sender as Control;
+            if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
+                return;
+            if (element is Panel)
+            {
+                Panel obj = element as Panel;
+                obj.BorderStyle = BorderStyle.FixedSingle;
+                obj.BackColor = SystemColors.Control;
+            }
+            else
+            {
+                Control parent = element.Parent;
+                Panel obj = parent as Panel;
+                obj.BorderStyle = BorderStyle.FixedSingle;
+                obj.BackColor = SystemColors.Control;
+            }
         }
 
-        private void Glazastic_icon_pic_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_0_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Form1 form = new Form1();
-                OpenGame(form, glazastic_panel);
+                OpenGame(form, mg_panel_0);
             }
         }
 
-        //мини-игра 2: Секундоцвет
-        private void Mg_name1_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel1.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel1.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name1_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel1.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel1.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name1_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_1_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 ColorTimer form = new ColorTimer();
-                OpenGame(form, mg_panel1);
+                OpenGame(form, mg_panel_1);
             }
         }
 
-        //мини-игра 3: Цветнашки
-        private void Mg_name2_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel2.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel2.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name2_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel2.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel2.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name2_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_2_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 ColorTiles form = new ColorTiles();
-                OpenGame(form, mg_panel2);
+                OpenGame(form, mg_panel_2);
             }
         }
 
-        //мини-игра 4: Матемагнит
-        private void Mg_name3_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel3.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel3.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name3_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel3.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel3.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name3_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_3_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 MathOLight form = new MathOLight();
-                OpenGame(form, mg_panel3);
+                OpenGame(form, mg_panel_3);
             }
         }
 
-        //мини-игра 5: Реактор
-        private void Mg_name4_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel4.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel4.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name4_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel4.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel4.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name4_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_4_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Reactor form = new Reactor();
-                OpenGame(form, mg_panel4);
+                OpenGame(form, mg_panel_4);
             }
         }
 
-        //мини-игра 6: Удочкомёт
-        private void Mg_name5_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel5.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel5.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name5_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel5.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel5.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name5_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_5_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 RodRocket form = new RodRocket();
-                OpenGame(form, mg_panel5);
+                OpenGame(form, mg_panel_5);
             }
         }
 
-        //мини-игра 7: Хацкер
-        private void Mg_name6_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel6.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel6.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name6_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel6.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel6.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name6_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_6_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Hackerman form = new Hackerman();
-                OpenGame(form, mg_panel6);
+                OpenGame(form, mg_panel_6);
             }
         }
 
-        //мини-игра 8: Мини-Змейка
-        private void Mg_name7_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel7.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel7.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name7_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel7.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel7.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name7_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_7_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 SnakeGame form = new SnakeGame();
-                OpenGame(form, mg_panel7);
+                OpenGame(form, mg_panel_7);
             }
         }
 
-        //мини-игра 9: Звукотрон
-        private void Mg_icon_pic8_MouseEnter(object sender, EventArgs e)
-        {
-            if (sounds)
-            {
-                mg_panel8.BorderStyle = BorderStyle.Fixed3D;
-                mg_panel8.BackColor = Color.Gainsboro;
-            }
-        }
-
-        private void Mg_icon_pic8_MouseLeave(object sender, EventArgs e)
-        {
-            if (sounds)
-            {
-                mg_panel8.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel8.BackColor = SystemColors.Control;
-            }
-        }
-
-        private void Mg_icon_pic8_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_8_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left && sounds)
             {
                 SoundoTron form = new SoundoTron();
-                OpenGame(form, mg_panel8);
+                OpenGame(form, mg_panel_8);
             }
         }
 
-        //мини-игра 10: СудоСага
-        private void Mg_name9_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel9.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel9.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name9_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel9.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel9.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name9_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_9_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Sudoku form = new Sudoku();
-                OpenGame(form, mg_panel9);
+                OpenGame(form, mg_panel_9);
             }
         }
 
-        //мини-игра 11: 2048
-        private void Mg_icon_pic10_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel10.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel10.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_icon_pic10_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel10.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel10.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_icon_pic10_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_10_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 MG2048 form = new MG2048();
-                OpenGame(form, mg_panel10);
+                OpenGame(form, mg_panel_10);
             }
         }
 
-        //мини-игра 12: Пинг-Понг
-        private void Mg_icon_pic11_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel11.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel11.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_icon_pic11_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel11.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel11.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_icon_pic11_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_11_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Ping_Pong form = new Ping_Pong();
-                OpenGame(form, mg_panel11);
+                OpenGame(form, mg_panel_11);
             }
         }
 
-        //мини-игра 13: Танчики
-        private void Mg_icon_pic12_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel12.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel12.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_icon_pic12_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel12.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel12.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_icon_pic12_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_12_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Tanks form = new Tanks();
-                OpenGame(form, mg_panel12);
+                OpenGame(form, mg_panel_12);
             }
         }
 
-        //мини-игра 14: Тетрис
-        private void Mg_name13_MouseEnter(object sender, EventArgs e)
-        {
-            mg_panel13.BorderStyle = BorderStyle.Fixed3D;
-            mg_panel13.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name13_MouseLeave(object sender, EventArgs e)
-        {
-            mg_panel13.BorderStyle = BorderStyle.FixedSingle;
-            mg_panel13.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name13_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_13_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Tetris form = new Tetris();
-                OpenGame(form, mg_panel13);
+                OpenGame(form, mg_panel_13);
             }
         }
 
-        //мини-игра 15: Сапёр
-        private void Mg_icon_pic14_MouseEnter(object sender, EventArgs e)
-        {
-                mg_panel14.BorderStyle = BorderStyle.Fixed3D;
-                mg_panel14.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_icon_pic14_MouseLeave(object sender, EventArgs e)
-        {
-                mg_panel14.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel14.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_icon_pic14_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_14_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 Sapper form = new Sapper();
-                OpenGame(form, mg_panel14);
+                OpenGame(form, mg_panel_14);
             }
         }
 
-        //мини-игра 16: Лабезумие
-        private void Mg_name15_MouseEnter(object sender, EventArgs e)
-        {
-                mg_panel15.BorderStyle = BorderStyle.Fixed3D;
-                mg_panel15.BackColor = Color.Gainsboro;
-        }
-
-        private void Mg_name15_MouseLeave(object sender, EventArgs e)
-        {
-                mg_panel15.BorderStyle = BorderStyle.FixedSingle;
-                mg_panel15.BackColor = SystemColors.Control;
-        }
-
-        private void Mg_name15_MouseClick(object sender, MouseEventArgs e)
+        private void Mg_panel_15_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
                 SLIL form = new SLIL();
-                OpenGame(form, mg_panel15);
+                OpenGame(form, mg_panel_15);
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace minigames
@@ -18,7 +17,7 @@ namespace minigames
             Focus();
         }
 
-        private void ok_Click(object sender, EventArgs e)
+        private void Ok_Click(object sender, EventArgs e)
         {
             Close();
         }
@@ -27,6 +26,21 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.2.4.3",
+                "______________________________________________________",
+                "• Changed game controls \"Mazeness\"",
+                "• Added scaling for the game \"Mazeness\"",
+                "• Some bugs fixed",
+                "\n",
+                "\t\t\tv0.2.4.2",
+                "______________________________________________________",
+                "• Some bugs fixed",
+                "\n",
+                "\t\t\tv0.2.4.1",
+                "______________________________________________________",
+                "• Visual improvement",
+                "• Some bugs fixed",
+                "\n",
                 "\t\t\tv0.2.4",
                 "______________________________________________________",
                 "• Added a new game \"Sapper\"",
@@ -174,13 +188,28 @@ namespace minigames
                     break;
                 if (text.Contains("_____________________________________________________"))
                     continue;
-                richTextBox1.Text += text.Replace("\t", "").Replace("• ", "") + "\n";
+                richTextBox1.Text += text.Replace("\t", "").Replace("• ", "- ") + "\n";
             }
             if (MainMenu.Language)
             {
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.2.4.3",
+                    "______________________________________________________",
+                    "• Изменено управление игры \"Лабезумие\"",
+                    "• Добавлено масштабирование игры \"Лабезумие\"",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.4.2",
+                    "______________________________________________________",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.4.1",
+                    "______________________________________________________",
+                    "• Визуальные улучшения",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
                     "\t\t\tv0.2.4",
                     "______________________________________________________",
                     "• Добавлена ​​новая игра \"Сапёр\"",

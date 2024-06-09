@@ -33,7 +33,7 @@ namespace minigames._Sapper
         };
         public static int size_type = 0;
         private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
-                        game_over = new PlaySound(@"sounds\game_over.wav");
+            explosion = new PlaySound(@"sounds\explosion.wav");
 
         private void Sapper_Load(object sender, EventArgs e)
         {
@@ -148,6 +148,7 @@ namespace minigames._Sapper
                         BackgroundImageLayout = ImageLayout.Zoom
                     };
                     panels[i][j].MouseClick += new MouseEventHandler(Panel_MouseClick);
+                    panels[i][j].MouseEnter += new EventHandler(Panel_MouseEnter);
                     top_panel.Controls.Add(panels[i][j]);
                 }
             }
@@ -160,6 +161,12 @@ namespace minigames._Sapper
             Label panel = sender as Label;
             int[] index = GetPanel(panel.Name);
             Panel_Click(index[0], index[1], e.Button);
+        }
+
+        private void Panel_MouseEnter(object sender, EventArgs e)
+        {
+            Panel panel = sender as Panel;
+            panel.Focus();
         }
 
         private void Panel_MouseClick(object sender, MouseEventArgs e)
@@ -190,22 +197,23 @@ namespace minigames._Sapper
                             RevealCell(x, y);
                             if (IsGameWon())
                             {
-                                win.Play(1);
-                                in_game = false;
-                                question.Enabled = start_btn.Enabled = true;
+                                if (MainMenu.sounds)
+                                    win.Play(1);
+                                ShowMines();
                             }
                         }
                         else
                         {
                             panels[y][x].BackgroundImage = Properties.Resources.explosion;
-                            GameOver(true);
+                            if (MainMenu.sounds)
+                                explosion.Play(0.5f);
+                            ShowMines();
                         }
                     }
                 }
                 else if (button == MouseButtons.Right)
                 {
-                    Label label = panels[y][x].Controls.OfType<Label>().FirstOrDefault() ?? its_bomb;
-                    if (!label.Visible)
+                    if (panels[y][x].BackColor != Color.Gray)
                     {
                         if (panels[y][x].BackgroundImage == null)
                             panels[y][x].BackgroundImage = Properties.Resources.flag;
@@ -234,6 +242,7 @@ namespace minigames._Sapper
             if (x < 0 || x >= panels[0].Length || y < 0 || y >= panels.Length || panels[y][x].BackColor == Color.Gray)
                 return;
             panels[y][x].BackColor = Color.Gray;
+            panels[y][x].BackgroundImage = null;
             panels[y][x].BorderStyle = BorderStyle.FixedSingle;
             if (field[y][x] > 0)
             {
@@ -254,7 +263,7 @@ namespace minigames._Sapper
             }
         }
 
-        private void GameOver(bool state)
+        private void ShowMines()
         {
             for (int i = 0; i < panels.Length; i++)
             {
@@ -270,8 +279,6 @@ namespace minigames._Sapper
             }
             in_game = false;
             question.Enabled = start_btn.Enabled = true;
-            if (state)
-                game_over.Play(1);
         }
 
         private void Start_btn_Click(object sender, EventArgs e)
@@ -306,29 +313,43 @@ namespace minigames._Sapper
         private void Show_settings_MouseEnter(object sender, EventArgs e)
         {
             if (!in_game)
-            {
-                show_settings.Size = new Size(show_settings.Width - 4, show_settings.Height - 4);
-                show_settings.Location = new Point(2, show_settings.Top + 2);
-            }
+                show_settings.Image = Properties.Resources.setting_pressed_btn;
         }
 
         private void Sapper_FormClosing(object sender, FormClosingEventArgs e)
         {
             win?.Dispose();
-            game_over?.Dispose();
+            explosion?.Dispose();
         }
 
         private void Sapper_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Escape)
+            if (e.KeyCode == Keys.Escape)
             {
                 if (!in_game)
                     Close();
                 else
-                    GameOver(false);
+                    ShowMines();
             }
             if (e.KeyCode == Keys.Space && !in_game)
                 StartGame();
+            if (in_game)
+            {
+                Panel panel = null;
+                for (int i = 0; i < panels.Length; i++)
+                {
+                    for (int j = 0; j < panels[i].Length; j++)
+                    {
+                        if (panels[i][j].Focused)
+                            panel = panels[i][j];
+                    }
+                }
+                if (panel != null)
+                {
+                    int[] index = GetPanel(panel.Name);
+                    Panel_Click(index[0], index[1], MouseButtons.Right);
+                }
+            }
         }
 
         private void Show_settings_MouseClick(object sender, MouseEventArgs e)
@@ -346,10 +367,7 @@ namespace minigames._Sapper
         private void Show_settings_MouseLeave(object sender, EventArgs e)
         {
             if (!in_game)
-            {
-                show_settings.Size = new Size(show_settings.Width + 4, show_settings.Height + 4);
-                show_settings.Location = new Point(0, show_settings.Top - 2);
-            }
+                show_settings.Image = Properties.Resources.setting_btn;
         }
     }
 }

@@ -37,12 +37,12 @@
             this.finish_panel = new System.Windows.Forms.Panel();
             this.start_btn = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.show_settings = new System.Windows.Forms.PictureBox();
             this.developer_name = new System.Windows.Forms.Label();
             this.question = new System.Windows.Forms.Button();
             this.lose_text = new System.Windows.Forms.Label();
             this.games_text = new System.Windows.Forms.Label();
             this.accurate = new System.Windows.Forms.Label();
+            this.show_settings = new System.Windows.Forms.PictureBox();
             this.top_panel.SuspendLayout();
             this.hide_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
@@ -114,19 +114,6 @@
             this.timer1.Interval = 1;
             this.timer1.Tick += new System.EventHandler(this.Timer1_Tick);
             // 
-            // show_settings
-            // 
-            this.show_settings.Image = global::minigames.Properties.Resources.icon2;
-            this.show_settings.Location = new System.Drawing.Point(0, 110);
-            this.show_settings.Name = "show_settings";
-            this.show_settings.Size = new System.Drawing.Size(40, 40);
-            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.show_settings.TabIndex = 4;
-            this.show_settings.TabStop = false;
-            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
-            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
-            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
-            // 
             // developer_name
             // 
             this.developer_name.AutoSize = true;
@@ -182,6 +169,19 @@
             this.accurate.TabIndex = 8;
             this.accurate.Text = "Точность 0px";
             this.accurate.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // show_settings
+            // 
+            this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
+            this.show_settings.Location = new System.Drawing.Point(0, 110);
+            this.show_settings.Name = "show_settings";
+            this.show_settings.Size = new System.Drawing.Size(40, 40);
+            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.show_settings.TabIndex = 4;
+            this.show_settings.TabStop = false;
+            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
+            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
+            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
             // 
             // Form1
             // 
