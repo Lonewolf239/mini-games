@@ -37,7 +37,7 @@
             this.height_map_text = new System.Windows.Forms.Label();
             this.width_map_text = new System.Windows.Forms.Label();
             this.height_map_input = new System.Windows.Forms.NumericUpDown();
-            this.reset_btn = new System.Windows.Forms.Button();
+            this.editor_btn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -46,7 +46,7 @@
             // look_speed_text
             // 
             this.look_speed_text.AutoSize = true;
-            this.look_speed_text.Location = new System.Drawing.Point(3, 21);
+            this.look_speed_text.Location = new System.Drawing.Point(12, 93);
             this.look_speed_text.Name = "look_speed_text";
             this.look_speed_text.Size = new System.Drawing.Size(178, 24);
             this.look_speed_text.TabIndex = 0;
@@ -55,7 +55,7 @@
             // 
             // look_speed
             // 
-            this.look_speed.Location = new System.Drawing.Point(187, 12);
+            this.look_speed.Location = new System.Drawing.Point(196, 84);
             this.look_speed.Maximum = 450;
             this.look_speed.Minimum = 100;
             this.look_speed.Name = "look_speed";
@@ -71,7 +71,7 @@
             // difficulty_text
             // 
             this.difficulty_text.AutoSize = true;
-            this.difficulty_text.Location = new System.Drawing.Point(3, 69);
+            this.difficulty_text.Location = new System.Drawing.Point(12, 15);
             this.difficulty_text.Name = "difficulty_text";
             this.difficulty_text.Size = new System.Drawing.Size(111, 24);
             this.difficulty_text.TabIndex = 2;
@@ -88,7 +88,7 @@
             "Нормально",
             "Легко",
             "Custom"});
-            this.difficulty_list.Location = new System.Drawing.Point(161, 66);
+            this.difficulty_list.Location = new System.Drawing.Point(129, 12);
             this.difficulty_list.Name = "difficulty_list";
             this.difficulty_list.Size = new System.Drawing.Size(157, 32);
             this.difficulty_list.TabIndex = 3;
@@ -98,7 +98,7 @@
             // show_finish
             // 
             this.show_finish.AutoSize = true;
-            this.show_finish.Location = new System.Drawing.Point(7, 104);
+            this.show_finish.Location = new System.Drawing.Point(16, 50);
             this.show_finish.Name = "show_finish";
             this.show_finish.Size = new System.Drawing.Size(208, 28);
             this.show_finish.TabIndex = 4;
@@ -108,7 +108,7 @@
             // 
             // width_map_input
             // 
-            this.width_map_input.Location = new System.Drawing.Point(94, 184);
+            this.width_map_input.Location = new System.Drawing.Point(94, 170);
             this.width_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -120,7 +120,7 @@
             0,
             0});
             this.width_map_input.Name = "width_map_input";
-            this.width_map_input.Size = new System.Drawing.Size(120, 29);
+            this.width_map_input.Size = new System.Drawing.Size(60, 29);
             this.width_map_input.TabIndex = 5;
             this.width_map_input.TabStop = false;
             this.width_map_input.Value = new decimal(new int[] {
@@ -128,11 +128,12 @@
             0,
             0,
             0});
+            this.width_map_input.ValueChanged += new System.EventHandler(this.Map_input_ValueChanged);
             // 
             // height_map_text
             // 
             this.height_map_text.AutoSize = true;
-            this.height_map_text.Location = new System.Drawing.Point(12, 151);
+            this.height_map_text.Location = new System.Drawing.Point(12, 137);
             this.height_map_text.Name = "height_map_text";
             this.height_map_text.Size = new System.Drawing.Size(76, 24);
             this.height_map_text.TabIndex = 6;
@@ -142,7 +143,7 @@
             // width_map_text
             // 
             this.width_map_text.AutoSize = true;
-            this.width_map_text.Location = new System.Drawing.Point(12, 186);
+            this.width_map_text.Location = new System.Drawing.Point(12, 172);
             this.width_map_text.Name = "width_map_text";
             this.width_map_text.Size = new System.Drawing.Size(78, 24);
             this.width_map_text.TabIndex = 7;
@@ -151,7 +152,7 @@
             // 
             // height_map_input
             // 
-            this.height_map_input.Location = new System.Drawing.Point(94, 149);
+            this.height_map_input.Location = new System.Drawing.Point(94, 135);
             this.height_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -163,7 +164,7 @@
             0,
             0});
             this.height_map_input.Name = "height_map_input";
-            this.height_map_input.Size = new System.Drawing.Size(120, 29);
+            this.height_map_input.Size = new System.Drawing.Size(60, 29);
             this.height_map_input.TabIndex = 8;
             this.height_map_input.TabStop = false;
             this.height_map_input.Value = new decimal(new int[] {
@@ -171,26 +172,28 @@
             0,
             0,
             0});
+            this.height_map_input.ValueChanged += new System.EventHandler(this.Map_input_ValueChanged);
             // 
-            // reset_btn
+            // editor_btn
             // 
-            this.reset_btn.AutoSize = true;
-            this.reset_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.reset_btn.Location = new System.Drawing.Point(240, 102);
-            this.reset_btn.Name = "reset_btn";
-            this.reset_btn.Size = new System.Drawing.Size(78, 36);
-            this.reset_btn.TabIndex = 9;
-            this.reset_btn.TabStop = false;
-            this.reset_btn.Text = "Сброс";
-            this.reset_btn.UseVisualStyleBackColor = true;
-            this.reset_btn.Click += new System.EventHandler(this.Reset_btn_Click);
+            this.editor_btn.BackgroundImage = global::minigames.Properties.Resources.editor;
+            this.editor_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.editor_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.editor_btn.Location = new System.Drawing.Point(160, 142);
+            this.editor_btn.Name = "editor_btn";
+            this.editor_btn.Size = new System.Drawing.Size(50, 50);
+            this.editor_btn.TabIndex = 10;
+            this.editor_btn.TabStop = false;
+            this.editor_btn.UseVisualStyleBackColor = true;
+            this.editor_btn.EnabledChanged += new System.EventHandler(this.Editor_btn_EnabledChanged);
+            this.editor_btn.Click += new System.EventHandler(this.Editor_btn_Click);
             // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(386, 233);
-            this.Controls.Add(this.reset_btn);
+            this.ClientSize = new System.Drawing.Size(386, 300);
+            this.Controls.Add(this.editor_btn);
             this.Controls.Add(this.height_map_input);
             this.Controls.Add(this.width_map_text);
             this.Controls.Add(this.height_map_text);
@@ -230,10 +233,10 @@
         private System.Windows.Forms.Label difficulty_text;
         private System.Windows.Forms.ComboBox difficulty_list;
         private System.Windows.Forms.CheckBox show_finish;
-        private System.Windows.Forms.NumericUpDown width_map_input;
         private System.Windows.Forms.Label height_map_text;
         private System.Windows.Forms.NumericUpDown height_map_input;
         private System.Windows.Forms.Label width_map_text;
-        private System.Windows.Forms.Button reset_btn;
+        private System.Windows.Forms.Button editor_btn;
+        private System.Windows.Forms.NumericUpDown width_map_input;
     }
 }

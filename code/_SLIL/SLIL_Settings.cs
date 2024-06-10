@@ -24,16 +24,17 @@ namespace minigames._SLIL
                 look_speed_text.Text = "Sensitivity";
                 difficulty_text.Text = "Difficulty";
                 show_finish.Text = "Show finish";
-                reset_btn.Text = "Reset";
+                height_map_text.Text = "Height";
+                width_map_text.Text = "Width";
                 difficulty_list.Items.Clear();
                 string[] dif = { "Very hard", "Hard", "Normal", "Easy", "Custom" };
                 difficulty_list.Items.AddRange(dif);
             }
             look_speed.Left = look_speed_text.Right + 6;
-            difficulty_list.Left = look_speed.Left - 22;
-            reset_btn.Left = difficulty_list.Right - reset_btn.Width;
+            difficulty_list.Left = difficulty_text.Right + 6;
+            editor_btn.Left = height_map_input.Right + 6;
             Width = look_speed.Right + 36;
-            Height = show_finish.Bottom + 48;
+            Height = look_speed.Bottom + 36;
             int centerX = Owner.Left + (Owner.Width - Width) / 2;
             int centerY = Owner.Top + (Owner.Height - Height) / 2;
             Location = new Point(centerX, centerY);
@@ -42,6 +43,11 @@ namespace minigames._SLIL
             show_finish.Checked = SLIL.SHOW_FINISH;
             height_map_input.Value = SLIL.CustomMazeHeight;
             width_map_input.Value = SLIL.CustomMazeWidth;
+            SLIL.CUSTOM = false;
+            if (height_map_input.Value > 20 || width_map_input.Value > 20)
+                editor_btn.Enabled = false;
+            else
+                editor_btn.Enabled = true;
         }
 
         private void SLIL_Settings_FormClosing(object sender, FormClosingEventArgs e)
@@ -102,16 +108,64 @@ namespace minigames._SLIL
 
         private void Difficulty_list_SelectedIndexChanged(object sender, EventArgs e)
         {
+            look_speed_text.Focus();
             if (difficulty_list.SelectedIndex == 0 || difficulty_list.SelectedIndex == 1)
                 show_finish.Enabled = show_finish.Checked = false;
             else 
                 show_finish.Enabled = true;
             if (difficulty_list.SelectedIndex == 4)
-                Height = width_map_input.Bottom + 48;
+                Height = width_map_input.Bottom + 44;
             else
-                Height = show_finish.Bottom + 48;
+                Height = look_speed.Bottom + 36;
         }
 
-        private void Reset_btn_Click(object sender, EventArgs e) => look_speed.Value = 175;
+        private void Reset_btn_Click(object sender, EventArgs e)
+        {
+            look_speed_text.Focus();
+            look_speed.Value = 175;
+        }
+
+        private void Editor_btn_Click(object sender, EventArgs e)
+        {
+            look_speed_text.Focus();
+            SLIL_Editor form = new SLIL_Editor
+            {
+                Owner = this
+            };
+            SLIL_Editor.MazeHeight = (int)height_map_input.Value * 3 + 1;
+            SLIL_Editor.MazeWidth = (int)width_map_input.Value * 3 + 1;
+            form.FormClosing += Form_FormClosing;
+            form.ShowDialog();
+        }
+
+        private void Form_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            height_map_input.Value = (SLIL_Editor.MazeHeight - 1) / 3;
+            width_map_input.Value = (SLIL_Editor.MazeWidth - 1) / 3;
+            SLIL.CUSTOM_X = SLIL_Editor.x;
+            SLIL.CUSTOM_Y = SLIL_Editor.y;
+            Close();
+        }
+
+        private void Map_input_ValueChanged(object sender, EventArgs e)
+        {
+            if (height_map_input.Value > 20 || width_map_input.Value > 20)
+                editor_btn.Enabled = false;
+            else
+                editor_btn.Enabled = true;
+        }
+
+        private void Editor_btn_EnabledChanged(object sender, EventArgs e)
+        {
+            if (editor_btn.Enabled)
+                editor_btn.BackColor = SystemColors.Control;
+            else
+                editor_btn.BackColor = Color.LightGray;
+        }
+
+        private void Quality_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            look_speed_text.Focus();
+        }
     }
 }

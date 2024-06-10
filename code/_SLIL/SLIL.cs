@@ -18,32 +18,34 @@ namespace minigames._SLIL
             InitializeComponent();
         }
 
-        private static readonly Maze MazeGenerator = new Maze();
-        private readonly Random rand = new Random();
-        private const int SCREEN_HEIGHT = 228, SCREEN_WIDTH = 400;
-        private static int MazeHeight;
-        private static int MazeWidth;
         public static int CustomMazeHeight;
         public static int CustomMazeWidth;
+        public static bool SHOW_FINISH = true, CUSTOM = false;
+        public static int difficulty = 2, old_difficulty;
+        public static double LOOK_SPEED = 1.75f;
+        public static string CUSTOM_MAP;
+        public static int CUSTOM_X, CUSTOM_Y;
+        private static readonly Maze MazeGenerator = new Maze();
+        private readonly Random rand = new Random();
+        private const int SCREEN_HEIGHT = 228, SCREEN_WIDTH = 450;
+        private static int MazeHeight;
+        private static int MazeWidth;
         private int MAP_WIDTH;
         private const int START_EASY = 5, START_NORMAL = 10, START_HARD = 15, START_VERY_HARD = 20;
         private const double DEPTH = 8;
-        private const double FOV = Math.PI / 3;
+        private const double FOV = Math.PI / 3.25f;
         private double player_x = 1.5d, player_y = 1.5d, player_a = 0;
-        public static double LOOK_SPEED = 1.75f;
         private const double MOVE_SPEED = 1.75d;
         private double RUN_SPEED = 0;
         private static string MAP = "";
-        private static readonly Bitmap SCREEN = new Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
+        private readonly Bitmap SCREEN = new Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
         private int seconds, minutes, fps;
-        public static int difficulty = 2, old_difficulty;
         private enum Direction { STOP, FORWARD, BACK, LEFT, RIGHT, WALK, RUN };
         private Direction playerDirection = Direction.STOP, strafeDirection = Direction.STOP, playerMoveStyle = Direction.WALK;
         private DateTime total_time = DateTime.Now;
         private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4};
         private int currentIndex = 0;
         private bool show_finish = true, map_presed = false;
-        public static bool SHOW_FINISH = true;
         private map_form form;
         private readonly PlaybackState playbackState = new PlaybackState();
         private PlaySound[] step =
@@ -78,8 +80,10 @@ namespace minigames._SLIL
         {
             if (e.Button == MouseButtons.Left && start_btn.Enabled)
             {
-                SLIL_Settings form = new SLIL_Settings();
-                form.Owner = this;
+                SLIL_Settings form = new SLIL_Settings
+                {
+                    Owner = this
+                };
                 form.ShowDialog();
             }
         }
@@ -239,7 +243,7 @@ namespace minigames._SLIL
             }
             else
             {
-                stamina_panel.Width += (int)(2 * MainMenu.scale_size); ;
+                stamina_panel.Width += (int)(2 * MainMenu.scale_size);
                 if (stamina_panel.Width >= display.Width)
                 {
                     stamina_panel.Width = display.Width;
@@ -378,24 +382,29 @@ namespace minigames._SLIL
             Activate();
         }
 
-        static void InitMap()
+        private static void InitMap()
         {
-            StringBuilder sb = new StringBuilder();
-            char[,] map = MazeGenerator.GenerateCharMap(MazeWidth, MazeHeight, '#', '.', '&');
-            for (int y = 0; y < map.GetLength(1); y++)
+            if (!CUSTOM)
             {
-                for (int x = 0; x < map.GetLength(0); x++)
+                StringBuilder sb = new StringBuilder();
+                char[,] map = MazeGenerator.GenerateCharMap(MazeWidth, MazeHeight, '#', '.', '&');
+                for (int y = 0; y < map.GetLength(1); y++)
                 {
-                    try
+                    for (int x = 0; x < map.GetLength(0); x++)
                     {
-                        if (map[x, y] == '.' && map[x + 1, y] == '#' && map[x, y + 1] == '#' && (map[x + 2, y] == '#' || map[x, y + 2] == '#'))
-                            map[x, y] = '#';
+                        try
+                        {
+                            if (map[x, y] == '.' && map[x + 1, y] == '#' && map[x, y + 1] == '#' && (map[x + 2, y] == '#' || map[x, y + 2] == '#'))
+                                map[x, y] = '#';
+                        }
+                        catch { }
+                        sb.Append(map[x, y]);
                     }
-                    catch { }
-                    sb.Append(map[x, y]);
                 }
+                MAP = sb.ToString();
             }
-            MAP = sb.ToString();
+            else
+                MAP = CUSTOM_MAP;
         }
 
         private void SLIL_FormClosing(object sender, FormClosingEventArgs e)
@@ -519,7 +528,7 @@ namespace minigames._SLIL
             StartGame();
         }
 
-        private void StartGame()
+        private void ResetDefault()
         {
             game_over_text.Visible = question.Enabled = start_btn.Enabled = false;
             int x = display.PointToScreen(Point.Empty).X + (display.Width / 2);
@@ -527,7 +536,13 @@ namespace minigames._SLIL
             Cursor.Position = new Point(x, y);
             Cursor.Hide();
             seconds = 0;
-            player_x = player_y = 1.5d;
+            if (!CUSTOM)
+                player_x = player_y = 1.5d;
+            else
+            {
+                player_x = CUSTOM_X;
+                player_y = CUSTOM_Y;
+            }
             player_a = 0;
             stamina_panel.Width = display.Width;
             stamina_panel.Visible = false;
@@ -565,6 +580,11 @@ namespace minigames._SLIL
                 show_finish = SHOW_FINISH;
             }
             MAP_WIDTH = MazeWidth * 3 + 1;
+        }
+
+        private void StartGame()
+        {
+            ResetDefault();
             InitMap();
             string space_0 = "0", space_1 = "0";
             if (seconds > 9)

@@ -62,7 +62,7 @@
             this.top_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
-            this.top_panel.Size = new System.Drawing.Size(404, 256);
+            this.top_panel.Size = new System.Drawing.Size(454, 256);
             this.top_panel.TabIndex = 0;
             // 
             // stamina_panel
@@ -70,7 +70,7 @@
             this.stamina_panel.BackColor = System.Drawing.Color.Lime;
             this.stamina_panel.Location = new System.Drawing.Point(0, 246);
             this.stamina_panel.Name = "stamina_panel";
-            this.stamina_panel.Size = new System.Drawing.Size(400, 6);
+            this.stamina_panel.Size = new System.Drawing.Size(450, 6);
             this.stamina_panel.TabIndex = 3;
             this.stamina_panel.Visible = false;
             // 
@@ -82,7 +82,7 @@
             this.game_over_text.ForeColor = System.Drawing.Color.White;
             this.game_over_text.Location = new System.Drawing.Point(0, 24);
             this.game_over_text.Name = "game_over_text";
-            this.game_over_text.Size = new System.Drawing.Size(400, 228);
+            this.game_over_text.Size = new System.Drawing.Size(450, 228);
             this.game_over_text.TabIndex = 2;
             this.game_over_text.Text = "GAME OVER";
             this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -93,7 +93,7 @@
             this.display.Dock = System.Windows.Forms.DockStyle.Fill;
             this.display.Location = new System.Drawing.Point(0, 24);
             this.display.Name = "display";
-            this.display.Size = new System.Drawing.Size(400, 228);
+            this.display.Size = new System.Drawing.Size(450, 228);
             this.display.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.display.TabIndex = 0;
             this.display.TabStop = false;
@@ -108,7 +108,7 @@
             this.status_text.ForeColor = System.Drawing.Color.White;
             this.status_text.Location = new System.Drawing.Point(0, 0);
             this.status_text.Name = "status_text";
-            this.status_text.Size = new System.Drawing.Size(400, 24);
+            this.status_text.Size = new System.Drawing.Size(450, 24);
             this.status_text.TabIndex = 1;
             this.status_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
@@ -164,7 +164,7 @@
             // 
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
             this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.by.Location = new System.Drawing.Point(293, 260);
+            this.by.Location = new System.Drawing.Point(343, 260);
             this.by.Name = "by";
             this.by.Size = new System.Drawing.Size(111, 21);
             this.by.TabIndex = 41;
@@ -176,7 +176,7 @@
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
             this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.developer_name.Location = new System.Drawing.Point(270, 281);
+            this.developer_name.Location = new System.Drawing.Point(320, 281);
             this.developer_name.Name = "developer_name";
             this.developer_name.Size = new System.Drawing.Size(134, 21);
             this.developer_name.TabIndex = 40;
@@ -211,7 +211,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(404, 302);
+            this.ClientSize = new System.Drawing.Size(454, 302);
             this.Controls.Add(this.by);
             this.Controls.Add(this.developer_name);
             this.Controls.Add(this.question);
