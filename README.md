@@ -1,4 +1,4 @@
-# **Task_viewer**
+# **Mini-Games**
 ## Developed by: **Lonewolf239**
 ### **[Download link](https://base-escape.ru/downloads/Setup_Mini_Games.exe)**
 
@@ -11,4 +11,4 @@ Mini-Games is a collection of 16 offline mini-games, including both strategic pu
 
 ### System Requirements
 - Operating System: Windows 7 or later (64-bit or 32-bit)
-- Storage Space: 9.48MB
+- Storage Space: 9.55MB
