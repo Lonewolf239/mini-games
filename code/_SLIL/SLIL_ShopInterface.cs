@@ -1,0 +1,106 @@
+﻿using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace minigames._SLIL
+{
+    public partial class SLIL_ShopInterface : UserControl
+    {
+        public SLIL_ShopInterface()
+        {
+            InitializeComponent();
+        }
+
+        public Gun weapon;
+        public int index = 0;
+        public int width;
+        public PlaySound buy;
+        public PlaySound cant_pressed = new PlaySound(MainMenu.CGFReader.GetFile("cant_pressed.wav"));
+        private readonly string[,] buy_text = { { "Купить оружие", "Купить патроны" }, { "Buy weapons", "Buy ammo" } };
+
+        private void SLIL_ShopInterface_Load(object sender, EventArgs e)
+        {
+            if (MainMenu.scaled)
+            {
+                Scale(new SizeF(MainMenu.scale_size, MainMenu.scale_size));
+                foreach (Control text in Controls)
+                    text.Font = new Font(text.Font.FontFamily, text.Font.Size * MainMenu.scale_size);
+            }
+        }
+
+        private void Buy_button_Click(object sender, EventArgs e)
+        {
+            weapon_icon.Focus();
+            if (weapon.HasIt)
+            {
+                if (SLIL.money >= weapon.AmmoCost && weapon.MaxAmmoCount + weapon.AmmoCount <= weapon.MaxAmmo)
+                {
+                    if (MainMenu.sounds)
+                        buy.Play(0.4f);
+                    SLIL.money -= weapon.AmmoCost;
+                    weapon.MaxAmmoCount += weapon.CartridgesClip;
+                    ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
+                }
+                else if (MainMenu.sounds)
+                    cant_pressed?.Play(0.4f);
+            }
+            else
+            {
+                if (SLIL.money >= weapon.GunCost)
+                {
+                    if (MainMenu.sounds)
+                        buy.Play(0.4f);
+                    SLIL.money -= weapon.GunCost;
+                    weapon.SetDefault();
+                    SLIL.guns.Add(weapon);
+                    weapon.HasIt = true;
+                    buy_button.Text = buy_text[index, weapon.HasIt ? 1 : 0] + $" ${weapon.AmmoCost}";
+                    ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
+                    update_button.Left = buy_button.Right + 6;
+                    update_button.Visible = weapon.GunType != GunTypes.Sniper;
+                }
+                else if (MainMenu.sounds)
+                    cant_pressed?.Play(0.4f);
+            }
+        }
+
+        private void Update_button_Click(object sender, EventArgs e)
+        {
+            weapon_icon.Focus();
+            if (SLIL.money >= weapon.UpdateCost)
+            {
+                if (MainMenu.sounds)
+                    buy.Play(0.4f);
+                SLIL.money -= weapon.UpdateCost;
+                weapon.LevelUpdate();
+                SLIL.LevelUpdated = true;
+                weapon_name.Text = weapon.Name[index] + $" {weapon.Level}";
+                weapon_icon.Image = weapon.Icon[weapon.GetLevel()];
+                update_button.Text = $"${weapon.UpdateCost}";
+                damage_text.Text = index == 0 ? $"Урон: {weapon.MinDamage}-{weapon.MaxDamage}" : $"Damage: {weapon.MinDamage}-{weapon.MaxDamage}";
+                ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
+                ammo_count.Left = damage_text.Right;
+                if (weapon.Level == Levels.LV3)
+                    update_button.Visible = false;
+            }
+            else if (MainMenu.sounds)
+                cant_pressed?.Play(0.4f);
+        }
+
+        private void SLIL_ShopInterface_VisibleChanged(object sender, EventArgs e)
+        {
+            int cost = weapon.HasIt ? weapon.AmmoCost : weapon.GunCost;
+            string ammo = weapon.HasIt ? $"{weapon.MaxAmmoCount}/{weapon.AmmoCount}" : "0/0";
+            weapon_name.Text = weapon.GunType != GunTypes.Sniper ? weapon.Name[index] + $" {weapon.Level}" : weapon.Name[index];
+            weapon_icon.Image = weapon.Icon[weapon.GetLevel()];
+            ammo_count.Text = index == 0 ? $"Патроны: {ammo}" : $"Ammo: {ammo}";
+            buy_button.Text = buy_text[index, weapon.HasIt ? 1 : 0] + $" ${cost}";
+            update_button.Text = $"${weapon.UpdateCost}";
+            damage_text.Text = index == 0 ? $"Урон: {weapon.MinDamage}-{weapon.MaxDamage}" : $"Damage: {weapon.MinDamage}-{weapon.MaxDamage}";
+            ammo_count.Left = damage_text.Right;
+            update_button.Left = buy_button.Right + 6;
+            update_button.Visible = weapon.Level != Levels.LV3 && weapon.HasIt && weapon.GunType != GunTypes.Sniper;
+            Width = width;
+        }
+    }
+}

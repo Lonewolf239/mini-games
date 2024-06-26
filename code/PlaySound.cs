@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using NAudio.Wave;
 
@@ -9,16 +10,17 @@ namespace minigames
         public bool IsPlaying { get; set; }
     }
 
-    internal class PlaySound : IDisposable
+    public class PlaySound : IDisposable
     {
         private WaveFileReader file;
         private WaveOutEvent playing;
+        private bool stopped = false;
 
-        public PlaySound(string path)
+        public PlaySound(byte[] fileBytes)
         {
             try
             {
-                file = new WaveFileReader(path);
+                file = new WaveFileReader(new MemoryStream(fileBytes));
                 playing = new WaveOutEvent();
                 playing.Init(file);
             }
@@ -27,6 +29,7 @@ namespace minigames
                 Dispose();
             }
         }
+
 
         public void Play(float volume)
         {
@@ -91,20 +94,24 @@ namespace minigames
             catch { }
         }
 
-        private void Stoped(object sender, EventArgs e)
-        {
-            Dispose();
-        }
+        private void Stoped(object sender, EventArgs e) => Dispose();
 
         public void LoopPlay(float volume)
         {
-            playing.Volume = volume;
-            playing.Play();
-            playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
+            try
+            {
+                stopped = false;
+                playing.Volume = volume;
+                playing.Play();
+                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
+            }
+            catch { }
         }
 
         private void Loop(object sender, EventArgs e)
         {
+            if (stopped)
+                return;
             try
             {
                 file.Position = 0;
@@ -113,9 +120,13 @@ namespace minigames
             catch { }
         }
 
-        public long Check()
+        public long Check() => playing.GetPosition();
+
+        public void Stop()
         {
-            return playing.GetPosition();
+            stopped = true;
+            playing.Stop();
+            file.Position = 0;
         }
 
         public void Dispose()

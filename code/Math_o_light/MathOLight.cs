@@ -20,8 +20,8 @@ namespace minigames.Math_o_light
         private char math_doing = ' ';
         private bool in_game = false, fast = false;
         private Random rand = new Random();
-        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
-                        game_over = new PlaySound(@"sounds\game_over.wav");
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
 
         private void MathOLight_Load(object sender, EventArgs e)
         {

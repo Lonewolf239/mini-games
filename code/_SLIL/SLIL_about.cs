@@ -14,18 +14,25 @@ namespace minigames._SLIL
         {
             if (!MainMenu.Language)
             {
-                Text = "Rules of the game";
+                Text = "About game";
                 control_text.Text = "Controls:";
-                control_space.Text = "Map: Space \\ Tab \\ M\nRun: Shift\nTo stop the game press: ESC";
+                control_space.Text = "F11 – full screen mode\n" +
+                    "ESC – stop the game/exit the game\n" +
+                    "WASD / arrows – movement\n" +
+                    "Mouse - camera control\n" +
+                    "E / Enter – interaction with doors\n" +
+                    "M / Tab / Space – show/hide map\n" +
+                    "B – open/close the store (you can also use ESC to close)\n" +
+                    "Shift (hold) – run" +
+                    "\nLeft mouse button – shooting\n" +
+                    "Right mouse button – aiming mode\n" +
+                    "1-7 / mouse wheel – change weapons";
                 rules_text.Text = "The goal of the game is to go through a randomly generated maze within a certain time.";
             }
             ok.Left = (Width - ok.Width) / 2;
             Activate();
         }
 
-        private void Ok_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void Ok_Click(object sender, EventArgs e) => Close();
     }
 }

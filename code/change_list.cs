@@ -12,20 +12,67 @@ namespace minigames
 
         private string key = "";
 
-        private void Changes_list_Enter(object sender, EventArgs e)
-        {
-            Focus();
-        }
+        private void Changes_list_Enter(object sender, EventArgs e) => Focus();
 
-        private void Ok_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void Ok_Click(object sender, EventArgs e) => Close();
 
         private void Change_list_Load(object sender, EventArgs e)
         {
             string[] list =
             {
+                "\t\t\tv0.2.9",
+                "_______________________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Improved optimization",
+                "   • Redesigned rendering",
+                "   • Minor visual improvements",
+                "   • Some bugs have been fixed",
+                "• Fixed some bugs",
+                "\n",
+                "\t\t\tv0.2.8",
+                "_______________________________________________________________",
+                "• Added support for .cgf format",
+                "• Changing the game \"Mazeness\":",
+                "   • Added weapon level system for:",
+                "       • SMG",
+                "       • Rifle",
+                "       • Sniper",
+                "   • Minor visual improvements",
+                "   • Some bugs have been fixed",
+                "• Fixed some bugs",
+                "\n",
+                "\t\t\tv0.2.7",
+                "_______________________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Added weapon level system for:",
+                "       • pistol",
+                "       • shotgun",
+                "   • Added 3 new types of weapons:",
+                "       • SMG",
+                "       • assault rifle",
+                "       • sniper rifle",
+                "   • Added 2 new types of enemies",
+                "   • Minor visual improvements",
+                "   • Some bugs have been fixed",
+                "• Fixed some bugs",
+                "\n",
+                "\t\t\tv0.2.6",
+                "______________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Added 2 new weapons: Pistol and Shotgun",
+                "   • Added enemies",
+                "   • Minor visual improvements",
+                "   • Some bugs have been fixed",
+                "• Some bugs fixed",
+                "\n",
+                "\t\t\tv0.2.5",
+                "______________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Camera redesigned",
+                "   • Windows added",
+                "   • Fixed some bugs",
+                "• Some bugs fixed",
+                "\n",
                 "\t\t\tv0.2.4.5",
                 "______________________________________________________",
                 "• Some bugs fixed",
@@ -203,6 +250,59 @@ namespace minigames
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.2.9",
+                    "_______________________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Улучшенная оптимизация",
+                    "   • Переработан рендеринг",
+                    "   • Небольшие визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.8",
+                    "_______________________________________________________________",
+                    "• Добавлена ​​поддержка формата .cgf",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Добавлена ​​система уровней оружия для:",
+                    "      • Пистолет-пулемёт",
+                    "      • Автомат",
+                    "      • Снайперка",
+                    "   • Небольшие визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.7",
+                    "______________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Добавлена ​​система уровней оружия для:",
+                    "       • пистолет",
+                    "       • дробовик",
+                    "   • Добавлено 3 новых вида оружия:",
+                    "       • пистолет-пулемет",
+                    "       • штурмовая винтовка",
+                    "       • снайперская винтовка",
+                    "   • Добавлено 2 новых типа врагов",
+                    "   • Небольшие визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.6",
+                    "______________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Добавлено 2 новых оружия: пистолет и дробовик",
+                    "   • Добавлены враги",
+                    "   • Небольшие визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
+                    "\t\t\tv0.2.5",
+                    "______________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Изменен дизайн камеры",
+                    "   • Добавлены окна",
+                    "   • Исправлены некоторые ошибки",
+                    "• Исправлены некоторые ошибки",
+                    "\n",
                     "\t\t\tv0.2.4.5",
                     "______________________________________________________",
                     "• Исправлены некоторые ошибки",
@@ -377,11 +477,6 @@ namespace minigames
             key += e.KeyCode.ToString();
             if (key == "DEV")
                 richTextBox1.Visible = !richTextBox1.Visible;
-            else if (key == "DEVEscape")
-            {
-                richTextBox1.Visible = !richTextBox1.Visible;
-                key = null;
-            }
         }
     }
 }

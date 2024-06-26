@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using MazeGenerator;
-using minigames._Tetris;
 
 namespace minigames._SLIL
 {
@@ -23,6 +23,7 @@ namespace minigames._SLIL
         private Panel[,] panels;
         private bool playerExist = false;
         private int finishCount = 0;
+        private readonly Random rand = new Random();
 
         private void Import_btn_Click(object sender, EventArgs e)
         {
@@ -34,7 +35,7 @@ namespace minigames._SLIL
                 string[] MAP = map.Split(':');
                 maze_height = Convert.ToInt32(MAP[0]);
                 maze_width = Convert.ToInt32(MAP[1]);
-                if (MAP[2].Any(c => c != '.' && c != '#' && c != '&' && c != 'P'))
+                if (MAP[2].Any(c => c != '.' && c != '#' && c != '=' && c != 'D' && c != 'F' && c != 'P' && c != 'E' && c != '$'))
                 {
                     if (MainMenu.Language)
                         MessageBox.Show("Строка содержит недопустимые символы.", "Ошибка импорта карты", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -103,7 +104,10 @@ namespace minigames._SLIL
             if (!MainMenu.Language)
             {
                 Text = "Editor";
-                about.Text = "1 - put up a wall\n2 - set the finish\n3 - place a player\nSpace - remove item";
+                about.Text = "Elements:";
+                elements.Items.Clear();
+                string[] div = { "Player", "Wall", "Door", "Window", "Finish", "Shop", "Enemy" };
+                elements.Items.AddRange(div);
             }
             old_MazeHeight = MazeHeight;
             old_MazeWidth = MazeWidth;
@@ -112,6 +116,7 @@ namespace minigames._SLIL
                 random_btn.BackColor = Color.LightGray;
                 random_btn.Enabled = false;
             }
+            elements.SelectedIndex = 0;
             GenerateField();
         }
 
@@ -141,7 +146,11 @@ namespace minigames._SLIL
                     {
                         if (c == '.')
                             color = Color.White;
-                        else if (c == '&')
+                        else if (c == '=')
+                            color = Color.Blue;
+                        else if (c == 'D')
+                            color = Color.Orange;
+                        else if (c == 'F')
                         {
                             color = Color.Lime;
                             finishCount = 1;
@@ -151,6 +160,10 @@ namespace minigames._SLIL
                             color = Color.Red;
                             playerExist = true;
                         }
+                        else if (c == '$')
+                            color = Color.Pink;
+                        else if (c == 'E')
+                            color = Color.Navy;
                     }
                     Panel panel = new Panel
                     {
@@ -169,14 +182,16 @@ namespace minigames._SLIL
             }
             accept_button.Left = reset_btn.Left = random_btn.Left = import_btn.Left = export_btn.Left = editor_interface.Right + 6;
             about.Top = editor_interface.Bottom + 3;
+            elements.Top = about.Bottom + 3;
+            question.Top = elements.Top - 8;
             Width = accept_button.Right + 21;
-            Height = about.Bottom + 40;
+            Height = elements.Bottom + 43;
             int centerX = Owner.Left + (Owner.Width - Width) / 2;
             int centerY = Owner.Top + (Owner.Height - Height) / 2;
             Location = new Point(centerX, centerY);
         }
 
-        private string GenerateMap()
+        private StringBuilder GenerateMap()
         {
             StringBuilder MAP = new StringBuilder();
             for (int i = 0; i < panels.GetLength(0); i++)
@@ -185,19 +200,27 @@ namespace minigames._SLIL
                 {
                     if (panels[i, j].BackColor == Color.Black)
                         MAP.Append("#");
+                    else if (panels[i, j].BackColor == Color.Blue)
+                        MAP.Append("=");
+                    else if (panels[i, j].BackColor == Color.Orange)
+                        MAP.Append("D");
                     else if (panels[i, j].BackColor == Color.White)
                         MAP.Append(".");
                     else if (panels[i, j].BackColor == Color.Lime)
-                        MAP.Append("&");
+                        MAP.Append("F");
+                    else if (panels[i, j].BackColor == Color.Pink)
+                        MAP.Append("$");
                     else if (panels[i, j].BackColor == Color.Red)
                     {
                         MAP.Append("P");
                         x = j;
                         y = i;
                     }
+                    else if (panels[i, j].BackColor == Color.Navy)
+                        MAP.Append("E");
                 }
             }
-            return MAP.ToString();
+            return MAP;
         }
 
         private void Panels_MouseEnter(object sender, EventArgs e)
@@ -218,24 +241,85 @@ namespace minigames._SLIL
         {
             editor_interface.Focus();
             finishCount = 0;
-            playerExist = false;
+            playerExist = true;
             StringBuilder sb = new StringBuilder();
             Maze MazeGenerator = new Maze();
-            char[,] map = MazeGenerator.GenerateCharMap((MazeWidth - 1) / 3, (MazeHeight - 1) / 3, '#', '.', '&');
+            char[,] map = MazeGenerator.GenerateCharMap((MazeWidth - 1) / 3, (MazeHeight - 1) / 3, '#', '=', 'D', '.', 'F');
+            map[1, 1] = 'P';
+            List<int[]> shops = new List<int[]>();
             for (int y = 0; y < map.GetLength(1); y++)
             {
                 for (int x = 0; x < map.GetLength(0); x++)
                 {
                     try
                     {
-                        if (map[x, y] == '.' && map[x + 1, y] == '#' && map[x, y + 1] == '#' && (map[x + 2, y] == '#' || map[x, y + 2] == '#'))
+                        if ((map[x, y] == '.' || map[x, y] == '=' || map[x, y] == 'D') &&
+                            (map[x + 1, y] == '#' || map[x + 1, y] == '=' || map[x + 1, y] == 'D') &&
+                            (map[x, y + 1] == '#' || map[x, y + 1] == '=' || map[x, y + 1] == 'D') &&
+                            ((map[x + 2, y] == '#' || map[x + 2, y] == '=' || map[x + 2, y] == 'D') ||
+                            (map[x, y + 2] == '#' || map[x, y + 2] == '=' || map[x, y + 2] == 'D')))
                             map[x, y] = '#';
+                        if (map[x, y] == '$')
+                            shops.Add(new int[] { x, y });
+                        if (map[x, y] == '.' && rand.NextDouble() <= 0.015 && x > 5 && y > 5)
+                            map[x, y] = 'E';
                     }
                     catch { }
-                    if (map[x, y] == '&')
+                    if (map[x, y] == 'F')
                         finishCount++;
-                    sb.Append(map[x, y]);
                 }
+            }
+            if (shops.Count == 0)
+            {
+                if (map[3, 1] == '#')
+                {
+                    map[3, 1] = '$';
+                    shops.Add(new int[] { 3, 1 });
+                }
+                else if (map[1, 3] == '#')
+                {
+                    map[1, 3] = '$';
+                    shops.Add(new int[] { 1, 3 });
+                }
+            }
+            for (int i = 0; i < shops.Count; i++)
+            {
+                int[] shop = shops[i];
+                int shop_x = shop[0];
+                int shop_y = shop[1];
+                for (int x = shop_x - 1; x <= shop_x + 1; x++)
+                {
+                    for (int y = shop_y - 1; y <= shop_y + 1; y++)
+                    {
+                        if (y < 0 && y >= map.GetLength(0) && x < 0 && x >= map.GetLength(1))
+                            continue;
+                        if (x == shop_x && y == shop_y)
+                            continue;
+                        if (map[x, y] != 'F')
+                            map[x, y] = '#';
+                    }
+                }
+                try
+                {
+                    if (shop_x == 3 && shop_y == 1 && map[shop_x - 1, shop_y] == '.')
+                        map[shop_x - 1, shop_y] = 'D';
+                    else if (shop_x == 1 && shop_y == 3 && map[shop_x, shop_y - 1] == '.')
+                        map[shop_x, shop_y - 1] = 'D';
+                    else if (shop_y >= 2 && shop_y < map.GetLength(0) - 2 && shop_x >= 0 && shop_x < map.GetLength(1) && map[shop_x, shop_y - 2] == '.')
+                        map[shop_x, shop_y - 1] = 'D';
+                    else if (shop_y >= 0 && shop_y < map.GetLength(0) - 2 && shop_x >= 0 && shop_x < map.GetLength(1) && map[shop_x, shop_y + 2] == '.')
+                        map[shop_x, shop_y + 1] = 'D';
+                    else if (shop_y >= 0 && shop_y < map.GetLength(0) && shop_x >= 2 && shop_x < map.GetLength(1) - 2 && map[shop_x - 2, shop_y] == '.')
+                        map[shop_x - 1, shop_y] = 'D';
+                    else if (shop_y >= 0 && shop_y < map.GetLength(0) && shop_x >= 0 && shop_x < map.GetLength(1) - 2 && map[shop_x + 2, shop_y] == '.')
+                        map[shop_x + 1, shop_y] = 'D';
+                }
+                catch { }
+            }
+            for (int y = 0; y < map.GetLength(1); y++)
+            {
+                for (int x = 0; x < map.GetLength(0); x++)
+                    sb.Append(map[x, y]);
             }
             GenerateField(sb.ToString());
         }
@@ -264,37 +348,84 @@ namespace minigames._SLIL
             Close();
         }
 
+        private void Question_Click(object sender, EventArgs e)
+        {
+            editor_interface.Focus();
+            if (MainMenu.Language)
+                MessageBox.Show("Управление редактором:\nРазмещение и удаление элементов происходит в той ячейке, на которую наведен курсор мыши.\nРазместить выбранный элемент: Space или Enter\nУдалить элемент: Backspace или Del", "Подсказка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else
+                MessageBox.Show("Editor control:\nPlacement and removal of elements occur in the cell where the mouse cursor is hovered.\nPlace selected element: Space or Enter\nDelete element: Backspace or Del", "Hint", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
         private void SLIL_Editor_KeyDown(object sender, KeyEventArgs e)
         {
             Panel panel = null;
+            int x = 0, y = 0;
             for (int i = 1; i < panels.GetLength(0) - 1; i++)
             {
                 for (int j = 1; j < panels.GetLength(1) - 1; j++)
                 {
                     if (panels[i, j].Focused)
+                    {
                         panel = panels[i, j];
+                        x = i;
+                        y = j;
+                    }
                 }
             }
             if (panel == null)
                 return;
+            int index = elements.SelectedIndex;
             if (panel.BackColor == Color.White)
             {
-                if (e.KeyCode == Keys.D1)
-                    panel.BackColor = Color.Black;
-                else if (e.KeyCode == Keys.D2)
+                if(e.KeyCode == Keys.Space || e.KeyCode == Keys.Enter)
                 {
-                    panel.BackColor = Color.Lime;
-                    finishCount++;
-                }
-                else if (e.KeyCode == Keys.D3 && !playerExist)
-                {
-                    panel.BackColor = Color.Red;
-                    playerExist = true;
+                    if (index == 0 && !playerExist)
+                    {
+                        panel.BackColor = Color.Red;
+                        playerExist = true;
+                    }
+                    else if (index == 1)
+                        panel.BackColor = Color.Black;
+                    else if (index == 2)
+                        panel.BackColor = Color.Orange;
+                    else if (index == 3)
+                        panel.BackColor = Color.Blue;
+                    else if (index == 4)
+                    {
+                        panel.BackColor = Color.Lime;
+                        finishCount++;
+                    }
+                    else if (index == 5)
+                    {
+                        panel.BackColor = Color.Pink;
+                        for (int i = x - 1; i <= x + 1; i++)
+                        {
+                            for (int j = y - 1; j <= y + 1; j++)
+                            {
+                                if (j <= 0 && j >= panels.GetLength(1) && i <= 0 && i >= panels.GetLength(0))
+                                    continue;
+                                if (i == x && j == y)
+                                    continue;
+                                panels[i, j].BackColor = Color.Black;
+                            }
+                        }
+                        if (y >= 2 && y < panels.GetLength(0) - 2 && x >= 0 && x < panels.GetLength(1) && panels[x, y - 2].BackColor == Color.White)
+                            panels[x, y - 1].BackColor = Color.Orange;
+                        else if (y >= 0 && y < panels.GetLength(0) - 2 && x >= 0 && x < panels.GetLength(1) && panels[x, y + 2].BackColor == Color.White)
+                            panels[x, y + 1].BackColor = Color.Orange;
+                        else if (y >= 0 && y < panels.GetLength(0) && x >= 2 && x < panels.GetLength(1) - 2 && panels[x - 2, y].BackColor == Color.White)
+                            panels[x - 1, y].BackColor = Color.Orange;
+                        else if (y >= 0 && y < panels.GetLength(0) && x >= 0 && x < panels.GetLength(1) - 2 && panels[x + 2, y].BackColor == Color.White)
+                            panels[x + 1, y].BackColor = Color.Orange;
+                    }
+                    else if (index == 6)
+                        panel.BackColor = Color.Navy;
                 }
             }
             else
             {
-                if (e.KeyCode == Keys.Space)
+                if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
                 {
                     if (panel.BackColor == Color.Lime)
                         finishCount--;

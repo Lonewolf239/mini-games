@@ -1,4 +1,6 @@
-﻿namespace minigames._SLIL
+﻿using System.Windows.Forms;
+
+namespace minigames._SLIL
 {
     partial class SLIL
     {
@@ -31,10 +33,10 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLIL));
             this.top_panel = new System.Windows.Forms.Panel();
+            this.shop_panel = new System.Windows.Forms.Panel();
+            this.shop_money = new System.Windows.Forms.Label();
             this.stamina_panel = new System.Windows.Forms.Panel();
             this.game_over_text = new System.Windows.Forms.Label();
-            this.display = new System.Windows.Forms.PictureBox();
-            this.status_text = new System.Windows.Forms.Label();
             this.start_btn = new System.Windows.Forms.Button();
             this.raycast = new System.Windows.Forms.Timer(this.components);
             this.time_remein = new System.Windows.Forms.Timer(this.components);
@@ -44,29 +46,67 @@
             this.by = new System.Windows.Forms.Label();
             this.developer_name = new System.Windows.Forms.Label();
             this.stamina_timer = new System.Windows.Forms.Timer(this.components);
-            this.show_settings = new System.Windows.Forms.PictureBox();
             this.mouse_timer = new System.Windows.Forms.Timer(this.components);
+            this.shot_timer = new System.Windows.Forms.Timer(this.components);
+            this.reload_timer = new System.Windows.Forms.Timer(this.components);
+            this.enemy_timer = new System.Windows.Forms.Timer(this.components);
+            this.status_refresh = new System.Windows.Forms.Timer(this.components);
+            this.ShopInterface_panel = new System.Windows.Forms.Panel();
+            this.show_settings = new System.Windows.Forms.PictureBox();
+            this.display = new System.Windows.Forms.PictureBox();
+            this.shop_title_panel = new System.Windows.Forms.Panel();
+            this.shop_title = new System.Windows.Forms.Label();
             this.top_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
+            this.shop_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.display)).BeginInit();
+            this.shop_title_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // top_panel
             // 
+            this.top_panel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.top_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
             this.top_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.top_panel.Controls.Add(this.stamina_panel);
             this.top_panel.Controls.Add(this.game_over_text);
+            this.top_panel.Controls.Add(this.shop_panel);
+            this.top_panel.Controls.Add(this.stamina_panel);
             this.top_panel.Controls.Add(this.display);
-            this.top_panel.Controls.Add(this.status_text);
-            this.top_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
             this.top_panel.Size = new System.Drawing.Size(454, 256);
             this.top_panel.TabIndex = 0;
             // 
+            // shop_panel
+            // 
+            this.shop_panel.Controls.Add(this.ShopInterface_panel);
+            this.shop_panel.Controls.Add(this.shop_title_panel);
+            this.shop_panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.shop_panel.Location = new System.Drawing.Point(0, 0);
+            this.shop_panel.Name = "shop_panel";
+            this.shop_panel.Size = new System.Drawing.Size(450, 252);
+            this.shop_panel.TabIndex = 4;
+            this.shop_panel.Visible = false;
+            // 
+            // shop_money
+            // 
+            this.shop_money.AutoSize = true;
+            this.shop_money.Dock = System.Windows.Forms.DockStyle.Right;
+            this.shop_money.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shop_money.ForeColor = System.Drawing.Color.White;
+            this.shop_money.Location = new System.Drawing.Point(410, 0);
+            this.shop_money.Name = "shop_money";
+            this.shop_money.Size = new System.Drawing.Size(40, 24);
+            this.shop_money.TabIndex = 0;
+            this.shop_money.Text = "$: 0";
+            this.shop_money.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // stamina_panel
             // 
+            this.stamina_panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.stamina_panel.BackColor = System.Drawing.Color.Lime;
             this.stamina_panel.Location = new System.Drawing.Point(0, 246);
             this.stamina_panel.Name = "stamina_panel";
@@ -78,42 +118,20 @@
             // 
             this.game_over_text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
             this.game_over_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.game_over_text.Dock = System.Windows.Forms.DockStyle.Fill;
             this.game_over_text.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.game_over_text.ForeColor = System.Drawing.Color.White;
-            this.game_over_text.Location = new System.Drawing.Point(0, 24);
+            this.game_over_text.Location = new System.Drawing.Point(0, 0);
             this.game_over_text.Name = "game_over_text";
-            this.game_over_text.Size = new System.Drawing.Size(450, 228);
+            this.game_over_text.Size = new System.Drawing.Size(450, 252);
             this.game_over_text.TabIndex = 2;
             this.game_over_text.Text = "GAME OVER";
             this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.game_over_text.Visible = false;
             // 
-            // display
-            // 
-            this.display.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.display.Location = new System.Drawing.Point(0, 24);
-            this.display.Name = "display";
-            this.display.Size = new System.Drawing.Size(450, 228);
-            this.display.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.display.TabIndex = 0;
-            this.display.TabStop = false;
-            this.display.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Display_MouseMove);
-            // 
-            // status_text
-            // 
-            this.status_text.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
-            this.status_text.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.status_text.Dock = System.Windows.Forms.DockStyle.Top;
-            this.status_text.Font = new System.Drawing.Font("Consolas", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.status_text.ForeColor = System.Drawing.Color.White;
-            this.status_text.Location = new System.Drawing.Point(0, 0);
-            this.status_text.Name = "status_text";
-            this.status_text.Size = new System.Drawing.Size(450, 24);
-            this.status_text.TabIndex = 1;
-            this.status_text.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // start_btn
             // 
+            this.start_btn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.start_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -148,6 +166,7 @@
             // 
             // question
             // 
+            this.question.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -162,6 +181,7 @@
             // 
             // by
             // 
+            this.by.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
             this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.by.Location = new System.Drawing.Point(343, 260);
@@ -173,6 +193,7 @@
             // 
             // developer_name
             // 
+            this.developer_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
             this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -189,8 +210,45 @@
             this.stamina_timer.Interval = 10;
             this.stamina_timer.Tick += new System.EventHandler(this.Stamina_timer_Tick);
             // 
+            // mouse_timer
+            // 
+            this.mouse_timer.Interval = 1;
+            this.mouse_timer.Tick += new System.EventHandler(this.Mouse_timer_Tick);
+            // 
+            // shot_timer
+            // 
+            this.shot_timer.Interval = 200;
+            this.shot_timer.Tick += new System.EventHandler(this.Shot_timer_Tick);
+            // 
+            // reload_timer
+            // 
+            this.reload_timer.Interval = 750;
+            this.reload_timer.Tick += new System.EventHandler(this.Reload_gun_Tick);
+            // 
+            // enemy_timer
+            // 
+            this.enemy_timer.Interval = 500;
+            this.enemy_timer.Tick += new System.EventHandler(this.Enemy_timer_Tick);
+            // 
+            // status_refresh
+            // 
+            this.status_refresh.Enabled = true;
+            this.status_refresh.Interval = 1;
+            this.status_refresh.Tick += new System.EventHandler(this.Status_refresh_Tick);
+            // 
+            // ShopInterface_panel
+            // 
+            this.ShopInterface_panel.AutoScroll = true;
+            this.ShopInterface_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ShopInterface_panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ShopInterface_panel.Location = new System.Drawing.Point(0, 24);
+            this.ShopInterface_panel.Name = "ShopInterface_panel";
+            this.ShopInterface_panel.Size = new System.Drawing.Size(450, 228);
+            this.ShopInterface_panel.TabIndex = 1;
+            // 
             // show_settings
             // 
+            this.show_settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
             this.show_settings.Location = new System.Drawing.Point(0, 262);
             this.show_settings.Name = "show_settings";
@@ -202,10 +260,42 @@
             this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
             this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
             // 
-            // mouse_timer
+            // display
             // 
-            this.mouse_timer.Interval = 1;
-            this.mouse_timer.Tick += new System.EventHandler(this.Mouse_timer_Tick);
+            this.display.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.display.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.display.Location = new System.Drawing.Point(0, 0);
+            this.display.Name = "display";
+            this.display.Size = new System.Drawing.Size(450, 252);
+            this.display.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.display.TabIndex = 0;
+            this.display.TabStop = false;
+            this.display.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Display_MouseDown);
+            this.display.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Display_MouseMove);
+            this.display.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Display_Scroll);
+            // 
+            // shop_title_panel
+            // 
+            this.shop_title_panel.Controls.Add(this.shop_title);
+            this.shop_title_panel.Controls.Add(this.shop_money);
+            this.shop_title_panel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.shop_title_panel.Location = new System.Drawing.Point(0, 0);
+            this.shop_title_panel.Name = "shop_title_panel";
+            this.shop_title_panel.Size = new System.Drawing.Size(450, 24);
+            this.shop_title_panel.TabIndex = 2;
+            // 
+            // shop_title
+            // 
+            this.shop_title.AutoSize = true;
+            this.shop_title.Dock = System.Windows.Forms.DockStyle.Left;
+            this.shop_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shop_title.ForeColor = System.Drawing.Color.White;
+            this.shop_title.Location = new System.Drawing.Point(0, 0);
+            this.shop_title.Name = "shop_title";
+            this.shop_title.Size = new System.Drawing.Size(102, 24);
+            this.shop_title.TabIndex = 1;
+            this.shop_title.Text = "МАГАЗИН";
+            this.shop_title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SLIL
             // 
@@ -222,11 +312,11 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.MaximizeBox = false;
             this.Name = "SLIL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Лабезумие";
             this.TopMost = true;
+            this.Activated += new System.EventHandler(this.SLIL_Activated);
             this.Deactivate += new System.EventHandler(this.SLIL_Deactivate);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SLIL_FormClosing);
             this.Load += new System.EventHandler(this.SLIL_Load);
@@ -234,8 +324,11 @@
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyUp);
             this.top_panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.display)).EndInit();
+            this.shop_panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.display)).EndInit();
+            this.shop_title_panel.ResumeLayout(false);
+            this.shop_title_panel.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,7 +340,6 @@
         private System.Windows.Forms.Button start_btn;
         private System.Windows.Forms.Timer raycast;
         private System.Windows.Forms.PictureBox display;
-        private System.Windows.Forms.Label status_text;
         private System.Windows.Forms.Timer time_remein;
         private System.Windows.Forms.Timer step_sound_timer;
         private System.Windows.Forms.Timer map_timer;
@@ -259,5 +351,14 @@
         private System.Windows.Forms.Timer stamina_timer;
         private System.Windows.Forms.Panel stamina_panel;
         private System.Windows.Forms.Timer mouse_timer;
+        private System.Windows.Forms.Timer shot_timer;
+        private System.Windows.Forms.Timer reload_timer;
+        private System.Windows.Forms.Timer enemy_timer;
+        private System.Windows.Forms.Timer status_refresh;
+        private Panel shop_panel;
+        private Label shop_money;
+        private Panel ShopInterface_panel;
+        private Panel shop_title_panel;
+        private Label shop_title;
     }
 }

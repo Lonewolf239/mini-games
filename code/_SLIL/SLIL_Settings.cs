@@ -22,8 +22,8 @@ namespace minigames._SLIL
             {
                 Text = "Settings";
                 look_speed_text.Text = "Sensitivity";
+                show_fps.Text = "Show FPS";
                 difficulty_text.Text = "Difficulty";
-                show_finish.Text = "Show finish";
                 height_map_text.Text = "Height";
                 width_map_text.Text = "Width";
                 difficulty_list.Items.Clear();
@@ -40,9 +40,9 @@ namespace minigames._SLIL
             Location = new Point(centerX, centerY);
             look_speed.Value = (int)(SLIL.LOOK_SPEED * 100);
             difficulty_list.SelectedIndex = SLIL.old_difficulty;
-            show_finish.Checked = SLIL.SHOW_FINISH;
             height_map_input.Value = SLIL.CustomMazeHeight;
             width_map_input.Value = SLIL.CustomMazeWidth;
+            show_fps.Checked = SLIL.ShowFPS;
             SLIL.CUSTOM = false;
             if (height_map_input.Value > 20 || width_map_input.Value > 20)
                 editor_btn.Enabled = false;
@@ -57,19 +57,19 @@ namespace minigames._SLIL
                 form.Close();
                 form = null;
             }
+            bool showfps = show_fps.Checked;
             double speed = (double)look_speed.Value / 100;
             int index = difficulty_list.SelectedIndex;
             int CustomMazeHeight = (int)height_map_input.Value;
             int CustomMazeWidth = (int)width_map_input.Value;
-            bool _show_finish = show_finish.Checked;
             SLIL.LOOK_SPEED = speed;
             SLIL.old_difficulty = SLIL.difficulty = index;
-            SLIL.SHOW_FINISH = _show_finish;
             SLIL.CustomMazeHeight = CustomMazeHeight;
             SLIL.CustomMazeWidth = CustomMazeWidth;
+            SLIL.ShowFPS = showfps;
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "look_speed", speed);
+            INIReader.SetKey(MainMenu.iniFolder, "SLIL", "show_fps", showfps);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "difficulty", index);
-            INIReader.SetKey(MainMenu.iniFolder, "SLIL", "show_finish", _show_finish);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "custom_maze_height", CustomMazeHeight);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "custom_maze_width", CustomMazeWidth);
         }
@@ -109,10 +109,6 @@ namespace minigames._SLIL
         private void Difficulty_list_SelectedIndexChanged(object sender, EventArgs e)
         {
             look_speed_text.Focus();
-            if (difficulty_list.SelectedIndex == 0 || difficulty_list.SelectedIndex == 1)
-                show_finish.Enabled = show_finish.Checked = false;
-            else 
-                show_finish.Enabled = true;
             if (difficulty_list.SelectedIndex == 4)
                 Height = width_map_input.Bottom + 44;
             else
@@ -163,9 +159,6 @@ namespace minigames._SLIL
                 editor_btn.BackColor = Color.LightGray;
         }
 
-        private void Quality_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            look_speed_text.Focus();
-        }
+        private void Quality_list_SelectedIndexChanged(object sender, EventArgs e) => look_speed_text.Focus();
     }
 }

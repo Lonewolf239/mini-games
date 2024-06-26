@@ -14,7 +14,6 @@ namespace minigames.Soundotron
 
         private PlaySound sound;
         private readonly Random rand = new Random();
-        private readonly string folder = @"sounds\";
         private int unlocked_sounds = 0, index = 0, player_index = 0;
         public static int score = 0, max_score = 0;
         private float difficult = 0;
@@ -33,8 +32,8 @@ namespace minigames.Soundotron
         };
         private string[] sounds = new string[8], player_sounds = new string[8];
         private bool unlocked = false;
-        private readonly PlaySound win = new PlaySound(@"sounds\win.wav"),
-                        game_over = new PlaySound(@"sounds\game_over.wav");
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -98,165 +97,165 @@ namespace minigames.Soundotron
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[0][0]);
+                Play_Sound(wav_files[0][0]);
                 Add_Sound(0, 0);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[0][0]);
+                Play_Sound(wav_files[0][0]);
         }
 
         private void Piano_re_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[0][1]);
+                Play_Sound(wav_files[0][1]);
                 Add_Sound(0, 1);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[0][1]);
+                Play_Sound(wav_files[0][1]);
         }
 
         private void Piano_mi_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[0][2]);
+                Play_Sound(wav_files[0][2]);
                 Add_Sound(0, 2);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[0][2]);
+                Play_Sound(wav_files[0][2]);
         }
 
         private void Guitar_do_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[1][0]);
+                Play_Sound(wav_files[1][0]);
                 Add_Sound(1, 0);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[1][0]);
+                Play_Sound(wav_files[1][0]);
         }
 
         private void Guitar_re_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[1][1]);
+                Play_Sound(wav_files[1][1]);
                 Add_Sound(1, 1);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[1][1]);
+                Play_Sound(wav_files[1][1]);
         }
 
         private void Guitar_mi_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[1][2]);
+                Play_Sound(wav_files[1][2]);
                 Add_Sound(1, 2);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[1][2]);
+                Play_Sound(wav_files[1][2]);
         }
 
         private void Drum_do_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[2][0]);
+                Play_Sound(wav_files[2][0]);
                 Add_Sound(2, 0);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[2][0]);
+                Play_Sound(wav_files[2][0]);
         }
 
         private void Drum_re_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[2][1]);
+                Play_Sound(wav_files[2][1]);
                 Add_Sound(2, 1);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[2][1]);
+                Play_Sound(wav_files[2][1]);
         }
 
         private void Drum_mi_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[2][2]);
+                Play_Sound(wav_files[2][2]);
                 Add_Sound(2, 2);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[2][2]);
+                Play_Sound(wav_files[2][2]);
         }
 
         private void Violin_do_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[3][0]);
+                Play_Sound(wav_files[3][0]);
                 Add_Sound(3, 0);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[3][0]);
+                Play_Sound(wav_files[3][0]);
         }
 
         private void Violin_re_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[3][1]);
+                Play_Sound(wav_files[3][1]);
                 Add_Sound(3, 1);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[3][1]);
+                Play_Sound(wav_files[3][1]);
         }
 
         private void Violin_mi_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[3][2]);
+                Play_Sound(wav_files[3][2]);
                 Add_Sound(3, 2);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[3][2]);
+                Play_Sound(wav_files[3][2]);
         }
 
         private void Clarinet_do_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[4][0]);
+                Play_Sound(wav_files[4][0]);
                 Add_Sound(4, 0);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[4][0]);
+                Play_Sound(wav_files[4][0]);
         }
 
         private void Clarinet_re_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[4][1]);
+                Play_Sound(wav_files[4][1]);
                 Add_Sound(4, 1);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[4][1]);
+                Play_Sound(wav_files[4][1]);
         }
 
         private void Clarinet_mi_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                Play_Sound(folder + wav_files[4][2]);
+                Play_Sound(wav_files[4][2]);
                 Add_Sound(4, 2);
             }
             else if (e.Button == MouseButtons.Right)
-                Play_Sound(folder + wav_files[4][2]);
+                Play_Sound(wav_files[4][2]);
         }
 
         private void SoundoTron_Load(object sender, EventArgs e)
@@ -302,7 +301,7 @@ namespace minigames.Soundotron
 
         private void Play_Sound(string path)
         {
-            sound = new PlaySound(path);
+            sound = new PlaySound(MainMenu.CGFReader.GetFile(path));
             sound.PlayWithDispose(0.5f);
         }
 
@@ -413,7 +412,7 @@ namespace minigames.Soundotron
             catch
             {
                 int track = rand.Next(0, 3), albom = rand.Next(0, unlocked_sounds + 1);
-                Play_Sound(folder + wav_files[albom][track]);
+                Play_Sound(wav_files[albom][track]);
                 sounds[index] = wav_files[albom][track];
                 index++;
                 if (index > 1 && difficult < 1.5f)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Text;
 using System.Windows.Forms;
 
 namespace minigames._SLIL
@@ -7,10 +8,8 @@ namespace minigames._SLIL
     public partial class map_form : Form
     {
 
-        public string _MAP;
-        public double _player_x, _player_y;
+        public StringBuilder _MAP = new StringBuilder();
         public int _MazeHeight, _MazeWidth;
-        public bool show_finish;
         private int MAP_HEIGHT;
         private int MAP_WIDTH;
         private Bitmap screen;
@@ -42,13 +41,20 @@ namespace minigames._SLIL
                     char mapChar = _MAP[y * MAP_WIDTH + x];
                     if (mapChar == '#')
                         screen.SetPixel(x, y, Color.Blue);
-                    else if (mapChar == '&' && show_finish)
+                    else if (mapChar == '=')
+                        screen.SetPixel(x, y, Color.YellowGreen);
+                    else if (mapChar == 'D' || mapChar == 'O')
+                        screen.SetPixel(x, y, Color.FromArgb(255, 165, 0));
+                    else if (mapChar == 'F')
                         screen.SetPixel(x, y, Color.Lime);
+                    else if (mapChar == 'P')
+                        screen.SetPixel(x, y, Color.Red);
+                    else if (mapChar == '*')
+                        screen.SetPixel(x, y, Color.FromArgb(255, 128, 128));
                     else
                         screen.SetPixel(x, y, Color.Black);
                 }
             }
-            screen.SetPixel((int)_player_x, (int)_player_y, Color.Red);
             map_picturebox.Image = screen;
         }
     }

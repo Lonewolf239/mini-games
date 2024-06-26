@@ -104,6 +104,7 @@
             this.gitHub = new System.Windows.Forms.ToolStripMenuItem();
             this.websyte = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReport = new System.Windows.Forms.ToolStripMenuItem();
+            this.qscvhu = new System.Windows.Forms.ToolStripMenuItem();
             this.about_mini_games = new System.Windows.Forms.ToolStripMenuItem();
             this.update_error = new System.Windows.Forms.PictureBox();
             this.mg_panel_0.SuspendLayout();
@@ -1033,17 +1034,18 @@
             this.byLonewol239.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.gitHub,
             this.websyte,
-            this.bugReport});
+            this.bugReport,
+            this.qscvhu});
             this.byLonewol239.Name = "byLonewol239";
-            this.byLonewol239.Size = new System.Drawing.Size(162, 22);
-            this.byLonewol239.Text = "О разработчике";
+            this.byLonewol239.Size = new System.Drawing.Size(168, 22);
+            this.byLonewol239.Text = "О разработчиках";
             // 
             // gitHub
             // 
             this.gitHub.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.gitHub.Image = global::minigames.Properties.Resources.github;
             this.gitHub.Name = "gitHub";
-            this.gitHub.Size = new System.Drawing.Size(122, 22);
+            this.gitHub.Size = new System.Drawing.Size(167, 22);
             this.gitHub.Text = "GitHub";
             this.gitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gitHub.Click += new System.EventHandler(this.GitHub_Click);
@@ -1053,7 +1055,7 @@
             this.websyte.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.websyte.Image = global::minigames.Properties.Resources.web;
             this.websyte.Name = "websyte";
-            this.websyte.Size = new System.Drawing.Size(122, 22);
+            this.websyte.Size = new System.Drawing.Size(167, 22);
             this.websyte.Text = "Web site";
             this.websyte.Click += new System.EventHandler(this.Websyte_Click);
             // 
@@ -1062,14 +1064,22 @@
             this.bugReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bugReport.Image = global::minigames.Properties.Resources.telegram;
             this.bugReport.Name = "bugReport";
-            this.bugReport.Size = new System.Drawing.Size(122, 22);
+            this.bugReport.Size = new System.Drawing.Size(167, 22);
             this.bugReport.Text = "Telegram";
             this.bugReport.Click += new System.EventHandler(this.BugReport_Click);
+            // 
+            // qscvhu
+            // 
+            this.qscvhu.Image = global::minigames.Properties.Resources.telegram;
+            this.qscvhu.Name = "qscvhu";
+            this.qscvhu.Size = new System.Drawing.Size(167, 22);
+            this.qscvhu.Text = "Спрайты: qscvhu";
+            this.qscvhu.Click += new System.EventHandler(this.Qscvhu_Click);
             // 
             // about_mini_games
             // 
             this.about_mini_games.Name = "about_mini_games";
-            this.about_mini_games.Size = new System.Drawing.Size(162, 22);
+            this.about_mini_games.Size = new System.Drawing.Size(168, 22);
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 
@@ -1228,5 +1238,6 @@
         private System.Windows.Forms.PictureBox update_error;
         private System.Windows.Forms.ToolStripMenuItem O_o;
         private System.Windows.Forms.ToolStripMenuItem bug_report;
+        private System.Windows.Forms.ToolStripMenuItem qscvhu;
     }
 }

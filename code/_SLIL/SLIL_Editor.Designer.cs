@@ -36,6 +36,8 @@
             this.export_btn = new System.Windows.Forms.Button();
             this.accept_button = new System.Windows.Forms.Button();
             this.import_btn = new System.Windows.Forms.Button();
+            this.elements = new System.Windows.Forms.ComboBox();
+            this.question = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // editor_interface
@@ -51,12 +53,11 @@
             // about
             // 
             this.about.AutoSize = true;
-            this.about.Location = new System.Drawing.Point(-4, 339);
+            this.about.Location = new System.Drawing.Point(12, 246);
             this.about.Name = "about";
-            this.about.Size = new System.Drawing.Size(247, 96);
+            this.about.Size = new System.Drawing.Size(107, 24);
             this.about.TabIndex = 15;
-            this.about.Text = "1 - поставить стену\r\n2 - установить финиш\r\n3 - разместить игрока\r\nПробел - удалит" +
-    "ь элемент";
+            this.about.Text = "Элементы:";
             // 
             // random_btn
             // 
@@ -123,11 +124,45 @@
             this.import_btn.UseVisualStyleBackColor = true;
             this.import_btn.Click += new System.EventHandler(this.Import_btn_Click);
             // 
+            // elements
+            // 
+            this.elements.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.elements.FormattingEnabled = true;
+            this.elements.Items.AddRange(new object[] {
+            "Игрок",
+            "Стена",
+            "Дверь",
+            "Окно",
+            "Финиш",
+            "Магазин",
+            "Враг"});
+            this.elements.Location = new System.Drawing.Point(12, 273);
+            this.elements.Name = "elements";
+            this.elements.Size = new System.Drawing.Size(187, 32);
+            this.elements.TabIndex = 18;
+            this.elements.TabStop = false;
+            // 
+            // question
+            // 
+            this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.question.Location = new System.Drawing.Point(205, 265);
+            this.question.Name = "question";
+            this.question.Size = new System.Drawing.Size(40, 40);
+            this.question.TabIndex = 40;
+            this.question.TabStop = false;
+            this.question.Text = "?";
+            this.question.UseVisualStyleBackColor = true;
+            this.question.Click += new System.EventHandler(this.Question_Click);
+            // 
             // SLIL_Editor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(399, 441);
+            this.Controls.Add(this.question);
+            this.Controls.Add(this.elements);
             this.Controls.Add(this.random_btn);
             this.Controls.Add(this.reset_btn);
             this.Controls.Add(this.about);
@@ -163,5 +198,7 @@
         private System.Windows.Forms.Label about;
         private System.Windows.Forms.Button reset_btn;
         private System.Windows.Forms.Button random_btn;
+        private System.Windows.Forms.ComboBox elements;
+        private System.Windows.Forms.Button question;
     }
 }

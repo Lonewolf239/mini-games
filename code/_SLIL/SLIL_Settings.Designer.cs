@@ -32,12 +32,12 @@
             this.look_speed = new System.Windows.Forms.TrackBar();
             this.difficulty_text = new System.Windows.Forms.Label();
             this.difficulty_list = new System.Windows.Forms.ComboBox();
-            this.show_finish = new System.Windows.Forms.CheckBox();
             this.width_map_input = new System.Windows.Forms.NumericUpDown();
             this.height_map_text = new System.Windows.Forms.Label();
             this.width_map_text = new System.Windows.Forms.Label();
             this.height_map_input = new System.Windows.Forms.NumericUpDown();
             this.editor_btn = new System.Windows.Forms.Button();
+            this.show_fps = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -46,7 +46,7 @@
             // look_speed_text
             // 
             this.look_speed_text.AutoSize = true;
-            this.look_speed_text.Location = new System.Drawing.Point(12, 93);
+            this.look_speed_text.Location = new System.Drawing.Point(12, 81);
             this.look_speed_text.Name = "look_speed_text";
             this.look_speed_text.Size = new System.Drawing.Size(178, 24);
             this.look_speed_text.TabIndex = 0;
@@ -55,15 +55,15 @@
             // 
             // look_speed
             // 
-            this.look_speed.Location = new System.Drawing.Point(196, 84);
-            this.look_speed.Maximum = 450;
-            this.look_speed.Minimum = 100;
+            this.look_speed.Location = new System.Drawing.Point(196, 72);
+            this.look_speed.Maximum = 1000;
+            this.look_speed.Minimum = 250;
             this.look_speed.Name = "look_speed";
             this.look_speed.Size = new System.Drawing.Size(131, 45);
             this.look_speed.TabIndex = 1;
             this.look_speed.TabStop = false;
             this.look_speed.TickStyle = System.Windows.Forms.TickStyle.Both;
-            this.look_speed.Value = 175;
+            this.look_speed.Value = 275;
             this.look_speed.Scroll += new System.EventHandler(this.Look_speed_Scroll);
             this.look_speed.Enter += new System.EventHandler(this.Look_speed_Enter);
             this.look_speed.MouseUp += new System.Windows.Forms.MouseEventHandler(this.Look_speed_MouseUp);
@@ -95,20 +95,9 @@
             this.difficulty_list.TabStop = false;
             this.difficulty_list.SelectedIndexChanged += new System.EventHandler(this.Difficulty_list_SelectedIndexChanged);
             // 
-            // show_finish
-            // 
-            this.show_finish.AutoSize = true;
-            this.show_finish.Location = new System.Drawing.Point(16, 50);
-            this.show_finish.Name = "show_finish";
-            this.show_finish.Size = new System.Drawing.Size(208, 28);
-            this.show_finish.TabIndex = 4;
-            this.show_finish.TabStop = false;
-            this.show_finish.Text = "Отображать финиш";
-            this.show_finish.UseVisualStyleBackColor = true;
-            // 
             // width_map_input
             // 
-            this.width_map_input.Location = new System.Drawing.Point(94, 170);
+            this.width_map_input.Location = new System.Drawing.Point(94, 158);
             this.width_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -133,7 +122,7 @@
             // height_map_text
             // 
             this.height_map_text.AutoSize = true;
-            this.height_map_text.Location = new System.Drawing.Point(12, 137);
+            this.height_map_text.Location = new System.Drawing.Point(12, 125);
             this.height_map_text.Name = "height_map_text";
             this.height_map_text.Size = new System.Drawing.Size(76, 24);
             this.height_map_text.TabIndex = 6;
@@ -143,7 +132,7 @@
             // width_map_text
             // 
             this.width_map_text.AutoSize = true;
-            this.width_map_text.Location = new System.Drawing.Point(12, 172);
+            this.width_map_text.Location = new System.Drawing.Point(12, 160);
             this.width_map_text.Name = "width_map_text";
             this.width_map_text.Size = new System.Drawing.Size(78, 24);
             this.width_map_text.TabIndex = 7;
@@ -152,7 +141,7 @@
             // 
             // height_map_input
             // 
-            this.height_map_input.Location = new System.Drawing.Point(94, 135);
+            this.height_map_input.Location = new System.Drawing.Point(94, 123);
             this.height_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -179,7 +168,7 @@
             this.editor_btn.BackgroundImage = global::minigames.Properties.Resources.editor;
             this.editor_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.editor_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editor_btn.Location = new System.Drawing.Point(160, 142);
+            this.editor_btn.Location = new System.Drawing.Point(160, 130);
             this.editor_btn.Name = "editor_btn";
             this.editor_btn.Size = new System.Drawing.Size(50, 50);
             this.editor_btn.TabIndex = 10;
@@ -188,17 +177,29 @@
             this.editor_btn.EnabledChanged += new System.EventHandler(this.Editor_btn_EnabledChanged);
             this.editor_btn.Click += new System.EventHandler(this.Editor_btn_Click);
             // 
+            // show_fps
+            // 
+            this.show_fps.AutoSize = true;
+            this.show_fps.Checked = true;
+            this.show_fps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.show_fps.Location = new System.Drawing.Point(16, 50);
+            this.show_fps.Name = "show_fps";
+            this.show_fps.Size = new System.Drawing.Size(183, 28);
+            this.show_fps.TabIndex = 11;
+            this.show_fps.Text = "Отображать FPS";
+            this.show_fps.UseVisualStyleBackColor = true;
+            // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 300);
+            this.Controls.Add(this.show_fps);
             this.Controls.Add(this.editor_btn);
             this.Controls.Add(this.height_map_input);
             this.Controls.Add(this.width_map_text);
             this.Controls.Add(this.height_map_text);
             this.Controls.Add(this.width_map_input);
-            this.Controls.Add(this.show_finish);
             this.Controls.Add(this.difficulty_list);
             this.Controls.Add(this.difficulty_text);
             this.Controls.Add(this.look_speed);
@@ -232,11 +233,11 @@
         private System.Windows.Forms.TrackBar look_speed;
         private System.Windows.Forms.Label difficulty_text;
         private System.Windows.Forms.ComboBox difficulty_list;
-        private System.Windows.Forms.CheckBox show_finish;
         private System.Windows.Forms.Label height_map_text;
         private System.Windows.Forms.NumericUpDown height_map_input;
         private System.Windows.Forms.Label width_map_text;
         private System.Windows.Forms.Button editor_btn;
         private System.Windows.Forms.NumericUpDown width_map_input;
+        private System.Windows.Forms.CheckBox show_fps;
     }
 }

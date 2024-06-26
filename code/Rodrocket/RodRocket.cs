@@ -17,7 +17,7 @@ namespace minigames.Rodrocket
         private int update_need = 0, added_score = 0, max_score = 0, pause, pause_min, pause_max;
         public static int score = 0;
         private bool up = false, up_task = false;
-        private readonly PlaySound game_over = new PlaySound(@"sounds\game_over.wav");
+        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
 
         private void RodRocket_Load(object sender, EventArgs e)
         {

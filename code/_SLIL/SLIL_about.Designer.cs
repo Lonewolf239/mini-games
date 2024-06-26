@@ -28,53 +28,49 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLIL_about));
             this.control_panel = new System.Windows.Forms.Panel();
             this.control_space = new System.Windows.Forms.Label();
             this.control_text = new System.Windows.Forms.Label();
             this.ok = new System.Windows.Forms.Button();
             this.fruit_panel = new System.Windows.Forms.Panel();
             this.rules_text = new System.Windows.Forms.Label();
-            this.mouse_pic = new System.Windows.Forms.PictureBox();
-            this.control_pic = new System.Windows.Forms.PictureBox();
             this.control_panel.SuspendLayout();
             this.fruit_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.mouse_pic)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).BeginInit();
             this.SuspendLayout();
             // 
             // control_panel
             // 
             this.control_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.control_panel.Controls.Add(this.mouse_pic);
             this.control_panel.Controls.Add(this.control_space);
-            this.control_panel.Controls.Add(this.control_pic);
             this.control_panel.Controls.Add(this.control_text);
             this.control_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.control_panel.Location = new System.Drawing.Point(0, 0);
             this.control_panel.Margin = new System.Windows.Forms.Padding(2);
             this.control_panel.Name = "control_panel";
-            this.control_panel.Size = new System.Drawing.Size(526, 204);
+            this.control_panel.Size = new System.Drawing.Size(456, 270);
             this.control_panel.TabIndex = 1;
             // 
             // control_space
             // 
+            this.control_space.Dock = System.Windows.Forms.DockStyle.Fill;
             this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.control_space.Location = new System.Drawing.Point(0, 144);
+            this.control_space.Location = new System.Drawing.Point(0, 24);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(524, 60);
+            this.control_space.Size = new System.Drawing.Size(454, 244);
             this.control_space.TabIndex = 2;
-            this.control_space.Text = "Карта: Space \\ Tab \\ M\r\nБег: Shift\r\nДля остановки игры нажмите: ESC";
-            this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.control_space.Text = resources.GetString("control_space.Text");
+            this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // control_text
             // 
             this.control_text.Dock = System.Windows.Forms.DockStyle.Top;
-            this.control_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.control_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.control_text.Location = new System.Drawing.Point(0, 0);
             this.control_text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_text.Name = "control_text";
-            this.control_text.Size = new System.Drawing.Size(524, 20);
+            this.control_text.Size = new System.Drawing.Size(454, 24);
             this.control_text.TabIndex = 1;
             this.control_text.Text = "Управление:";
             this.control_text.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -86,7 +82,7 @@
             this.ok.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ok.Location = new System.Drawing.Point(419, 261);
+            this.ok.Location = new System.Drawing.Point(349, 327);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(95, 41);
             this.ok.TabIndex = 27;
@@ -100,10 +96,10 @@
             this.fruit_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fruit_panel.Controls.Add(this.rules_text);
             this.fruit_panel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.fruit_panel.Location = new System.Drawing.Point(0, 204);
+            this.fruit_panel.Location = new System.Drawing.Point(0, 270);
             this.fruit_panel.Margin = new System.Windows.Forms.Padding(2);
             this.fruit_panel.Name = "fruit_panel";
-            this.fruit_panel.Size = new System.Drawing.Size(526, 52);
+            this.fruit_panel.Size = new System.Drawing.Size(456, 52);
             this.fruit_panel.TabIndex = 28;
             // 
             // rules_text
@@ -113,33 +109,9 @@
             this.rules_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.rules_text.Location = new System.Drawing.Point(0, 0);
             this.rules_text.Name = "rules_text";
-            this.rules_text.Size = new System.Drawing.Size(524, 50);
+            this.rules_text.Size = new System.Drawing.Size(454, 50);
             this.rules_text.TabIndex = 0;
             this.rules_text.Text = "Цель игры - пройти случайно сгенерированный лабиринт за определённое время.";
-            // 
-            // mouse_pic
-            // 
-            this.mouse_pic.BackColor = System.Drawing.Color.White;
-            this.mouse_pic.Image = global::minigames.Properties.Resources.mouse;
-            this.mouse_pic.Location = new System.Drawing.Point(395, 20);
-            this.mouse_pic.Margin = new System.Windows.Forms.Padding(2);
-            this.mouse_pic.Name = "mouse_pic";
-            this.mouse_pic.Size = new System.Drawing.Size(130, 124);
-            this.mouse_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.mouse_pic.TabIndex = 3;
-            this.mouse_pic.TabStop = false;
-            // 
-            // control_pic
-            // 
-            this.control_pic.BackColor = System.Drawing.Color.White;
-            this.control_pic.Image = global::minigames.Properties.Resources.control;
-            this.control_pic.Location = new System.Drawing.Point(0, 20);
-            this.control_pic.Margin = new System.Windows.Forms.Padding(2);
-            this.control_pic.Name = "control_pic";
-            this.control_pic.Size = new System.Drawing.Size(395, 124);
-            this.control_pic.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.control_pic.TabIndex = 0;
-            this.control_pic.TabStop = false;
             // 
             // SLIL_about
             // 
@@ -147,7 +119,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ok;
-            this.ClientSize = new System.Drawing.Size(526, 308);
+            this.ClientSize = new System.Drawing.Size(456, 374);
             this.Controls.Add(this.fruit_panel);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.control_panel);
@@ -159,13 +131,11 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Правила игры";
+            this.Text = "Об игре";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.SLIL_about_Load);
             this.control_panel.ResumeLayout(false);
             this.fruit_panel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.mouse_pic)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.control_pic)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -175,11 +145,9 @@
 
         private System.Windows.Forms.Panel control_panel;
         private System.Windows.Forms.Label control_space;
-        private System.Windows.Forms.PictureBox control_pic;
         private System.Windows.Forms.Label control_text;
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Panel fruit_panel;
         private System.Windows.Forms.Label rules_text;
-        private System.Windows.Forms.PictureBox mouse_pic;
     }
 }

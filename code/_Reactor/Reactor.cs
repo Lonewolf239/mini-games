@@ -27,8 +27,8 @@ namespace minigames._Reactor
         private float max_score = 0, overload = 5, old_overload, pause;
         public static float score = 0;
         private ToolTip tip;
-        private readonly PlaySound boop = new PlaySound(@"sounds\boop.wav"),
-         explosion = new PlaySound(@"sounds\explosion.wav");
+        private readonly PlaySound boop = new PlaySound(MainMenu.CGFReader.GetFile("boop.wav")),
+         explosion = new PlaySound(MainMenu.CGFReader.GetFile("explosion.wav"));
 
         private void Reactor_Load(object sender, EventArgs e)
         {

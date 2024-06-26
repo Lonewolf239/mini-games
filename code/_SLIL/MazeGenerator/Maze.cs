@@ -10,7 +10,7 @@ namespace MazeGenerator
         private static readonly Random rand = new Random();
         Room finishRoom = null;
 
-        public List<Room> Generate(int width, int height)
+        private List<Room> Generate(int width, int height)
         {
             List<Room> rooms = new List<Room>();
             Stack<Room> roomStack = new Stack<Room>();
@@ -38,7 +38,7 @@ namespace MazeGenerator
                 Direction newDirection = availableDirections[rand.Next(0, availableDirections.Count)];
                 if (availableDirections.Contains(Direction.Right))
                 {
-                    if (rand.Next(0, 11) < 5)
+                    if (rand.Next(0, 11) < 3)
                         newDirection = Direction.Right;
                 }
                 var newRoom = new Room();
@@ -77,8 +77,9 @@ namespace MazeGenerator
             return rooms;
         }
 
-        public char[,] GenerateCharMap(int width, int height, char wallChar, char emptyChar, char finishChar)
+        public char[,] GenerateCharMap(int width, int height, char wallChar, char windowChar, char doorChar, char emptyChar, char finishChar, int MAX_SHOP_COUNT = 1)
         {
+            int shop_count = 0;
             char[,] result = new char[width * 3 + 1, height * 3 + 1];
             for (int i = 0; i < result.GetLength(0); i++)
             {
@@ -95,12 +96,34 @@ namespace MazeGenerator
                 if (!room.Links.Contains(Direction.Right))
                 {
                     for (int i = 0; i < 3; i++)
+                    {
                         result[room.X * 3 + 3, room.Y * 3 + 1 + i] = wallChar;
+                        if (rand.NextDouble() <= 0.06)
+                            result[room.X * 3 + 3, room.Y * 3 + 1 + i] = windowChar;
+                        if (rand.NextDouble() <= 0.01)
+                            result[room.X * 3 + 3, room.Y * 3 + 1 + i] = doorChar;
+                        if (rand.NextDouble() <= 0.015 && shop_count < MAX_SHOP_COUNT)
+                        {
+                            result[room.X * 3 + 3, room.Y * 3 + 1 + i] = '$';
+                            shop_count++;
+                        }
+                    }
                 }
                 if (!room.Links.Contains(Direction.Down))
                 {
                     for (int i = 0; i < 3; i++)
+                    {
                         result[room.X * 3 + 1 + i, room.Y * 3 + 3] = wallChar;
+                        if (rand.NextDouble() <= 0.06)
+                            result[room.X * 3 + 1 + i, room.Y * 3 + 3] = windowChar;
+                        if (rand.NextDouble() <= 0.01)
+                            result[room.X * 3 + 1 + i, room.Y * 3 + 3] = doorChar;
+                        if (rand.NextDouble() <= 0.015 && shop_count < MAX_SHOP_COUNT)
+                        {
+                            result[room.X * 3 + 1 + i, room.Y * 3 + 3] = '$';
+                            shop_count++;
+                        }
+                    }
                 }
                 if (room.X == finishRoom.X && room.Y == finishRoom.Y)
                     result[room.X * 3 + 2, room.Y * 3 + 2] = finishChar;
