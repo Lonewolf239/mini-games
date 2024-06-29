@@ -117,19 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="control_space.Text" xml:space="preserve">
-    <value>F11 – полноэкранный режим
-ESC – остановка игры/выход из игры
-WASD / стрелочки – передвижение
-Мышь – управление камерой
-E / Enter – взаимодействие с дверьми
-M / Tab / Space – показать/скрыть карту
-B – открыть/закрыть магазин (для закрытия также можно использовать ESC)
-F – достать/убрать фонарик
-H – использовать аптечку
-Shift (удержание) – бег
-Левая кнопка мыши – стрельба
-Правая кнопка мыши – режим прицеливания
-1-7 / колёсико мыши – смена оружия</value>
-  </data>
 </root>

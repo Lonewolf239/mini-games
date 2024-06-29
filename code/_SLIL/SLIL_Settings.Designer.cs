@@ -36,8 +36,12 @@
             this.height_map_text = new System.Windows.Forms.Label();
             this.width_map_text = new System.Windows.Forms.Label();
             this.height_map_input = new System.Windows.Forms.NumericUpDown();
-            this.editor_btn = new System.Windows.Forms.Button();
             this.show_fps = new System.Windows.Forms.CheckBox();
+            this.scope_color_list = new System.Windows.Forms.ComboBox();
+            this.scope_color_text = new System.Windows.Forms.Label();
+            this.editor_btn = new System.Windows.Forms.Button();
+            this.scope_type_list = new System.Windows.Forms.ComboBox();
+            this.scope_type_text = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -46,7 +50,7 @@
             // look_speed_text
             // 
             this.look_speed_text.AutoSize = true;
-            this.look_speed_text.Location = new System.Drawing.Point(12, 81);
+            this.look_speed_text.Location = new System.Drawing.Point(12, 152);
             this.look_speed_text.Name = "look_speed_text";
             this.look_speed_text.Size = new System.Drawing.Size(178, 24);
             this.look_speed_text.TabIndex = 0;
@@ -55,7 +59,7 @@
             // 
             // look_speed
             // 
-            this.look_speed.Location = new System.Drawing.Point(196, 72);
+            this.look_speed.Location = new System.Drawing.Point(196, 143);
             this.look_speed.Maximum = 1000;
             this.look_speed.Minimum = 250;
             this.look_speed.Name = "look_speed";
@@ -97,7 +101,7 @@
             // 
             // width_map_input
             // 
-            this.width_map_input.Location = new System.Drawing.Point(94, 158);
+            this.width_map_input.Location = new System.Drawing.Point(94, 229);
             this.width_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -122,7 +126,7 @@
             // height_map_text
             // 
             this.height_map_text.AutoSize = true;
-            this.height_map_text.Location = new System.Drawing.Point(12, 125);
+            this.height_map_text.Location = new System.Drawing.Point(10, 196);
             this.height_map_text.Name = "height_map_text";
             this.height_map_text.Size = new System.Drawing.Size(76, 24);
             this.height_map_text.TabIndex = 6;
@@ -132,7 +136,7 @@
             // width_map_text
             // 
             this.width_map_text.AutoSize = true;
-            this.width_map_text.Location = new System.Drawing.Point(12, 160);
+            this.width_map_text.Location = new System.Drawing.Point(10, 231);
             this.width_map_text.Name = "width_map_text";
             this.width_map_text.Size = new System.Drawing.Size(78, 24);
             this.width_map_text.TabIndex = 7;
@@ -141,7 +145,7 @@
             // 
             // height_map_input
             // 
-            this.height_map_input.Location = new System.Drawing.Point(94, 123);
+            this.height_map_input.Location = new System.Drawing.Point(94, 194);
             this.height_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -163,12 +167,54 @@
             0});
             this.height_map_input.ValueChanged += new System.EventHandler(this.Map_input_ValueChanged);
             // 
+            // show_fps
+            // 
+            this.show_fps.AutoSize = true;
+            this.show_fps.Checked = true;
+            this.show_fps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.show_fps.Location = new System.Drawing.Point(16, 121);
+            this.show_fps.Name = "show_fps";
+            this.show_fps.Size = new System.Drawing.Size(183, 28);
+            this.show_fps.TabIndex = 11;
+            this.show_fps.Text = "Отображать FPS";
+            this.show_fps.UseVisualStyleBackColor = true;
+            // 
+            // scope_color_list
+            // 
+            this.scope_color_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.scope_color_list.FormattingEnabled = true;
+            this.scope_color_list.Items.AddRange(new object[] {
+            "Зелёный",
+            "Красный",
+            "Жёлтый",
+            "Синий",
+            "Пурпурный",
+            "Голубой",
+            "Оранжевый",
+            "Белый",
+            "Случайный"});
+            this.scope_color_list.Location = new System.Drawing.Point(154, 88);
+            this.scope_color_list.Name = "scope_color_list";
+            this.scope_color_list.Size = new System.Drawing.Size(132, 32);
+            this.scope_color_list.TabIndex = 12;
+            this.scope_color_list.TabStop = false;
+            // 
+            // scope_color_text
+            // 
+            this.scope_color_text.AutoSize = true;
+            this.scope_color_text.Location = new System.Drawing.Point(12, 91);
+            this.scope_color_text.Name = "scope_color_text";
+            this.scope_color_text.Size = new System.Drawing.Size(134, 24);
+            this.scope_color_text.TabIndex = 13;
+            this.scope_color_text.Text = "Цвет прицела";
+            this.scope_color_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // editor_btn
             // 
             this.editor_btn.BackgroundImage = global::minigames.Properties.Resources.editor;
             this.editor_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.editor_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editor_btn.Location = new System.Drawing.Point(160, 130);
+            this.editor_btn.Location = new System.Drawing.Point(160, 201);
             this.editor_btn.Name = "editor_btn";
             this.editor_btn.Size = new System.Drawing.Size(50, 50);
             this.editor_btn.TabIndex = 10;
@@ -177,23 +223,39 @@
             this.editor_btn.EnabledChanged += new System.EventHandler(this.Editor_btn_EnabledChanged);
             this.editor_btn.Click += new System.EventHandler(this.Editor_btn_Click);
             // 
-            // show_fps
+            // scope_type_list
             // 
-            this.show_fps.AutoSize = true;
-            this.show_fps.Checked = true;
-            this.show_fps.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.show_fps.Location = new System.Drawing.Point(16, 50);
-            this.show_fps.Name = "show_fps";
-            this.show_fps.Size = new System.Drawing.Size(183, 28);
-            this.show_fps.TabIndex = 11;
-            this.show_fps.Text = "Отображать FPS";
-            this.show_fps.UseVisualStyleBackColor = true;
+            this.scope_type_list.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.scope_type_list.FormattingEnabled = true;
+            this.scope_type_list.Items.AddRange(new object[] {
+            "Стандартный",
+            "Точка",
+            "Без прицела"});
+            this.scope_type_list.Location = new System.Drawing.Point(154, 50);
+            this.scope_type_list.Name = "scope_type_list";
+            this.scope_type_list.Size = new System.Drawing.Size(132, 32);
+            this.scope_type_list.TabIndex = 14;
+            this.scope_type_list.TabStop = false;
+            // 
+            // scope_type_text
+            // 
+            this.scope_type_text.AutoSize = true;
+            this.scope_type_text.Location = new System.Drawing.Point(12, 53);
+            this.scope_type_text.Name = "scope_type_text";
+            this.scope_type_text.Size = new System.Drawing.Size(124, 24);
+            this.scope_type_text.TabIndex = 15;
+            this.scope_type_text.Text = "Тип прицела";
+            this.scope_type_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 300);
+            this.Controls.Add(this.scope_type_text);
+            this.Controls.Add(this.scope_type_list);
+            this.Controls.Add(this.scope_color_text);
+            this.Controls.Add(this.scope_color_list);
             this.Controls.Add(this.show_fps);
             this.Controls.Add(this.editor_btn);
             this.Controls.Add(this.height_map_input);
@@ -239,5 +301,9 @@
         private System.Windows.Forms.Button editor_btn;
         private System.Windows.Forms.NumericUpDown width_map_input;
         private System.Windows.Forms.CheckBox show_fps;
+        private System.Windows.Forms.ComboBox scope_color_list;
+        private System.Windows.Forms.Label scope_color_text;
+        private System.Windows.Forms.ComboBox scope_type_list;
+        private System.Windows.Forms.Label scope_type_text;
     }
 }

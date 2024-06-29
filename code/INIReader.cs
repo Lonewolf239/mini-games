@@ -99,6 +99,14 @@ namespace IniReader
 
         /// <summary>This is a method for creating an INI file if it is missing</summary>
         /// <param name="path">Path to the INI file.</param>
+        public static void CreateIniFileIfNotExist(string path)
+        {
+            if (!File.Exists(path))
+                File.Create(path).Close();
+        }
+
+        /// <summary>This is a method for creating an INI file if it is missing</summary>
+        /// <param name="path">Path to the INI file.</param>
         /// <param name="data">An array of strings representing the data to be written to the file.</param>
         public static void CreateIniFileIfNotExist(string path, string[] data)
         {
@@ -112,9 +120,14 @@ namespace IniReader
         public static void CreateIniFileIfNotExist(string path, string data)
         {
             if (!File.Exists(path))
-            {
-                File.WriteAllText(path, data);
-            }
+                    File.WriteAllText(path, data);
+        }
+
+        /// <summary>This is a method for creating an INI file if it exists</summary>
+        /// <param name="path">Path to the INI file.</param>
+        public static void CreateIniFile(string path)
+        {
+            File.Create(path).Close();
         }
 
         /// <summary>This is a method for creating an INI file if it exists</summary>

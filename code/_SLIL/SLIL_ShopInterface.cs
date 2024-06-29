@@ -16,6 +16,7 @@ namespace minigames._SLIL
         public int width;
         public PlaySound buy;
         public PlaySound cant_pressed = new PlaySound(MainMenu.CGFReader.GetFile("cant_pressed.wav"));
+        public Player player;
         private readonly string[,] buy_text = { { "Купить оружие", "Купить патроны" }, { "Buy weapons", "Buy ammo" } };
 
         private void SLIL_ShopInterface_Load(object sender, EventArgs e)
@@ -33,11 +34,11 @@ namespace minigames._SLIL
             weapon_icon.Focus();
             if (weapon.HasIt)
             {
-                if (SLIL.money >= weapon.AmmoCost && weapon.MaxAmmoCount + weapon.AmmoCount <= weapon.MaxAmmo)
+                if (player.Money >= weapon.AmmoCost && weapon.MaxAmmoCount + weapon.AmmoCount <= weapon.MaxAmmo)
                 {
                     if (MainMenu.sounds)
                         buy.Play(0.4f);
-                    SLIL.money -= weapon.AmmoCost;
+                    player.ChangeMoney(-weapon.AmmoCost);
                     weapon.MaxAmmoCount += weapon.CartridgesClip;
                     ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
                 }
@@ -46,13 +47,13 @@ namespace minigames._SLIL
             }
             else
             {
-                if (SLIL.money >= weapon.GunCost)
+                if (player.Money  >= weapon.GunCost)
                 {
                     if (MainMenu.sounds)
                         buy.Play(0.4f);
-                    SLIL.money -= weapon.GunCost;
+                    player.ChangeMoney(-weapon.GunCost);
                     weapon.SetDefault();
-                    SLIL.guns.Add(weapon);
+                    player.Guns.Add(weapon);
                     weapon.HasIt = true;
                     buy_button.Text = buy_text[index, weapon.HasIt ? 1 : 0] + $" ${weapon.AmmoCost}";
                     ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
@@ -67,13 +68,13 @@ namespace minigames._SLIL
         private void Update_button_Click(object sender, EventArgs e)
         {
             weapon_icon.Focus();
-            if (SLIL.money >= weapon.UpdateCost)
+            if (player.Money  >= weapon.UpdateCost)
             {
                 if (MainMenu.sounds)
                     buy.Play(0.4f);
-                SLIL.money -= weapon.UpdateCost;
+                player.ChangeMoney(-weapon.UpdateCost);
                 weapon.LevelUpdate();
-                SLIL.LevelUpdated = true;
+                player.LevelUpdated = true;
                 weapon_name.Text = weapon.Name[index] + $" {weapon.Level}";
                 weapon_icon.Image = weapon.Icon[weapon.GetLevel()];
                 update_button.Text = $"${weapon.UpdateCost}";

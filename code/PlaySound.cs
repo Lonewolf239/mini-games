@@ -120,6 +120,8 @@ namespace minigames
             catch { }
         }
 
+        public void SetVolume(float value) => playing.Volume = value;
+
         public long Check() => playing.GetPosition();
 
         public void Stop()

@@ -23,8 +23,10 @@ namespace minigames._SLIL
                     "E / Enter – interaction with doors\n" +
                     "M / Tab / Space – show/hide map\n" +
                     "B – open/close the store (you can also use ESC to close)\n" +
-                    "Shift (hold) – run" +
-                    "\nLeft mouse button – shooting\n" +
+                    "F – take out/remove the flashlight\n" +
+                    "H – use first aid kit\n" +
+                    "Shift (hold) – run\n" +
+                    "Left mouse button – shooting\n" +
                     "Right mouse button – aiming mode\n" +
                     "1-7 / mouse wheel – change weapons";
                 rules_text.Text = "The goal of the game is to go through a randomly generated maze within a certain time.";

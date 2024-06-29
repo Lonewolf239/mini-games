@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Net;
 using IniReader;
 using System.IO;
+using CGFReader;
 using minigames.Colortimer;
 using minigames.Colortiles;
 using minigames.Math_o_light;
@@ -22,7 +23,6 @@ using minigames._Tanks;
 using minigames._Tetris;
 using minigames._Sapper;
 using minigames._SLIL;
-using CGFReader;
 
 namespace minigames
 {
@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.2.9|";
+        private readonly string current_version = "|0.3.2|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -41,14 +41,37 @@ namespace minigames
           new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "Сапёр", "Лабезумие" },
           new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "Sapper", "Mazeness" }
         };
-        private string default_config;
         private bool update_exist = false;
         private ToolTip g;
-        public static CGF_Reader CGFReader = new CGF_Reader("data.cgf");
+        public static CGF_Reader CGFReader;
 
         public MainMenu()
         {
             InitializeComponent();
+            if (File.Exists("data.cgf"))
+                CGFReader = new CGF_Reader("data.cgf");
+            else
+            {
+                string title = "Отсутствует файл \"data.cgf\"!", message = $"Файл \"data.cgf\" отсутствует! Возможно, он был переименован, перемещен или удален. Хотите загрузить установщик еще раз?";
+                if (!Check_Language())
+                {
+                    title = "Missing \"data.cgf\" file!";
+                    message = $"The file \"data.cgf\" is missing! It may have been renamed, moved, or deleted. Do you want to download the installer again?";
+                }
+                if (MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
+                {
+                    Hide();
+                    WindowState = FormWindowState.Minimized;
+                    Downloading _form = new Downloading
+                    {
+                        update = false,
+                        language = Check_Language()
+                    };
+                    _form.ShowDialog();
+                }
+                else
+                    Application.Exit();
+            }
         }
 
         private void Check_Update(bool auto)
@@ -110,8 +133,11 @@ namespace minigames
                             {
                                 Hide();
                                 WindowState = FormWindowState.Minimized;
-                                Downloading _form = new Downloading();
-                                Downloading.language = Check_Language();
+                                Downloading _form = new Downloading
+                                {
+                                    update = true,
+                                    language = Check_Language()
+                                };
                                 _form.ShowDialog();
                             }
                             else
@@ -236,8 +262,7 @@ namespace minigames
                 Directory.Delete("sounds", true);
             version_label.Text = $"v{current_version.Replace("|", "")} By.Lonewolf239";
             Language = Check_Language();
-            default_config = $"[CONFIG]\nsounds = True\nlanguage = {Language}\nscale = 1\nauto_update = True\n[Glazastic]\ndifficulty = 1\nimpossible = False\nbig_speed = False\npractice_mode = False\nwin = 0\nlose = 0\ngames = 0\n[Colortimer]\nmax_score = 0\n[Math_o_light]\nmax_score = 0\n[Reactor]\nmax_score = 0\n[Rodrocket]\nmax_score = 0\n[Hacker_man]\nmax_score = 0\n[Snake_game]\nsize = 1\nspeed = 1\nstyle = 0\ndark_theme = 1\nwall_kills = False\nmax_score = 0\n[Soundotron]\nmax_score = 0\n[SudoSaga]\ndifficulty = 0\nprefill = True\ndeath_time = False\n[2048]\nmax_score = 0\n[FABRICA]\njump_key=W\nleft_key=A\nright_key=D\nshoot_key=Space\nrestart_key=R\npause_key=Pause\n[Tanks]\nup_pl1=W\ndown_pl1=S\nleft_pl1=A\nright_pl1=D\nshot_pl1=Space\nup_pl2=Up\ndown_pl2=Down\nleft_pl2=Left\nright_pl2=Right\nshot_pl2=Enter\n[Tetris]\nmax_score=0\ndifficulty=0";
-            INIReader.CreateIniFileIfNotExist(iniFolder, default_config);
+            INIReader.CreateIniFileIfNotExist(iniFolder);
             Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
             sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
             scale_size = INIReader.GetSingle(iniFolder, "CONFIG", "scale", 1);
@@ -418,7 +443,7 @@ namespace minigames
         {
             Program.mutex.ReleaseMutex();
             Program.mutex.Dispose();
-            INIReader.CreateIniFile(iniFolder, default_config);
+            INIReader.CreateIniFile(iniFolder);
             Application.Restart();
         }
 

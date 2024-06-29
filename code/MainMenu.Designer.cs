@@ -1115,7 +1115,6 @@
             this.Name = "MainMenu";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mini-Games";
-            this.TopMost = true;
             this.Load += new System.EventHandler(this.MainMenu_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainMenu_KeyDown);
             this.mg_panel_0.ResumeLayout(false);

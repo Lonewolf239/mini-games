@@ -29,26 +29,23 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.map_picturebox = new System.Windows.Forms.PictureBox();
             this.map_refresh = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.map_picturebox)).BeginInit();
+            this.map_display = new minigames._SLIL.Display();
             this.SuspendLayout();
-            // 
-            // map_picturebox
-            // 
-            this.map_picturebox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.map_picturebox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.map_picturebox.Location = new System.Drawing.Point(0, 0);
-            this.map_picturebox.Name = "map_picturebox";
-            this.map_picturebox.Size = new System.Drawing.Size(250, 300);
-            this.map_picturebox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.map_picturebox.TabIndex = 0;
-            this.map_picturebox.TabStop = false;
             // 
             // map_refresh
             // 
             this.map_refresh.Interval = 1;
             this.map_refresh.Tick += new System.EventHandler(this.Map_refresh_Tick);
+            // 
+            // map_display
+            // 
+            this.map_display.BackColor = System.Drawing.Color.Black;
+            this.map_display.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.map_display.Location = new System.Drawing.Point(0, 0);
+            this.map_display.Name = "map_display";
+            this.map_display.Size = new System.Drawing.Size(250, 300);
+            this.map_display.TabIndex = 0;
             // 
             // map_form
             // 
@@ -56,7 +53,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(250, 300);
-            this.Controls.Add(this.map_picturebox);
+            this.Controls.Add(this.map_display);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
@@ -68,14 +65,12 @@
             this.TopMost = true;
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Map_form_FormClosing);
             this.Load += new System.EventHandler(this.Map_form_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.map_picturebox)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.PictureBox map_picturebox;
         private System.Windows.Forms.Timer map_refresh;
+        private Display map_display;
     }
 }

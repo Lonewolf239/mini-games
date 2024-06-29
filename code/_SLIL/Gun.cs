@@ -2,7 +2,7 @@
 
 namespace minigames._SLIL
 {
-    public enum GunTypes { Pistol, Shotgun, SMG, Rifle, Sniper, EasterEgg, Tank }
+    public enum GunTypes { Flashlight, FirstAidKit,  Pistol, Shotgun, SMG, Rifle, Sniper, EasterEgg, Tank }
     public enum FireTypes { Single, SemiAutomatic }
     public enum Levels { LV1 = 0, LV2 = 1, LV3 = 2 }
 
@@ -37,7 +37,23 @@ namespace minigames._SLIL
         public Gun(int type)
         {
             Type = type;
-            if (Type == 0)
+            if(Type == 0)
+            {
+                HasIt = true;
+                Name = new[] { "Фонарик", "Flashlight" };
+                RechargeTime = 1;
+                FiringRate = 1;
+                CartridgesClip = 1;
+                MaxAmmoCount = 1;
+                MaxAmmo = 1;
+                GunType = GunTypes.Flashlight;
+                FireType = FireTypes.Single;
+                Images = new[,]
+                {                    
+                   { Properties.Resources.flashlight, Properties.Resources.flashlight_run }
+                };
+            }
+            else if (Type == 1)
             {
                 HasIt = true;
                 Name = new[] { "Пистолет", "Pistol" };
@@ -65,9 +81,9 @@ namespace minigames._SLIL
                 };
                 Images = new[,]
                 {                    
-                   /*LV1:*/ { Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_shooted, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_run },
-                   /*LV2:*/ { Properties.Resources.gun_1_2, Properties.Resources.gun_1_2_shooted, Properties.Resources.gun_1_2_reload, Properties.Resources.gun_1_2_reload_empty, Properties.Resources.gun_1_2_empty, Properties.Resources.gun_1_2_run },
-                   /*LV2:*/ { Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_shooted, Properties.Resources.gun_1_3_1_reload, Properties.Resources.gun_1_3_2_reload, Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_run },
+                   /*LV1:*/ { Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_shooted, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_run, Properties.Resources.gun_1_1_run },
+                   /*LV2:*/ { Properties.Resources.gun_1_2, Properties.Resources.gun_1_2_shooted, Properties.Resources.gun_1_2_reload, Properties.Resources.gun_1_2_reload_empty, Properties.Resources.gun_1_2_empty, Properties.Resources.gun_1_2_run,Properties.Resources.gun_1_2_run_empty },
+                   /*LV2:*/ { Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_shooted, Properties.Resources.gun_1_3_1_reload, Properties.Resources.gun_1_3_2_reload, Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_run,Properties.Resources.gun_1_3_run },
                 };
                 Sounds = new[,]
                 {
@@ -76,7 +92,7 @@ namespace minigames._SLIL
                    /*LV2:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_reloading.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_empty.wav")) },
                 };
             }
-            else if (Type == 1)
+            else if (Type == 2)
             {
                 Name = new[] { "Дробовик", "Shotgun" };
                 GunType = GunTypes.Shotgun;
@@ -87,7 +103,7 @@ namespace minigames._SLIL
                 RechargeTime = 425;
                 CartridgesClip = 2;
                 MaxAmmoCount = CartridgesClip;
-                MaxAmmo = CartridgesClip * 10;
+                MaxAmmo = CartridgesClip * 8;
                 FiringRange = 4;
                 MaxDamage = 3.5;
                 MinDamage = 2.75;
@@ -115,7 +131,7 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_1.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_2_reloading.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_empty.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_shell.wav")) },
                 };
             }
-            else if (Type == 2)
+            else if (Type == 3)
             {
                 Name = new[] { "Пистолет-пулемет", "Submachine gun" };
                 GunType = GunTypes.SMG;
@@ -154,7 +170,7 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_3_3.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_3_3_reloading.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_3_empty.wav")) }
                 };
             }
-            else if (Type == 3)
+            else if (Type == 4)
             {
                 Name = new[] { "Автомат", "Assault rifle" };
                 GunType = GunTypes.Rifle;
@@ -163,7 +179,7 @@ namespace minigames._SLIL
                 GunCost = 38;
                 AmmoCost = 20;
                 RechargeTime = 700;
-                CartridgesClip = 24;
+                CartridgesClip = 30;
                 MaxAmmoCount = CartridgesClip * 2;
                 MaxAmmo = CartridgesClip * 4;
                 FiringRange = 8;
@@ -193,7 +209,7 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_4_3.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_4_3_reloading.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_4_empty.wav")) }
                 };
             }
-            else if (Type == 4)
+            else if (Type == 5)
             {
                 Name = new[] { "Снайперка", "Sniper rifle" };
                 GunType = GunTypes.Sniper;
@@ -203,10 +219,10 @@ namespace minigames._SLIL
                 RechargeTime = 850;
                 CartridgesClip = 2;
                 MaxAmmoCount = 2;
-                MaxAmmo = CartridgesClip * 3;
+                MaxAmmo = CartridgesClip * 4;
                 FiringRange = 21;
-                MaxDamage = 18;
-                MinDamage = 12;
+                MaxDamage = 23;
+                MinDamage = 17;
                 Recoil = 150;
                 FiringRate = 200;
                 BurstShots = 1;
@@ -225,9 +241,10 @@ namespace minigames._SLIL
                     { new PlaySound(MainMenu.CGFReader.GetFile("gun_2.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_2_reloading.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_2_empty.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_2_aiming.wav")) }
                 };
             }
-            else if (Type == 5)
+            else if (Type == 6)
             {
                 HasIt = false;
+                Name = new[] { "Пальцестрел", "Fingershot" };
                 GunType = GunTypes.EasterEgg;
                 FireType = FireTypes.Single;
                 RechargeTime = 600;
@@ -255,9 +272,10 @@ namespace minigames._SLIL
                    { new PlaySound(MainMenu.CGFReader.GetFile("gun_5.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_5_reloading.wav")), new PlaySound(null) }
                 };
             }
-            else if (Type == 6)
+            else if (Type == 7)
             {
                 HasIt = false;
+                Name = new[] { "СМПвМ", "TSPitW" };
                 GunType = GunTypes.Tank;
                 FireType = FireTypes.Single;
                 RechargeTime = 750;
@@ -285,6 +303,30 @@ namespace minigames._SLIL
                    { new PlaySound(MainMenu.CGFReader.GetFile("gun_6.wav")), new PlaySound(MainMenu.CGFReader.GetFile("gun_6_reloading.wav")), new PlaySound(null) }
                 };
             }
+            else if (Type == 8)
+            {
+                HasIt = false;
+                Name = new[] {"Аптечка", "First Aid Kit" };
+                GunType = GunTypes.FirstAidKit;
+                FireType = FireTypes.Single;
+                RechargeTime = 980;
+                CartridgesClip = 1;
+                MaxAmmoCount = CartridgesClip;
+                MaxAmmo = 2;
+                FiringRate = 150;
+                BurstShots = 1;
+                ReloadFrames = 3;
+                Images = new[,]
+                {
+                   { Properties.Resources.medkit1, Properties.Resources.medkit1, Properties.Resources.medkit_using_0, Properties.Resources.medkit_using_1, Properties.Resources.medkit_using_2, Properties.Resources.medkit_run },
+                   { Properties.Resources.syringe, Properties.Resources.syringe, Properties.Resources.syringe_using_0, Properties.Resources.syringe_using_1, Properties.Resources.syringe_using_2, Properties.Resources.medkit_run }
+                };
+                Sounds = new[,]
+                {
+                   { new PlaySound(null), new PlaySound(MainMenu.CGFReader.GetFile("medkit_using.wav")), new PlaySound(null) },
+                   { new PlaySound(null), new PlaySound(MainMenu.CGFReader.GetFile("syringe_using.wav")), new PlaySound(null) },
+                };
+            }
             Level = Levels.LV1;
             AmmoCount = CartridgesClip;
         }
@@ -293,7 +335,7 @@ namespace minigames._SLIL
         {
             Level = Levels.LV1;
             ApplyUpdate();
-            if (Type != 0)
+            if (Type > 1)
                 HasIt = false;
         }
 
@@ -328,7 +370,7 @@ namespace minigames._SLIL
 
         private void ApplyUpdate()
         {
-            if (Type == 0)
+            if (Type == 1)
             {
                 if (Level == Levels.LV1)
                 {
@@ -377,14 +419,14 @@ namespace minigames._SLIL
                 }
                 MaxAmmoCount = CartridgesClip * 3;
             }
-            else if (Type == 1)
+            else if (Type == 2)
             {
                 if (Level == Levels.LV1)
                 {
                     RechargeTime = 425;
                     CartridgesClip = 2;
                     MaxAmmoCount = CartridgesClip;
-                    MaxAmmo = CartridgesClip * 5;
+                    MaxAmmo = CartridgesClip * 8;
                     FiringRange = 7;
                     MaxDamage = 3.5;
                     MinDamage = 2.75;
@@ -426,7 +468,7 @@ namespace minigames._SLIL
                 }
                 MaxAmmoCount = CartridgesClip * 2;
             }
-            else if (Type == 2)
+            else if (Type == 3)
             {
                 if (Level == Levels.LV1)
                 {
@@ -475,13 +517,13 @@ namespace minigames._SLIL
                 }
                 MaxAmmoCount = CartridgesClip * 1;
             }
-            else if (Type == 3)
+            else if (Type == 4)
             {
                 if (Level == Levels.LV1)
                 {
                     FireType = FireTypes.SemiAutomatic;
                     RechargeTime = 700;
-                    CartridgesClip = 24;
+                    CartridgesClip = 30;
                     MaxAmmoCount = CartridgesClip * 3;
                     MaxAmmo = CartridgesClip * 5;
                     FiringRange = 8;
@@ -497,7 +539,7 @@ namespace minigames._SLIL
                 {
                     FireType = FireTypes.SemiAutomatic;
                     RechargeTime = 450;
-                    CartridgesClip = 24;
+                    CartridgesClip = 30;
                     MaxAmmoCount = CartridgesClip * 3;
                     MaxAmmo = CartridgesClip * 5;
                     FiringRange = 8;
@@ -517,8 +559,8 @@ namespace minigames._SLIL
                     MaxAmmoCount = CartridgesClip * 2;
                     MaxAmmo = CartridgesClip * 4;
                     FiringRange = 8;
-                    MaxDamage = 4.5;
-                    MinDamage = 3.5;
+                    MaxDamage = 5.25;
+                    MinDamage = 4.5;
                     Recoil = 40;
                     FiringRate = 100;
                     BurstShots = 1;
@@ -526,14 +568,14 @@ namespace minigames._SLIL
                     ReloadFrames = 2;
                 }
             }
-            else if (Type == 4)
+            else if (Type == 5)
                 MaxAmmoCount = 1;
             AmmoCount = CartridgesClip;
         }
 
         public void LevelUpdate()
         {
-            if (Level != Levels.LV3 && GunType != GunTypes.Sniper && GunType != GunTypes.EasterEgg && GunType != GunTypes.Tank)
+            if (Level != Levels.LV3 && GunType != GunTypes.Flashlight && GunType != GunTypes.FirstAidKit && GunType != GunTypes.Sniper && GunType != GunTypes.EasterEgg && GunType != GunTypes.Tank)
             {
                 Level++;
                 UpdateCost += 15;

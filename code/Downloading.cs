@@ -15,7 +15,8 @@ namespace minigames
 
         private readonly string downloadsPath = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile) + "\\Downloads\\Setup_Mini_Games.exe";
         private bool complete = false, canceled = false;
-        public static bool language = true;
+        public bool update = true;
+        public bool language = true;
         private readonly WebClient client = new WebClient();
         private long lastBytesReceived = 0;
         private DateTime lastUpdateTime = DateTime.Now;
@@ -25,8 +26,16 @@ namespace minigames
             if (!language)
             {
                 Text = "Downloading...";
-                title.Text = "Downloading update...";
+                if (update)
+                    title.Text = "Downloading update...";
+                else
+                    title.Text = "Downloading installer...";
                 cancel.Text = "Cancel";
+            }
+            else
+            {
+                if (update)
+                    title.Text = "Загрузка обновления...";
             }
             if (File.Exists(downloadsPath))
                 File.Delete(downloadsPath);

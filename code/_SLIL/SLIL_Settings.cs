@@ -24,15 +24,29 @@ namespace minigames._SLIL
                 look_speed_text.Text = "Sensitivity";
                 show_fps.Text = "Show FPS";
                 difficulty_text.Text = "Difficulty";
+                scope_type_text.Text = "Scope type";
+                scope_color_text.Text = "Scope color";
                 height_map_text.Text = "Height";
                 width_map_text.Text = "Width";
+                scope_color_list.Items.Clear();
+                scope_type_list.Items.Clear();
                 difficulty_list.Items.Clear();
                 string[] dif = { "Very hard", "Hard", "Normal", "Easy", "Custom" };
+                string[] col = { "Green", "Red", "Yellow", "Blue", "Magenta", "Cyan", "Orange", "White", "Random" };
+                string[] typ = { "Standard", "Dot", "Without sight" };
                 difficulty_list.Items.AddRange(dif);
+                scope_color_list.Items.AddRange(col);
+                scope_type_list.Items.AddRange(typ);
+                look_speed.Left = look_speed_text.Right + 6;
+                difficulty_list.Left = difficulty_text.Right + 6;
+                scope_color_list.Left = scope_color_text.Right + 6;
+                scope_type_list.Left = scope_type_text.Right + 6;
+                editor_btn.Left = height_map_input.Right + 6;
+                while (scope_color_list.Right > difficulty_list.Right)
+                    scope_color_list.Width--;
+                while (scope_type_list.Right > difficulty_list.Right)
+                    scope_type_list.Width--;
             }
-            look_speed.Left = look_speed_text.Right + 6;
-            difficulty_list.Left = difficulty_text.Right + 6;
-            editor_btn.Left = height_map_input.Right + 6;
             Width = look_speed.Right + 36;
             Height = look_speed.Bottom + 36;
             int centerX = Owner.Left + (Owner.Width - Width) / 2;
@@ -40,6 +54,8 @@ namespace minigames._SLIL
             Location = new Point(centerX, centerY);
             look_speed.Value = (int)(SLIL.LOOK_SPEED * 100);
             difficulty_list.SelectedIndex = SLIL.old_difficulty;
+            scope_color_list.SelectedIndex = SLIL.scope_color;
+            scope_type_list.SelectedIndex = SLIL.scope_type;
             height_map_input.Value = SLIL.CustomMazeHeight;
             width_map_input.Value = SLIL.CustomMazeWidth;
             show_fps.Checked = SLIL.ShowFPS;
@@ -60,16 +76,22 @@ namespace minigames._SLIL
             bool showfps = show_fps.Checked;
             double speed = (double)look_speed.Value / 100;
             int index = difficulty_list.SelectedIndex;
+            int scope_color = scope_color_list.SelectedIndex;
+            int scope_type = scope_type_list.SelectedIndex;
             int CustomMazeHeight = (int)height_map_input.Value;
             int CustomMazeWidth = (int)width_map_input.Value;
             SLIL.LOOK_SPEED = speed;
             SLIL.old_difficulty = SLIL.difficulty = index;
+            SLIL.scope_color = scope_color;
+            SLIL.scope_type = scope_type;
             SLIL.CustomMazeHeight = CustomMazeHeight;
             SLIL.CustomMazeWidth = CustomMazeWidth;
             SLIL.ShowFPS = showfps;
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "look_speed", speed);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "show_fps", showfps);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "difficulty", index);
+            INIReader.SetKey(MainMenu.iniFolder, "SLIL", "scope_color", scope_color);
+            INIReader.SetKey(MainMenu.iniFolder, "SLIL", "scope_type", scope_type);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "custom_maze_height", CustomMazeHeight);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "custom_maze_width", CustomMazeWidth);
         }

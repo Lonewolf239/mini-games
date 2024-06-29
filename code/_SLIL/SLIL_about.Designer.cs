@@ -41,6 +41,7 @@
             // 
             // control_panel
             // 
+            this.control_panel.AutoScroll = true;
             this.control_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.control_panel.Controls.Add(this.control_space);
             this.control_panel.Controls.Add(this.control_text);
@@ -48,17 +49,16 @@
             this.control_panel.Location = new System.Drawing.Point(0, 0);
             this.control_panel.Margin = new System.Windows.Forms.Padding(2);
             this.control_panel.Name = "control_panel";
-            this.control_panel.Size = new System.Drawing.Size(456, 270);
+            this.control_panel.Size = new System.Drawing.Size(456, 200);
             this.control_panel.TabIndex = 1;
             // 
             // control_space
             // 
-            this.control_space.Dock = System.Windows.Forms.DockStyle.Fill;
             this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.control_space.Location = new System.Drawing.Point(0, 24);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(454, 244);
+            this.control_space.Size = new System.Drawing.Size(434, 268);
             this.control_space.TabIndex = 2;
             this.control_space.Text = resources.GetString("control_space.Text");
             this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -70,7 +70,7 @@
             this.control_text.Location = new System.Drawing.Point(0, 0);
             this.control_text.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_text.Name = "control_text";
-            this.control_text.Size = new System.Drawing.Size(454, 24);
+            this.control_text.Size = new System.Drawing.Size(437, 24);
             this.control_text.TabIndex = 1;
             this.control_text.Text = "Управление:";
             this.control_text.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -82,7 +82,7 @@
             this.ok.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.ok.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ok.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.ok.Location = new System.Drawing.Point(349, 327);
+            this.ok.Location = new System.Drawing.Point(349, 257);
             this.ok.Name = "ok";
             this.ok.Size = new System.Drawing.Size(95, 41);
             this.ok.TabIndex = 27;
@@ -96,7 +96,7 @@
             this.fruit_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.fruit_panel.Controls.Add(this.rules_text);
             this.fruit_panel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.fruit_panel.Location = new System.Drawing.Point(0, 270);
+            this.fruit_panel.Location = new System.Drawing.Point(0, 200);
             this.fruit_panel.Margin = new System.Windows.Forms.Padding(2);
             this.fruit_panel.Name = "fruit_panel";
             this.fruit_panel.Size = new System.Drawing.Size(456, 52);
@@ -119,7 +119,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.ok;
-            this.ClientSize = new System.Drawing.Size(456, 374);
+            this.ClientSize = new System.Drawing.Size(456, 304);
             this.Controls.Add(this.fruit_panel);
             this.Controls.Add(this.ok);
             this.Controls.Add(this.control_panel);
