@@ -6,9 +6,9 @@
 Mini-Games is a collection of 16 offline mini-games, including both strategic puzzles and dynamic arcade games. The intuitive interface ensures easy immersion into the game, making the collection ideal for quick fun at any time.
 
 ### Version Details
-- Version: v0.3.2
+- Version: v0.3.3
 - Compatible with: Win64 and Win32 operating systems
 
 ### System Requirements
 - Operating System: Windows 7 or later (64-bit or 32-bit)
-- Storage Space: 124.16MB
+- Storage Space: 86.25MB
