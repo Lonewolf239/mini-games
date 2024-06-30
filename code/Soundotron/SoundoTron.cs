@@ -32,8 +32,8 @@ namespace minigames.Soundotron
         };
         private string[] sounds = new string[8], player_sounds = new string[8];
         private bool unlocked = false;
-        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -301,7 +301,7 @@ namespace minigames.Soundotron
 
         private void Play_Sound(string path)
         {
-            sound = new PlaySound(MainMenu.CGFReader.GetFile(path));
+            sound = new PlaySound(MainMenu.CGFReader.GetFile(path), false);
             sound.PlayWithDispose(0.5f);
         }
 

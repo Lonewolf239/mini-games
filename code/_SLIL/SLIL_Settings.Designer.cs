@@ -231,9 +231,9 @@
             "Стандартный",
             "Точка",
             "Без прицела"});
-            this.scope_type_list.Location = new System.Drawing.Point(154, 50);
+            this.scope_type_list.Location = new System.Drawing.Point(129, 50);
             this.scope_type_list.Name = "scope_type_list";
-            this.scope_type_list.Size = new System.Drawing.Size(132, 32);
+            this.scope_type_list.Size = new System.Drawing.Size(157, 32);
             this.scope_type_list.TabIndex = 14;
             this.scope_type_list.TabStop = false;
             // 
@@ -242,9 +242,9 @@
             this.scope_type_text.AutoSize = true;
             this.scope_type_text.Location = new System.Drawing.Point(12, 53);
             this.scope_type_text.Name = "scope_type_text";
-            this.scope_type_text.Size = new System.Drawing.Size(124, 24);
+            this.scope_type_text.Size = new System.Drawing.Size(77, 24);
             this.scope_type_text.TabIndex = 15;
-            this.scope_type_text.Text = "Тип прицела";
+            this.scope_type_text.Text = "Прицел";
             this.scope_type_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // SLIL_Settings

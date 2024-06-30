@@ -1,5 +1,4 @@
-﻿using SharpDX.Direct2D1;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace minigames._SLIL
 {
@@ -24,13 +23,13 @@ namespace minigames._SLIL
         public bool LevelUpdated { get; set; }
         public double CurseCureChance { get; set; }
         public readonly List<Gun> Guns = new List<Gun>();
-        public readonly List<Gun> FirstAidKits = new List<Gun>();
+        public readonly List<FirstAidKit> FirstAidKits = new List<FirstAidKit>();
         public double MAX_HP = 100;
         public double MAX_STAMINE = 650;
 
         public Player()
         {
-            HP = MAX_HP;
+            Dead = true;
             SetDefault();
         }
 
@@ -41,6 +40,8 @@ namespace minigames._SLIL
                 HP = MAX_HP;
                 Guns.Clear();
                 FirstAidKits.Clear();
+                Money = 15;
+                CurseCureChance = 0.08;
             }
             Look = 0;
             GunState = 0;
@@ -51,9 +52,7 @@ namespace minigames._SLIL
             UseFirstMedKit = false;
             LevelUpdated = false;
             PreviousGun = CurrentGun = 0;
-            CurseCureChance = 0.08;
             STAMINE = MAX_STAMINE;
-            Money = 15;
         }
 
         public void HealHP(int value)

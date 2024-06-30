@@ -19,8 +19,8 @@ namespace minigames._Sudoku
         private int minutes = 0, seconds = 0, _minutes = 0, _seconds;
         public static int  difficulty = 0;
         public static bool prefill = true, death_time = false;
-        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-         game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+         game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {

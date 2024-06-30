@@ -24,7 +24,7 @@ namespace minigames._SLIL
                 look_speed_text.Text = "Sensitivity";
                 show_fps.Text = "Show FPS";
                 difficulty_text.Text = "Difficulty";
-                scope_type_text.Text = "Scope type";
+                scope_type_text.Text = "Scope";
                 scope_color_text.Text = "Scope color";
                 height_map_text.Text = "Height";
                 width_map_text.Text = "Width";
@@ -40,12 +40,10 @@ namespace minigames._SLIL
                 look_speed.Left = look_speed_text.Right + 6;
                 difficulty_list.Left = difficulty_text.Right + 6;
                 scope_color_list.Left = scope_color_text.Right + 6;
-                scope_type_list.Left = scope_type_text.Right + 6;
+                scope_type_list.Left = difficulty_list.Left;
                 editor_btn.Left = height_map_input.Right + 6;
                 while (scope_color_list.Right > difficulty_list.Right)
                     scope_color_list.Width--;
-                while (scope_type_list.Right > difficulty_list.Right)
-                    scope_type_list.Width--;
             }
             Width = look_speed.Right + 36;
             Height = look_speed.Bottom + 36;

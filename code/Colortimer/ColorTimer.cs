@@ -25,7 +25,7 @@ namespace minigames.Colortimer
         public static int score = 0;
         private Random rand = new Random();
         private static float difficulty_level = 0;
-        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Question_Click(object sender, EventArgs e)
         {

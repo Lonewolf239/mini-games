@@ -89,7 +89,7 @@ namespace minigames._Tetris
         private int[] difficult = { 800, 400, 200 };
         private enum Direction { NONE, LEFT, RIGHT };
         private Direction player;
-        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {

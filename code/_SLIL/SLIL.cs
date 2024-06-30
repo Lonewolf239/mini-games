@@ -78,38 +78,38 @@ namespace minigames._SLIL
         private PlaySound[,] step =
         {
             {
-                new PlaySound(MainMenu.CGFReader.GetFile("step_0.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_1.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_2.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_3.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_4.wav"))
+                new PlaySound(MainMenu.CGFReader.GetFile("step_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_1.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_2.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_3.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_4.wav"), false)
             },
             {
-                new PlaySound(MainMenu.CGFReader.GetFile("step_run_0.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_run_1.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_run_2.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_run_3.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("step_run_4.wav"))
+                new PlaySound(MainMenu.CGFReader.GetFile("step_run_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_run_1.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_run_2.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_run_3.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("step_run_4.wav"), false)
             },
         };
         private static PlaySound[] ost;
-        private PlaySound[] enemy_die = 
+        private PlaySound[] enemy_die =
         {
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_0.wav")),
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_1.wav")),
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_2.wav"))
+            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_0.wav"), false),
+            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_1.wav"), false),
+            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_2.wav"), false)
         };
-        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav")),
-            draw = new PlaySound(MainMenu.CGFReader.GetFile("draw.wav")),
-            buy = new PlaySound(MainMenu.CGFReader.GetFile("buy.wav")),
-            hit = new PlaySound(MainMenu.CGFReader.GetFile("hit_player.wav")),
-            wall = new PlaySound(MainMenu.CGFReader.GetFile("wall_interaction.wav"));
-        private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav")), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav")) };
+        private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false),
+            draw = new PlaySound(MainMenu.CGFReader.GetFile("draw.wav"), false),
+            buy = new PlaySound(MainMenu.CGFReader.GetFile("buy.wav"), false),
+            hit = new PlaySound(MainMenu.CGFReader.GetFile("hit_player.wav"), false),
+            wall = new PlaySound(MainMenu.CGFReader.GetFile("wall_interaction.wav"), false);
+        private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav"), false) };
         public static float Volume = 0.4f;
         private static int MAX_SHOP_COUNT = 1;
         private const int WEAPONS_COUNT = 7;
         private int burst_shots = 0, reload_frames = 0;
-        private static int ost_index = 0;
+        public static int ost_index = 0;
         private Image scope_hit = null;
         private readonly Image[] scope = { Properties.Resources.scope, Properties.Resources.scope_dot, Properties.Resources.scope_null };
         private readonly Image[] scope_shotgun = { Properties.Resources.scope_shotgun, Properties.Resources.scope_dot, Properties.Resources.scope_null };
@@ -117,7 +117,7 @@ namespace minigames._SLIL
         public static bool FullScreen = false;
         private bool open_shop = false, pressed_r = false, pressed_h = false;
         private Display display;
-        private readonly Gun[] GUNS = { new Gun(0), new Gun(1), new Gun(2), new Gun(3), new Gun(4), new Gun(5), new Gun(6), new Gun(7), new Gun(8) };
+        private readonly Gun[] GUNS = { new Flashlight(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new FirstAidKit() };
         public static readonly List<Enemy> Enemies = new List<Enemy>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
@@ -129,6 +129,13 @@ namespace minigames._SLIL
         }
 
         public static void SetVolume() => ost[ost_index].SetVolume(Volume);
+
+        public static void ChangeOst(int index)
+        {
+            ost[ost_index]?.Stop();
+            ost_index = index;
+            ost[ost_index].LoopPlay(Volume);
+        }
 
         private void Developer_name_MouseClick(object sender, MouseEventArgs e)
         {
@@ -306,7 +313,7 @@ namespace minigames._SLIL
                     Cursor.Position = new Point(x, y);
                     shop_panel.Visible = false;
                 }
-                if (console_panel.Visible)
+                else if (console_panel.Visible)
                 {
                     scope[scope_type] = GetScope(scope[scope_type]);
                     scope_shotgun[scope_type] = GetScope(scope_shotgun[scope_type]);
@@ -1162,17 +1169,19 @@ namespace minigames._SLIL
             console_panel = new ConsolePanel()
             {
                 Dock = DockStyle.Fill,
-                Visible=false,
+                Visible = false,
                 player = player,
-                GUNS = GUNS
+                GUNS = GUNS,
+                Enemies = Enemies
             };
             top_panel.Controls.Add(console_panel);
             ost = new PlaySound[]
             {
-                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_0.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_1.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_2.wav")),
-                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_3.wav"))
+                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_0.wav"), true),
+                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_1.wav"), true),
+                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_2.wav"), true),
+                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_3.wav"), true),
+                new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_4.wav"), true)
             };
             LOOK_SPEED = INIReader.GetDouble(MainMenu.iniFolder, "SLIL", "look_speed", 1.75);
             ShowFPS = INIReader.GetBool(MainMenu.iniFolder, "SLIL", "show_fps", true);
@@ -1224,7 +1233,7 @@ namespace minigames._SLIL
             wall?.Dispose();
             foreach (Control control in ShopInterface_panel.Controls)
             {
-                if(control is SLIL_ShopInterface)
+                if (control is SLIL_ShopInterface)
                 {
                     SLIL_ShopInterface ShopInterface = control as SLIL_ShopInterface;
                     ShopInterface.cant_pressed?.Dispose();
@@ -1902,16 +1911,13 @@ namespace minigames._SLIL
             }
             MAP_WIDTH = MazeWidth * 3 + 1;
             if (MainMenu.sounds)
-            {
-                ost_index = rand.Next(ost.Length);
-                ost[ost_index].LoopPlay(Volume);
-            }
+                ChangeOst(rand.Next(ost.Length));
         }
 
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add(GUNS[8]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[8]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;

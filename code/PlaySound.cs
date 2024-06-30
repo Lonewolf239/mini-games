@@ -12,24 +12,27 @@ namespace minigames
 
     public class PlaySound : IDisposable
     {
-        private WaveFileReader file;
-        private WaveOutEvent playing;
-        private bool stopped = false;
+        private readonly WaveFileReader file;
+        private readonly WaveOutEvent playing;
+        private readonly LoopStream loopStream;
 
-        public PlaySound(byte[] fileBytes)
+        public PlaySound(byte[] fileBytes, bool loop)
         {
             try
             {
                 file = new WaveFileReader(new MemoryStream(fileBytes));
+                loopStream = new LoopStream(file);
                 playing = new WaveOutEvent();
-                playing.Init(file);
+                if (!loop)
+                    playing.Init(file);
+                else
+                    playing.Init(loopStream);
             }
             catch (Exception)
             {
                 Dispose();
             }
         }
-
 
         public void Play(float volume)
         {
@@ -98,26 +101,9 @@ namespace minigames
 
         public void LoopPlay(float volume)
         {
-            try
-            {
-                stopped = false;
-                playing.Volume = volume;
-                playing.Play();
-                playing.PlaybackStopped += new EventHandler<StoppedEventArgs>(Loop);
-            }
-            catch { }
-        }
-
-        private void Loop(object sender, EventArgs e)
-        {
-            if (stopped)
-                return;
-            try
-            {
-                file.Position = 0;
-                playing.Play();
-            }
-            catch { }
+            file.Position = 0;
+            playing.Volume = volume;
+            playing.Play();
         }
 
         public void SetVolume(float value) => playing.Volume = value;
@@ -126,7 +112,6 @@ namespace minigames
 
         public void Stop()
         {
-            stopped = true;
             playing.Stop();
             file.Position = 0;
         }
@@ -134,7 +119,48 @@ namespace minigames
         public void Dispose()
         {
             file?.Dispose();
+            loopStream?.Dispose();
             playing?.Dispose();
+        }
+    }
+
+    public class LoopStream : WaveStream
+    {
+        private readonly WaveStream sourceStream;
+
+        public LoopStream(WaveStream sourceStream)
+        {
+            this.sourceStream = sourceStream;
+            this.EnableLooping = true;
+        }
+
+        public bool EnableLooping { get; set; }
+
+        public override WaveFormat WaveFormat => sourceStream.WaveFormat;
+
+        public override long Length => sourceStream.Length;
+
+        public override long Position
+        {
+            get => sourceStream.Position;
+            set => sourceStream.Position = value;
+        }
+
+        public override int Read(byte[] buffer, int offset, int count)
+        {
+            int totalBytesRead = 0;
+            while (totalBytesRead < count)
+            {
+                int bytesRead = sourceStream.Read(buffer, offset + totalBytesRead, count - totalBytesRead);
+                if (bytesRead == 0)
+                {
+                    if (sourceStream.Position == 0 || !EnableLooping)
+                        break;
+                    sourceStream.Position = 0;
+                }
+                totalBytesRead += bytesRead;
+            }
+            return totalBytesRead;
         }
     }
 }

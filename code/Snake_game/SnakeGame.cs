@@ -13,7 +13,7 @@ namespace minigames.Snake_game
             InitializeComponent();
         }
 
-        private PlaySound ost, sound = new PlaySound(MainMenu.CGFReader.GetFile("apple.wav")), tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"));
+        private PlaySound ost, sound = new PlaySound(MainMenu.CGFReader.GetFile("apple.wav"), false), tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
         private static readonly Random rand = new Random();
         public static int score = 0, max_score = 0;
         private bool cycle_done = false, game_over = false, super_fruit_spawned = false, super_puper_fruit_spawned = false, cut_fruit_spawned = false, can_tp = false, teleported = false, in_game = false;
@@ -50,7 +50,7 @@ namespace minigames.Snake_game
         public static int new_px_x = 16, new_px_y = 8, new_tile_size = 25, new_logic_interval = 300, new_px_style = 0, new_dark_theme = 1;
         public static bool new_wall_killing = false;
         private bool wall_killing = false;
-        private readonly PlaySound game_over_sound = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound game_over_sound = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void SnakeGame_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -315,7 +315,7 @@ namespace minigames.Snake_game
             if (MainMenu.sounds)
             {
                 ost?.Dispose();
-                ost = new PlaySound(MainMenu.CGFReader.GetFile("snake_game_ost.wav"));
+                ost = new PlaySound(MainMenu.CGFReader.GetFile("snake_game_ost.wav"), true);
                 ost.LoopPlay(0.4f);
             }
         }

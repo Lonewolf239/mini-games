@@ -16,8 +16,8 @@ namespace minigames
         private static int win = 0, lose = 0, games = 0;
         public static int widht_panels = 10;
         public static bool big_speed = false, unposible_mod = false, practic_mod = false;
-        private readonly PlaySound win_sound = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound win_sound = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Start_btn_Click(object sender, EventArgs e)
         {

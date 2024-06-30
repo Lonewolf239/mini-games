@@ -18,7 +18,7 @@ namespace minigames._Ping_Pong
         private float ball_angle, speed;
         private const float START_SPEED = 5f, MAX_SPEED = 12.5f, LOSE_SPEED_UP = 0.25f, SPEED_UP = 0.005f, RACQUET_SPEED_UP = 0.05f;
         private int pl0_score = 0, pl1_score = 0;
-        private readonly PlaySound beep = new PlaySound(MainMenu.CGFReader.GetFile("ping_pong_beep.wav")), blop = new PlaySound(MainMenu.CGFReader.GetFile("ping_pong_blop.wav"));
+        private readonly PlaySound beep = new PlaySound(MainMenu.CGFReader.GetFile("ping_pong_beep.wav"), false), blop = new PlaySound(MainMenu.CGFReader.GetFile("ping_pong_blop.wav"), false);
 
         private void Ping_Pong_Load(object sender, EventArgs e)
         {

@@ -18,8 +18,9 @@ namespace minigames._SLIL
         }
 
         private static bool ImHonest = false;
-        private int cheat_index = 0;
+        private int cheat_index = 0, color_index = 0;
         private readonly List<string> previous_cheat = new List<string>();
+        public List<Enemy> Enemies;
         public Gun[] GUNS;
         public Player player;
         private readonly Dictionary<string, Color> colorMap = new Dictionary<string, Color>
@@ -28,11 +29,18 @@ namespace minigames._SLIL
             { "*", Color.Tomato },
             { "~", Color.Cyan },
         };
+        private readonly Color[] foreColors = 
+        {
+            Color.Lime, Color.White, Color.Magenta, 
+            Color.Teal,Color.DeepSkyBlue, Color.SlateGray, 
+            Color.Violet, Color.SandyBrown, Color.SpringGreen, 
+            Color.Aquamarine, Color.Sienna
+        };
 
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add(GUNS[8]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[8]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;
@@ -44,13 +52,13 @@ namespace minigames._SLIL
                 e.SuppressKeyPress = true;
             if (e.KeyCode == Keys.Enter)
             {
-                Color color = Color.Lime;
+                Color color = foreColors[color_index];
                 e.SuppressKeyPress = true;
                 if (command_input.Text.Length > 0)
                 {
                     bool show_date = true, show_message = true;
                     string message = null, time = null;
-                    string cheat = command_input.Text.ToUpper();
+                    string cheat = command_input.Text.ToUpper().Trim(' ');
                     if (!previous_cheat.Contains(cheat))
                         previous_cheat.Add(cheat);
                     cheat_index = previous_cheat.Count - 1;
@@ -59,30 +67,98 @@ namespace minigames._SLIL
                     {
                         show_date = false;
                         message = "\n" +
-                         "~┌──────────┬─────────────────────────────────────────────┐~\n" +
-                         "~│~ *Command*  ~│~ *Description*                                 ~│~\n" +
-                         "~├──────────┼─────────────────────────────────────────────┤~\n" +
-                         "~│~ -CLS-      ~│~ Clearing the console                        ~│~\n" +
-                         "~│~ -SLS-      ~│~ Clear console history                       ~│~\n" +
-                         "~│~ -FPS-      ~│~ Show/hide FPS                               ~│~\n" +
-                         "~│~ -VOL_-*X*    ~│~ Change volume of sounds to X                ~│~\n" +
-                         "~│~ -SCOPE_-*X*  ~│~ Replace current sight                       ~│~\n" +
-                         "~│~ -CCHANC_-*X* ~│~ Set the probability of cursed treatment     ~│~\n" +
-                         "~│~ -MONEY_-*X*  ~│~ Change the amount of money to X             ~│~\n" +
-                         "~│~ -STAMIN_-*X* ~│~ Changing a player's maximum stamina         ~│~\n" +
-                         "~│~ -GUNS-     ~│~ Viewing weapon parameters                   ~│~\n" +
-                         "~│~ -KILL-     ~│~ Kill a player                               ~│~\n" +
-                         "~│~ -IMHONEST- ~│~ Disable cheats                              ~│~\n" +
-                         "~│~ -SOTLG-    ~│~ Maximum amount of money                     ~│~\n" +
-                         "~│~ -BEFWK-    ~│~ Issue out all weapons                       ~│~\n" +
-                         "~│~ -BIGGUY-   ~│~ Give out \"The Smallest Pistol in the World\" ~│~\n" +
-                         "~│~ -EGTRE-    ~│~ Issue first aid kits                        ~│~\n" +
-                         "~│~ -FYTLG-    ~│~ Maximum amount of ammunition                ~│~\n" +
-                         "~│~ -GKIFK-    ~│~ Restore maximum health                      ~│~\n" +
-                         "~│~ -IDDQD-    ~│~ Upgrade all weapons by one level            ~│~\n" +
-                         "~│~ -LPFJY-    ~│~ Cause 99 damage                             ~│~\n" +
-                         "~│~ -YHRII-    ~│~ Issue \"Fingershot\"                          ~│~\n" +
-                         "~└──────────┴─────────────────────────────────────────────┘~";
+                             "~┌─────────────┬─────────────────────────────────────────────┐~\n" +
+                             "~│~ *Command*     ~│~ *Description*                                 ~│~\n" +
+                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                             "~│~ -IMHONEST-    ~│~ Disable cheats                              ~│~\n" +
+                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                             "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
+                             "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
+                             "~│~ -FPS-         ~│~ Show/hide FPS                               ~│~\n" +
+                             "~│~ -COLOR_-*X*     ~│~ Change console font color                   ~│~\n" +
+                             "~│~ -VOL_-*X*       ~│~ Change volume of sounds to X                ~│~\n" +
+                             "~│~ -SCOPE_-*X*     ~│~ Replace current sight                       ~│~\n" +
+                             "~│~ -SCOPECOL_-*X*  ~│~ Change sight color                          ~│~\n" +
+                             "~│~ -LOOK_-*X*      ~│~ Change mouse sensitivity                    ~│~\n" +
+                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                             "~│~ -PLAYER-      ~│~ View player information                     ~│~\n" +
+                             "~│~ -GUNS-        ~│~ Viewing weapon parameters                   ~│~\n" +
+                             "~│~ -ENEMYS-      ~│~ View list of enemies                        ~│~\n" +
+                             "~│~ -OSTS-        ~│~ View a list of game background music        ~│~\n" +
+                             "~│~ -CHEATS-      ~│~ View list of cheats                         ~│~\n" +
+                             "~└─────────────┴─────────────────────────────────────────────┘~";
+
+                    }
+                    else if (cheat == "CHEATS")
+                    {
+                        if (!ImHonest)
+                        {
+                            show_date = false;
+                            message = "\n" +
+                                 "~┌─────────────┬─────────────────────────────────────────────┐~\n" +
+                                 "~│~ *Command*     ~│~ *Description*                                 ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -IMHONEST-    ~│~ Disable cheats                              ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -CCHANC_-*X*    ~│~ Set the probability of cursed treatment     ~│~\n" +
+                                 "~│~ -MONEY_-*X*     ~│~ Change the amount of money to X             ~│~\n" +
+                                 "~│~ -SOTLG-       ~│~ Maximum amount of money                     ~│~\n" +
+                                 "~│~ -STAMIN_-*X*    ~│~ Changing a player's maximum stamina         ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -BEFWK-       ~│~ Issue out all weapons                       ~│~\n" +
+                                 "~│~ -BIGGUY-      ~│~ Give out \"The Smallest Pistol in the World\" ~│~\n" +
+                                 "~│~ -FYTLG-       ~│~ Maximum amount of ammunition                ~│~\n" +
+                                 "~│~ -IDDQD-       ~│~ Upgrade all weapons by one level            ~│~\n" +
+                                 "~│~ -YHRII-       ~│~ Issue \"Fingershot\"                          ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -EGTRE-       ~│~ Issue first aid kits                        ~│~\n" +
+                                 "~│~ -GKIFK-       ~│~ Restore maximum health                      ~│~\n" +
+                                 "~│~ -KILL-        ~│~ Kill a player                               ~│~\n" +
+                                 "~│~ -LPFJY-       ~│~ Cause 99 damage                             ~│~\n" +
+                                 "~└─────────────┴─────────────────────────────────────────────┘~";
+
+                        }
+                        else
+                            message += "You are -honest-! Or is that not true?";
+                    }
+                    else if (cheat == "OSTS")
+                    {
+                        show_date = false;
+                        string[] status = { "         ", "         ", "         ", "         ", "         " };
+                        status[SLIL.ost_index] = "[PLAYING]";
+                        message = "\n" +
+                             "~┌─────────────┬───────────┐~\n" +
+                             "~│~ *Name*        ~│~ *Status*    ~│~\n" +
+                             "~├─────────────┼───────────┤~\n" +
+                             "~│~ -slil_ost_0-  ~│~ " + status[0] + " ~│~\n" +
+                             "~│~ -slil_ost_1-  ~│~ " + status[1] + " ~│~\n" +
+                             "~│~ -slil_ost_2-  ~│~ " + status[2] + " ~│~\n" +
+                             "~│~ -slil_ost_3-  ~│~ " + status[3] + " ~│~\n" +
+                             "~│~ -slil_ost_4-  ~│~ " + status[4] + " ~│~\n" +
+                             "~└─────────────┴───────────┘~";
+                        message += "\nTo change the background music write OST_*OstIndex*";
+                    }
+                    else if (cheat.StartsWith("OST_"))
+                    {
+                        try
+                        {
+                            int x = Convert.ToInt32(cheat.Split('_')[1]);
+                            if (x > -1 && x < 5)
+                            {
+                                message += $"Now the track slil_ost_{x} is playing.";
+                                SLIL.ChangeOst(x);
+                            }
+                            else
+                            {
+                                color = Color.Red;
+                                message = "Incorrect value! X must be in the range from 0 to 4.";
+                            }
+                        }
+                        catch
+                        {
+                            color = Color.Red;
+                            message = "Incorrect data entered! X is not a number.";
+                        }
                     }
                     else if (cheat == "GUNS")
                     {
@@ -94,13 +170,110 @@ namespace minigames._SLIL
                         for (int i = 0; i < GUNS.Length; i++)
                         {
                             string paddedName = GUNS[i].Name[1].PadRight(maxLength);
-                            sb.AppendLine($"~|~ {paddedName} ~|~");
+                            sb.AppendLine($"~|~ -{paddedName}- ~|~");
                         }
                         sb.AppendLine("~|───────────────────────|~");
                         sb.AppendLine("To select a weapon, write GUN_*WeaponName*");
                         show_date = false;
                         message = sb.ToString();
 
+                    }
+                    else if (cheat == "ENEMYS")
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.AppendLine("\n~|───────────────────────|~");
+                        sb.AppendLine("~|~      *Enemys List*      ~|~");
+                        sb.AppendLine("~|───────────────────────|~");
+                        int maxLength = 21;
+                        for (int i = 0; i < Enemies.Count; i++)
+                        {
+                            string dead = "";
+                            if (Enemies[i].DEAD)
+                                dead = "[DEAD]";
+                            string paddedName = $"Enemy #{i} {dead}".PadRight(maxLength);
+                            sb.AppendLine($"~|~ -{paddedName}- ~|~");
+                        }
+                        sb.AppendLine("~|───────────────────────|~");
+                        sb.AppendLine("To select an enemy write Enemy_*EnemyIndex*");
+                        show_date = false;
+                        message = sb.ToString();
+
+                    }
+                    else if (cheat == "PLAYER")
+                    {
+                        PropertyInfo[] properties = typeof(Player).GetProperties();
+                        int maxPropNameLength = properties.Max(p => p.Name.Length);
+                        int maxValueLength = properties.Max(p => p.GetValue(player)?.ToString().Length ?? 0);
+                        int columnWidth = Math.Max(maxPropNameLength, maxValueLength);
+                        string line = new string('─', columnWidth + 2);
+                        StringBuilder table = new StringBuilder();
+                        table.AppendLine($"\n~┌{line}┬{line}┐~");
+                        table.AppendLine($"~│~ *{"Parameter".PadRight(columnWidth)}* ~│~ *{"Value".PadRight(columnWidth)}* ~│~");
+                        table.AppendLine($"~├{line}┼{line}┤~");
+                        foreach (PropertyInfo property in properties)
+                        {
+                            if (property.Name == "Guns" || property.Name == "FirstAidKits")
+                                continue;
+                            string propName = property.Name.PadRight(columnWidth);
+                            object propValueObj = property.GetValue(player);
+                            string propValue = "";
+                            if (propValueObj is string[] names && names.Length > 0)
+                                propValue = names[1];
+                            else
+                                propValue = propValueObj?.ToString() ?? "";
+                            propValue = propValue.PadRight(columnWidth);
+                            table.AppendLine($"~│~ -{propName}- ~│~ {propValue} ~│~");
+                        }
+                        table.AppendLine($"~└{line}┴{line}┘~");
+                        show_date = false;
+                        message = table.ToString();
+                    }
+                    else if (cheat.StartsWith("ENEMY_"))
+                    {
+                        Enemy selected = null;
+                        try
+                        {
+                            int index = Convert.ToInt32(cheat.Split('_')[1]);
+                            if (Enemies.Contains(Enemies[index]))
+                                selected = Enemies[index];
+                        }
+                        catch { }
+                        if (selected == null)
+                        {
+                            previous_cheat.Remove(cheat);
+                            cheat_index = previous_cheat.Count - 1;
+                            color = Color.Red;
+                            message += "There is no enemy under this index.";
+                        }
+                        else
+                        {
+                            PropertyInfo[] properties = typeof(Enemy).GetProperties();
+                            int maxPropNameLength = properties.Max(p => p.Name.Length);
+                            int maxValueLength = properties.Max(p => p.GetValue(selected)?.ToString().Length ?? 0);
+                            int columnWidth = Math.Max(maxPropNameLength, maxValueLength);
+                            string line = new string('─', columnWidth + 2);
+                            StringBuilder table = new StringBuilder();
+                            table.AppendLine($"\n~┌{line}┬{line}┐~");
+                            table.AppendLine($"~│~ *{"Parameter".PadRight(columnWidth)}* ~│~ *{"Value".PadRight(columnWidth)}* ~│~");
+                            table.AppendLine($"~├{line}┼{line}┤~");
+                            foreach (PropertyInfo property in properties)
+                            {
+                                if (property.Name == "rand" || property.Name == "MAP_WIDTH")
+                                    continue;
+                                string propName = property.Name.PadRight(columnWidth);
+                                object propValueObj = property.GetValue(selected);
+                                string propValue = "";
+                                if (propValueObj is string[] names && names.Length > 0)
+                                    propValue = names[1];
+                                else
+                                    propValue = propValueObj?.ToString() ?? "";
+                                propValue = propValue.PadRight(columnWidth);
+                                table.AppendLine($"~│~ -{propName}- ~│~ {propValue} ~│~");
+                            }
+                            table.AppendLine($"~└{line}┴{line}┘~");
+                            show_date = false;
+                            message = table.ToString();
+                        }
                     }
                     else if (cheat.StartsWith("GUN_"))
                     {
@@ -116,6 +289,8 @@ namespace minigames._SLIL
                         }
                         if (selected == null)
                         {
+                            previous_cheat.Remove(cheat);
+                            cheat_index = previous_cheat.Count - 1;
                             color = Color.Red;
                             message += "This weapon is not on the list.";
                         }
@@ -132,6 +307,8 @@ namespace minigames._SLIL
                             table.AppendLine($"~├{line}┼{line}┤~");
                             foreach (PropertyInfo property in properties)
                             {
+                                if (property.Name == "Icon" || property.Name == "Images" || property.Name == "Sounds")
+                                    continue;
                                 string propName = property.Name.PadRight(columnWidth);
                                 object propValueObj = property.GetValue(selected);
                                 string propValue = "";
@@ -155,13 +332,13 @@ namespace minigames._SLIL
                             message = "You're above the rest for choosing the -honest- path. Respect for keeping the game real!";
                         }
                         else
-                            message = "This action cannot be undone! Are you -honest-?)";
+                            message = "This action cannot be undone! You are -honest- aren't you?)";
                     }
                     else if (cheat == "CLS")
                     {
                         show_date = false;
                         console.Text = null;
-                        message = "SLIL console *v1.0*\nType \"-help-\" for a list of commands...";
+                        message = "SLIL console *v1.1*\nType \"-help-\" for a list of commands...";
                         console.Refresh();
                     }
                     else if (cheat == "SLC")
@@ -170,7 +347,11 @@ namespace minigames._SLIL
                         previous_cheat.Clear();
                     }
                     else if (cheat.StartsWith("SAY "))
-                        message += cheat.Split(' ')[1];
+                    {
+                        string[] say = cheat.Split(' ');
+                        for (int i = 1; i < say.Length; i++)
+                            message += say[i] + " ";
+                    }
                     else if (cheat == "FPS")
                     {
                         SLIL.ShowFPS = !SLIL.ShowFPS;
@@ -185,7 +366,7 @@ namespace minigames._SLIL
                         try
                         {
                             float x = Convert.ToSingle(cheat.Split('_')[1].Replace('.', ','));
-                            if (x >= 0.1 && x <= 1)
+                            if (x >= 0 && x <= 1)
                             {
                                 message += $"Current volume is now {x}. *Default: 0,4*";
                                 SLIL.Volume = x;
@@ -194,7 +375,7 @@ namespace minigames._SLIL
                             else
                             {
                                 color = Color.Red;
-                                message = "Incorrect value! X must be in the range from 0,1 to 1.";
+                                message = "Incorrect value! X must be in the range from 0 to 1.";
                             }
                         }
                         catch
@@ -226,7 +407,79 @@ namespace minigames._SLIL
                             message = "Incorrect data entered! X is not a number.";
                         }
                     }
-                    else if (cheat.StartsWith("CCHANC_"))
+                    else if (cheat.StartsWith("SCOPECOL_"))
+                    {
+                        try
+                        {
+                            int x = Convert.ToInt32(cheat.Split('_')[1]);
+                            if (x > -1 && x < 9)
+                            {
+                                message += $"Current crosshair color is now {x}. *Default: 0*";
+                                SLIL.scope_color = x;
+                                INIReader.SetKey(MainMenu.iniFolder, "SLIL", "scope_color", x);
+                            }
+                            else
+                            {
+                                color = Color.Red;
+                                message = "Incorrect value! X must be in the range from 0 to 8.";
+                            }
+                        }
+                        catch
+                        {
+                            color = Color.Red;
+                            message = "Incorrect data entered! X is not a number.";
+                        }
+                    }
+                    else if (cheat.StartsWith("LOOK_"))
+                    {
+                        try
+                        {
+                            double x = Convert.ToDouble(cheat.Split('_')[1].Replace('.', ','));
+                            if (x < 2.5 || x > 10)
+                            {
+                                color = Color.Red;
+                                message = "Incorrect range specified! Instead of X, enter a number between 2,5 and 10.";
+                            }
+                            else
+                            {
+                                message += $"Mouse sensitivity is now {x}. *Default: 2,75*";
+                                SLIL.LOOK_SPEED = x;
+                                INIReader.SetKey(MainMenu.iniFolder, "SLIL", "look_speed", x);
+                            }
+                        }
+                        catch
+                        {
+                            color = Color.Red;
+                            message = "Incorrect data entered! X is not a number.";
+                        }
+                    }
+                    else if (cheat.StartsWith("COLOR_"))
+                    {
+                        try
+                        {
+                            int x = Convert.ToInt32(cheat.Split('_')[1]);
+                            if (x < 0 || x > 10)
+                            {
+                                color = Color.Red;
+                                message = "Incorrect range specified! Instead of X, enter a number between 0 and 10.";
+                            }
+                            else
+                            {
+                                color_index = x;
+                                color = foreColors[color_index];
+                                show_date = false;
+                                console.Text = null;
+                                message = "SLIL console *v1.1*\nType \"-help-\" for a list of commands...";
+                                console.Refresh();
+                            }
+                        }
+                        catch
+                        {
+                            color = Color.Red;
+                            message = "Incorrect data entered! X is not a number.";
+                        }
+                    }
+                    else if (cheat.StartsWith("CCHANC_") && !ImHonest)
                     {
                         double x = 0.08;
                         bool error = false;
@@ -245,11 +498,11 @@ namespace minigames._SLIL
                         }
                         else
                         {
-                            message += $"Set chance of curse healing to {x * 100:0,##}% *Default: 8%*";
+                            message += $"Set chance of curse healing to {x * 100:0.##}% *Default: 8%*";
                             player.CurseCureChance = x;
                         }
                     }
-                    else if (cheat.StartsWith("MONEY_"))
+                    else if (cheat.StartsWith("MONEY_") && !ImHonest)
                     {
                         try
                         {
@@ -263,7 +516,7 @@ namespace minigames._SLIL
                             message = "Incorrect data entered! X is not a number.";
                         }
                     }
-                    else if (cheat.StartsWith("STAMIN_"))
+                    else if (cheat.StartsWith("STAMIN_") && !ImHonest)
                     {
                         try
                         {
@@ -277,7 +530,7 @@ namespace minigames._SLIL
                             message = "Incorrect data entered! X is not a number.";
                         }
                     }
-                    else if (cheat == "KILL")
+                    else if (cheat == "KILL" && !ImHonest)
                     {
                         show_message = false;
                         player.HP = 0;
@@ -391,7 +644,7 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "LPFJY" && !ImHonest)
                     {
-                        player.DealDamage(99);
+                        player.HP = 1;
                         message += "Health reduced by 99.";
                     }
                     else
@@ -412,17 +665,17 @@ namespace minigames._SLIL
                 if (e.KeyCode == Keys.Up)
                 {
                     command_input.Text = previous_cheat[cheat_index];
-                    cheat_index--;
-                    if (cheat_index < 0)
-                        cheat_index = previous_cheat.Count - 1;
+                    cheat_index++;
+                    if (cheat_index >= previous_cheat.Count)
+                        cheat_index = 0;
                     command_input.SelectionStart = command_input.Text.Length;
                 }
                 if (e.KeyCode == Keys.Down)
                 {
                     command_input.Text = previous_cheat[cheat_index];
-                    cheat_index++;
-                    if (cheat_index >= previous_cheat.Count)
-                        cheat_index = 0;
+                    cheat_index--;
+                    if (cheat_index < 0)
+                        cheat_index = previous_cheat.Count - 1;
                     command_input.SelectionStart = command_input.Text.Length;
                 }
             }
@@ -463,16 +716,23 @@ namespace minigames._SLIL
             cheat_index = previous_cheat.Count - 1;
         }
 
-        private void Console_Load(object sender, EventArgs e)
+        private void Console_TextChanged(object sender, EventArgs e)
         {
-            ConsoleAppendText("SLIL console *v1.0*\nType \"-help-\" for a list of commands...", Color.Lime);
-            console.Refresh();
+            if (console.Text.Length == console.MaxLength)
+            {
+                console.Clear();
+                ConsoleAppendText("SLIL console *v1.1*\nType \"-help-\" for a list of commands...", foreColors[color_index]);
+                ConsoleAppendText("*The console was cleared due to a buffer overflow*", foreColors[color_index]);
+                console.Refresh();
+            }
         }
 
-        private void Console_KeyDown(object sender, KeyEventArgs e)
+        private void Console_Load(object sender, EventArgs e)
         {
-            e.SuppressKeyPress = true;
-            command_input.Focus();
+            if (MainMenu.scaled)
+                console.Font = new Font(console.Font.FontFamily, console.Font.Size * 1.5f);
+            ConsoleAppendText("SLIL console *v1.1*\nType \"-help-\" for a list of commands...", foreColors[color_index]);
+            console.Refresh();
         }
     }
 }

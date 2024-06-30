@@ -19,8 +19,8 @@ namespace minigames.Colortiles
         private int pos = 0, num_task;
         private float difficult = 0;
         private bool in_game = false;
-        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Question_Click(object sender, EventArgs e)
         {

@@ -22,8 +22,8 @@ namespace minigames.Hacker_man
         private int[] password = { 0, 0, 0, 0 }, input_password = { 0, 0, 0, 0 };
         private Random rand = new Random();
         private bool in_game = false;
-        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"));
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+                        game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false);
 
         private void Hackerman_Load(object sender, EventArgs e)
         {

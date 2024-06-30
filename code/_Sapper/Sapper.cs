@@ -32,8 +32,8 @@ namespace minigames._Sapper
             Color.FromArgb(0, 0, 0), Color.FromArgb(64, 64, 64)
         };
         public static int size_type = 0;
-        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav")),
-            explosion = new PlaySound(MainMenu.CGFReader.GetFile("explosion.wav"));
+        private readonly PlaySound win = new PlaySound(MainMenu.CGFReader.GetFile("win.wav"), false),
+            explosion = new PlaySound(MainMenu.CGFReader.GetFile("explosion.wav"), false);
 
         private void Sapper_Load(object sender, EventArgs e)
         {
