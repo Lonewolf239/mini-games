@@ -93,7 +93,7 @@ namespace minigames._SLIL
             },
         };
         private static PlaySound[] ost;
-        private PlaySound[] enemy_die = 
+        private PlaySound[] enemy_die =
         {
             new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_0.wav")),
             new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_1.wav")),
@@ -117,7 +117,7 @@ namespace minigames._SLIL
         public static bool FullScreen = false;
         private bool open_shop = false, pressed_r = false, pressed_h = false;
         private Display display;
-        private readonly Gun[] GUNS = { new Gun(0), new Gun(1), new Gun(2), new Gun(3), new Gun(4), new Gun(5), new Gun(6), new Gun(7), new Gun(8) };
+        private readonly Gun[] GUNS = { new Flashlight(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new FirstAidKit() };
         public static readonly List<Enemy> Enemies = new List<Enemy>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
@@ -1162,7 +1162,7 @@ namespace minigames._SLIL
             console_panel = new ConsolePanel()
             {
                 Dock = DockStyle.Fill,
-                Visible=false,
+                Visible = false,
                 player = player,
                 GUNS = GUNS
             };
@@ -1224,7 +1224,7 @@ namespace minigames._SLIL
             wall?.Dispose();
             foreach (Control control in ShopInterface_panel.Controls)
             {
-                if(control is SLIL_ShopInterface)
+                if (control is SLIL_ShopInterface)
                 {
                     SLIL_ShopInterface ShopInterface = control as SLIL_ShopInterface;
                     ShopInterface.cant_pressed?.Dispose();
@@ -1911,7 +1911,7 @@ namespace minigames._SLIL
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add(GUNS[8]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[8]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;

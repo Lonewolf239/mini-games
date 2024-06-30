@@ -24,7 +24,7 @@ namespace minigames._SLIL
         public bool LevelUpdated { get; set; }
         public double CurseCureChance { get; set; }
         public readonly List<Gun> Guns = new List<Gun>();
-        public readonly List<Gun> FirstAidKits = new List<Gun>();
+        public readonly List<FirstAidKit> FirstAidKits = new List<FirstAidKit>();
         public double MAX_HP = 100;
         public double MAX_STAMINE = 650;
 
