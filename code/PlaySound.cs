@@ -36,6 +36,7 @@ namespace minigames
 
         public void Play(float volume)
         {
+            if (file == null) return;
             try
             {
                 file.Position = 0;
