@@ -97,6 +97,7 @@ namespace minigames._SLIL
         public Flashlight() : base()
         {
             HasIt = true;
+            Type = 0;
             Name = new[] { "Фонарик", "Flashlight" };
             RechargeTime = 1;
             FiringRate = 1;
@@ -127,6 +128,7 @@ namespace minigames._SLIL
         public Pistol() : base()
         {
             HasIt = true;
+            Type = 1;
             Name = new[] { "Пистолет", "Pistol" };
             GunType = GunTypes.Pistol;
             FireType = FireTypes.Single;
@@ -230,6 +232,7 @@ namespace minigames._SLIL
         public Shotgun() : base()
         {
             HasIt = false;
+            Type = 2;
             Name = new[] { "Дробовик", "Shotgun" };
             GunType = GunTypes.Shotgun;
             FireType = FireTypes.Single;
@@ -334,6 +337,7 @@ namespace minigames._SLIL
         public SubmachineGun() : base()
         {
             HasIt = false;
+            Type = 3;
             Name = new[] { "Пистолет-пулемет", "Submachine gun" };
             GunType = GunTypes.SMG;
             FireType = FireTypes.SemiAutomatic;
@@ -438,6 +442,7 @@ namespace minigames._SLIL
         public AssaultRifle() : base()
         {
             HasIt = false;
+            Type = 4;
             Name = new[] { "Автомат", "Assault rifle" };
             GunType = GunTypes.Rifle;
             FireType = FireTypes.SemiAutomatic;
@@ -544,6 +549,7 @@ namespace minigames._SLIL
         public SniperRifle() : base()
         {
             HasIt = false;
+            Type = 5;
             Name = new[] { "Снайперка", "Sniper rifle" };
             GunType = GunTypes.Sniper;
             FireType = FireTypes.Single;
@@ -597,6 +603,7 @@ namespace minigames._SLIL
         public Fingershot() : base()
         {
             HasIt = false;
+            Type = 6;
             Name = new[] { "Пальцестрел", "Fingershot" };
             GunType = GunTypes.EasterEgg;
             FireType = FireTypes.Single;
@@ -643,6 +650,7 @@ namespace minigames._SLIL
         public TSPitW() : base()
         {
             HasIt = false;
+            Type = 7;
             Name = new[] { "СМПвМ", "TSPitW" };
             GunType = GunTypes.Tank;
             FireType = FireTypes.Single;
@@ -689,6 +697,7 @@ namespace minigames._SLIL
         public FirstAidKit() : base()
         {
             HasIt = false;
+            Type = 8;
             Name = new[] { "Аптечка", "First Aid Kit" };
             GunType = GunTypes.FirstAidKit;
             FireType = FireTypes.Single;

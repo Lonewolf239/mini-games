@@ -1382,7 +1382,7 @@ namespace minigames._SLIL
                 }
                 if (player.InShop)
                     graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 56, 28, 28);
-                if (player.Guns[player.CurrentGun].GunType != GunTypes.Sniper && player.Guns[player.CurrentGun].GunType != GunTypes.Flashlight)
+                if (player.Guns[player.CurrentGun].GunType != GunTypes.Sniper && player.Guns[player.CurrentGun].GunType != GunTypes.Flashlight && player.Guns[player.CurrentGun].GunType != GunTypes.FirstAidKit)
                 {
                     if (player.Guns[player.CurrentGun].GunType == GunTypes.Shotgun)
                         graphicsWeapon.DrawImage(scope_shotgun[scope_type], 0, 0, WEAPON.Width, WEAPON.Height);
@@ -1422,7 +1422,7 @@ namespace minigames._SLIL
                     }
                     if (player.InShop)
                         graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 56, 28, 28);
-                    if (player.Guns[player.CurrentGun].GunType != GunTypes.Sniper && player.Guns[player.CurrentGun].GunType != GunTypes.Flashlight)
+                    if (player.Guns[player.CurrentGun].GunType != GunTypes.Sniper && player.Guns[player.CurrentGun].GunType != GunTypes.Flashlight && player.Guns[player.CurrentGun].GunType != GunTypes.FirstAidKit)
                     {
                         if (player.Guns[player.CurrentGun].GunType == GunTypes.Shotgun)
                             graphicsWeapon.DrawImage(scope_shotgun[scope_type], 0, 0, WEAPON.Width, WEAPON.Height);

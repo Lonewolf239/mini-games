@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Lonewolf239")]
 [assembly: AssemblyProduct("Mini-Games")]
-[assembly: AssemblyCopyright("Lonewolf239© 2024")]
+[assembly: AssemblyCopyright("Lonewolf239 © 2024")]
 [assembly: AssemblyTrademark("Mini-Games")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // Можно задать все значения или принять номера сборки и редакции по умолчанию 
 // используя "*", как показано ниже:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("0.3.3.0")]
-[assembly: AssemblyFileVersion("0.3.3.0")]
+[assembly: AssemblyVersion("0.3.3.1")]
+[assembly: AssemblyFileVersion("0.3.3.1")]
