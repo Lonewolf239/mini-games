@@ -353,6 +353,7 @@
     <Compile Include="_SLIL\SLIL_ShopInterface.Designer.cs">
       <DependentUpon>SLIL_ShopInterface.cs</DependentUpon>
     </Compile>
+    <Compile Include="_SLIL\TextureCache.cs" />
     <Compile Include="_Sudoku\SS_Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -530,6 +531,12 @@
     <None Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="scope_square.png" />
+    <None Include="scope_line.png" />
+    <None Include="scope_cross.png" />
+    <None Include="teleport.png" />
+    <None Include="missing.png" />
+    <None Include="wall.png" />
     <None Include="syringe_using_0.png" />
     <None Include="syringe_using_1.png" />
     <None Include="syringe_using_2.png" />
@@ -710,6 +717,10 @@
     <None Include="flashlight_run.png" />
     <None Include="first_aid.png" />
     <None Include="gun_1_2_run_empty.png" />
+    <None Include="enemy_0.png" />
+    <None Include="door.png" />
+    <None Include="enemy_1.png" />
+    <None Include="enemy_2.png" />
     <Content Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup />

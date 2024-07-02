@@ -215,7 +215,7 @@ namespace minigames._SLIL
             // 
             this.by.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
-            this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
             this.by.Location = new System.Drawing.Point(343, 260);
             this.by.Name = "by";
             this.by.Size = new System.Drawing.Size(111, 21);
@@ -228,8 +228,8 @@ namespace minigames._SLIL
             this.developer_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
-            this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.developer_name.Location = new System.Drawing.Point(320, 281);
+            this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
+            this.developer_name.Location = new System.Drawing.Point(318, 281);
             this.developer_name.Name = "developer_name";
             this.developer_name.Size = new System.Drawing.Size(134, 21);
             this.developer_name.TabIndex = 40;

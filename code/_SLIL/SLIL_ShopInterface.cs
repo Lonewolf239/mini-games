@@ -37,20 +37,20 @@ namespace minigames._SLIL
                 if (player.Money >= weapon.AmmoCost && weapon.MaxAmmoCount + weapon.AmmoCount <= weapon.MaxAmmo)
                 {
                     if (MainMenu.sounds)
-                        buy.Play(0.4f);
+                        buy.Play(SLIL.Volume);
                     player.ChangeMoney(-weapon.AmmoCost);
                     weapon.MaxAmmoCount += weapon.CartridgesClip;
                     ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
                 }
                 else if (MainMenu.sounds)
-                    cant_pressed?.Play(0.4f);
+                    cant_pressed?.Play(SLIL.Volume);
             }
             else
             {
                 if (player.Money  >= weapon.GunCost)
                 {
                     if (MainMenu.sounds)
-                        buy.Play(0.4f);
+                        buy.Play(SLIL.Volume);
                     player.ChangeMoney(-weapon.GunCost);
                     weapon.SetDefault();
                     player.Guns.Add(weapon);
@@ -61,7 +61,7 @@ namespace minigames._SLIL
                     update_button.Visible = weapon.GunType != GunTypes.Sniper;
                 }
                 else if (MainMenu.sounds)
-                    cant_pressed?.Play(0.4f);
+                    cant_pressed?.Play(SLIL.Volume);
             }
         }
 
@@ -71,7 +71,7 @@ namespace minigames._SLIL
             if (player.Money  >= weapon.UpdateCost)
             {
                 if (MainMenu.sounds)
-                    buy.Play(0.4f);
+                    buy.Play(SLIL.Volume);
                 player.ChangeMoney(-weapon.UpdateCost);
                 weapon.LevelUpdate();
                 player.LevelUpdated = true;
@@ -85,7 +85,7 @@ namespace minigames._SLIL
                     update_button.Visible = false;
             }
             else if (MainMenu.sounds)
-                cant_pressed?.Play(0.4f);
+                cant_pressed?.Play(SLIL.Volume);
         }
 
         private void SLIL_ShopInterface_VisibleChanged(object sender, EventArgs e)

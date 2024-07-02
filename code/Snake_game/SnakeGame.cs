@@ -13,7 +13,8 @@ namespace minigames.Snake_game
             InitializeComponent();
         }
 
-        private PlaySound ost, sound = new PlaySound(MainMenu.CGFReader.GetFile("apple.wav"), false), tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
+        private PlaySound ost;
+        private readonly PlaySound sound = new PlaySound(MainMenu.CGFReader.GetFile("apple.wav"), false), tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
         private static readonly Random rand = new Random();
         public static int score = 0, max_score = 0;
         private bool cycle_done = false, game_over = false, super_fruit_spawned = false, super_puper_fruit_spawned = false, cut_fruit_spawned = false, can_tp = false, teleported = false, in_game = false;

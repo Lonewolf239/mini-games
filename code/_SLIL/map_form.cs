@@ -1,5 +1,4 @@
 ﻿using Convert_Bitmap;
-using NAudio.Mixer;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -9,7 +8,7 @@ using System.Windows.Forms;
 
 namespace minigames._SLIL
 {
-    public partial class map_form : Form
+    public partial class Map_form : Form
     {
 
         public StringBuilder _MAP = new StringBuilder();
@@ -18,7 +17,7 @@ namespace minigames._SLIL
         private int MAP_WIDTH;
         private Bitmap screen;
 
-        public map_form()
+        public Map_form()
         {
             InitializeComponent();
         }
@@ -58,6 +57,8 @@ namespace minigames._SLIL
                         color = Color.Red;
                     else if (mapChar == '*')
                         color = Color.FromArgb(255, 128, 128);
+                    else if (mapChar == 'E')
+                        color = Color.Cyan;
                     else
                         color = Color.Black;
                     pixels[i] = color.B;

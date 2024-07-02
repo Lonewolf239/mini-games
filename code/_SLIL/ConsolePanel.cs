@@ -1,6 +1,7 @@
 ﻿using IniReader;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -71,6 +72,7 @@ namespace minigames._SLIL
                              "~│~ *Command*     ~│~ *Description*                                 ~│~\n" +
                              "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                              "~│~ -IMHONEST-    ~│~ Disable cheats                              ~│~\n" +
+                             "~│~ -SOUL_FORGE-  ~│~ Play Soul Forge V3 *AI* as background music   ~│~\n" +
                              "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                              "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
                              "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
@@ -88,6 +90,11 @@ namespace minigames._SLIL
                              "~│~ -CHEATS-      ~│~ View list of cheats                         ~│~\n" +
                              "~└─────────────┴─────────────────────────────────────────────┘~";
 
+                    }
+                    else if (cheat == "SOUL_FORGE")
+                    {
+                        message += $"Now the track Soul Forge AI is playing.\nSong link: https://suno.com/song/28b30489-c22d-400b-8537-ee1ddfb492ac";
+                        SLIL.ChangeOst(5);
                     }
                     else if (cheat == "CHEATS")
                     {
@@ -124,8 +131,11 @@ namespace minigames._SLIL
                     else if (cheat == "OSTS")
                     {
                         show_date = false;
-                        string[] status = { "         ", "         ", "         ", "         ", "         " };
+                        string secret = "";
+                        string[] status = { "         ", "         ", "         ", "         ", "         ", "         " };
                         status[SLIL.ost_index] = "[PLAYING]";
+                        if (SLIL.ost_index == 5)
+                            secret = "~│~ -Soul Forge-  ~│~ " + status[5] + " ~│~\n";
                         message = "\n" +
                              "~┌─────────────┬───────────┐~\n" +
                              "~│~ *Name*        ~│~ *Status*    ~│~\n" +
@@ -135,6 +145,7 @@ namespace minigames._SLIL
                              "~│~ -slil_ost_2-  ~│~ " + status[2] + " ~│~\n" +
                              "~│~ -slil_ost_3-  ~│~ " + status[3] + " ~│~\n" +
                              "~│~ -slil_ost_4-  ~│~ " + status[4] + " ~│~\n" +
+                             secret +
                              "~└─────────────┴───────────┘~";
                         message += "\nTo change the background music write OST_*OstIndex*";
                     }
@@ -389,7 +400,7 @@ namespace minigames._SLIL
                         try
                         {
                             int x = Convert.ToInt32(cheat.Split('_')[1]);
-                            if (x > -1 && x < 3)
+                            if (x > -1 && x < 6)
                             {
                                 message += $"Current crosshair is now {x}. *Default: 0*";
                                 SLIL.scope_type = x;
@@ -398,7 +409,7 @@ namespace minigames._SLIL
                             else
                             {
                                 color = Color.Red;
-                                message = "Incorrect value! X must be in the range from 0 to 2.";
+                                message = "Incorrect value! X must be in the range from 0 to 5.";
                             }
                         }
                         catch
@@ -726,6 +737,14 @@ namespace minigames._SLIL
                 console.Refresh();
             }
         }
+
+        private void Console_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Oemtilde)
+                e.SuppressKeyPress = true;
+        }
+
+        private void Console_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(new ProcessStartInfo(e.LinkText) { UseShellExecute = true });
 
         private void Console_Load(object sender, EventArgs e)
         {

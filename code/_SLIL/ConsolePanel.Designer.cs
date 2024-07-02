@@ -47,7 +47,9 @@
             this.console.TabIndex = 32;
             this.console.TabStop = false;
             this.console.Text = "";
+            this.console.LinkClicked += new System.Windows.Forms.LinkClickedEventHandler(this.Console_LinkClicked);
             this.console.TextChanged += new System.EventHandler(this.Console_TextChanged);
+            this.console.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Console_KeyDown);
             // 
             // command_input
             // 

@@ -3,9 +3,9 @@ using System.Windows.Forms;
 
 namespace minigames
 {
-    public partial class change_list : Form
+    public partial class Change_list : Form
     {
-        public change_list()
+        public Change_list()
         {
             InitializeComponent();
         }
@@ -20,6 +20,15 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.3.4",
+                "_______________________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Added texture rendering",
+                "   • Added textures to game objects",
+                "   • Improved stability",
+                "   • New types of sights have been added",
+                "   • Some bugs have been fixed",
+                "\n",
                 "\t\t\tv0.3.3.1",
                 "_______________________________________________________________",
                 "• Changing the game \"Mazeness\":",
@@ -300,6 +309,15 @@ namespace minigames
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.3.4",
+                    "_______________________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Добавлен рендеринг текстур",
+                    "   • Добавлены текстуры к игровым объектам",
+                    "   • Улучшенная стабильность",
+                    "   • Добавлены новые типы прицелов",
+                    "   • Исправлены некоторые ошибки",
+                    "\n",
                     "\t\t\tv0.3.3.1",
                     "_______________________________________________________________",
                     "• Изменение игры \"Лабезумие\":",

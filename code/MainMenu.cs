@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.3.3.1|";
+        private readonly string current_version = "|0.3.4|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -43,6 +43,7 @@ namespace minigames
         };
         private bool update_exist = false;
         private ToolTip g;
+        private readonly TextureCache textureCache = new TextureCache();
         public static CGF_Reader CGFReader;
 
         public MainMenu()
@@ -247,11 +248,13 @@ namespace minigames
             Process.Start(new ProcessStartInfo("https://t.me/Apsyuch") { UseShellExecute = true });
         }
 
+        private void Fatalan_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://github.com/Fatalan") { UseShellExecute = true });
+
         private void Version_label_MouseClick(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                change_list _form = new change_list();
+                Change_list _form = new Change_list();
                 _form.ShowDialog();
             }
         }
@@ -407,6 +410,7 @@ namespace minigames
                 auto_update.Text = "Авто-обновление";
                 bug_report.Text = "Сообщить об ошибке";
                 qscvhu.Text = "Спрайты: qscvhu";
+                fatalan.Text = "Рендеринг текстур: Fatalan";
                 if (update_exist)
                     update_check.Text = "Обновить игру";
             }
@@ -432,6 +436,7 @@ namespace minigames
                 auto_update.Text = "Auto-Update";
                 bug_report.Text = "Bug Report";
                 qscvhu.Text = "Sprites: qscvhu";
+                fatalan.Text = "Texture rendering: Fatalan";
                 if (update_exist)
                     update_check.Text = "Update the game";
             }
@@ -704,7 +709,7 @@ namespace minigames
         {
             if (e.Button == MouseButtons.Left)
             {
-                SLIL form = new SLIL();
+                SLIL form = new SLIL(textureCache);
                 OpenGame(form, mg_panel_15);
             }
         }

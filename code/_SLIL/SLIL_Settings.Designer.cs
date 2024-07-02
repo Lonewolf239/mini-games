@@ -229,6 +229,9 @@
             this.scope_type_list.FormattingEnabled = true;
             this.scope_type_list.Items.AddRange(new object[] {
             "Стандартный",
+            "Крест",
+            "Квадрат",
+            "Линия",
             "Точка",
             "Без прицела"});
             this.scope_type_list.Location = new System.Drawing.Point(129, 50);
