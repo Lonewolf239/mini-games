@@ -12,6 +12,13 @@ using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Convert_Bitmap;
+using static System.Net.Mime.MediaTypeNames;
+using System.Security.Policy;
+using Image = System.Drawing.Image;
+using SharpDX.Direct2D1;
+using System.Security.Cryptography;
+using System.Data.SqlTypes;
+using SharpDX.Mathematics.Interop;
 
 namespace minigames._SLIL
 {
@@ -41,8 +48,8 @@ namespace minigames._SLIL
         private static double enemy_count;
         private static StringBuilder MAP = new StringBuilder();
         private static readonly StringBuilder DISPLAYED_MAP = new StringBuilder();
-        private readonly Bitmap SCREEN = new Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
-        private readonly Bitmap WEAPON = new Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
+        private readonly System.Drawing.Bitmap SCREEN = new System.Drawing.Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
+        private readonly System.Drawing.Bitmap WEAPON = new System.Drawing.Bitmap(SCREEN_WIDTH, SCREEN_HEIGHT);
         private readonly Font consolasFont = new Font("Consolas", 16F);
         private readonly SolidBrush whiteBrush = new SolidBrush(Color.White);
         private readonly StringFormat rightToLeft = new StringFormat() { FormatFlags = StringFormatFlags.DirectionRightToLeft };
@@ -73,8 +80,9 @@ namespace minigames._SLIL
         private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4 };
         private int currentIndex = 0;
         private bool map_presed = false, active = true;
-        private map_form form;
+        private Map_form form;
         private readonly PlaybackState playbackState = new PlaybackState();
+        private readonly TextureCache textureCache = new TextureCache();
         private PlaySound[,] step =
         {
             {
@@ -110,7 +118,7 @@ namespace minigames._SLIL
         private const int WEAPONS_COUNT = 7;
         private int burst_shots = 0, reload_frames = 0;
         public static int ost_index = 0;
-        private Image scope_hit = null;
+        private System.Drawing.Image scope_hit = null;
         private readonly Image[] scope = { Properties.Resources.scope, Properties.Resources.scope_dot, Properties.Resources.scope_null };
         private readonly Image[] scope_shotgun = { Properties.Resources.scope_shotgun, Properties.Resources.scope_dot, Properties.Resources.scope_null };
         public static int scope_color = 0, scope_type = 0;
@@ -359,7 +367,7 @@ namespace minigames._SLIL
                                 Opacity = 1;
                                 return;
                             }
-                            form = new map_form
+                            form = new Map_form
                             {
                                 Left = Right,
                                 Top = Top,
@@ -914,33 +922,36 @@ namespace minigames._SLIL
         {
             Parallel.For(0, Enemies.Count, i =>
             {
-                Enemy enemy = Enemies[i];
-                if (enemy.DEAD && enemy.RESPAWN > 0)
-                    enemy.RESPAWN--;
-                else if (enemy.DEAD && enemy.RESPAWN <= 0)
+                if (!start_btn.Enabled)
                 {
-                    if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
-                        enemy.Respawn();
-                }
-                if (!enemy.DEAD)
-                {
-                    MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
-                    enemy.UpdateCoordinates(MAP.ToString());
-                    if (enemy.Type == 1)
-                        enemy.UpdateCoordinates(MAP.ToString());
-                    MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = 'E';
-                    if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
+                    Enemy enemy = Enemies[i];
+                    if (enemy.DEAD && enemy.RESPAWN > 0)
+                        enemy.RESPAWN--;
+                    else if (enemy.DEAD && enemy.RESPAWN <= 0)
                     {
-                        enemy.Kill();
+                        if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
+                            enemy.Respawn();
+                    }
+                    if (!enemy.DEAD)
+                    {
                         MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
-                        player.DealDamage(rand.Next(enemy.MIN_DAMAGE[enemy.Type], enemy.MAX_DAMAGE[enemy.Type]));
-                        if (player.HP <= 0)
+                        enemy.UpdateCoordinates(MAP.ToString());
+                        if (enemy.Type == 1)
+                            enemy.UpdateCoordinates(MAP.ToString());
+                        MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = 'E';
+                        if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
                         {
-                            GameOver(0);
-                            return;
+                            enemy.Kill();
+                            MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
+                            player.DealDamage(rand.Next(enemy.MIN_DAMAGE[enemy.Type], enemy.MAX_DAMAGE[enemy.Type]));
+                            if (player.HP <= 0)
+                            {
+                                GameOver(0);
+                                return;
+                            }
+                            if (MainMenu.sounds)
+                                hit.Play(Volume);
                         }
-                        if (MainMenu.sounds)
-                            hit.Play(Volume);
                     }
                 }
             });
@@ -1001,7 +1012,7 @@ namespace minigames._SLIL
 
         private void Display_MouseMove(object sender, MouseEventArgs e)
         {
-            if (!start_btn.Enabled && active)
+            if (!start_btn.Enabled && active && !console_panel.Visible && !shop_panel.Visible)
             {
                 int scale = WindowState == FormWindowState.Maximized ? 3 : 1;
                 double x = display.Width / 2, y = display.Height / 2;
@@ -1273,18 +1284,6 @@ namespace minigames._SLIL
             }
         }
 
-        private Color DarkenColor(Color color, float darkenPercentage)
-        {
-            float r = (float)color.R / 255;
-            float g = (float)color.G / 255;
-            float b = (float)color.B / 255;
-            float darkenAmount = 1 - (darkenPercentage / 100);
-            r *= darkenAmount;
-            g *= darkenAmount;
-            b *= darkenAmount;
-            return Color.FromArgb((int)(r * 255), (int)(g * 255), (int)(b * 255));
-        }
-
         private void Raycast_Tick(object sender, EventArgs e)
         {
             DateTime time = DateTime.Now;
@@ -1317,29 +1316,62 @@ namespace minigames._SLIL
         private void DrawRaysOnScreen(Pixel[][] rays)
         {
             BitmapData data = SCREEN.LockBits(new Rectangle(0, 0, SCREEN.Width, SCREEN.Height), ImageLockMode.WriteOnly, SCREEN.PixelFormat);
-            int bytesPerPixel = Bitmap.GetPixelFormatSize(SCREEN.PixelFormat) / 8;
+            int bytesPerPixel = System.Drawing.Bitmap.GetPixelFormatSize(SCREEN.PixelFormat) / 8;
             byte[] pixels = new byte[data.Height * data.Stride];
             foreach (Pixel[] list in rays)
             {
                 foreach (Pixel pixel in list)
                 {
                     int i = (pixel.Y * data.Stride) + (pixel.X * bytesPerPixel);
-                    pixels[i] = pixel.COLOR.B;
-                    pixels[i + 1] = pixel.COLOR.G;
-                    pixels[i + 2] = pixel.COLOR.R;
-                    if (bytesPerPixel == 4)
-                        pixels[i + 3] = pixel.COLOR.A;
+                    Color color;
+                    if (pixel.TextureId != -1)
+                    {
+                        Vector textureCoord = CalculateTextureCoordinates(pixel, player.A, player.Look, player.X, player.Y);
+                        Color currentColor = textureCache.GetTextureColor(0, textureCoord.X, textureCoord.Y, pixel.Blackout);
+                        color = currentColor;
+                    }
+                    else { color = pixel.COLOR; }
+                    
+                    pixels[i] = color.B;
+                    pixels[i + 1] = color.G;
+                    pixels[i + 2] = color.R;
+                    //if (pixel.Side == 0) { pixels[i + 2] = 255; }
+                    //if (pixel.Side == 1) { pixels[i] = 255; }
+                    if (bytesPerPixel == 4) pixels[i + 3] = color.A;
                 }
             }
             Marshal.Copy(pixels, 0, data.Scan0, pixels.Length);
             SCREEN.UnlockBits(data);
         }
 
+        private Vector CalculateTextureCoordinates(Pixel pixel, double a, double look, double x, double y)
+        {
+            int textureSize = 228;
+            var textureX = WrapTexture((int)(pixel.TextureX * textureSize), textureSize);
+            var textureY = WrapTexture((int)(pixel.TextureY * textureSize), textureSize);
+            return new Vector((int)textureX, (int)textureY);
+        }
+
+        private double NormalizeAngle(double angle)
+        {
+            while (angle < -Math.PI) angle += 2 * Math.PI;
+            while (angle > Math.PI) angle -= 2 * Math.PI;
+            return angle;
+        }
+
+        private double WrapTexture(double value, int textureSize)
+        {
+            value %= textureSize;
+            if (value < 0)
+                value += textureSize;
+            return value;
+        }
+
         private void ClearDisplayedMap()
         {
             for (int i = 0; i < DISPLAYED_MAP.Length; i++)
             {
-                if (DISPLAYED_MAP[i] == '*')
+                if (DISPLAYED_MAP[i] == '*' || DISPLAYED_MAP[i] == 'E')
                     DISPLAYED_MAP[i] = '.';
             }
         }
@@ -1438,7 +1470,7 @@ namespace minigames._SLIL
 
         private Image GetScope(Image scope)
         {
-            Bitmap bmp = new Bitmap(scope);
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(scope);
             Color color = GetScopeColor(scope_color);
             for (int x = 0; x < bmp.Width; x++)
             {
@@ -1491,14 +1523,15 @@ namespace minigames._SLIL
             bool is_bound = false;
             bool is_window_bound = false;
             bool is_door_bound = false;
-            double rayA = player.A + FOV / 2 - x * FOV / SCREEN_WIDTH;
+            double deltaA = FOV / 2 - x * FOV / SCREEN_WIDTH;
+            double rayA = player.A + deltaA;
             double ray_x = Math.Sin(rayA);
             double ray_y = Math.Cos(rayA);
             while (raycast.Enabled && !hit_wall && !hit_door && !hit_finish && !hit_enemy && distance < DEPTH + factor)
             {
-                distance += 0.1f;
+                distance += 0.01f;
                 if (!hit_window)
-                    window_distance += 0.1f;
+                    window_distance += 0.01f;
                 int test_x = (int)(player.X + ray_x * distance);
                 int test_y = (int)(player.Y + ray_y * distance);
                 if (test_x < 0 || test_x >= (DEPTH + factor) + player.X || test_y < 0 || test_y >= (DEPTH + factor) + player.Y)
@@ -1536,6 +1569,7 @@ namespace minigames._SLIL
                         enemy_type = GetEnemyType(test_x, test_y);
                         if (enemy_type != -1)
                             hit_enemy = true;
+                        DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'E';
                         break;
                     case '.':
                     case '*':
@@ -1543,75 +1577,81 @@ namespace minigames._SLIL
                         break;
                 }
             }
-            double celling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / distance;
-            double floor = SCREEN_HEIGHT - (celling + player.Look);
-            double mid = (celling + floor) / 2;
+            double ceiling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / distance;
+            double floor = SCREEN_HEIGHT - (ceiling + player.Look);
+            double mid = (ceiling + floor) / 2;
             for (int y = 0; y < SCREEN_HEIGHT; y++)
             {
+                int blackout = 0, textureId = -1;
                 if (start_btn.Enabled)
                     break;
                 Color color = Color.Black;
                 if (hit_window && y > mid)
                 {
-                    celling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / window_distance;
-                    floor = SCREEN_HEIGHT - (celling + player.Look);
+                    ceiling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / window_distance;
+                    floor = SCREEN_HEIGHT - (ceiling + player.Look);
                 }
                 else
                 {
-                    celling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / distance;
-                    floor = SCREEN_HEIGHT - (celling + player.Look);
+                    ceiling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / distance;
+                    floor = SCREEN_HEIGHT - (ceiling + player.Look);
                 }
-                if (y <= celling)
+                if (y <= ceiling)
                 {
                     double d = ((y + player.Look / 2) / (SCREEN_HEIGHT / 2));
+                    color = COLORS[0];
                     if (d < 0.15d)
-                        color = COLORS[0];
+                        blackout = 0;
                     else if (d < 0.3d)
-                        color = DarkenColor(COLORS[0], 20);
+                        blackout = 20;
                     else if (d < 0.45d)
-                        color = DarkenColor(COLORS[0], 40);
+                        blackout = 40;
                     else if (d < 0.6d)
-                        color = DarkenColor(COLORS[0], 60);
+                        blackout = 60;
                     else if (d < 0.65d)
-                        color = DarkenColor(COLORS[0], 80);
+                        blackout = 80;
                     else
-                        color = Color.Black;
+                        blackout = 100;
                 }
                 else if (y >= mid && y <= floor && hit_window)
                 {
+                    if (!(Math.Abs(y - mid) <= 5 || is_window_bound))
+                        textureId = -1;
+                    color = COLORS[1];
                     if (Math.Abs(y - mid) <= 5 || is_window_bound)
                     {
+                        color = Color.White;
                         if (window_distance < (DEPTH + factor) * 0.15)
-                            color = DarkenColor(Color.White, 15);
+                            blackout = 15;
                         else if (window_distance < (DEPTH + factor) * 0.3)
-                            color = DarkenColor(Color.White, 30);
+                            blackout = 30;
                         else if (window_distance < (DEPTH + factor) * 0.45)
-                            color = DarkenColor(Color.White, 45);
+                            blackout = 45;
                         else if (window_distance < (DEPTH + factor) * 0.6)
-                            color = DarkenColor(Color.White, 60);
+                            blackout = 60;
                         else if (window_distance < (DEPTH + factor) * 0.75)
-                            color = DarkenColor(Color.White, 75);
+                            blackout = 75;
                         else if (window_distance < (DEPTH + factor) * 0.9)
-                            color = DarkenColor(Color.White, 90);
+                            blackout = 90;
                         else
                             color = Color.Black;
                     }
                     else if (window_distance < (DEPTH + factor) * 0.15)
-                        color = DarkenColor(COLORS[1], 15);
+                        blackout = 15;
                     else if (window_distance < (DEPTH + factor) * 0.3)
-                        color = DarkenColor(COLORS[1], 30);
+                        blackout = 30;
                     else if (window_distance < (DEPTH + factor) * 0.45)
-                        color = DarkenColor(COLORS[1], 45);
+                        blackout = 45;
                     else if (window_distance < (DEPTH + factor) * 0.6)
-                        color = DarkenColor(COLORS[1], 60);
+                        blackout = 60;
                     else if (window_distance < (DEPTH + factor) * 0.75)
-                        color = DarkenColor(COLORS[1], 75);
+                        blackout = 75;
                     else if (window_distance < (DEPTH + factor) * 0.9)
-                        color = DarkenColor(COLORS[1], 90);
+                        blackout = 90;
                     else
-                        color = Color.Black;
+                        blackout = 100;
                 }
-                else if ((y < mid || !hit_window) && y > celling && y <= floor)
+                else if ((y < mid || !hit_window) && y > ceiling && y <= floor)
                 {
                     int index = 1;
                     if (hit_finish)
@@ -1627,62 +1667,169 @@ namespace minigames._SLIL
                     }
                     else if (hit_door)
                         index = 4;
+                    if (index == 1 && !(is_bound || is_door_bound))
+                        textureId = index;
+                    color = COLORS[index];
                     if (is_bound || is_door_bound)
                     {
                         Color bound = Color.White;
                         if (is_door_bound)
                             bound = Color.FromArgb(230, 223, 174);
+                        color = bound;
                         if (distance < (DEPTH + factor) * 0.15)
-                            color = DarkenColor(bound, 15);
+                            blackout = 15;
                         else if (distance < (DEPTH + factor) * 0.3)
-                            color = DarkenColor(bound, 30);
+                            blackout = 30;
                         else if (distance < (DEPTH + factor) * 0.45)
-                            color = DarkenColor(bound, 45);
+                            blackout = 45;
                         else if (distance < (DEPTH + factor) * 0.6)
-                            color = DarkenColor(bound, 60);
+                            blackout = 60;
                         else if (distance < (DEPTH + factor) * 0.75)
-                            color = DarkenColor(bound, 75);
+                            blackout = 75;
                         else if (distance < (DEPTH + factor) * 0.9)
-                            color = DarkenColor(bound, 90);
+                            blackout = 90;
                         else
                             color = Color.Black;
                     }
                     else if (distance < (DEPTH + factor) * 0.15)
-                        color = DarkenColor(COLORS[index], 15);
+                        blackout = 15;
                     else if (distance < (DEPTH + factor) * 0.3)
-                        color = DarkenColor(COLORS[index], 30);
+                        blackout = 30;
                     else if (distance < (DEPTH + factor) * 0.45)
-                        color = DarkenColor(COLORS[index], 45);
+                        blackout = 45;
                     else if (distance < (DEPTH + factor) * 0.6)
-                        color = DarkenColor(COLORS[index], 60);
+                        blackout = 60;
                     else if (distance < (DEPTH + factor) * 0.75)
-                        color = DarkenColor(COLORS[index], 75);
+                        blackout = 75;
                     else if (distance < (DEPTH + factor) * 0.9)
-                        color = DarkenColor(COLORS[index], 90);
+                        blackout = 90;
                     else
-                        color = Color.Black;
+                        blackout = 100;
                 }
                 else if (y > floor)
                 {
                     double d = 1 - (y - (SCREEN_HEIGHT - player.Look) / 2) / (SCREEN_HEIGHT / 2);
+                    color = COLORS[3];
                     if (d < 0.15d)
-                        color = COLORS[3];
+                        blackout = 00;
                     else if (d < 0.3d)
-                        color = DarkenColor(COLORS[3], 20);
+                        blackout = 20;
                     else if (d < 0.45d)
-                        color = DarkenColor(COLORS[3], 40);
+                        blackout = 40;
                     else if (d < 0.6d)
-                        color = DarkenColor(COLORS[3], 60);
+                        blackout = 60;
                     else if (d < 0.65d)
-                        color = DarkenColor(COLORS[3], 80);
+                        blackout = 80;
                     else
-                        color = Color.Black;
+                        blackout = 100;
                 }
-                result[y] = new Pixel(x, y, color);
+                result[y] = new Pixel(x, y, color, blackout, distance, ceiling - floor, textureId);
+                if(textureId != -1 && y >=ceiling && y < floor)
+                {
+                    int side = GetSide(distance, ray_x, ray_y);
+                    if(side == -1) { result[y].TextureId = -1; }
+                    result[y].TextureY = (double)((double)y - ceiling)/ (double)(floor-ceiling);   
+                    double perpWallDist = distance * Math.Cos(deltaA);
+                    double wallX;
+                    if (side == 0) wallX = player.X + perpWallDist * ray_x;
+                    else wallX = player.Y + perpWallDist * ray_y;
+                    wallX -= Math.Floor(wallX);
+                    result[y].TextureX = wallX;
+                    result[y].Side = side;
+                }
             }
             return result;
         }
-
+        private Tuple<double, double> solve_SLU(double a1, double b1, double c1, double a2, double b2, double c2)
+        {
+            if(a1==0 && a2==0) { return null; }
+            else if (a1==0) { return new Tuple<double, double>((c2 - b2*(c1/b1)) / a2, c1/b1); }
+            if(Math.Abs(a1 * b2 - a2 * b1)<Math.Pow(10,-10)) { return null; }
+            var calcY = (c2 * a1 - a2 * c1) / (a1 * b2 - a2 * b1);
+            var calcX = (c1 - b1 * calcY) / a1;
+            return new Tuple<double, double>(calcX, calcY);
+        }
+        private Tuple<double, double> solve_not_kanon(double x1, double x2, double y1, double y2, double x1_2, double x2_2, double y1_2, double y2_2)
+        {
+            var kanA1 = y1-y2;
+            var kanB1 = x2-x1;
+            var kanC1 = x1*(y1 - y2) + y1 * (x2 - x1);
+            var kanA2 = y1_2 - y2_2;
+            var kanB2 = x2_2 - x1_2;
+            var kanC2 = x1_2 * (y1_2 - y2_2) + y1_2 * (x2_2 - x1_2);
+            return solve_SLU(kanA1, kanB1, kanC1, kanA2, kanB2, kanC2);
+        }
+        //Horizontal wall - 0, Vertical Wall - 1
+        private int GetSide(double distance, double ray_x, double ray_y)
+        {
+            double x1_1 = player.X, y1_1 = player.Y;
+            double x2_1 = player.X + distance * ray_x, y2_1 = player.Y + distance * ray_y;
+            double cellY = (int)y2_1;
+            double cellX = (int)x2_1;
+            //upper side
+            if (-ray_y < 0) {
+                double x1_2 = cellX + 1;
+                double y1_2 = cellY;
+                double x2_2 = cellX;
+                double y2_2 = cellY;
+                var intersectionPoint = solve_not_kanon(x1_1, x2_1, y1_1, y2_1, x1_2, x2_2, y1_2, y2_2);
+                if(intersectionPoint != null)
+                {
+                    if (intersectionPoint.Item1 >= x2_2 && intersectionPoint.Item1 <= x1_2) {
+                        return 0;
+                    };
+                }
+            }
+            //lower side
+            if (ray_y < 0)
+            {
+                double x1_2 = cellX;
+                double y1_2 = cellY + 1;
+                double x2_2 = cellX + 1;
+                double y2_2 = cellY + 1;
+                var intersectionPoint = solve_not_kanon(x1_1, x2_1, y1_1, y2_1, x1_2, x2_2, y1_2, y2_2);
+                if (intersectionPoint != null)
+                {
+                    if (intersectionPoint.Item1 >= x1_2 && intersectionPoint.Item1 <= x2_2)
+                    {
+                        return 0;
+                    };
+                }
+            }
+            //left side
+            if (-ray_x < 0)
+            {
+                double x1_2 = cellX;
+                double y1_2 = cellY;
+                double x2_2 = cellX;
+                double y2_2 = cellY+1;
+                var intersectionPoint = solve_not_kanon(x1_1, x2_1, y1_1, y2_1, x1_2, x2_2, y1_2, y2_2);
+                if (intersectionPoint != null)
+                {
+                    if (intersectionPoint.Item2 >= y1_2 && intersectionPoint.Item2 <= y2_2)
+                    {
+                        return 1;
+                    };
+                }
+            }
+            //right side
+            if (ray_x < 0)
+            {
+                double x1_2 = cellX+1;
+                double y1_2 = cellY+1;
+                double x2_2 = cellX+1;
+                double y2_2 = cellY;
+                var intersectionPoint = solve_not_kanon(x1_1, x2_1, y1_1, y2_1, x1_2, x2_2, y1_2, y2_2);
+                if (intersectionPoint != null)
+                {
+                    if (intersectionPoint.Item2 >= y2_2 && intersectionPoint.Item2 <= y1_2)
+                    {
+                        return 1;
+                    };
+                }
+            }
+            return -1;
+        }
         private int GetEnemyType(int x, int y)
         {
             int enemy_type = -1;

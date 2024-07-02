@@ -1,6 +1,6 @@
 ﻿namespace minigames._SLIL
 {
-    partial class map_form
+    partial class Map_form
     {
         /// <summary>
         /// Required designer variable.
