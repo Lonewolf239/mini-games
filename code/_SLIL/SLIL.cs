@@ -97,7 +97,6 @@ namespace minigames._SLIL
         { 
             Properties.Resources.scope,
             Properties.Resources.scope_cross,
-            Properties.Resources.scope_square,
             Properties.Resources.scope_line,
             Properties.Resources.scope_dot,
             Properties.Resources.scope_null 
@@ -106,7 +105,6 @@ namespace minigames._SLIL
         { 
             Properties.Resources.scope_shotgun,
             Properties.Resources.scope_cross,
-            Properties.Resources.scope_square,
             Properties.Resources.scope_line,
             Properties.Resources.scope_dot,
             Properties.Resources.scope_null 
@@ -1005,7 +1003,7 @@ namespace minigames._SLIL
         {
             if (!start_btn.Enabled && active && !console_panel.Visible && !shop_panel.Visible)
             {
-                int scale = WindowState == FormWindowState.Maximized ? 3 : 1;
+                double scale = WindowState == FormWindowState.Maximized ? 2.5 : 1;
                 double x = display.Width / 2, y = display.Height / 2;
                 double X = e.X - x, Y = e.Y - y;
                 double size = MainMenu.scaled ? MainMenu.scale_size * 0.95 : 1;
@@ -1204,7 +1202,7 @@ namespace minigames._SLIL
                 difficulty = 1;
             if (scope_color < 0 || scope_color > 8)
                 scope_color = 0;
-            if (scope_type < 0 || scope_type > 5)
+            if (scope_type < 0 || scope_type > 4)
                 scope_type = 0;
             if (CustomMazeHeight < 2 || CustomMazeHeight > 150)
                 CustomMazeHeight = 10;
@@ -1300,8 +1298,10 @@ namespace minigames._SLIL
         {
             using (Graphics g = Graphics.FromImage(SCREEN))
                 g.DrawImage(WEAPON, 0, 0, SCREEN.Width, SCREEN.Height);
-            display.SCREEN = ConvertBitmap.ToDX(SCREEN, display.renderTarget);
+            SharpDX.Direct2D1.Bitmap dxBitmap = ConvertBitmap.ToDX(SCREEN, display.renderTarget);
+            display.SCREEN = dxBitmap;
             display.DrawImage();
+            dxBitmap?.Dispose();
         }
 
         private Pixel[][] CastRaysParallel()
@@ -1329,6 +1329,7 @@ namespace minigames._SLIL
                         pixels[i + 3] = color.A;
                 }
             });
+            rays = null;
             Marshal.Copy(pixels, 0, data.Scan0, pixels.Length);
             SCREEN.UnlockBits(data);
         }
@@ -1566,14 +1567,14 @@ namespace minigames._SLIL
             double ceiling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / distance;
             double floor = SCREEN_HEIGHT - (ceiling + player.Look);
             double mid = (ceiling + floor) / 2;
-            bool get_texture = false;
+            bool get_texture = false, get_texture_window = false;
             int side = 0;
             double wallX = 0;
             for (int y = 0; y < SCREEN_HEIGHT; y++)
             {
-                int blackout = 0, textureId = 6;
                 if (start_btn.Enabled)
                     break;
+                int blackout = 0, textureId = 6;
                 if (hit_window && y > mid)
                 {
                     ceiling = (SCREEN_HEIGHT - player.Look) / 2.25d - (SCREEN_HEIGHT * FOV) / window_distance;
@@ -1592,8 +1593,8 @@ namespace minigames._SLIL
                 }
                 else if (y >= mid && y <= floor && hit_window)
                 {
-                    textureId = 10;
-                    if (Math.Abs(y - mid) <= 5 || is_window_bound)
+                    textureId = 0;
+                    if (Math.Abs(y - mid) <= 10 / window_distance || is_window_bound)
                         textureId = 7;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((window_distance / (DEPTH + factor)) * 100)), 100));
                 }
@@ -1619,14 +1620,30 @@ namespace minigames._SLIL
                 }
                 else if (y > floor)
                 {
-                    textureId = 12;
+                    textureId = 0; //12
                     double d = 1 - (y - (SCREEN_HEIGHT - player.Look) / 2) / (SCREEN_HEIGHT / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
                 result[y] = new Pixel(x, y, blackout, distance, ceiling - floor, textureId);
                 if (y >= ceiling && y < floor)
                 {
-                    if (hit_door || hit_enemy || hit_finish || hit_wall || hit_window)
+                    if (y >= mid && hit_window)
+                    {
+                        if (!get_texture_window)
+                        {
+                            get_texture_window = true;
+                            side = GetSide(window_distance, ray_x, ray_y);
+                            if (side == -1)
+                                result[y].TextureId = 6;
+                            double perpWallDist = window_distance * Math.Cos(deltaA);
+                            if (side == 0)
+                                wallX = player.X + perpWallDist * ray_x;
+                            else
+                                wallX = player.Y + perpWallDist * ray_y;
+                            wallX -= Math.Floor(wallX);
+                        }
+                    }
+                    else if (hit_door || hit_enemy || hit_finish || hit_wall)
                     {
                         if (!get_texture)
                         {
@@ -1641,12 +1658,6 @@ namespace minigames._SLIL
                                 wallX = player.Y + perpWallDist * ray_y;
                             wallX -= Math.Floor(wallX);
                         }
-                        else if (get_texture)
-                        {
-                            result[y].TextureY = (double)((double)y - ceiling) / (double)(floor - ceiling);
-                            result[y].TextureX = wallX;
-                            result[y].Side = side;
-                        }
                     }
                     else
                     {
@@ -1655,6 +1666,26 @@ namespace minigames._SLIL
                         result[y].TextureX = 0;
                         result[y].Side = 0;
                     }
+                    if (get_texture || get_texture_window)
+                    {
+                        result[y].TextureY = (double)((double)y - ceiling) / (double)(floor - ceiling);
+                        result[y].TextureX = wallX;
+                        result[y].Side = side;
+                    }
+                }
+                else if (y >= floor)
+                {
+                    int p = y - SCREEN_HEIGHT / 2;
+                    double rowDistance = (0.5 * SCREEN_HEIGHT) / p;
+                    double floorX = player.X + rowDistance * ray_x;
+                    double floorY = player.Y + rowDistance * ray_y;
+                    int cellX = (int)floorX;
+                    int cellY = (int)floorY;
+                    int tx = (int)(128 * (floorX - cellX)) & (128 - 1);
+                    int ty = (int)(128 * (floorY - cellY)) & (128 - 1);
+                    result[y].TextureX = tx;
+                    result[y].TextureY = ty;
+                    result[y].Side = 0;
                 }
             }
             return result;

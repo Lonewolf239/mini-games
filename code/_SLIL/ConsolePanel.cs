@@ -400,7 +400,7 @@ namespace minigames._SLIL
                         try
                         {
                             int x = Convert.ToInt32(cheat.Split('_')[1]);
-                            if (x > -1 && x < 6)
+                            if (x > -1 && x < 5)
                             {
                                 message += $"Current crosshair is now {x}. *Default: 0*";
                                 SLIL.scope_type = x;
@@ -409,7 +409,7 @@ namespace minigames._SLIL
                             else
                             {
                                 color = Color.Red;
-                                message = "Incorrect value! X must be in the range from 0 to 5.";
+                                message = "Incorrect value! X must be in the range from 0 to 4.";
                             }
                         }
                         catch

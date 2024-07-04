@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace minigames._SLIL
+﻿namespace minigames._SLIL
 {
     public class Pixel
     {

@@ -230,7 +230,6 @@
             this.scope_type_list.Items.AddRange(new object[] {
             "Стандартный",
             "Крест",
-            "Квадрат",
             "Линия",
             "Точка",
             "Без прицела"});

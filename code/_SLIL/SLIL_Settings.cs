@@ -33,7 +33,7 @@ namespace minigames._SLIL
                 difficulty_list.Items.Clear();
                 string[] dif = { "Very hard", "Hard", "Normal", "Easy", "Custom" };
                 string[] col = { "Green", "Red", "Yellow", "Blue", "Magenta", "Cyan", "Orange", "White", "Random" };
-                string[] typ = { "Standard", "Cross", "Square", "Line", "Dot", "Without sight" };
+                string[] typ = { "Standard", "Cross", "Line", "Dot", "Without sight" };
                 difficulty_list.Items.AddRange(dif);
                 scope_color_list.Items.AddRange(col);
                 scope_type_list.Items.AddRange(typ);
