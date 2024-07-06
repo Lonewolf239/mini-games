@@ -13,22 +13,13 @@ namespace minigames._SLIL
             Properties.Resources.enemy_2,
             Properties.Resources.door,
             Properties.Resources.teleport,
-            Properties.Resources.missing
+            Properties.Resources.floor,
+            Properties.Resources.ceiling
         };
         private readonly Color[] COLORS =
         {
             //bound
             Color.FromArgb(80,80,80),
-            //door_bound
-            Color.FromArgb(80,80,80),
-            //ceiling
-            Color.FromArgb(100, 100, 100), 
-            //windows
-            Color.FromArgb(118, 118, 118),
-            //finish
-            Color.Lime,
-            //floor
-            Color.FromArgb(60, 60, 60),
             //dark
             Color.Black
         };

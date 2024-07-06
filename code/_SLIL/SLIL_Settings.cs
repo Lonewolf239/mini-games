@@ -57,6 +57,7 @@ namespace minigames._SLIL
             height_map_input.Value = SLIL.CustomMazeHeight;
             width_map_input.Value = SLIL.CustomMazeWidth;
             show_fps.Checked = SLIL.ShowFPS;
+            resolution.Checked = SLIL.resolution == 1;
             SLIL.CUSTOM = false;
             if (height_map_input.Value > 20 || width_map_input.Value > 20)
                 editor_btn.Enabled = false;
@@ -78,6 +79,7 @@ namespace minigames._SLIL
             int scope_type = scope_type_list.SelectedIndex;
             int CustomMazeHeight = (int)height_map_input.Value;
             int CustomMazeWidth = (int)width_map_input.Value;
+            bool hight_resolution = resolution.Checked;
             SLIL.LOOK_SPEED = speed;
             SLIL.old_difficulty = SLIL.difficulty = index;
             SLIL.scope_color = scope_color;
@@ -85,9 +87,11 @@ namespace minigames._SLIL
             SLIL.CustomMazeHeight = CustomMazeHeight;
             SLIL.CustomMazeWidth = CustomMazeWidth;
             SLIL.ShowFPS = showfps;
+            SLIL.resolution = hight_resolution ? 1 : 0;
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "look_speed", speed);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "show_fps", showfps);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "difficulty", index);
+            INIReader.SetKey(MainMenu.iniFolder, "SLIL", "hight_resolution", hight_resolution);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "scope_color", scope_color);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "scope_type", scope_type);
             INIReader.SetKey(MainMenu.iniFolder, "SLIL", "custom_maze_height", CustomMazeHeight);

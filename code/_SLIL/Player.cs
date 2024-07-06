@@ -55,6 +55,10 @@ namespace minigames._SLIL
             STAMINE = MAX_STAMINE;
         }
 
+        public GunTypes GetGunType() => Guns[CurrentGun].GunType;
+
+        public Gun GetCurrentGun() => Guns[CurrentGun];
+
         public void HealHP(int value)
         {
             UseFirstMedKit = false;

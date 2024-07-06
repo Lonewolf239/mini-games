@@ -42,6 +42,7 @@
             this.editor_btn = new System.Windows.Forms.Button();
             this.scope_type_list = new System.Windows.Forms.ComboBox();
             this.scope_type_text = new System.Windows.Forms.Label();
+            this.resolution = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -50,7 +51,7 @@
             // look_speed_text
             // 
             this.look_speed_text.AutoSize = true;
-            this.look_speed_text.Location = new System.Drawing.Point(12, 152);
+            this.look_speed_text.Location = new System.Drawing.Point(12, 180);
             this.look_speed_text.Name = "look_speed_text";
             this.look_speed_text.Size = new System.Drawing.Size(178, 24);
             this.look_speed_text.TabIndex = 0;
@@ -59,7 +60,7 @@
             // 
             // look_speed
             // 
-            this.look_speed.Location = new System.Drawing.Point(196, 143);
+            this.look_speed.Location = new System.Drawing.Point(196, 171);
             this.look_speed.Maximum = 1000;
             this.look_speed.Minimum = 250;
             this.look_speed.Name = "look_speed";
@@ -101,7 +102,7 @@
             // 
             // width_map_input
             // 
-            this.width_map_input.Location = new System.Drawing.Point(94, 229);
+            this.width_map_input.Location = new System.Drawing.Point(94, 257);
             this.width_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -126,7 +127,7 @@
             // height_map_text
             // 
             this.height_map_text.AutoSize = true;
-            this.height_map_text.Location = new System.Drawing.Point(10, 196);
+            this.height_map_text.Location = new System.Drawing.Point(10, 224);
             this.height_map_text.Name = "height_map_text";
             this.height_map_text.Size = new System.Drawing.Size(76, 24);
             this.height_map_text.TabIndex = 6;
@@ -136,7 +137,7 @@
             // width_map_text
             // 
             this.width_map_text.AutoSize = true;
-            this.width_map_text.Location = new System.Drawing.Point(10, 231);
+            this.width_map_text.Location = new System.Drawing.Point(10, 259);
             this.width_map_text.Name = "width_map_text";
             this.width_map_text.Size = new System.Drawing.Size(78, 24);
             this.width_map_text.TabIndex = 7;
@@ -145,7 +146,7 @@
             // 
             // height_map_input
             // 
-            this.height_map_input.Location = new System.Drawing.Point(94, 194);
+            this.height_map_input.Location = new System.Drawing.Point(94, 222);
             this.height_map_input.Maximum = new decimal(new int[] {
             150,
             0,
@@ -172,7 +173,7 @@
             this.show_fps.AutoSize = true;
             this.show_fps.Checked = true;
             this.show_fps.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.show_fps.Location = new System.Drawing.Point(16, 121);
+            this.show_fps.Location = new System.Drawing.Point(16, 149);
             this.show_fps.Name = "show_fps";
             this.show_fps.Size = new System.Drawing.Size(183, 28);
             this.show_fps.TabIndex = 11;
@@ -214,7 +215,7 @@
             this.editor_btn.BackgroundImage = global::minigames.Properties.Resources.editor;
             this.editor_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.editor_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.editor_btn.Location = new System.Drawing.Point(160, 201);
+            this.editor_btn.Location = new System.Drawing.Point(160, 229);
             this.editor_btn.Name = "editor_btn";
             this.editor_btn.Size = new System.Drawing.Size(50, 50);
             this.editor_btn.TabIndex = 10;
@@ -249,11 +250,24 @@
             this.scope_type_text.Text = "Прицел";
             this.scope_type_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // resolution
+            // 
+            this.resolution.AutoSize = true;
+            this.resolution.Checked = true;
+            this.resolution.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.resolution.Location = new System.Drawing.Point(16, 121);
+            this.resolution.Name = "resolution";
+            this.resolution.Size = new System.Drawing.Size(222, 28);
+            this.resolution.TabIndex = 16;
+            this.resolution.Text = "Высокое разрешение";
+            this.resolution.UseVisualStyleBackColor = true;
+            // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 300);
+            this.Controls.Add(this.resolution);
             this.Controls.Add(this.scope_type_text);
             this.Controls.Add(this.scope_type_list);
             this.Controls.Add(this.scope_color_text);
@@ -307,5 +321,6 @@
         private System.Windows.Forms.Label scope_color_text;
         private System.Windows.Forms.ComboBox scope_type_list;
         private System.Windows.Forms.Label scope_type_text;
+        private System.Windows.Forms.CheckBox resolution;
     }
 }
