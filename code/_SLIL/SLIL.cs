@@ -22,6 +22,7 @@ namespace minigames._SLIL
         public static int CustomMazeWidth;
         public static bool CUSTOM = false, ShowFPS = true;
         public static int difficulty = 2, old_difficulty;
+        private bool inDebug = false;
         public static double LOOK_SPEED = 1.75f;
         public static StringBuilder CUSTOM_MAP = new StringBuilder();
         public static int CUSTOM_X, CUSTOM_Y;
@@ -42,7 +43,7 @@ namespace minigames._SLIL
         private static StringBuilder MAP = new StringBuilder();
         private static readonly StringBuilder DISPLAYED_MAP = new StringBuilder();
         private Bitmap SCREEN, WEAPON;
-        private readonly Font[] consolasFont = { new Font("Consolas", 9.75F), new Font("Consolas", 16F) };
+        private readonly Font[] consolasFont = { new Font("Consolas", 9.75F), new Font("Consolas", 16F), new Font("Consolas", 22F) };
         private readonly SolidBrush whiteBrush = new SolidBrush(Color.White);
         private readonly StringFormat rightToLeft = new StringFormat() { FormatFlags = StringFormatFlags.DirectionRightToLeft };
         private Graphics graphicsWeapon;
@@ -87,6 +88,9 @@ namespace minigames._SLIL
             wall = new PlaySound(MainMenu.CGFReader.GetFile("wall_interaction.wav"), false),
             tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
         private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav"), false) };
+        //7x7
+        private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....=.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############D####################...#################E=...=E#################...#################$D.P.D$#################...################################",
+            debugMap = @"####################.................##..=======........##..=.....=.....#..##..=....E=........##..=..====........##..=..=........D..##..=.E=...........##..====...........##........P.....=..##.................##.................##..............F..##.................##..===....#D#..#..##..=E=====#$#.#D=.##..===....###..=..##.................####################";
         public static float Volume = 0.4f;
         private static int MAX_SHOP_COUNT = 1;
         private const int WEAPONS_COUNT = 7;
@@ -124,14 +128,25 @@ namespace minigames._SLIL
             textureCache = textures;
         }
 
-        private struct Sprite
-        {
-            double x;
-            double y;
-            int texture;
-        }
+        //private struct Sprite
+        //{
+        //    double x;
+        //    double y;
+        //    int texture;
+        //}
+
+        private void Stage_timer_Tick(object sender, EventArgs e) => stage_timer.Stop();
 
         public static void SetVolume() => ost[ost_index].SetVolume(Volume);
+
+        public static void GoDebug(SLIL slil)
+        {
+            slil.GameOver(-1);
+            slil.inDebug = true;
+            old_difficulty = difficulty;
+            difficulty = 5;
+            slil.StartGame();
+        }
 
         public static void ChangeOst(int index)
         {
@@ -737,7 +752,11 @@ namespace minigames._SLIL
                                     if (Enemies[i].DealDamage(damage))
                                     {
                                         MAP[test_y * MAP_WIDTH + test_x] = '.';
-                                        player.ChangeMoney(rand.Next(Enemies[i].MIN_MONEY[Enemies[i].Type], Enemies[i].MAX_MONEY[Enemies[i].Type]));
+                                        double multiplier = 1;
+                                        if (difficulty == 3)
+                                            multiplier = 1.5;
+                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY[Enemies[i].Type] * multiplier), (int)(Enemies[i].MAX_MONEY[Enemies[i].Type] * multiplier)));
+                                        player.EnemiesKilled++;
                                         if (MainMenu.sounds)
                                             enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
                                     }
@@ -782,7 +801,7 @@ namespace minigames._SLIL
                                             }
                                             if (hit_player)
                                             {
-                                                if (difficulty < 2 && player.GetCurrentGun().FireType == FireTypes.Single)
+                                                if (difficulty == 0 && player.GetCurrentGun().FireType == FireTypes.Single)
                                                 {
                                                     MAP[(int)Enemies[i].Y * MAP_WIDTH + (int)Enemies[i].X] = '.';
                                                     Enemies[i].UpdateCoordinates(MAP.ToString());
@@ -935,12 +954,15 @@ namespace minigames._SLIL
                     double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
                     if (distance <= 30)
                     {
-                        if (enemy.DEAD && enemy.RESPAWN > 0)
-                            enemy.RESPAWN--;
-                        else if (enemy.DEAD && enemy.RESPAWN <= 0)
+                        if (difficulty <= 1)
                         {
-                            if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
-                                enemy.Respawn();
+                            if (enemy.DEAD && enemy.RESPAWN > 0)
+                                enemy.RESPAWN--;
+                            else if (enemy.DEAD && enemy.RESPAWN <= 0)
+                            {
+                                if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
+                                    enemy.Respawn();
+                            }
                         }
                         if (!enemy.DEAD)
                         {
@@ -1253,7 +1275,6 @@ namespace minigames._SLIL
             display.MouseWheel += new MouseEventHandler(Display_Scroll);
             top_panel.Controls.Add(display);
             UpdateBitmap();
-            old_difficulty = difficulty;
             Activate();
         }
 
@@ -1317,6 +1338,7 @@ namespace minigames._SLIL
                 form.Close();
                 form = null;
             }
+            Cursor.Show();
         }
 
         private void Raycast_Tick(object sender, EventArgs e)
@@ -1455,6 +1477,16 @@ namespace minigames._SLIL
                     if (scope_hit != null)
                         graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
                 }
+                if (stage_timer.Enabled)
+                {
+                    string text = $"STAGE: {player.Stage + 1}";
+                    if (inDebug)
+                        text = "STAGE: Debug";
+                    else if (difficulty == 4)
+                        text = "STAGE: Custom";
+                    SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
+                    graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
+                }
             }
             catch
             {
@@ -1494,6 +1526,16 @@ namespace minigames._SLIL
                             graphicsWeapon.DrawImage(scope[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
                         if (scope_hit != null)
                             graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
+                    }
+                    if (stage_timer.Enabled)
+                    {
+                        string text = $"STAGE: {player.Stage + 1}";
+                        if (inDebug)
+                            text = "STAGE: Debug";
+                        else if (difficulty == 4)
+                            text = "STAGE: Custom";
+                        SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
+                        graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
                     }
                 }
                 catch { }
@@ -1608,9 +1650,7 @@ namespace minigames._SLIL
                         break;
                 }
             }
-            double perpWallDist = distance * Math.Cos(deltaA);
-            double perpWindowDist = window_distance * Math.Cos(deltaA);
-            double ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / perpWallDist;
+            double ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / distance;
             double floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
             double mid = (ceiling + floor) / 2;
             bool get_texture = false, get_texture_window = false;
@@ -1623,12 +1663,12 @@ namespace minigames._SLIL
                 int blackout = 0, textureId = 9;
                 if (hit_window && y > mid)
                 {
-                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / perpWindowDist;
+                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / window_distance;
                     floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
                 }
                 else
                 {
-                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / perpWallDist;
+                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / distance;
                     floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
                 }
                 if (y <= ceiling)
@@ -1640,9 +1680,9 @@ namespace minigames._SLIL
                 else if (y >= mid && y <= floor && hit_window)
                 {
                     textureId = 0;
-                    if (Math.Abs(y - mid) <= 10 / perpWindowDist || is_window_bound)
+                    if (Math.Abs(y - mid) <= 10 / window_distance || is_window_bound)
                         textureId = 8;
-                    blackout = (int)(Math.Min(Math.Max(0, Math.Floor((perpWindowDist / (DEPTH + factor)) * 100)), 100));
+                    blackout = (int)(Math.Min(Math.Max(0, Math.Floor((window_distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if ((y < mid || !hit_window) && y > ceiling && y < floor)
                 {
@@ -1662,7 +1702,7 @@ namespace minigames._SLIL
                         textureId = 4;
                     if (is_bound)
                         textureId = 8;
-                    blackout = (int)(Math.Min(Math.Max(0, Math.Floor((perpWallDist / (DEPTH + factor)) * 100)), 100));
+                    blackout = (int)(Math.Min(Math.Max(0, Math.Floor((distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if (y >= floor)
                 {
@@ -1670,7 +1710,7 @@ namespace minigames._SLIL
                     double d = 1 - (y - (SCREEN_HEIGHT[resolution] - player.Look) / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
-                result[y] = new Pixel(x, y, blackout, perpWallDist, ceiling - floor, textureId);
+                result[y] = new Pixel(x, y, blackout, distance, ceiling - floor, textureId);
                 if (y < ceiling)
                 {
                     int p = y - (int)(SCREEN_HEIGHT[resolution] - player.Look) / 2;
@@ -1705,7 +1745,7 @@ namespace minigames._SLIL
                             side = GetSide(window_distance, ray_x, ray_y);
                             if (side == -1)
                                 result[y].TextureId = 9;
-                            perpWallDist = window_distance * Math.Cos(deltaA);
+                            double perpWallDist = window_distance * Math.Cos(deltaA);
                             if (side == 0)
                                 wallX = player.X + perpWallDist * ray_x;
                             else
@@ -1721,7 +1761,7 @@ namespace minigames._SLIL
                             side = GetSide(distance, ray_x, ray_y);
                             if (side == -1)
                                 result[y].TextureId = 9;
-                            perpWallDist = distance * Math.Cos(deltaA);
+                            double perpWallDist = distance * Math.Cos(deltaA);
                             if (side == 0)
                                 wallX = player.X + perpWallDist * ray_x;
                             else
@@ -1860,6 +1900,25 @@ namespace minigames._SLIL
 
         private void InitMap()
         {
+            MAP.Clear();
+            DISPLAYED_MAP.Clear();
+            if (difficulty == 5)
+            {
+                MAP.AppendLine(debugMap);
+                DISPLAYED_MAP.AppendLine(debugMap);
+                for (int x = 0; x < MAP_WIDTH; x++)
+                {
+                    for (int y = 0; y < MAP_HEIGHT; y++)
+                    {
+                        if (MAP[y * MAP_WIDTH + x] == 'E')
+                        {
+                            Enemy enemy = new Enemy(x, y, MAP_WIDTH, rand.NextDouble());
+                            Enemies.Add(enemy);
+                        }
+                    }
+                }
+                return;
+            }
             if (!CUSTOM)
             {
                 Random random = new Random();
@@ -1947,7 +2006,7 @@ namespace minigames._SLIL
                 }
                 MAP = sb;
             }
-            else
+            else if (CUSTOM)
             {
                 for (int x = 0; x < CustomMazeWidth * 3 + 1; x++)
                 {
@@ -1999,44 +2058,69 @@ namespace minigames._SLIL
             strafeDirection = playerDirection = Direction.STOP;
             playerMoveStyle = Direction.WALK;
             if (difficulty == 0)
-            {
-                minutes = START_VERY_HARD;
-                MazeHeight = MazeWidth = 25;
                 enemy_count = 0.07;
-                MAX_SHOP_COUNT = 8;
-            }
             else if (difficulty == 1)
-            {
-                minutes = START_HARD;
-                MazeHeight = MazeWidth = 20;
                 enemy_count = 0.065;
-                MAX_SHOP_COUNT = 6;
-            }
             else if (difficulty == 2)
             {
-                minutes = START_NORMAL;
-                MazeHeight = MazeWidth = 15;
                 enemy_count = 0.06;
-                MAX_SHOP_COUNT = 4;
                 if (player.Guns[0].Level == Levels.LV1)
                     player.Guns[0].LevelUpdate();
             }
             else if (difficulty == 3)
             {
-                minutes = START_EASY;
-                MazeHeight = MazeWidth = 10;
                 enemy_count = 0.055;
-                MAX_SHOP_COUNT = 2;
                 if (player.Guns[0].Level == Levels.LV1)
                     player.Guns[0].LevelUpdate();
             }
-            else
+            else if (difficulty == 4)
             {
                 minutes = 9999;
                 MazeHeight = CustomMazeHeight;
                 MazeWidth = CustomMazeWidth;
                 enemy_count = 0.06;
                 MAX_SHOP_COUNT = 3;
+            }
+            else
+            {
+                player.X = 9;
+                player.Y = 9;
+                minutes = 9999;
+                MazeHeight = 6;
+                MazeWidth = 6;
+            }
+            if (difficulty != 4 && difficulty != 5)
+            {
+                if (player.Stage == 0)
+                {
+                    minutes = START_EASY;
+                    MazeHeight = MazeWidth = 10;
+                    MAX_SHOP_COUNT = 2;
+                }
+                else if (player.Stage == 1)
+                {
+                    minutes = START_NORMAL;
+                    MazeHeight = MazeWidth = 15;
+                    MAX_SHOP_COUNT = 4;
+                }
+                else if (player.Stage == 2)
+                {
+                    minutes = START_HARD;
+                    MazeHeight = MazeWidth = 20;
+                    MAX_SHOP_COUNT = 6;
+                }
+                else if (player.Stage == 3)
+                {
+                    minutes = START_VERY_HARD;
+                    MazeHeight = MazeWidth = 25;
+                    MAX_SHOP_COUNT = 8;
+                }
+                else
+                {
+                    minutes = START_VERY_HARD;
+                    MazeHeight = MazeWidth = 25;
+                    MAX_SHOP_COUNT = 8;
+                }
             }
             MAP_WIDTH = MazeWidth * 3 + 1;
             MAP_HEIGHT = MazeHeight * 3 + 1;
@@ -2072,6 +2156,7 @@ namespace minigames._SLIL
             {
                 player.A = 0;
             }
+            stage_timer.Start();
             raycast.Start();
             time_remein.Start();
             stamina_timer.Start();
@@ -2086,6 +2171,11 @@ namespace minigames._SLIL
         {
             player.Dead = true;
             player.SetDefault();
+            if (inDebug)
+            {
+                inDebug = false;
+                difficulty = old_difficulty;
+            }
             for (int i = 0; i < GUNS.Length; i++)
                 GUNS[i].SetDefault();
         }
@@ -2119,14 +2209,14 @@ namespace minigames._SLIL
             {
                 if (MainMenu.sounds)
                     tp.Play(Volume);
-                if (difficulty > 0 && difficulty != 4)
-                    difficulty--;
+                if (difficulty != 4)
+                    player.Stage++;
                 for (int i = 0; i < player.Guns.Count; i++)
                 {
                     if (player.Guns[i].MaxAmmoCount == 0)
                         player.Guns[i].MaxAmmoCount = player.Guns[i].CartridgesClip;
                 }
-                player.ChangeMoney(100);
+                player.ChangeMoney(50 + (5 * player.EnemiesKilled));
                 GetFirstAidKit();
                 StartGame();
             }
@@ -2137,7 +2227,6 @@ namespace minigames._SLIL
                 game_over_text.BringToFront();
                 if (MainMenu.sounds)
                     game_over.Play(Volume);
-                difficulty = old_difficulty;
             }
             else
                 ToDefault();

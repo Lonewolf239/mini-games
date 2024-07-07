@@ -22,6 +22,8 @@ namespace minigames._SLIL
         public int MoveStyle { get; set; }
         public bool LevelUpdated { get; set; }
         public double CurseCureChance { get; set; }
+        public int Stage { get; set; }
+        public int EnemiesKilled { get; set; }
         public readonly List<Gun> Guns = new List<Gun>();
         public readonly List<FirstAidKit> FirstAidKits = new List<FirstAidKit>();
         public double MAX_HP = 100;
@@ -42,7 +44,9 @@ namespace minigames._SLIL
                 FirstAidKits.Clear();
                 Money = 15;
                 CurseCureChance = 0.08;
+                Stage = 0;
             }
+            EnemiesKilled = 0;
             Look = 0;
             GunState = 0;
             CanShoot = true;

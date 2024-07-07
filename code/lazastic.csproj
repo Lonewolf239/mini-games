@@ -304,6 +304,7 @@
     <Compile Include="_SLIL\Display.Designer.cs">
       <DependentUpon>Display.cs</DependentUpon>
     </Compile>
+    <Compile Include="_SLIL\DrawObject.cs" />
     <Compile Include="_SLIL\Enemy.cs" />
     <Compile Include="_SLIL\Gun.cs" />
     <Compile Include="_SLIL\look_speed_percent.cs">
@@ -531,7 +532,6 @@
     <None Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="scope_square.png" />
     <None Include="scope_line.png" />
     <None Include="scope_cross.png" />
     <None Include="teleport.png" />
@@ -721,6 +721,8 @@
     <None Include="door.png" />
     <None Include="enemy_1.png" />
     <None Include="enemy_2.png" />
+    <None Include="floor.png" />
+    <None Include="ceiling.png" />
     <Content Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup />

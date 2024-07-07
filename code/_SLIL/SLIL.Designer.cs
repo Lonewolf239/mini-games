@@ -56,6 +56,7 @@ namespace minigames._SLIL
             this.status_refresh = new System.Windows.Forms.Timer(this.components);
             this.show_settings = new System.Windows.Forms.PictureBox();
             this.chill_timer = new System.Windows.Forms.Timer(this.components);
+            this.stage_timer = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             this.shop_panel.SuspendLayout();
             this.shop_title_panel.SuspendLayout();
@@ -287,6 +288,11 @@ namespace minigames._SLIL
             this.chill_timer.Interval = 150;
             this.chill_timer.Tick += new System.EventHandler(this.Chill_timer_Tick);
             // 
+            // stage_timer
+            // 
+            this.stage_timer.Interval = 3250;
+            this.stage_timer.Tick += new System.EventHandler(this.Stage_timer_Tick);
+            // 
             // SLIL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,5 +355,6 @@ namespace minigames._SLIL
         private Panel shop_title_panel;
         private Label shop_title;
         private Timer chill_timer;
+        private Timer stage_timer;
     }
 }

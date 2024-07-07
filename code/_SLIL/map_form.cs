@@ -52,7 +52,7 @@ namespace minigames._SLIL
                     else if (mapChar == 'D' || mapChar == 'O')
                         color = Color.FromArgb(255, 165, 0);
                     else if (mapChar == 'F')
-                        color = Color.Lime;
+                        color = Color.MediumVioletRed;
                     else if (mapChar == 'P')
                         color = Color.Red;
                     else if (mapChar == '*')

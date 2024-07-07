@@ -91,6 +91,12 @@ namespace minigames._SLIL
                              "~└─────────────┴─────────────────────────────────────────────┘~";
 
                     }
+                    else if (cheat == "DEBUG")
+                    {
+                        show_message = false;
+                        SLIL slil = Parent.FindForm() as SLIL;
+                        SLIL.GoDebug(slil);
+                    }
                     else if (cheat == "SOUL_FORGE")
                     {
                         message += $"Now the track Soul Forge AI is playing.\nSong link: https://suno.com/song/28b30489-c22d-400b-8537-ee1ddfb492ac";

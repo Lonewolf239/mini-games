@@ -81,7 +81,7 @@ namespace minigames._SLIL
             int CustomMazeWidth = (int)width_map_input.Value;
             bool hight_resolution = resolution.Checked;
             SLIL.LOOK_SPEED = speed;
-            SLIL.old_difficulty = SLIL.difficulty = index;
+            SLIL.difficulty = index;
             SLIL.scope_color = scope_color;
             SLIL.scope_type = scope_type;
             SLIL.CustomMazeHeight = CustomMazeHeight;

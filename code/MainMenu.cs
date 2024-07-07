@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.3.4|";
+        private readonly string current_version = "|0.3.4.5|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -77,14 +77,23 @@ namespace minigames
 
         private void Check_Update(bool auto)
         {
-            string title = "Доступно обновление!", message = $"Вышло новое обновление! Хотите установить его?\nТекущая версия: {current_version.Replace("|","")}\nАктуальная версия: ";
+            string title = "Доступно обновление!";
+            string message = $"Вышло новое обновление! Хотите установить его?\n\n" +
+                             $"Текущая версия: {current_version.Trim('|')}\n" +
+                             $"Актуальная версия: ";
+            string update_text = "\n\nСписок изменений:";
+
             if (!Check_Language())
             {
                 title = "Update available!";
-                message = $"New update is out! Want to install it?\nCurrent version: {current_version.Replace("|","")}\nActual version: ";
+                message = $"New update is out! Want to install it?\n\n" +
+                          $"Current version: {current_version.Trim('|')}\n" +
+                          $"Actual version: ";
+                update_text = "\n\nList of changes:";
             }
             using (WebClient webClient = new WebClient())
             {
+                webClient.Encoding = System.Text.Encoding.UTF8;
                 webClient.DownloadStringCompleted += (sender, e) =>
                 {
                     if (e.Error != null)
@@ -127,9 +136,26 @@ namespace minigames
                     {
                         update_error.Visible = false;
                         update_check.Image = null;
-                        if (!e.Result.Contains(current_version))
+                        string[] lines = e.Result.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None);
+                        if (lines.Length > 0 && !lines[0].Contains(current_version))
                         {
-                            message += e.Result.Replace("|", "");
+                            message += lines[0].Trim('|');
+                            message += update_text;
+                            bool isRussian = Check_Language();
+                            for (int i = 1; i < lines.Length; i++)
+                            {
+                                string line = lines[i].Trim();
+                                if (line.StartsWith("ru:"))
+                                {
+                                    if (isRussian)
+                                        message += "\n• " + line.Substring(3);
+                                }
+                                else if (line.StartsWith("en:"))
+                                {
+                                    if (!isRussian)
+                                        message += "\n• " + line.Substring(3);
+                                }
+                            }
                             if (update_exist || MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 Hide();

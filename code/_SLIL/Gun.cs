@@ -86,7 +86,7 @@ namespace minigames._SLIL
             if (Level != Levels.LV3)
             {
                 Level++;
-                UpdateCost += 15;
+                UpdateCost += 20;
                 ApplyUpdate();
             }
         }
@@ -133,7 +133,7 @@ namespace minigames._SLIL
             GunType = GunTypes.Pistol;
             FireType = FireTypes.Single;
             UpdateCost = 20;
-            AmmoCost = 4;
+            AmmoCost = 5;
             RechargeTime = 600;
             CartridgesClip = 8;
             MaxAmmoCount = CartridgesClip * 3;
@@ -179,6 +179,7 @@ namespace minigames._SLIL
         {
             if (Level == Levels.LV1)
             {
+                UpdateCost = 20;
                 RechargeTime = 600;
                 CartridgesClip = 8;
                 MaxAmmoCount = CartridgesClip * 3;
@@ -236,9 +237,9 @@ namespace minigames._SLIL
             Name = new[] { "Дробовик", "Shotgun" };
             GunType = GunTypes.Shotgun;
             FireType = FireTypes.Single;
-            UpdateCost = 25;
-            GunCost = 30;
-            AmmoCost = 10;
+            UpdateCost = 30;
+            GunCost = 35;
+            AmmoCost = 12;
             RechargeTime = 425;
             CartridgesClip = 2;
             MaxAmmoCount = CartridgesClip;
@@ -284,6 +285,7 @@ namespace minigames._SLIL
         {
             if (Level == Levels.LV1)
             {
+                UpdateCost = 30;
                 RechargeTime = 425;
                 CartridgesClip = 2;
                 MaxAmmoCount = CartridgesClip;
@@ -341,9 +343,9 @@ namespace minigames._SLIL
             Name = new[] { "Пистолет-пулемет", "Submachine gun" };
             GunType = GunTypes.SMG;
             FireType = FireTypes.SemiAutomatic;
-            UpdateCost = 30;
-            GunCost = 26;
-            AmmoCost = 16;
+            UpdateCost = 40;
+            GunCost = 30;
+            AmmoCost = 18;
             RechargeTime = 375;
             CartridgesClip = 18;
             MaxAmmoCount = CartridgesClip * 3;
@@ -389,6 +391,7 @@ namespace minigames._SLIL
         {
             if (Level == Levels.LV1)
             {
+                UpdateCost = 40;
                 RechargeTime = 375;
                 CartridgesClip = 18;
                 MaxAmmoCount = CartridgesClip * 3;
@@ -446,9 +449,9 @@ namespace minigames._SLIL
             Name = new[] { "Автомат", "Assault rifle" };
             GunType = GunTypes.Rifle;
             FireType = FireTypes.SemiAutomatic;
-            UpdateCost = 35;
-            GunCost = 38;
-            AmmoCost = 20;
+            UpdateCost = 50;
+            GunCost = 45;
+            AmmoCost = 25;
             RechargeTime = 700;
             CartridgesClip = 30;
             MaxAmmoCount = CartridgesClip * 2;
@@ -494,6 +497,7 @@ namespace minigames._SLIL
         {
             if (Level == Levels.LV1)
             {
+                UpdateCost = 50;
                 FireType = FireTypes.SemiAutomatic;
                 RechargeTime = 700;
                 CartridgesClip = 30;
@@ -553,8 +557,8 @@ namespace minigames._SLIL
             Name = new[] { "Снайперка", "Sniper rifle" };
             GunType = GunTypes.Sniper;
             FireType = FireTypes.Single;
-            GunCost = 45;
-            AmmoCost = 25;
+            GunCost = 55;
+            AmmoCost = 30;
             RechargeTime = 850;
             CartridgesClip = 2;
             MaxAmmoCount = 2;

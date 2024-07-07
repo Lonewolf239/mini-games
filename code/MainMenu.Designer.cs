@@ -1039,7 +1039,7 @@
             this.qscvhu,
             this.fatalan});
             this.byLonewol239.Name = "byLonewol239";
-            this.byLonewol239.Size = new System.Drawing.Size(180, 22);
+            this.byLonewol239.Size = new System.Drawing.Size(168, 22);
             this.byLonewol239.Text = "О разработчиках";
             // 
             // gitHub
@@ -1089,7 +1089,7 @@
             // about_mini_games
             // 
             this.about_mini_games.Name = "about_mini_games";
-            this.about_mini_games.Size = new System.Drawing.Size(180, 22);
+            this.about_mini_games.Size = new System.Drawing.Size(168, 22);
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 

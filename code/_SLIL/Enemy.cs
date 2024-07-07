@@ -1,5 +1,4 @@
-﻿using SharpDX.Direct2D1;
-using System;
+﻿using System;
 
 namespace minigames._SLIL
 {
@@ -14,13 +13,13 @@ namespace minigames._SLIL
         public bool DEAD { get; set; }
         public int RESPAWN { get; set; }
         public int Type { get; set; }
-        public readonly int[] MAX_MONEY = { 16, 21, 24 };
-        public readonly int[] MIN_MONEY = { 9, 15, 17 };
+        public readonly int[] MAX_MONEY = { 10, 15, 18 };
+        public readonly int[] MIN_MONEY = { 5, 10, 12 };
         public readonly int[] MAX_DAMAGE = { 35, 40, 30 };
         public readonly int[] MIN_DAMAGE = { 15, 25, 20 };
         private int MAP_WIDTH { get; set; }
         private readonly int[] MAX_HP = { 10, 5, 20 };
-        private const int RESPAWN_TIME = 45;
+        private const int RESPAWN_TIME = 60;
         private readonly Random rand = new Random();
 
         public Enemy(double x, double y, int map_width, double spawn)
