@@ -1707,7 +1707,8 @@ namespace minigames._SLIL
                         break;
                 }
             }
-            double ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / distance;
+            double perpWallDist = distance * Math.Cos(deltaA);
+            double ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / perpWallDist;
             double floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
             double mid = (ceiling + floor) / 2;
             bool get_texture = false, get_texture_window = false;
@@ -1720,12 +1721,12 @@ namespace minigames._SLIL
                 int blackout = 0, textureId = 9;
                 if (hit_window && y > mid)
                 {
-                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / window_distance;
+                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / (window_distance*Math.Cos(deltaA));
                     floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
                 }
                 else
                 {
-                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / distance;
+                    ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / perpWallDist;
                     floor = SCREEN_HEIGHT[resolution] - (ceiling + player.Look);
                 }
                 if (y <= ceiling)
@@ -1772,6 +1773,7 @@ namespace minigames._SLIL
                 {
                     int p = y - (int)(SCREEN_HEIGHT[resolution] - player.Look) / 2;
                     double rowDistance = (double)SCREEN_HEIGHT[resolution] / p;
+                    rowDistance /= Math.Cos(deltaA);
                     double floorX = player.X - rowDistance * ray_x;
                     double floorY = player.Y - rowDistance * ray_y;
                     if (floorX < 0) floorX = 0;
@@ -1784,6 +1786,7 @@ namespace minigames._SLIL
                 {
                     int p = y - (int)(SCREEN_HEIGHT[resolution] - player.Look) / 2;
                     double rowDistance = (double)SCREEN_HEIGHT[resolution] / p;
+                    rowDistance /= Math.Cos(deltaA);
                     double floorX = player.X + rowDistance * ray_x;
                     double floorY = player.Y + rowDistance * ray_y;
                     if (floorX < 0) floorX = 0;
@@ -1802,11 +1805,10 @@ namespace minigames._SLIL
                             side = GetSide(window_distance, ray_x, ray_y);
                             if (side == -1)
                                 result[y].TextureId = 9;
-                            double perpWallDist = window_distance * Math.Cos(deltaA);
                             if (side == 0)
-                                wallX = player.X + perpWallDist * ray_x;
+                                wallX = player.X + window_distance * ray_x;
                             else
-                                wallX = player.Y + perpWallDist * ray_y;
+                                wallX = player.Y + window_distance * ray_y;
                             wallX -= Math.Floor(wallX);
                         }
                     }
@@ -1818,11 +1820,10 @@ namespace minigames._SLIL
                             side = GetSide(distance, ray_x, ray_y);
                             if (side == -1)
                                 result[y].TextureId = 9;
-                            double perpWallDist = distance * Math.Cos(deltaA);
                             if (side == 0)
-                                wallX = player.X + perpWallDist * ray_x;
+                                wallX = player.X + distance * ray_x;
                             else
-                                wallX = player.Y + perpWallDist * ray_y;
+                                wallX = player.Y + distance * ray_y;
                             wallX -= Math.Floor(wallX);
                         }
                     }
