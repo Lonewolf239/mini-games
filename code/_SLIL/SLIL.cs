@@ -54,6 +54,7 @@ namespace minigames._SLIL
         private List<int> soundIndices = new List<int> { 0, 1, 2, 3, 4 };
         private int currentIndex = 0;
         private bool map_presed = false, active = true;
+        private bool Paused = false;
         private Map_form form;
         private readonly PlaybackState playbackState = new PlaybackState();
         private readonly TextureCache textureCache;
@@ -135,9 +136,29 @@ namespace minigames._SLIL
         //    int texture;
         //}
 
+        private void Settings_FormClosing(object sender, FormClosingEventArgs e) => UpdateBitmap();
+
+        private void Chill_timer_Tick(object sender, EventArgs e) => chill_timer.Stop();
+
+        private void Shop_panel_VisibleChanged(object sender, EventArgs e) => shop_panel.BringToFront();
+
         private void Stage_timer_Tick(object sender, EventArgs e) => stage_timer.Stop();
 
         public static void SetVolume() => ost[ost_index].SetVolume(Volume);
+
+        private void SLIL_Activated(object sender, EventArgs e) => active = true;
+
+        private void Pause_btn_Click(object sender, EventArgs e)
+        {
+            top_panel.Focus();
+            Pause();
+        }
+
+        private void Exit_btn_Click(object sender, EventArgs e)
+        {
+            top_panel.Focus();
+            GameOver(-1);
+        }
 
         public static void GoDebug(SLIL slil)
         {
@@ -186,8 +207,6 @@ namespace minigames._SLIL
             }
         }
 
-        private void Settings_FormClosing(object sender, FormClosingEventArgs e) => UpdateBitmap();
-
         private void Question_Click(object sender, EventArgs e)
         {
             top_panel.Focus();
@@ -234,7 +253,7 @@ namespace minigames._SLIL
         {
             if (!raycast.Enabled && display.SCREEN != null)
                 display.SCREEN = null;
-            bool shouldShowCursor = start_btn.Enabled || (player.InShop && open_shop) || console_panel.Visible || (active && start_btn.Enabled);
+            bool shouldShowCursor = start_btn.Enabled || (player.InShop && open_shop) || console_panel.Visible || (active && start_btn.Enabled) || Paused;
             if (shouldShowCursor != isCursorVisible)
             {
                 if (shouldShowCursor)
@@ -248,9 +267,19 @@ namespace minigames._SLIL
                     isCursorVisible = false;
                 }
             }
+            if (start_btn.Enabled)
+            {
+                Paused = false;
+                pause_panel.Visible = false;
+            }
             FullScreen = WindowState == FormWindowState.Maximized;
             if (!reload_timer.Enabled)
                 stamina_panel.Width = (int)(player.STAMINE / player.MAX_STAMINE * top_panel.Width);
+            if (Paused)
+            {
+                pause_btn.Left = (top_panel.Width - pause_btn.Width) / 2;
+                exit_btn.Left = (top_panel.Width - exit_btn.Width) / 2;
+            }
             shop_money.Text = $"$: {player.Money}";
             if (player.HP <= 0 && !start_btn.Enabled)
                 GameOver(0);
@@ -350,10 +379,10 @@ namespace minigames._SLIL
                 else if (start_btn.Enabled)
                     Close();
                 else
-                    GameOver(-1);
+                    Pause();
                 return;
             }
-            if (!start_btn.Enabled)
+            if (!start_btn.Enabled && !Paused)
             {
                 if (!console_panel.Visible)
                 {
@@ -404,23 +433,6 @@ namespace minigames._SLIL
                             }
                             map_timer.Start();
                             Activate();
-                        }
-                        if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
-                        {
-                            double x = player.X + Math.Sin(player.A);
-                            double y = player.Y + Math.Cos(player.A);
-                            if (MAP[(int)y * MAP_WIDTH + (int)x] == 'D')
-                            {
-                                door[0].Play(Volume);
-                                MAP[(int)y * MAP_WIDTH + (int)x] = 'O';
-                            }
-                            else if (MAP[(int)y * MAP_WIDTH + (int)x] == 'O')
-                            {
-                                door[1].Play(Volume);
-                                MAP[(int)y * MAP_WIDTH + (int)x] = 'D';
-                            }
-                            else if (MainMenu.sounds)
-                                wall.Play(Volume);
                         }
                         if (!shot_timer.Enabled && !reload_timer.Enabled)
                         {
@@ -569,10 +581,73 @@ namespace minigames._SLIL
                     scope_shotgun[scope_type] = GetScope(scope_shotgun[scope_type]);
                 }
             }
-            else
+            else if (start_btn.Enabled)
             {
                 if (e.KeyCode == Keys.Space)
                     StartGame();
+            }
+        }
+
+        private void SLIL_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.ShiftKey)
+            {
+                playerMoveStyle = Direction.WALK;
+                if (!chill_timer.Enabled)
+                    chill_timer.Start();
+            }
+            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up || e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                playerDirection = Direction.STOP;
+            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left || e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+                strafeDirection = Direction.STOP;
+            if (!start_btn.Enabled && !Paused && !console_panel.Visible && !open_shop)
+            {
+                if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
+                {
+                    double x = player.X + Math.Sin(player.A);
+                    double y = player.Y + Math.Cos(player.A);
+                    if (MAP[(int)y * MAP_WIDTH + (int)x] == 'D')
+                    {
+                        door[0].Play(Volume);
+                        MAP[(int)y * MAP_WIDTH + (int)x] = 'O';
+                    }
+                    else if (MAP[(int)y * MAP_WIDTH + (int)x] == 'O')
+                    {
+                        door[1].Play(Volume);
+                        MAP[(int)y * MAP_WIDTH + (int)x] = 'D';
+                    }
+                    else if (MainMenu.sounds)
+                        wall.Play(Volume);
+                }
+            }
+        }
+
+        private void Pause()
+        {
+            Paused = !Paused;
+            pause_panel.Visible = Paused;
+            if (Paused)
+            {
+                time_remein.Stop();
+                map_timer.Stop();
+                stamina_timer.Stop();
+                mouse_timer.Stop();
+                enemy_timer.Stop();
+                pause_panel.BringToFront();
+                if (form != null)
+                {
+                    form.Close();
+                    form = null;
+                    Opacity = 1;
+                }
+                shop_panel.Visible = false;
+            }
+            else
+            {
+                time_remein.Start();
+                stamina_timer.Start();
+                mouse_timer.Start();
+                enemy_timer.Start();
             }
         }
 
@@ -589,20 +664,6 @@ namespace minigames._SLIL
                 player.PreviousGun = player.CurrentGun;
                 ChangeWeapon(player.Guns.IndexOf((Flashlight)GUNS[0]));
             }
-        }
-
-        private void SLIL_KeyUp(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.ShiftKey)
-            {
-                playerMoveStyle = Direction.WALK;
-                if (!chill_timer.Enabled)
-                    chill_timer.Start();
-            }
-            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up || e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
-                playerDirection = Direction.STOP;
-            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left || e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
-                strafeDirection = Direction.STOP;
         }
 
         private void Display_Scroll(object sender, MouseEventArgs e)
@@ -622,8 +683,6 @@ namespace minigames._SLIL
                 ChangeWeapon(new_gun);
             }
         }
-
-        private void SLIL_Activated(object sender, EventArgs e) => active = true;
 
         private void SLIL_Deactivate(object sender, EventArgs e)
         {
@@ -1066,8 +1125,6 @@ namespace minigames._SLIL
             }
         }
 
-        private void Chill_timer_Tick(object sender, EventArgs e) => chill_timer.Stop();
-
         private void PlayerMove()
         {
             if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'P')
@@ -1214,6 +1271,9 @@ namespace minigames._SLIL
                 Text = "Mazeness";
                 start_btn.Text = "START";
                 shop_title.Text = "SHOP";
+                pause_text.Text = "PAUSE";
+                pause_btn.Text = "CONTINUE";
+                exit_btn.Text = "EXIT";
             }
             for (int i = WEAPONS_COUNT - 1; i >= 0; i--)
             {
@@ -1278,8 +1338,6 @@ namespace minigames._SLIL
             Activate();
         }
 
-        private void Shop_panel_VisibleChanged(object sender, EventArgs e) => shop_panel.BringToFront();
-
         private void SLIL_FormClosing(object sender, FormClosingEventArgs e)
         {
             raycast.Stop();
@@ -1338,7 +1396,6 @@ namespace minigames._SLIL
                 form.Close();
                 form = null;
             }
-            Cursor.Show();
         }
 
         private void Raycast_Tick(object sender, EventArgs e)

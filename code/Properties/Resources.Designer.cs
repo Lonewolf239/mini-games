@@ -133,6 +133,16 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap ceiling {
+            get {
+                object obj = ResourceManager.GetObject("ceiling", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap clarinet {
             get {
                 object obj = ResourceManager.GetObject("clarinet", resourceCulture);
@@ -426,6 +436,16 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap flashlight_run {
             get {
                 object obj = ResourceManager.GetObject("flashlight_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap floor {
+            get {
+                object obj = ResourceManager.GetObject("floor", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1726,16 +1746,6 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap scope_shotgun {
             get {
                 object obj = ResourceManager.GetObject("scope_shotgun", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap scope_square {
-            get {
-                object obj = ResourceManager.GetObject("scope_square", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

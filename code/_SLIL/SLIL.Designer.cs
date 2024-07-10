@@ -33,6 +33,10 @@ namespace minigames._SLIL
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLIL));
             this.top_panel = new System.Windows.Forms.Panel();
+            this.pause_panel = new System.Windows.Forms.Panel();
+            this.pause_btn = new System.Windows.Forms.Button();
+            this.exit_btn = new System.Windows.Forms.Button();
+            this.pause_text = new System.Windows.Forms.Label();
             this.game_over_text = new System.Windows.Forms.Label();
             this.shop_panel = new System.Windows.Forms.Panel();
             this.ShopInterface_panel = new System.Windows.Forms.Panel();
@@ -58,6 +62,7 @@ namespace minigames._SLIL
             this.chill_timer = new System.Windows.Forms.Timer(this.components);
             this.stage_timer = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
+            this.pause_panel.SuspendLayout();
             this.shop_panel.SuspendLayout();
             this.shop_title_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
@@ -70,6 +75,7 @@ namespace minigames._SLIL
             | System.Windows.Forms.AnchorStyles.Right)));
             this.top_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
             this.top_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.top_panel.Controls.Add(this.pause_panel);
             this.top_panel.Controls.Add(this.game_over_text);
             this.top_panel.Controls.Add(this.shop_panel);
             this.top_panel.Controls.Add(this.stamina_panel);
@@ -77,6 +83,64 @@ namespace minigames._SLIL
             this.top_panel.Name = "top_panel";
             this.top_panel.Size = new System.Drawing.Size(454, 256);
             this.top_panel.TabIndex = 0;
+            // 
+            // pause_panel
+            // 
+            this.pause_panel.Controls.Add(this.pause_btn);
+            this.pause_panel.Controls.Add(this.exit_btn);
+            this.pause_panel.Controls.Add(this.pause_text);
+            this.pause_panel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pause_panel.Location = new System.Drawing.Point(0, 0);
+            this.pause_panel.Name = "pause_panel";
+            this.pause_panel.Size = new System.Drawing.Size(450, 252);
+            this.pause_panel.TabIndex = 5;
+            this.pause_panel.Visible = false;
+            // 
+            // pause_btn
+            // 
+            this.pause_btn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.pause_btn.AutoSize = true;
+            this.pause_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.pause_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pause_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pause_btn.ForeColor = System.Drawing.Color.White;
+            this.pause_btn.Location = new System.Drawing.Point(126, 115);
+            this.pause_btn.Name = "pause_btn";
+            this.pause_btn.Size = new System.Drawing.Size(198, 41);
+            this.pause_btn.TabIndex = 38;
+            this.pause_btn.TabStop = false;
+            this.pause_btn.Text = "ПРОДОЛЖИТЬ";
+            this.pause_btn.UseVisualStyleBackColor = true;
+            this.pause_btn.Click += new System.EventHandler(this.Pause_btn_Click);
+            // 
+            // exit_btn
+            // 
+            this.exit_btn.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.exit_btn.AutoSize = true;
+            this.exit_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.exit_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.exit_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.exit_btn.ForeColor = System.Drawing.Color.White;
+            this.exit_btn.Location = new System.Drawing.Point(169, 162);
+            this.exit_btn.Name = "exit_btn";
+            this.exit_btn.Size = new System.Drawing.Size(112, 41);
+            this.exit_btn.TabIndex = 37;
+            this.exit_btn.TabStop = false;
+            this.exit_btn.Text = "ВЫЙТИ";
+            this.exit_btn.UseVisualStyleBackColor = true;
+            this.exit_btn.Click += new System.EventHandler(this.Exit_btn_Click);
+            // 
+            // pause_text
+            // 
+            this.pause_text.Dock = System.Windows.Forms.DockStyle.Top;
+            this.pause_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pause_text.ForeColor = System.Drawing.Color.White;
+            this.pause_text.Location = new System.Drawing.Point(0, 0);
+            this.pause_text.Name = "pause_text";
+            this.pause_text.Size = new System.Drawing.Size(450, 80);
+            this.pause_text.TabIndex = 0;
+            this.pause_text.Text = "ПАУЗА";
+            this.pause_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
             // game_over_text
             // 
@@ -156,7 +220,7 @@ namespace minigames._SLIL
             this.stamina_panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.stamina_panel.BackColor = System.Drawing.Color.Lime;
-            this.stamina_panel.Location = new System.Drawing.Point(0, 246);
+            this.stamina_panel.Location = new System.Drawing.Point(0, 248);
             this.stamina_panel.Name = "stamina_panel";
             this.stamina_panel.Size = new System.Drawing.Size(369, 6);
             this.stamina_panel.TabIndex = 3;
@@ -320,6 +384,8 @@ namespace minigames._SLIL
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyUp);
             this.top_panel.ResumeLayout(false);
+            this.pause_panel.ResumeLayout(false);
+            this.pause_panel.PerformLayout();
             this.shop_panel.ResumeLayout(false);
             this.shop_title_panel.ResumeLayout(false);
             this.shop_title_panel.PerformLayout();
@@ -356,5 +422,9 @@ namespace minigames._SLIL
         private Label shop_title;
         private Timer chill_timer;
         private Timer stage_timer;
+        private Panel pause_panel;
+        private Label pause_text;
+        private Button exit_btn;
+        private Button pause_btn;
     }
 }
