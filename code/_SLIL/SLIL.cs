@@ -1149,85 +1149,44 @@ namespace minigames._SLIL
             double moveCos = Math.Cos(player.A) * move;
             double strafeSin = moveSin / 1.4f;
             double strafeCos = moveCos / 1.4f;
-            bool isDiagonal = (strafeDirection != Direction.STOP) && (playerDirection != Direction.STOP);
+            double newX = player.X;
+            double newY = player.Y;
             switch (strafeDirection)
             {
                 case Direction.LEFT:
-                    player.X += strafeCos;
-                    player.Y -= strafeSin;
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '#' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '=' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'D')
-                    {
-                        player.X -= strafeCos;
-                        player.Y += strafeSin;
-                    }
-                    else if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
-                    {
-                        GameOver(1);
-                        return;
-                    }
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
-                        player.InShop = true;
-                    else
-                        player.InShop = false;
+                    newX += strafeCos;
+                    newY -= strafeSin;
                     break;
                 case Direction.RIGHT:
-                    player.X -= strafeCos;
-                    player.Y += strafeSin;
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '#' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '=' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'D')
-                    {
-                        player.X += strafeCos;
-                        player.Y -= strafeSin;
-                    }
-                    else if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
-                    {
-                        GameOver(1);
-                        return;
-                    }
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
-                        player.InShop = true;
-                    else
-                        player.InShop = false;
+                    newX -= strafeCos;
+                    newY += strafeSin;
                     break;
             }
             switch (playerDirection)
             {
                 case Direction.FORWARD:
-                    player.X += moveSin;
-                    player.Y += moveCos;
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '#' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '=' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'D')
-                    {
-                        player.X -= moveSin;
-                        player.Y -= moveCos;
-                    }
-                    else if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
-                    {
-                        GameOver(1);
-                        return;
-                    }
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
-                        player.InShop = true;
-                    else
-                        player.InShop = false;
+                    newX += moveSin;
+                    newY += moveCos;
                     break;
                 case Direction.BACK:
-                    player.X -= moveSin;
-                    player.Y -= moveCos;
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '#' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '=' || MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'D')
-                    {
-                        player.X += moveSin;
-                        player.Y += moveCos;
-                    }
-                    else if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
-                    {
-                        GameOver(1);
-                        return;
-                    }
-                    if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
-                        player.InShop = true;
-                    else
-                        player.InShop = false;
+                    newX -= moveSin;
+                    newY -= moveCos;
                     break;
             }
+            if (MAP[(int)newY * MAP_WIDTH + (int)newX] != '#' && MAP[(int)newY * MAP_WIDTH + (int)newX] != '=' && MAP[(int)newY * MAP_WIDTH + (int)newX] != 'D')
+            {
+                player.X = newX;
+                player.Y = newY;
+            }
+            if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
+            {
+                GameOver(1);
+                return;
+            }
+            if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
+                player.InShop = true;
+            else
+                player.InShop = false;
             if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '.')
             {
                 MAP[(int)player.Y * MAP_WIDTH + (int)player.X] = 'P';
@@ -1356,6 +1315,8 @@ namespace minigames._SLIL
             hit?.Dispose();
             wall?.Dispose();
             tp?.Dispose();
+            if (!isCursorVisible)
+                Cursor.Show();
             foreach (Control control in ShopInterface_panel.Controls)
             {
                 if (control is SLIL_ShopInterface)
@@ -1912,7 +1873,6 @@ namespace minigames._SLIL
 
         private int GetEnemyType(int x, int y)
         {
-            int enemy_type = -1;
             for (int i = 0; i < Enemies.Count; i++)
             {
                 if (start_btn.Enabled)
@@ -1920,17 +1880,13 @@ namespace minigames._SLIL
                 if (Enemies[i].DEAD)
                     continue;
                 if (Enemies[i].IntX == x && Enemies[i].IntY == y)
-                {
-                    enemy_type = Enemies[i].Type;
-                    break;
-                }
+                    return Enemies[i].Type;
             }
-            return enemy_type;
+            return -1;
         }
 
         private bool CheckBound(int test_x, int test_y, double ray_x, double ray_y, double distance)
         {
-            bool is_bound = false;
             List<(double module, double cos)> bounds = new List<(double module, double cos)>();
             for (int tx = 0; tx < 2; tx++)
             {
@@ -1946,8 +1902,8 @@ namespace minigames._SLIL
             bounds = bounds.OrderBy(v => v.module).ToList();
             double bound_a = 0.03 / distance;
             if (Math.Acos(bounds[0].cos) < bound_a || Math.Acos(bounds[1].cos) < bound_a)
-                is_bound = true;
-            return is_bound;
+                return true;
+            return false;
         }
 
         private void Start_btn_Click(object sender, EventArgs e)

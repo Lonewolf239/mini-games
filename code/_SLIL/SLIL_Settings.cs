@@ -51,7 +51,7 @@ namespace minigames._SLIL
             int centerY = Owner.Top + (Owner.Height - Height) / 2;
             Location = new Point(centerX, centerY);
             look_speed.Value = (int)(SLIL.LOOK_SPEED * 100);
-            difficulty_list.SelectedIndex = SLIL.old_difficulty;
+            difficulty_list.SelectedIndex = SLIL.difficulty;
             scope_color_list.SelectedIndex = SLIL.scope_color;
             scope_type_list.SelectedIndex = SLIL.scope_type;
             height_map_input.Value = SLIL.CustomMazeHeight;
