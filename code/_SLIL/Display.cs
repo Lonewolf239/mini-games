@@ -1,9 +1,9 @@
-﻿using SharpDX;
+﻿using System;
+using System.Windows.Forms;
+using SharpDX;
 using SharpDX.Direct2D1;
 using SharpDX.DXGI;
 using SharpDX.Mathematics.Interop;
-using System;
-using System.Windows.Forms;
 
 namespace minigames._SLIL
 {

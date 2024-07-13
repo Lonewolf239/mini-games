@@ -13,6 +13,8 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Convert_Bitmap;
 using minigames._Tanks;
+using System.IO;
+using SharpDX.Direct3D11;
 
 namespace minigames._SLIL
 {
@@ -43,7 +45,7 @@ namespace minigames._SLIL
         private static double enemy_count;
         private static StringBuilder MAP = new StringBuilder();
         private static readonly StringBuilder DISPLAYED_MAP = new StringBuilder();
-        private Bitmap SCREEN, WEAPON;
+        private Bitmap SCREEN, WEAPON, BUFFER;
         private readonly Font[] consolasFont = { new Font("Consolas", 9.75F), new Font("Consolas", 16F), new Font("Consolas", 22F) };
         private readonly SolidBrush whiteBrush = new SolidBrush(Color.White);
         private readonly StringFormat rightToLeft = new StringFormat() { FormatFlags = StringFormatFlags.DirectionRightToLeft };
@@ -88,7 +90,8 @@ namespace minigames._SLIL
             buy = new PlaySound(MainMenu.CGFReader.GetFile("buy.wav"), false),
             hit = new PlaySound(MainMenu.CGFReader.GetFile("hit_player.wav"), false),
             wall = new PlaySound(MainMenu.CGFReader.GetFile("wall_interaction.wav"), false),
-            tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
+            tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false),
+            screenshot = new PlaySound(MainMenu.CGFReader.GetFile("screenshot.wav"), false);
         private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav"), false) };
         //7x7
         private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....E.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############D####################...#################E=...=E#################...#################$D.P.D$#################...################################",
@@ -123,6 +126,8 @@ namespace minigames._SLIL
         public static readonly List<Enemy> Enemies = new List<Enemy>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
+        private readonly char[] impassibleCells  = { '#', 'D', '=' };
+        private const double playerWidth = 0.4;
 
         public SLIL(TextureCache textures)
         {
@@ -610,24 +615,62 @@ namespace minigames._SLIL
                 strafeDirection = Direction.STOP;
             if (!start_btn.Enabled && !Paused && !console_panel.Visible && !open_shop)
             {
+                if (e.KeyCode == Keys.F12)
+                    DoScreenshot();
                 if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
                 {
-                    double x = player.X + Math.Sin(player.A);
-                    double y = player.Y + Math.Cos(player.A);
-                    if (MAP[(int)y * MAP_WIDTH + (int)x] == 'D')
+                    double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
+                    double ray_x = Math.Sin(rayA);
+                    double ray_y = Math.Cos(rayA);
+                    double distance = 0;
+                    bool hit = false;
+                    while (raycast.Enabled && !hit && distance <= 1)
                     {
-                        door[0].Play(Volume);
-                        MAP[(int)y * MAP_WIDTH + (int)x] = 'O';
+                        distance += 0.1d;
+                        int x = (int)(player.X + ray_x * distance);
+                        int y = (int)(player.Y + ray_y * distance);
+                        char test_wall = MAP[y * MAP_WIDTH + x];
+                        switch (test_wall)
+                        {
+                            case '#':
+                            case '=':
+                            case 'F':
+                            case 'E':
+                                hit = true;
+                                wall.Play(Volume);
+                                break;
+                            case 'D':
+                                hit = true;
+                                door[0].Play(Volume);
+                                MAP[y * MAP_WIDTH + x] = 'O';
+                                break;
+                            case 'O':
+                                hit = true;
+                                if (distance < playerWidth || ((int)player.X == x && (int)player.Y == y))
+                                    break;
+                                door[1].Play(Volume);
+                                MAP[y * MAP_WIDTH + x] = 'D';
+                                break;
+                        }
                     }
-                    else if (MAP[(int)y * MAP_WIDTH + (int)x] == 'O')
-                    {
-                        door[1].Play(Volume);
-                        MAP[(int)y * MAP_WIDTH + (int)x] = 'D';
-                    }
-                    else if (MainMenu.sounds)
-                        wall.Play(Volume);
                 }
             }
+        }
+
+        private void DoScreenshot()
+        {
+            string path = GetPath();
+            using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
+                BUFFER?.Save(fileStream, ImageFormat.Png);
+            screenshot.Play(Volume);
+        }
+
+        private string GetPath()
+        {
+            DateTime dateTime = DateTime.Now;
+            string path = Path.Combine("screenshots", $"screenshot_{dateTime:yyyy_MM_dd}__{dateTime:HH_mm_ss}.png");
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+            return path;
         }
 
         private void Pause()
@@ -711,8 +754,8 @@ namespace minigames._SLIL
                 if (MainMenu.sounds)
                     draw.Play(Volume);
                 player.CurrentGun = new_gun;
+                player.GunState = 0;
                 player.Aiming = false;
-                player.GunState = player.MoveStyle;
                 reload_timer.Interval = player.GetCurrentGun().RechargeTime;
                 shot_timer.Interval = player.GetCurrentGun().FiringRate;
             }
@@ -1158,6 +1201,8 @@ namespace minigames._SLIL
             double strafeCos = moveCos / 1.4f;
             double newX = player.X;
             double newY = player.Y;
+            double tempX = player.X;
+            double tempY = player.Y;
             switch (strafeDirection)
             {
                 case Direction.LEFT:
@@ -1180,11 +1225,22 @@ namespace minigames._SLIL
                     newY -= moveCos;
                     break;
             }
-            if (MAP[(int)newY * MAP_WIDTH + (int)newX] != '#' && MAP[(int)newY * MAP_WIDTH + (int)newX] != '=' && MAP[(int)newY * MAP_WIDTH + (int)newX] != 'D')
-            {
-                player.X = newX;
-                player.Y = newY;
-            }
+            if (!(impassibleCells.Contains(MAP[(int)newY * MAP_WIDTH + (int)(newX + playerWidth / 2)])
+                || impassibleCells.Contains(MAP[(int)newY * MAP_WIDTH + (int)(newX - playerWidth / 2)])))
+                tempX = newX;
+            if (!(impassibleCells.Contains(MAP[(int)(newY + playerWidth / 2) * MAP_WIDTH + (int)newX])
+                || impassibleCells.Contains(MAP[(int)(newY - playerWidth / 2) * MAP_WIDTH + (int)newX])))
+                tempY = newY;
+            if (impassibleCells.Contains(MAP[(int)tempY * MAP_WIDTH + (int)(tempX + playerWidth / 2)]))
+                tempX -= playerWidth / 2 - (1 - tempX % 1);
+            if (impassibleCells.Contains(MAP[(int)tempY * MAP_WIDTH + (int)(tempX - playerWidth / 2)]))
+                tempX += playerWidth / 2 - (tempX % 1);
+            if (impassibleCells.Contains(MAP[(int)(tempY + playerWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY -= playerWidth / 2 - (1 - tempY % 1);
+            if (impassibleCells.Contains(MAP[(int)(tempY - playerWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY += playerWidth / 2 - (tempY % 1);
+            player.X = tempX;
+            player.Y = tempY;
             if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == 'F')
             {
                 GameOver(1);
@@ -1205,9 +1261,11 @@ namespace minigames._SLIL
         {
             SCREEN?.Dispose();
             WEAPON?.Dispose();
+            BUFFER?.Dispose();
             graphicsWeapon?.Dispose();
             SCREEN = new Bitmap(SCREEN_WIDTH[resolution], SCREEN_HEIGHT[resolution]);
             WEAPON = new Bitmap(SCREEN_WIDTH[resolution], SCREEN_HEIGHT[resolution]);
+            BUFFER = new Bitmap(SCREEN_WIDTH[resolution], SCREEN_HEIGHT[resolution]);
             graphicsWeapon = Graphics.FromImage(WEAPON);
             display.ResizeImage(SCREEN_WIDTH[resolution], SCREEN_HEIGHT[resolution]);
         }
@@ -1322,6 +1380,7 @@ namespace minigames._SLIL
             hit?.Dispose();
             wall?.Dispose();
             tp?.Dispose();
+            screenshot?.Dispose();
             if (!isCursorVisible)
                 Cursor.Show();
             foreach (Control control in ShopInterface_panel.Controls)
@@ -1395,6 +1454,11 @@ namespace minigames._SLIL
         {
             using (Graphics g = Graphics.FromImage(SCREEN))
                 g.DrawImage(WEAPON, 0, 0, SCREEN.Width, SCREEN.Height);
+            using (Graphics g = Graphics.FromImage(BUFFER))
+            {
+                g.Clear(Color.Black);
+                g.DrawImage(SCREEN, 0, 0, SCREEN.Width, SCREEN.Height);
+            }
             SharpDX.Direct2D1.Bitmap dxBitmap = ConvertBitmap.ToDX(SCREEN, display.renderTarget);
             display.SCREEN = dxBitmap;
             display.DrawImage();
@@ -2142,7 +2206,7 @@ namespace minigames._SLIL
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add((FirstAidKit)GUNS[8]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[9]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;

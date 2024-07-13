@@ -46,6 +46,7 @@
             this.changes_list.Size = new System.Drawing.Size(484, 264);
             this.changes_list.TabIndex = 0;
             this.changes_list.TabStop = false;
+            this.changes_list.SelectedIndexChanged += new System.EventHandler(this.changes_list_SelectedIndexChanged);
             this.changes_list.Enter += new System.EventHandler(this.Changes_list_Enter);
             // 
             // ok
@@ -73,7 +74,7 @@
             this.richTextBox1.Text = "";
             this.richTextBox1.Visible = false;
             // 
-            // change_list
+            // Change_list
             // 
             this.AcceptButton = this.ok;
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
@@ -90,7 +91,7 @@
             this.Margin = new System.Windows.Forms.Padding(6);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "change_list";
+            this.Name = "Change_list";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "List of changes";

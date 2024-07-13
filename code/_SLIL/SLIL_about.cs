@@ -17,6 +17,7 @@ namespace minigames._SLIL
                 Text = "About game";
                 control_text.Text = "Controls:";
                 control_space.Text = "F11 – full screen mode\n" +
+                    "F12 - take a screenshot\n" +
                     "ESC – stop the game/exit the game\n" +
                     "WASD / arrows – movement\n" +
                     "Mouse - camera control\n" +
@@ -28,7 +29,7 @@ namespace minigames._SLIL
                     "Shift (hold) – run\n" +
                     "Left mouse button – shooting\n" +
                     "Right mouse button – aiming mode\n" +
-                    "1-7 / mouse wheel – change weapons";
+                    "1-8 / mouse wheel – change weapons";
                 rules_text.Text = "The goal of the game is to go through a randomly generated maze within a certain time.";
             }
             ok.Left = (Width - ok.Width) / 2;

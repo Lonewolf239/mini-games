@@ -20,6 +20,16 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.3.5",
+                "_______________________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Added player collision",
+                "   • Added the ability to take a screenshot",
+                "   • Fixed interaction with doors",
+                "   • Fixed several critical bugs",
+                "   • Minor visual improvements",
+                "   • Fixed some bugs",
+                "\n",
                 "\t\t\tv0.3.4.9",
                 "_______________________________________________________________",
                 "• Changing the game \"Mazeness\":",
@@ -378,6 +388,16 @@ namespace minigames
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.3.5",
+                    "_______________________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Добавлено столкновение игрока",
+                    "   • Добавлена возможность делать скриншоты",
+                    "   • Исправлено взаимодействие с дверями",
+                    "   • Исправлено несколько критических ошибок",
+                    "   • Незначительные визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "\n",
                     "\t\t\tv0.3.4.9",
                     "_______________________________________________________________",
                     "• Изменение игры \"Лабезумие\":",
@@ -733,6 +753,11 @@ namespace minigames
             key += e.KeyCode.ToString();
             if (key == "DEV")
                 richTextBox1.Visible = !richTextBox1.Visible;
+        }
+
+        private void changes_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

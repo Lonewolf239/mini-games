@@ -58,7 +58,7 @@
             this.control_space.Location = new System.Drawing.Point(0, 24);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(434, 268);
+            this.control_space.Size = new System.Drawing.Size(434, 312);
             this.control_space.TabIndex = 2;
             this.control_space.Text = resources.GetString("control_space.Text");
             this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;

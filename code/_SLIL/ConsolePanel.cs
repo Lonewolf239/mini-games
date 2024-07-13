@@ -41,7 +41,7 @@ namespace minigames._SLIL
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add((FirstAidKit)GUNS[8]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[9]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;

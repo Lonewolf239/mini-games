@@ -323,6 +323,16 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap fatalan {
+            get {
+                object obj = ResourceManager.GetObject("fatalan", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap figure_0 {
             get {
                 object obj = ResourceManager.GetObject("figure_0", resourceCulture);
@@ -1506,6 +1516,16 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap math_o_light {
             get {
                 object obj = ResourceManager.GetObject("math_o_light", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap me {
+            get {
+                object obj = ResourceManager.GetObject("me", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
