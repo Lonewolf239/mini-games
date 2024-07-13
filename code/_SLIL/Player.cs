@@ -55,11 +55,9 @@ namespace minigames._SLIL
             Aiming = false;
             UseFirstMedKit = false;
             LevelUpdated = false;
-            PreviousGun = CurrentGun = 0;
+            PreviousGun = CurrentGun = 1;
             STAMINE = MAX_STAMINE;
         }
-
-        public GunTypes GetGunType() => Guns[CurrentGun].GunType;
 
         public Gun GetCurrentGun() => Guns[CurrentGun];
 

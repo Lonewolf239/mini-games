@@ -532,6 +532,9 @@
     <None Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="knife_run.png" />
+    <None Include="knife_hit.png" />
+    <None Include="knife.png" />
     <None Include="scope_line.png" />
     <None Include="scope_cross.png" />
     <None Include="teleport.png" />

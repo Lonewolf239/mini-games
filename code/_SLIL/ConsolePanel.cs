@@ -59,7 +59,7 @@ namespace minigames._SLIL
                 {
                     bool show_date = true, show_message = true;
                     string message = null, time = null;
-                    string cheat = command_input.Text.ToUpper().Trim(' ');
+                    string cheat = command_input.Text.ToUpper().Trim(' ').Replace("`", "");
                     if (!previous_cheat.Contains(cheat))
                         previous_cheat.Add(cheat);
                     cheat_index = previous_cheat.Count - 1;
@@ -95,11 +95,17 @@ namespace minigames._SLIL
                     {
                         show_message = false;
                         SLIL slil = Parent.FindForm() as SLIL;
-                        SLIL.GoDebug(slil);
+                        SLIL.GoDebug(slil, 1);
+                    }
+                    else if (cheat == "DEBUG_BOSS")
+                    {
+                        show_message = false;
+                        SLIL slil = Parent.FindForm() as SLIL;
+                        SLIL.GoDebug(slil, 2);
                     }
                     else if (cheat == "SOUL_FORGE")
                     {
-                        message += $"Now the track Soul Forge AI is playing.\nSong link: https://suno.com/song/28b30489-c22d-400b-8537-ee1ddfb492ac";
+                        message += $"Now the track Soul Forge *AI* is playing.\nSong link: https://suno.com/song/28b30489-c22d-400b-8537-ee1ddfb492ac";
                         SLIL.ChangeOst(5);
                     }
                     else if (cheat == "CHEATS")
@@ -538,8 +544,17 @@ namespace minigames._SLIL
                         try
                         {
                             int x = Convert.ToInt32(cheat.Split('_')[1]);
-                            message += $"Player stamina is now {x}. *Default: 650*";
-                            player.MAX_STAMINE = x;
+                            if (x >= 100 && x <= 5000)
+                            {
+                                message += $"Player stamina is now {x}. *Default: 650*";
+                                player.MAX_STAMINE = x;
+                                player.STAMINE = x;
+                            }
+                            else
+                            {
+                                color = Color.Red;
+                                message = "Incorrect range specified! Instead of X, enter a number between 100 and 5000.";
+                            }
                         }
                         catch
                         {
@@ -554,11 +569,11 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "BEFWK" && !ImHonest)
                     {
-                        if (player.Guns.Count < 5)
+                        if (player.Guns.Count < 6)
                         {
                             for (int i = 0; i < GUNS.Length; i++)
                             {
-                                if (GUNS[i].GunType != GunTypes.EasterEgg && GUNS[i].GunType != GunTypes.Tank && GUNS[i].GunType != GunTypes.FirstAidKit)
+                                if (!(GUNS[i] is Fingershot) && !(GUNS[i] is TSPitW) && !(GUNS[i] is FirstAidKit))
                                 {
                                     GUNS[i].MaxAmmoCount = GUNS[i].MaxAmmo;
                                     if (i > 0)
@@ -583,11 +598,11 @@ namespace minigames._SLIL
                         for (int i = 0; i < player.Guns.Count; i++)
                         {
                             if (player.Guns[i].Level != Levels.LV3 &&
-                            player.Guns[i].GunType != GunTypes.Flashlight &&
-                            player.Guns[i].GunType != GunTypes.FirstAidKit &&
-                            player.Guns[i].GunType != GunTypes.Sniper &&
-                            player.Guns[i].GunType != GunTypes.EasterEgg &&
-                                player.Guns[i].GunType != GunTypes.Tank)
+                            !(player.GetCurrentGun() is Flashlight) &&
+                            !(player.GetCurrentGun() is FirstAidKit) &&
+                            !(player.GetCurrentGun() is SniperRifle) &&
+                            !(player.GetCurrentGun() is Fingershot) &&
+                                !(player.GetCurrentGun() is TSPitW))
                                 can_do_it = true;
                         }
                         if (can_do_it)
@@ -607,7 +622,7 @@ namespace minigames._SLIL
                     {
                         for (int i = 0; i < player.Guns.Count; i++)
                         {
-                            if (GUNS[i].GunType != GunTypes.EasterEgg && GUNS[i].GunType != GunTypes.FirstAidKit)
+                            if (!(GUNS[i] is Fingershot) && !(GUNS[i] is FirstAidKit))
                                 player.Guns[i].MaxAmmoCount = player.Guns[i].MaxAmmo;
                         }
                         message += "Maximum ammunition provided.";
@@ -619,12 +634,12 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "YHRII" && !ImHonest)
                     {
-                        if (!GUNS[6].HasIt)
+                        if (!GUNS[7].HasIt)
                         {
-                            GUNS[6].HasIt = true;
-                            GUNS[6].MaxAmmoCount = GUNS[6].MaxAmmo;
-                            if (!player.Guns.Contains(GUNS[6]))
-                                player.Guns.Add(GUNS[6]);
+                            GUNS[7].HasIt = true;
+                            GUNS[7].MaxAmmoCount = GUNS[7].MaxAmmo;
+                            if (!player.Guns.Contains(GUNS[7]))
+                                player.Guns.Add(GUNS[7]);
                             message += "\"Fingershot\" issued.";
                         }
                         else
@@ -635,12 +650,12 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "BIGGUY" && !ImHonest)
                     {
-                        if (!GUNS[7].HasIt)
+                        if (!GUNS[8].HasIt)
                         {
-                            GUNS[7].HasIt = true;
-                            GUNS[7].MaxAmmoCount = GUNS[7].MaxAmmo;
-                            if (!player.Guns.Contains(GUNS[7]))
-                                player.Guns.Add(GUNS[7]);
+                            GUNS[8].HasIt = true;
+                            GUNS[8].MaxAmmoCount = GUNS[8].MaxAmmo;
+                            if (!player.Guns.Contains(GUNS[8]))
+                                player.Guns.Add(GUNS[8]);
                             message += "\"The Smallest Pistol in the World.\" has been issued.";
                         }
                         else

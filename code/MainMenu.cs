@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.3.4.7b|";
+        private readonly string current_version = "|0.3.4.9|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -41,8 +41,8 @@ namespace minigames
           new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "Сапёр", "Лабезумие" },
           new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "Sapper", "Mazeness" }
         };
-        private bool update_exist = false;
-        private ToolTip g;
+        private bool update_exist = false, slil_opened = true, in_download = false;
+        private ToolTip g, t;
         private readonly TextureCache textureCache = new TextureCache();
         public static CGF_Reader CGFReader;
 
@@ -159,6 +159,7 @@ namespace minigames
                             if (update_exist || MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
                                 Hide();
+                                in_download = true;
                                 WindowState = FormWindowState.Minimized;
                                 Downloading _form = new Downloading
                                 {
@@ -291,6 +292,7 @@ namespace minigames
                 Directory.Delete("sounds", true);
             version_label.Text = $"v{current_version.Replace("|", "")} By.Lonewolf239";
             Language = Check_Language();
+            CheckSLIL();
             INIReader.CreateIniFileIfNotExist(iniFolder);
             Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
             sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
@@ -327,6 +329,33 @@ namespace minigames
                 mg_icon_pic8.BackgroundImage = null;
                 mg_icon_pic8.Image = Properties.Resources.soundotron;
                 mg_panel_8.BackColor = SystemColors.Control;
+            }
+        }
+
+        private void CheckSLIL()
+        {
+            slil_opened = CheckWindows();
+            if (!slil_opened)
+            {
+                mg_icon_pic15.BackgroundImage = Properties.Resources.labyrinth;
+                mg_icon_pic15.Image = Properties.Resources._lock;
+                mg_panel_15.BackColor = Color.Gray;
+            }
+        }
+
+        private bool CheckWindows()
+        {
+            try
+            {
+                Version osVersion = Environment.OSVersion.Version;
+                if (osVersion.Major >= 10 && osVersion.Build >= 10240)
+                    return true;
+                else
+                    return false;
+            }
+            catch
+            {
+                return false;
             }
         }
 
@@ -508,40 +537,43 @@ namespace minigames
 
         private void GameClosing(object sender, EventArgs e)
         {
-            if (ColorTimer.score > mg1_max_score)
-                mg1_max_score = ColorTimer.score;
-            if (MathOLight.score > mg3_max_score)
-                mg3_max_score = MathOLight.score;
-            if (Reactor.score > mg4_max_score)
-                mg4_max_score = Reactor.score;
-            if (RodRocket.score > mg5_max_score)
-                mg5_max_score = RodRocket.score;
-            if (Hackerman.score > mg6_max_score)
-                mg6_max_score = Hackerman.score;
-            if (SnakeGame.score > mg7_max_score)
-                mg7_max_score = SnakeGame.score;
-            if (SoundoTron.score > mg8_max_score)
-                mg8_max_score = SoundoTron.score;
-            if (MG2048.score > mg10_max_score)
-                mg10_max_score = MG2048.score;
-            if (Tetris.score > mg13_max_score)
-                mg13_max_score = Tetris.score;
-            INIReader.SetKey(iniFolder, "Colortimer", "max_score", ((double)mg1_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Math_o_light", "max_score", ((double)mg3_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Reactor", "max_score", ((double)mg4_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Rodrocket", "max_score", ((double)mg5_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Hacker_man", "max_score", ((double)mg6_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Snake_game", "max_score", ((double)mg7_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Soundotron", "max_score", ((double)mg8_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "2048", "max_score", ((double)mg10_max_score / 2) * 13);
-            INIReader.SetKey(iniFolder, "Tetris", "max_score", ((double)mg13_max_score / 2) * 13);
-            Form form = sender as Form;
-            form?.Dispose();
-            WindowState = FormWindowState.Normal;
-            ShowInTaskbar = true;
-            ShowIcon = true;
-            Show();
-            Refresh();
+            if (!in_download)
+            {
+                if (ColorTimer.score > mg1_max_score)
+                    mg1_max_score = ColorTimer.score;
+                if (MathOLight.score > mg3_max_score)
+                    mg3_max_score = MathOLight.score;
+                if (Reactor.score > mg4_max_score)
+                    mg4_max_score = Reactor.score;
+                if (RodRocket.score > mg5_max_score)
+                    mg5_max_score = RodRocket.score;
+                if (Hackerman.score > mg6_max_score)
+                    mg6_max_score = Hackerman.score;
+                if (SnakeGame.score > mg7_max_score)
+                    mg7_max_score = SnakeGame.score;
+                if (SoundoTron.score > mg8_max_score)
+                    mg8_max_score = SoundoTron.score;
+                if (MG2048.score > mg10_max_score)
+                    mg10_max_score = MG2048.score;
+                if (Tetris.score > mg13_max_score)
+                    mg13_max_score = Tetris.score;
+                INIReader.SetKey(iniFolder, "Colortimer", "max_score", ((double)mg1_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Math_o_light", "max_score", ((double)mg3_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Reactor", "max_score", ((double)mg4_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Rodrocket", "max_score", ((double)mg5_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Hacker_man", "max_score", ((double)mg6_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Snake_game", "max_score", ((double)mg7_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Soundotron", "max_score", ((double)mg8_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "2048", "max_score", ((double)mg10_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Tetris", "max_score", ((double)mg13_max_score / 2) * 13);
+                Form form = sender as Form;
+                form?.Dispose();
+                WindowState = FormWindowState.Normal;
+                ShowInTaskbar = true;
+                ShowIcon = true;
+                Show();
+                Refresh();
+            }
         }
 
         private void OpenGame(Form form, Panel panel)
@@ -561,6 +593,22 @@ namespace minigames
             Control element = sender as Control;
             if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
                 return;
+            if (!slil_opened && (element == mg_name15 || element == mg_icon_pic15 || element == mg_panel_15))
+            {
+                string title = "Внимание", message = "Лабезумие доступно только на Windows 10 или более новых версиях Windows.\nПожалуйста, обновите вашу операционную систему.";
+                if (!Language)
+                {
+                    title = "Attention";
+                    message = "Mazeness is only available on Windows 10 or newer versions of Windows.\nPlease update your operating system.";
+                }
+                t = new ToolTip
+                {
+                    ToolTipTitle = title,
+                    ToolTipIcon = ToolTipIcon.Warning
+                };
+                t.SetToolTip(element, message);
+                return;
+            }
             if (element is Panel)
             {
                 Panel obj = element as Panel;
@@ -581,6 +629,11 @@ namespace minigames
             Control element = sender as Control;
             if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
                 return;
+            if (!slil_opened && (element == mg_name15 || element == mg_icon_pic15 || element == mg_panel_15))
+            {
+                t?.Dispose();
+                return;
+            }
             if (element is Panel)
             {
                 Panel obj = element as Panel;
@@ -733,7 +786,7 @@ namespace minigames
 
         private void Mg_panel_15_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left && slil_opened)
             {
                 SLIL form = new SLIL(textureCache);
                 OpenGame(form, mg_panel_15);

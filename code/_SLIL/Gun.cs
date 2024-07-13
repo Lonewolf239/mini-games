@@ -2,7 +2,6 @@
 
 namespace minigames._SLIL
 {
-    public enum GunTypes { Flashlight, FirstAidKit, Pistol, Shotgun, SMG, Rifle, Sniper, EasterEgg, Tank }
     public enum FireTypes { Single, SemiAutomatic }
     public enum Levels { LV1 = 0, LV2 = 1, LV3 = 2 }
 
@@ -13,7 +12,7 @@ namespace minigames._SLIL
         public int MaxAmmoCount { get; set; }
         public int CartridgesClip { get; set; }
         public int AmmoCount { get; set; }
-        public int FiringRange { get; set; }
+        public double FiringRange { get; set; }
         public int FiringRate { get; set; }
         public int BurstShots { get; set; }
         public double MaxDamage { get; set; }
@@ -26,7 +25,7 @@ namespace minigames._SLIL
         public int MaxAmmo { get; set; }
         public int RadiusSound { get; set; }
         public int ReloadFrames { get; set; }
-        public GunTypes GunType { get; set; }
+        public bool AddToShop { get; set; }
         public FireTypes FireType { get; set; }
         public Levels Level { get; set; }
         public Image[] Icon { get; set; }
@@ -96,6 +95,7 @@ namespace minigames._SLIL
     {
         public Flashlight() : base()
         {
+            AddToShop = false;
             HasIt = true;
             Type = 0;
             Name = new[] { "Фонарик", "Flashlight" };
@@ -104,12 +104,47 @@ namespace minigames._SLIL
             CartridgesClip = 1;
             MaxAmmoCount = 1;
             MaxAmmo = 1;
-            GunType = GunTypes.Flashlight;
             FireType = FireTypes.Single;
-            Images = new[,]
-            {
-                   { Properties.Resources.flashlight, Properties.Resources.flashlight_run }
-            };
+            Images = new[,] { { Properties.Resources.flashlight, Properties.Resources.flashlight_run } };
+            Sounds = new[,] { { new PlaySound(null, false), } };
+        }
+
+        public override void SetDefault()
+        {
+            Level = Levels.LV1;
+            ApplyUpdate();
+            if (Type > 1)
+                HasIt = false;
+        }
+
+        public override void LevelUpdate() { }
+    }
+
+    public class Knife : Gun
+    {
+        public Knife() : base()
+        {
+            AddToShop = false;
+            HasIt = true;
+            Type = 0;
+            Name = new[] { "Нож", "Knife" };
+            FireType = FireTypes.Single;
+            RechargeTime = 600;
+            CartridgesClip = 1;
+            MaxAmmoCount = CartridgesClip;
+            MaxAmmo = CartridgesClip;
+            FiringRange = 1.65;
+            MaxDamage = 2;
+            MinDamage = 1.5;
+            Recoil = 0;
+            FiringRate = 175;
+            BurstShots = 1;
+            RadiusSound = 0;
+            ReloadFrames = 1;
+            Icon = new[] { Properties.Resources.gun_1_1_icon };
+            Images = new[,] { { Properties.Resources.knife, Properties.Resources.knife_hit, Properties.Resources.knife_run } };
+            Sounds = new[,] { { new PlaySound(MainMenu.CGFReader.GetFile("knife.wav"), false) } };
+            AmmoCount = CartridgesClip;
         }
 
         public override void SetDefault()
@@ -127,10 +162,10 @@ namespace minigames._SLIL
     {
         public Pistol() : base()
         {
+            AddToShop = true;
             HasIt = true;
             Type = 1;
             Name = new[] { "Пистолет", "Pistol" };
-            GunType = GunTypes.Pistol;
             FireType = FireTypes.Single;
             UpdateCost = 20;
             AmmoCost = 5;
@@ -163,7 +198,7 @@ namespace minigames._SLIL
                    /*LV1:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_1.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2_reloading.wav"), false), new PlaySound(null, false) },
                    /*LV2:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_empty.wav"), false) },
                    /*LV2:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_empty.wav"), false) },
-                };
+            };
             AmmoCount = CartridgesClip;
         }
 
@@ -232,10 +267,10 @@ namespace minigames._SLIL
     {
         public Shotgun() : base()
         {
+            AddToShop = true;
             HasIt = false;
             Type = 2;
             Name = new[] { "Дробовик", "Shotgun" };
-            GunType = GunTypes.Shotgun;
             FireType = FireTypes.Single;
             UpdateCost = 30;
             GunCost = 35;
@@ -338,10 +373,10 @@ namespace minigames._SLIL
     {
         public SubmachineGun() : base()
         {
+            AddToShop = true;
             HasIt = false;
             Type = 3;
             Name = new[] { "Пистолет-пулемет", "Submachine gun" };
-            GunType = GunTypes.SMG;
             FireType = FireTypes.SemiAutomatic;
             UpdateCost = 40;
             GunCost = 30;
@@ -444,10 +479,10 @@ namespace minigames._SLIL
     {
         public AssaultRifle() : base()
         {
+            AddToShop = true;
             HasIt = false;
             Type = 4;
             Name = new[] { "Автомат", "Assault rifle" };
-            GunType = GunTypes.Rifle;
             FireType = FireTypes.SemiAutomatic;
             UpdateCost = 50;
             GunCost = 45;
@@ -539,7 +574,7 @@ namespace minigames._SLIL
                 MaxDamage = 5.25;
                 MinDamage = 4.5;
                 Recoil = 40;
-                FiringRate = 100;
+                FiringRate = 175;
                 BurstShots = 1;
                 RadiusSound = 13;
                 ReloadFrames = 2;
@@ -552,10 +587,10 @@ namespace minigames._SLIL
     {
         public SniperRifle() : base()
         {
+            AddToShop = true;
             HasIt = false;
             Type = 5;
             Name = new[] { "Снайперка", "Sniper rifle" };
-            GunType = GunTypes.Sniper;
             FireType = FireTypes.Single;
             GunCost = 55;
             AmmoCost = 30;
@@ -606,10 +641,10 @@ namespace minigames._SLIL
     {
         public Fingershot() : base()
         {
+            AddToShop = false;
             HasIt = false;
             Type = 6;
             Name = new[] { "Пальцестрел", "Fingershot" };
-            GunType = GunTypes.EasterEgg;
             FireType = FireTypes.Single;
             RechargeTime = 600;
             CartridgesClip = 1;
@@ -653,10 +688,10 @@ namespace minigames._SLIL
     {
         public TSPitW() : base()
         {
+            AddToShop = false;
             HasIt = false;
             Type = 7;
             Name = new[] { "СМПвМ", "TSPitW" };
-            GunType = GunTypes.Tank;
             FireType = FireTypes.Single;
             RechargeTime = 750;
             CartridgesClip = 7;
@@ -700,10 +735,10 @@ namespace minigames._SLIL
     {
         public FirstAidKit() : base()
         {
+            AddToShop = false;
             HasIt = false;
             Type = 8;
             Name = new[] { "Аптечка", "First Aid Kit" };
-            GunType = GunTypes.FirstAidKit;
             FireType = FireTypes.Single;
             RechargeTime = 980;
             CartridgesClip = 1;

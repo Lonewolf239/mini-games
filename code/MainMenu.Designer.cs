@@ -667,6 +667,7 @@
             // 
             // mg_icon_pic15
             // 
+            this.mg_icon_pic15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.mg_icon_pic15.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mg_icon_pic15.Image = global::minigames.Properties.Resources.labyrinth;
             this.mg_icon_pic15.Location = new System.Drawing.Point(0, 0);

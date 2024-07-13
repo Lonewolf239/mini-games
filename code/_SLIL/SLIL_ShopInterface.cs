@@ -58,7 +58,7 @@ namespace minigames._SLIL
                     buy_button.Text = buy_text[index, weapon.HasIt ? 1 : 0] + $" ${weapon.AmmoCost}";
                     ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
                     update_button.Left = buy_button.Right + 6;
-                    update_button.Visible = weapon.GunType != GunTypes.Sniper;
+                    update_button.Visible = !(weapon is SniperRifle);
                 }
                 else if (MainMenu.sounds)
                     cant_pressed?.Play(SLIL.Volume);
@@ -92,7 +92,7 @@ namespace minigames._SLIL
         {
             int cost = weapon.HasIt ? weapon.AmmoCost : weapon.GunCost;
             string ammo = weapon.HasIt ? $"{weapon.MaxAmmoCount}/{weapon.AmmoCount}" : "0/0";
-            weapon_name.Text = weapon.GunType != GunTypes.Sniper ? weapon.Name[index] + $" {weapon.Level}" : weapon.Name[index];
+            weapon_name.Text = !(weapon is SniperRifle) ? weapon.Name[index] + $" {weapon.Level}" : weapon.Name[index];
             weapon_icon.Image = weapon.Icon[weapon.GetLevel()];
             ammo_count.Text = index == 0 ? $"Патроны: {ammo}" : $"Ammo: {ammo}";
             buy_button.Text = buy_text[index, weapon.HasIt ? 1 : 0] + $" ${cost}";
@@ -100,7 +100,7 @@ namespace minigames._SLIL
             damage_text.Text = index == 0 ? $"Урон: {weapon.MinDamage}-{weapon.MaxDamage}" : $"Damage: {weapon.MinDamage}-{weapon.MaxDamage}";
             ammo_count.Left = damage_text.Right;
             update_button.Left = buy_button.Right + 6;
-            update_button.Visible = weapon.Level != Levels.LV3 && weapon.HasIt && weapon.GunType != GunTypes.Sniper;
+            update_button.Visible = weapon.Level != Levels.LV3 && weapon.HasIt && !(weapon is SniperRifle);
             Width = width;
         }
     }

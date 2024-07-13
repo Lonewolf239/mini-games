@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Convert_Bitmap;
+using minigames._Tanks;
 
 namespace minigames._SLIL
 {
@@ -22,7 +23,7 @@ namespace minigames._SLIL
         public static int CustomMazeWidth;
         public static bool CUSTOM = false, ShowFPS = true;
         public static int difficulty = 2, old_difficulty;
-        private bool inDebug = false;
+        private int inDebug = 0;
         public static double LOOK_SPEED = 1.75f;
         public static StringBuilder CUSTOM_MAP = new StringBuilder();
         public static int CUSTOM_X, CUSTOM_Y;
@@ -90,7 +91,7 @@ namespace minigames._SLIL
             tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false);
         private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav"), false) };
         //7x7
-        private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....=.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############D####################...#################E=...=E#################...#################$D.P.D$#################...################################",
+        private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....E.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############D####################...#################E=...=E#################...#################$D.P.D$#################...################################",
             debugMap = @"####################.................##..=======........##..=.....=.....#..##..=....E=........##..=..====........##..=..=........D..##..=.E=...........##..====...........##........P.....=..##.................##.................##..............F..##.................##..===....#D#..#..##..=E=====#$#.#D=.##..===....###..=..##.................####################";
         public static float Volume = 0.4f;
         private static int MAX_SHOP_COUNT = 1;
@@ -118,7 +119,7 @@ namespace minigames._SLIL
         public static bool FullScreen = false;
         private bool open_shop = false, pressed_r = false, pressed_h = false;
         private Display display;
-        private readonly Gun[] GUNS = { new Flashlight(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new FirstAidKit() };
+        private readonly Gun[] GUNS = { new Flashlight(), new Knife(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new FirstAidKit() };
         public static readonly List<Enemy> Enemies = new List<Enemy>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
@@ -160,10 +161,10 @@ namespace minigames._SLIL
             GameOver(-1);
         }
 
-        public static void GoDebug(SLIL slil)
+        public static void GoDebug(SLIL slil, int debug)
         {
             slil.GameOver(-1);
-            slil.inDebug = true;
+            slil.inDebug = debug;
             old_difficulty = difficulty;
             difficulty = 5;
             slil.StartGame();
@@ -296,9 +297,9 @@ namespace minigames._SLIL
                             player.FirstAidKits[0].HasIt = false;
                     }
                 }
-                if (player.GetGunType() == GunTypes.Flashlight)
+                if (player.GetCurrentGun() is Flashlight)
                     shot_timer.Enabled = reload_timer.Enabled = false;
-                if (player.GetGunType() == GunTypes.Tank)
+                if (player.GetCurrentGun() is TSPitW)
                 {
                     stamina_panel.Visible = true;
                     if (playerMoveStyle != Direction.WALK)
@@ -308,21 +309,23 @@ namespace minigames._SLIL
                 }
                 if (playerMoveStyle == Direction.RUN)
                 {
-                    if (player.GetGunType() == GunTypes.Pistol || player.GetGunType() == GunTypes.Shotgun || player.GetGunType() == GunTypes.EasterEgg || player.GetGunType() == GunTypes.FirstAidKit)
+                    if (player.GetCurrentGun() is Pistol || player.GetCurrentGun() is Shotgun || player.GetCurrentGun() is Fingershot || player.GetCurrentGun() is FirstAidKit)
                     {
-                        if (player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().AmmoCount <= 0)
+                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().AmmoCount <= 0)
                             player.MoveStyle = 6;
                         else
                             player.MoveStyle = 5;
                     }
-                    else if (player.GetGunType() == GunTypes.Flashlight)
+                    else if (player.GetCurrentGun() is Flashlight)
                         player.MoveStyle = 1;
+                    else if (player.GetCurrentGun() is Knife)
+                        player.MoveStyle = 2;
                     else
                         player.MoveStyle = 4;
                 }
                 else
                 {
-                    if (player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().Level != Levels.LV3 && !shot_timer.Enabled && !reload_timer.Enabled)
+                    if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().Level != Levels.LV3 && !shot_timer.Enabled && !reload_timer.Enabled)
                         player.MoveStyle = 4;
                     else
                         player.MoveStyle = 0;
@@ -449,10 +452,10 @@ namespace minigames._SLIL
                                     player.CanShoot = false;
                                     player.Aiming = false;
                                     int sound = 1;
-                                    if (player.GetGunType() != GunTypes.Shotgun)
+                                    if (!(player.GetCurrentGun() is Shotgun))
                                     {
                                         player.GunState = 2;
-                                        if (player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().Level != Levels.LV3 && player.GetCurrentGun().AmmoCount == 0)
+                                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3 && player.GetCurrentGun().AmmoCount == 0)
                                             player.GunState = 3;
                                     }
                                     else
@@ -523,6 +526,11 @@ namespace minigames._SLIL
                             {
                                 TakeFlashlight(false);
                                 ChangeWeapon(6);
+                            }
+                            if (e.KeyCode == Keys.D8 && count > 7)
+                            {
+                                TakeFlashlight(false);
+                                ChangeWeapon(7);
                             }
                         }
                     }
@@ -714,13 +722,13 @@ namespace minigames._SLIL
         {
             if (!start_btn.Enabled && player.CanShoot && !reload_timer.Enabled && !shot_timer.Enabled)
             {
-                if (player.GetGunType() != GunTypes.Flashlight && player.GetGunType() != GunTypes.FirstAidKit)
+                if (!(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is FirstAidKit))
                 {
                     if (e.Button == MouseButtons.Left)
                     {
                         if (player.GetCurrentGun().MaxAmmoCount >= 0 && player.GetCurrentGun().AmmoCount > 0)
                         {
-                            if (player.GetGunType() == GunTypes.Sniper && !player.Aiming)
+                            if (player.GetCurrentGun() is SniperRifle && !player.Aiming)
                                 return;
                             if (MainMenu.sounds)
                                 player.GetCurrentGun().Sounds[player.GetCurrentGun().GetLevel(), 0].Play(Volume);
@@ -729,31 +737,28 @@ namespace minigames._SLIL
                             player.CanShoot = false;
                             burst_shots = 0;
                             if (player.GetCurrentGun().FireType == FireTypes.Single)
-                            {
                                 BulletRayCasting();
-                                player.Look -= player.GetCurrentGun().Recoil;
-                            }
                             shot_timer.Start();
                         }
                         else if (player.GetCurrentGun().MaxAmmoCount > 0 && player.GetCurrentGun().AmmoCount == 0)
                         {
                             player.GunState = 2;
-                            if (player.GetGunType() == GunTypes.Pistol || player.GetGunType() == GunTypes.Shotgun)
+                            if (player.GetCurrentGun() is Pistol || player.GetCurrentGun() is Shotgun)
                                 player.GunState = 3;
                             player.Aiming = false;
                             reload_timer.Start();
-                            if (player.GetGunType() == GunTypes.Shotgun && player.GetCurrentGun().Level != Levels.LV1)
+                            if (player.GetCurrentGun() is Shotgun && player.GetCurrentGun().Level != Levels.LV1)
                                 return;
                             if (MainMenu.sounds)
                                 player.GetCurrentGun().Sounds[player.GetCurrentGun().GetLevel(), 1].Play(Volume);
                         }
-                        else if (!(player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().Level == Levels.LV1) &&
-                            !(player.GetGunType() == GunTypes.Shotgun && player.GetCurrentGun().Level == Levels.LV1) && MainMenu.sounds)
+                        else if (!(player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level == Levels.LV1) &&
+                            !(player.GetCurrentGun() is Shotgun && player.GetCurrentGun().Level == Levels.LV1) && MainMenu.sounds)
                             player.GetCurrentGun().Sounds[player.GetCurrentGun().GetLevel(), 2].Play(Volume);
                     }
                     else if (e.Button == MouseButtons.Right)
                     {
-                        if (player.GetGunType() == GunTypes.Sniper)
+                        if (player.GetCurrentGun() is SniperRifle)
                         {
                             if (MainMenu.sounds)
                                 player.GetCurrentGun().Sounds[player.GetCurrentGun().GetLevel(), 3].Play(Volume);
@@ -797,7 +802,7 @@ namespace minigames._SLIL
                         if (SCREEN_HEIGHT[resolution] / 2 > celling && SCREEN_HEIGHT[resolution] / 2 <= floor)
                         {
                             double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
-                            if (player.GetGunType() == GunTypes.Shotgun)
+                            if (player.GetCurrentGun() is Shotgun)
                                 damage *= player.GetCurrentGun().FiringRange - distance;
                             bool all_ok = false;
                             for (int i = 0; i < Enemies.Count; i++)
@@ -860,7 +865,7 @@ namespace minigames._SLIL
                                             }
                                             if (hit_player)
                                             {
-                                                if (difficulty == 0 && player.GetCurrentGun().FireType == FireTypes.Single)
+                                                if (difficulty == 0 && player.GetCurrentGun().FireType == FireTypes.Single && !(player.GetCurrentGun() is Knife))
                                                 {
                                                     MAP[(int)Enemies[i].Y * MAP_WIDTH + (int)Enemies[i].X] = '.';
                                                     Enemies[i].UpdateCoordinates(MAP.ToString());
@@ -880,6 +885,10 @@ namespace minigames._SLIL
                     }
                 }
             }
+            if (player.Look - player.GetCurrentGun().Recoil > -360)
+                player.Look -= player.GetCurrentGun().Recoil;
+            else
+                player.Look = -360;
         }
 
         private void Reload_gun_Tick(object sender, EventArgs e)
@@ -890,7 +899,7 @@ namespace minigames._SLIL
                 if (!start_btn.Enabled)
                 {
                     int index = 1;
-                    if (player.GetGunType() == GunTypes.Shotgun && (player.GetCurrentGun().MaxAmmoCount == 0 || pressed_r))
+                    if (player.GetCurrentGun() is Shotgun && (player.GetCurrentGun().MaxAmmoCount == 0 || pressed_r))
                     {
                         if (player.GetCurrentGun().Level == Levels.LV1)
                             index = 2;
@@ -901,7 +910,7 @@ namespace minigames._SLIL
                                 index--;
                         }
                     }
-                    if (!pressed_r && player.GetCurrentGun().AmmoCount > 0 && player.GetGunType() == GunTypes.Shotgun)
+                    if (!pressed_r && player.GetCurrentGun().AmmoCount > 0 && player.GetCurrentGun() is Shotgun)
                     {
                         player.GunState = player.MoveStyle;
                         player.CanShoot = true;
@@ -924,7 +933,7 @@ namespace minigames._SLIL
                     else if (player.GetCurrentGun().ReloadFrames > 1)
                         player.GunState++;
                     reload_frames++;
-                    if (player.GetGunType() == GunTypes.Shotgun && MainMenu.sounds)
+                    if (player.GetCurrentGun() is Shotgun && MainMenu.sounds)
                         player.GetCurrentGun().Sounds[player.GetCurrentGun().GetLevel(), 3].Play(Volume);
                 }
                 else
@@ -948,16 +957,14 @@ namespace minigames._SLIL
                         player.GunState = player.GunState == 1 ? 0 : 1;
                     else
                         player.GunState = player.Aiming ? 3 : 0;
-                    player.GetCurrentGun().AmmoCount--;
+                    if (!(player.GetCurrentGun() is Knife))
+                        player.GetCurrentGun().AmmoCount--;
                     if (player.GetCurrentGun().FireType != FireTypes.Single)
-                    {
                         BulletRayCasting();
-                        player.Look -= player.GetCurrentGun().Recoil;
-                    }
-                    if ((player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().MaxAmmoCount > 0) || player.GetGunType() == GunTypes.FirstAidKit)
+                    if ((player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().MaxAmmoCount > 0) || player.GetCurrentGun() is FirstAidKit)
                     {
                         player.GunState = 2;
-                        if (player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().Level != Levels.LV3)
+                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3)
                             player.GunState = 3;
                         player.Aiming = false;
                         if (MainMenu.sounds)
@@ -969,9 +976,9 @@ namespace minigames._SLIL
                         player.Aiming = false;
                         player.CanShoot = true;
                         player.GunState = player.MoveStyle;
-                        if (player.GetGunType() == GunTypes.Pistol && player.GetCurrentGun().Level != Levels.LV3)
+                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3)
                             player.GunState = 4;
-                        else if (player.GetGunType() == GunTypes.Shotgun)
+                        else if (player.GetCurrentGun() is Shotgun)
                         {
                             if (player.GetCurrentGun().Level == Levels.LV1 || player.GetCurrentGun().MaxAmmoCount == 0)
                                 player.GunState = 2;
@@ -986,7 +993,7 @@ namespace minigames._SLIL
                     {
                         if (player.GetCurrentGun().FireType == FireTypes.Single)
                             player.GunState = player.Aiming ? 3 : 0;
-                        if (player.GetGunType() == GunTypes.Shotgun && player.GetCurrentGun().Level != Levels.LV1)
+                        if (player.GetCurrentGun() is Shotgun && player.GetCurrentGun().Level != Levels.LV1)
                         {
                             player.GunState = 2;
                             if (MainMenu.sounds)
@@ -1088,7 +1095,7 @@ namespace minigames._SLIL
                     playerMoveStyle = Direction.WALK;
                 else
                 {
-                    if (player.GetGunType() == GunTypes.Pistol || player.GetGunType() == GunTypes.Flashlight)
+                    if (player.GetCurrentGun() is Pistol || player.GetCurrentGun() is Flashlight || player.GetCurrentGun() is Knife)
                         player.STAMINE -= 2;
                     else
                         player.STAMINE -= 3;
@@ -1236,7 +1243,7 @@ namespace minigames._SLIL
             }
             for (int i = WEAPONS_COUNT - 1; i >= 0; i--)
             {
-                if (GUNS[i].GunType != GunTypes.EasterEgg && GUNS[i].GunType != GunTypes.Tank && GUNS[i].GunType != GunTypes.Flashlight && GUNS[i].GunType != GunTypes.FirstAidKit)
+                if (GUNS[i].AddToShop)
                 {
                     SLIL_ShopInterface ShopInterface = new SLIL_ShopInterface()
                     {
@@ -1359,6 +1366,17 @@ namespace minigames._SLIL
             }
         }
 
+        private void SLIL_SizeChanged(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Maximized)
+            {
+                top_panel.Dock = DockStyle.Fill;
+                top_panel.BringToFront();
+            }
+            else
+                top_panel.Dock = DockStyle.None;
+        }
+
         private void Raycast_Tick(object sender, EventArgs e)
         {
             DateTime time = DateTime.Now;
@@ -1458,105 +1476,63 @@ namespace minigames._SLIL
             if (player.FirstAidKits.Count > 0)
                 medkit_count = player.FirstAidKits[0].AmmoCount + player.FirstAidKits[0].MaxAmmoCount;
             int icon_size = resolution == 0 ? 14 : 28;
+            graphicsWeapon.Clear(Color.Transparent);
             try
             {
-                graphicsWeapon.Clear(Color.Transparent);
                 graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), player.GunState], 0, 0, WEAPON.Width, WEAPON.Height);
-                if (ShowFPS)
-                    graphicsWeapon.DrawString($"FPS: {fps}", consolasFont[resolution], whiteBrush, SCREEN_WIDTH[resolution], 0, rightToLeft);
-                graphicsWeapon.DrawString($"TIME LEFT: {space_0}{minutes}:{space_1}{seconds}", consolasFont[resolution], whiteBrush, 0, 0);
-                graphicsWeapon.DrawImage(Properties.Resources.hp, 2, 108 + (110 * resolution), icon_size, icon_size);
-                graphicsWeapon.DrawImage(Properties.Resources.money, 2, 14 + (14 * resolution), icon_size, icon_size);
-                graphicsWeapon.DrawImage(Properties.Resources.first_aid, 2, 94 + (96 * resolution), icon_size, icon_size);
-                graphicsWeapon.DrawString(player.Money.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 14 + (14 * resolution));
-                graphicsWeapon.DrawString(player.HP.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 108 + (110 * resolution));
-                graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
-                if (player.Guns.Count > 0 && player.GetGunType() != GunTypes.Flashlight)
-                {
-                    if (player.GetGunType() != GunTypes.FirstAidKit)
-                    {
-                        graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 54 + (44 * resolution), 108 + (110 * resolution));
-                        if (player.GetGunType() == GunTypes.Sniper || player.GetGunType() == GunTypes.Rifle)
-                            graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                        else if (player.GetGunType() == GunTypes.Shotgun)
-                            graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                        else
-                            graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                    }
-                }
-                if (player.InShop)
-                    graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);
-                if (player.GetGunType() != GunTypes.Sniper && player.GetGunType() != GunTypes.Flashlight && player.GetGunType() != GunTypes.FirstAidKit)
-                {
-                    if (player.GetGunType() == GunTypes.Shotgun)
-                        graphicsWeapon.DrawImage(scope_shotgun[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                    else
-                        graphicsWeapon.DrawImage(scope[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                    if (scope_hit != null)
-                        graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                }
-                if (stage_timer.Enabled)
-                {
-                    string text = $"STAGE: {player.Stage + 1}";
-                    if (inDebug)
-                        text = "STAGE: Debug";
-                    else if (difficulty == 4)
-                        text = "STAGE: Custom";
-                    SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
-                    graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
-                }
             }
             catch
             {
                 try
                 {
-                    graphicsWeapon.Clear(Color.Transparent);
                     graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), 0], 0, 0, WEAPON.Width, WEAPON.Height);
-                    if (ShowFPS)
-                        graphicsWeapon.DrawString($"FPS: {fps}", consolasFont[resolution], whiteBrush, SCREEN_WIDTH[resolution], 0, rightToLeft);
-                    graphicsWeapon.DrawString($"TIME LEFT: {space_0}{minutes}:{space_1}{seconds}", consolasFont[resolution], whiteBrush, 0, 0);
-                    graphicsWeapon.DrawImage(Properties.Resources.hp, 2, 108 + (110 * resolution), icon_size, icon_size);
-                    graphicsWeapon.DrawImage(Properties.Resources.money, 2, 14 + (14 * resolution), icon_size, icon_size);
-                    graphicsWeapon.DrawImage(Properties.Resources.first_aid, 2, 94 + (96 * resolution), icon_size, icon_size);
-                    graphicsWeapon.DrawString(player.Money.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 14 + (14 * resolution));
-                    graphicsWeapon.DrawString(player.HP.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 108 + (110 * resolution));
-                    graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
-                    if (player.Guns.Count > 0 && player.GetGunType() != GunTypes.Flashlight)
-                    {
-                        if (player.GetGunType() != GunTypes.FirstAidKit)
-                        {
-                            graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 54 + (44 * resolution), 108 + (110 * resolution));
-                            if (player.GetGunType() == GunTypes.Sniper || player.GetGunType() == GunTypes.Rifle)
-                                graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                            else if (player.GetGunType() == GunTypes.Shotgun)
-                                graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                            else
-                                graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                        }
-                    }
-                    if (player.InShop)
-                        graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);
-                    if (player.GetGunType() != GunTypes.Sniper && player.GetGunType() != GunTypes.Flashlight && player.GetGunType() != GunTypes.FirstAidKit)
-                    {
-                        if (player.GetGunType() == GunTypes.Shotgun)
-                            graphicsWeapon.DrawImage(scope_shotgun[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                        else
-                            graphicsWeapon.DrawImage(scope[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                        if (scope_hit != null)
-                            graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
-                    }
-                    if (stage_timer.Enabled)
-                    {
-                        string text = $"STAGE: {player.Stage + 1}";
-                        if (inDebug)
-                            text = "STAGE: Debug";
-                        else if (difficulty == 4)
-                            text = "STAGE: Custom";
-                        SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
-                        graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
-                    }
                 }
                 catch { }
+            }
+            if (ShowFPS)
+                graphicsWeapon.DrawString($"FPS: {fps}", consolasFont[resolution], whiteBrush, SCREEN_WIDTH[resolution], 0, rightToLeft);
+            graphicsWeapon.DrawString($"TIME LEFT: {space_0}{minutes}:{space_1}{seconds}", consolasFont[resolution], whiteBrush, 0, 0);
+            graphicsWeapon.DrawImage(Properties.Resources.hp, 2, 108 + (110 * resolution), icon_size, icon_size);
+            graphicsWeapon.DrawImage(Properties.Resources.money, 2, 14 + (14 * resolution), icon_size, icon_size);
+            graphicsWeapon.DrawImage(Properties.Resources.first_aid, 2, 94 + (96 * resolution), icon_size, icon_size);
+            graphicsWeapon.DrawString(player.Money.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 14 + (14 * resolution));
+            graphicsWeapon.DrawString(player.HP.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 108 + (110 * resolution));
+            graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
+            if (player.Guns.Count > 0 && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
+            {
+                if (!(player.GetCurrentGun() is FirstAidKit))
+                {
+                    graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 54 + (44 * resolution), 108 + (110 * resolution));
+                    if (player.GetCurrentGun() is SniperRifle || player.GetCurrentGun() is AssaultRifle)
+                        graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                    else if (player.GetCurrentGun() is Shotgun)
+                        graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                    else
+                        graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                }
+            }
+            if (player.InShop)
+                graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);
+            if (!(player.GetCurrentGun() is SniperRifle) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is FirstAidKit))
+            {
+                if (player.GetCurrentGun() is Shotgun)
+                    graphicsWeapon.DrawImage(scope_shotgun[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
+                else
+                    graphicsWeapon.DrawImage(scope[scope_type], WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
+                if (scope_hit != null)
+                    graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
+            }
+            if (stage_timer.Enabled)
+            {
+                string text = $"STAGE: {player.Stage + 1}";
+                if (inDebug == 1)
+                    text = "STAGE: Debug";
+                else if (inDebug == 2)
+                    text = "STAGE: Debug Boss";
+                else if (difficulty == 4)
+                    text = "STAGE: Custom";
+                SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
+                graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
             }
         }
 
@@ -1602,7 +1578,7 @@ namespace minigames._SLIL
         {
             Pixel[] result = new Pixel[SCREEN_HEIGHT[resolution]];
             int factor = player.Aiming ? 12 : 0;
-            if (player.GetGunType() == GunTypes.Flashlight)
+            if (player.GetCurrentGun() is Flashlight)
                 factor = 8;
             double distance = 0;
             double window_distance = 0;
@@ -1918,8 +1894,16 @@ namespace minigames._SLIL
             DISPLAYED_MAP.Clear();
             if (difficulty == 5)
             {
-                MAP.AppendLine(debugMap);
-                DISPLAYED_MAP.AppendLine(debugMap);
+                if (inDebug == 1)
+                {
+                    MAP.AppendLine(debugMap);
+                    DISPLAYED_MAP.AppendLine(debugMap);
+                }
+                else if (inDebug == 2)
+                {
+                    MAP.AppendLine(bossMap);
+                    DISPLAYED_MAP.AppendLine(bossMap);
+                }
                 for (int x = 0; x < MAP_WIDTH; x++)
                 {
                     for (int y = 0; y < MAP_HEIGHT; y++)
@@ -2063,7 +2047,10 @@ namespace minigames._SLIL
                 player.Y = CUSTOM_Y;
             }
             if (player.Guns.Count == 0)
+            {
                 player.Guns.Add(GUNS[1]);
+                player.Guns.Add(GUNS[2]);
+            }
             player.SetDefault();
             player.LevelUpdated = false;
             stamina_panel.Width = display.Width;
@@ -2078,14 +2065,14 @@ namespace minigames._SLIL
             else if (difficulty == 2)
             {
                 enemy_count = 0.06;
-                if (player.Guns[0].Level == Levels.LV1)
-                    player.Guns[0].LevelUpdate();
+                if (player.Guns[1].Level == Levels.LV1)
+                    player.Guns[1].LevelUpdate();
             }
             else if (difficulty == 3)
             {
                 enemy_count = 0.055;
-                if (player.Guns[0].Level == Levels.LV1)
-                    player.Guns[0].LevelUpdate();
+                if (player.Guns[1].Level == Levels.LV1)
+                    player.Guns[1].LevelUpdate();
             }
             else if (difficulty == 4)
             {
@@ -2097,11 +2084,21 @@ namespace minigames._SLIL
             }
             else
             {
-                player.X = 9;
-                player.Y = 9;
+                if (inDebug == 1)
+                {
+                    player.X = 9;
+                    player.Y = 9;
+                    MazeHeight = 6;
+                    MazeWidth = 6;
+                }
+                else if (inDebug == 2)
+                {
+                    player.X = 10.5;
+                    player.Y = 19.5;
+                    MazeHeight = 7;
+                    MazeWidth = 7;
+                }
                 minutes = 9999;
-                MazeHeight = 6;
-                MazeWidth = 6;
             }
             if (difficulty != 4 && difficulty != 5)
             {
@@ -2185,9 +2182,9 @@ namespace minigames._SLIL
         {
             player.Dead = true;
             player.SetDefault();
-            if (inDebug)
+            if (inDebug == 1)
             {
-                inDebug = false;
+                inDebug = 0;
                 difficulty = old_difficulty;
             }
             for (int i = 0; i < GUNS.Length; i++)

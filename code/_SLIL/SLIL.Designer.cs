@@ -381,6 +381,7 @@ namespace minigames._SLIL
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SLIL_FormClosing);
             this.Load += new System.EventHandler(this.SLIL_Load);
             this.LocationChanged += new System.EventHandler(this.SLIL_LocationChanged);
+            this.SizeChanged += new System.EventHandler(this.SLIL_SizeChanged);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyDown);
             this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.SLIL_KeyUp);
             this.top_panel.ResumeLayout(false);
