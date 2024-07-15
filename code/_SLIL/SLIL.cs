@@ -486,7 +486,12 @@ namespace minigames._SLIL
                                         player.Guns.Add(player.FirstAidKits[0]);
                                     player.PreviousGun = player.CurrentGun;
                                     if (rand.NextDouble() <= player.CurseCureChance)
-                                        player.FirstAidKits[0].Level = Levels.LV2;
+                                    {
+                                        if (rand.NextDouble() <= 0.5)
+                                            player.FirstAidKits[0].Level = Levels.LV2;
+                                        else
+                                            player.FirstAidKits[0].Level = Levels.LV3;
+                                    }
                                     else
                                         player.FirstAidKits[0].Level = Levels.LV1;
                                     ChangeWeapon(player.Guns.IndexOf(player.FirstAidKits[0]));

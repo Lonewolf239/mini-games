@@ -736,4 +736,16 @@
   <data name="gun_1_2_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\gun_1_2_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="hand" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\hand.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hand_using_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\hand_using_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hand_using_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\hand_using_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="hand_using_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\hand_using_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

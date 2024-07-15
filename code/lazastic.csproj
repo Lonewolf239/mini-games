@@ -739,6 +739,10 @@
     <None Include="gun_1_1_empty.png" />
     <None Include="gun_1_1_reload_empty.png" />
     <None Include="gun_1_1_run_empty.png" />
+    <None Include="hand.png" />
+    <None Include="hand_using_0.png" />
+    <None Include="hand_using_1.png" />
+    <None Include="hand_using_2.png" />
     <Content Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup />
