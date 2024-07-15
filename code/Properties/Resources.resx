@@ -418,9 +418,6 @@
   <data name="missing" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\missing.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="gun_1_2_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\gun_1_2_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="gun_4_3_shooted" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\gun_4_3_shooted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -711,5 +708,32 @@
   </data>
   <data name="fatalan" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\fatalan.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_0_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_0_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_0_reload" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_0_reload.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_0_run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_0_run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_0_shooted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_0_shooted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_1_empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_1_empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_1_reload_empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_1_reload_empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_1_run_empty" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_1_run_empty.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_1_2_icon" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_1_2_icon.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -731,6 +731,14 @@
     <None Include="floor.png" />
     <None Include="ceiling.png" />
     <None Include="fatalan.png" />
+    <None Include="gun_1_0.png" />
+    <None Include="gun_1_0_icon.png" />
+    <None Include="gun_1_0_reload.png" />
+    <None Include="gun_1_0_run.png" />
+    <None Include="gun_1_0_shooted.png" />
+    <None Include="gun_1_1_empty.png" />
+    <None Include="gun_1_1_reload_empty.png" />
+    <None Include="gun_1_1_run_empty.png" />
     <Content Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup />

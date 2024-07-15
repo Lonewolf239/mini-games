@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -29,6 +30,7 @@ namespace minigames._SLIL
             { "-", Color.Yellow },
             { "*", Color.Tomato },
             { "~", Color.Cyan },
+            { "<", Color.White }
         };
         private readonly Color[] foreColors = 
         {
@@ -361,7 +363,7 @@ namespace minigames._SLIL
                     {
                         show_date = false;
                         console.Text = null;
-                        message = "SLIL console *v1.1*\nType \"-help-\" for a list of commands...";
+                        message = "SLIL console *v1.2*\nType \"-help-\" for a list of commands...";
                         console.Refresh();
                     }
                     else if (cheat == "SLC")
@@ -492,7 +494,7 @@ namespace minigames._SLIL
                                 color = foreColors[color_index];
                                 show_date = false;
                                 console.Text = null;
-                                message = "SLIL console *v1.1*\nType \"-help-\" for a list of commands...";
+                                message = "SLIL console *v1.2*\nType \"-help-\" for a list of commands...";
                                 console.Refresh();
                             }
                         }
@@ -598,10 +600,12 @@ namespace minigames._SLIL
                         for (int i = 0; i < player.Guns.Count; i++)
                         {
                             if (player.Guns[i].Level != Levels.LV3 &&
-                            !(player.GetCurrentGun() is Flashlight) &&
-                            !(player.GetCurrentGun() is FirstAidKit) &&
-                            !(player.GetCurrentGun() is SniperRifle) &&
-                            !(player.GetCurrentGun() is Fingershot) &&
+                                player.Guns[i].Level != Levels.LV4 &&
+                                !(player.GetCurrentGun() is Knife) &&
+                                !(player.GetCurrentGun() is Flashlight) &&
+                                !(player.GetCurrentGun() is FirstAidKit) &&
+                                !(player.GetCurrentGun() is SniperRifle) &&
+                                !(player.GetCurrentGun() is Fingershot) &&
                                 !(player.GetCurrentGun() is TSPitW))
                                 can_do_it = true;
                         }
@@ -753,7 +757,7 @@ namespace minigames._SLIL
             if (console.Text.Length == console.MaxLength)
             {
                 console.Clear();
-                ConsoleAppendText("SLIL console *v1.1*\nType \"-help-\" for a list of commands...", foreColors[color_index]);
+                ConsoleAppendText("SLIL console *v1.2*\nType \"-help-\" for a list of commands...", foreColors[color_index]);
                 ConsoleAppendText("*The console was cleared due to a buffer overflow*", foreColors[color_index]);
                 console.Refresh();
             }
@@ -765,13 +769,58 @@ namespace minigames._SLIL
                 e.SuppressKeyPress = true;
         }
 
+        public void Log(string message, bool newline, bool showTime, Color color)
+        {
+            string nline = "", time = $"-<{DateTime.Now:HH:mm}>- ";
+            if (newline)
+                nline = "\n";
+            if (!showTime)
+                time = "";
+            ConsoleAppendText($"{nline}{time}{message}", color);
+        }
+
         private void Console_LinkClicked(object sender, LinkClickedEventArgs e) => Process.Start(new ProcessStartInfo(e.LinkText) { UseShellExecute = true });
+
+        private void Console_MouseClick(object sender, MouseEventArgs e)
+        {
+            int charIndex = console.GetCharIndexFromPosition(e.Location);
+            if (charIndex < 0 || charIndex >= console.TextLength)
+                return;
+            int lineIndex = console.GetLineFromCharIndex(charIndex);
+            if (lineIndex < 0 || lineIndex >= console.Lines.Length)
+                return;
+            string line = console.Lines[lineIndex];
+            int charPositionInLine = charIndex - console.GetFirstCharIndexFromLine(lineIndex);
+            string pattern = @"screenshots\\screenshot_\d{4}_\d{2}_\d{2}__\d{2}_\d{2}_\d{2}\.png";
+            Match match = Regex.Match(line, pattern);
+            if (match.Success)
+            {
+                string filePath = match.Value;
+                int startIndex = match.Index;
+                int endIndex = startIndex + filePath.Length;
+                if (charPositionInLine >= startIndex && charPositionInLine < endIndex)
+                {
+                    if (File.Exists(filePath))
+                    {
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo(filePath) { UseShellExecute = true });
+                        }
+                        catch (Exception ex)
+                        {
+                            Log($"Error opening file: {ex.Message}", true, true, Color.Red);
+                        }
+                    }
+                    else
+                        Log($"File not found: {filePath}", true, true, Color.Red);
+                }
+            }
+        }
 
         private void Console_Load(object sender, EventArgs e)
         {
             if (MainMenu.scaled)
                 console.Font = new Font(console.Font.FontFamily, console.Font.Size * 1.5f);
-            ConsoleAppendText("SLIL console *v1.1*\nType \"-help-\" for a list of commands...", foreColors[color_index]);
             console.Refresh();
         }
     }

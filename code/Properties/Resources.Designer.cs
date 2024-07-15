@@ -683,9 +683,69 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gun_1_0 {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_0_icon {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_0_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_0_reload {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_0_reload", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_0_run {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_0_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_0_shooted {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_0_shooted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gun_1_1 {
             get {
                 object obj = ResourceManager.GetObject("gun_1_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_1_empty {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_1_empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -713,9 +773,29 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gun_1_1_reload_empty {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_1_reload_empty", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap gun_1_1_run {
             get {
                 object obj = ResourceManager.GetObject("gun_1_1_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_1_1_run_empty {
+            get {
+                object obj = ResourceManager.GetObject("gun_1_1_run_empty", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

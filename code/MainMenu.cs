@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.3.5|";
+        private readonly string current_version = "|0.3.5.2|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,

@@ -330,7 +330,7 @@ namespace minigames._SLIL
                 }
                 else
                 {
-                    if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().Level != Levels.LV3 && !shot_timer.Enabled && !reload_timer.Enabled)
+                    if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().Level != Levels.LV4 && !shot_timer.Enabled && !reload_timer.Enabled)
                         player.MoveStyle = 4;
                     else
                         player.MoveStyle = 0;
@@ -460,7 +460,7 @@ namespace minigames._SLIL
                                     if (!(player.GetCurrentGun() is Shotgun))
                                     {
                                         player.GunState = 2;
-                                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3 && player.GetCurrentGun().AmmoCount == 0)
+                                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV4 && player.GetCurrentGun().AmmoCount == 0)
                                             player.GunState = 3;
                                     }
                                     else
@@ -660,6 +660,7 @@ namespace minigames._SLIL
         private void DoScreenshot()
         {
             string path = GetPath();
+            console_panel.Log($"Screenshot successfully created and saved to path:\n<{path}<", true, true, Color.Lime);
             using (var fileStream = new FileStream(path, FileMode.Create, FileAccess.Write))
                 BUFFER?.Save(fileStream, ImageFormat.Png);
             screenshot.Play(Volume);
@@ -1007,7 +1008,7 @@ namespace minigames._SLIL
                     if ((player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().MaxAmmoCount > 0) || player.GetCurrentGun() is FirstAidKit)
                     {
                         player.GunState = 2;
-                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3)
+                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV4)
                             player.GunState = 3;
                         player.Aiming = false;
                         if (MainMenu.sounds)
@@ -1019,7 +1020,7 @@ namespace minigames._SLIL
                         player.Aiming = false;
                         player.CanShoot = true;
                         player.GunState = player.MoveStyle;
-                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV3)
+                        if (player.GetCurrentGun() is Pistol && player.GetCurrentGun().Level != Levels.LV4)
                             player.GunState = 4;
                         else if (player.GetCurrentGun() is Shotgun)
                         {
@@ -1323,6 +1324,7 @@ namespace minigames._SLIL
                 GUNS = GUNS,
                 Enemies = Enemies
             };
+            console_panel.Log("SLIL console *v1.2*\nType \"-help-\" for a list of commands...", false, false, Color.Lime);
             top_panel.Controls.Add(console_panel);
             ost = new PlaySound[]
             {
@@ -1562,18 +1564,15 @@ namespace minigames._SLIL
             graphicsWeapon.DrawString(player.Money.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 14 + (14 * resolution));
             graphicsWeapon.DrawString(player.HP.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 108 + (110 * resolution));
             graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
-            if (player.Guns.Count > 0 && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
+            if (player.Guns.Count > 0 && !(player.GetCurrentGun() is FirstAidKit) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
             {
-                if (!(player.GetCurrentGun() is FirstAidKit))
-                {
-                    graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 54 + (44 * resolution), 108 + (110 * resolution));
-                    if (player.GetCurrentGun() is SniperRifle || player.GetCurrentGun() is AssaultRifle)
-                        graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                    else if (player.GetCurrentGun() is Shotgun)
-                        graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                    else
-                        graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                }
+                graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 52 + (42 * resolution), 108 + (110 * resolution));
+                if (player.GetCurrentGun() is SniperRifle || player.GetCurrentGun() is AssaultRifle)
+                    graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                else if (player.GetCurrentGun() is Shotgun)
+                    graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                else
+                    graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
             }
             if (player.InShop)
                 graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);

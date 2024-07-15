@@ -3,7 +3,7 @@
 namespace minigames._SLIL
 {
     public enum FireTypes { Single, SemiAutomatic }
-    public enum Levels { LV1 = 0, LV2 = 1, LV3 = 2 }
+    public enum Levels { LV1 = 0, LV2 = 1, LV3 = 2, LV4 = 3 }
 
     public class Gun
     {
@@ -26,6 +26,7 @@ namespace minigames._SLIL
         public int RadiusSound { get; set; }
         public int ReloadFrames { get; set; }
         public bool AddToShop { get; set; }
+        public bool HaveLV4 { get; set; }
         public FireTypes FireType { get; set; }
         public Levels Level { get; set; }
         public Image[] Icon { get; set; }
@@ -70,8 +71,10 @@ namespace minigames._SLIL
                     return 0;
                 case Levels.LV2:
                     return 1;
-                default:
+                case Levels.LV3:
                     return 2;
+                default:
+                    return 3;
             }
         }
 
@@ -82,7 +85,7 @@ namespace minigames._SLIL
 
         public virtual void LevelUpdate()
         {
-            if (Level != Levels.LV3)
+            if ((!HaveLV4 && Level != Levels.LV4) || (HaveLV4 && Level != Levels.LV4))
             {
                 Level++;
                 UpdateCost += 20;
@@ -164,6 +167,7 @@ namespace minigames._SLIL
         {
             AddToShop = true;
             HasIt = true;
+            HaveLV4 = true;
             Type = 1;
             Name = new[] { "Пистолет", "Pistol" };
             FireType = FireTypes.Single;
@@ -183,21 +187,24 @@ namespace minigames._SLIL
             ReloadFrames = 1;
             Icon = new[]
             {
-                    /*LV1:*/ Properties.Resources.gun_1_1_icon,
-                    /*LV1:*/ Properties.Resources.gun_1_2_icon,
-                    /*LV1:*/ Properties.Resources.gun_1_3_icon
-                };
+                    /*LV1:*/ Properties.Resources.gun_1_0_icon,
+                    /*LV2:*/ Properties.Resources.gun_1_1_icon,
+                    /*LV3:*/ Properties.Resources.gun_1_2_icon,
+                    /*LV4:*/ Properties.Resources.gun_1_3_icon
+            };
             Images = new[,]
             {                    
-                   /*LV1:*/ { Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_shooted, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_run, Properties.Resources.gun_1_1_run },
-                   /*LV2:*/ { Properties.Resources.gun_1_2, Properties.Resources.gun_1_2_shooted, Properties.Resources.gun_1_2_reload, Properties.Resources.gun_1_2_reload_empty, Properties.Resources.gun_1_2_empty, Properties.Resources.gun_1_2_run,Properties.Resources.gun_1_2_run_empty },
-                   /*LV2:*/ { Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_shooted, Properties.Resources.gun_1_3_1_reload, Properties.Resources.gun_1_3_2_reload, Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_run,Properties.Resources.gun_1_3_run },
-                };
+                   /*LV1:*/ { Properties.Resources.gun_1_0, Properties.Resources.gun_1_0_shooted, Properties.Resources.gun_1_0_reload, Properties.Resources.gun_1_0_reload, Properties.Resources.gun_1_0, Properties.Resources.gun_1_0_run, Properties.Resources.gun_1_0_run },
+                   /*LV2:*/ { Properties.Resources.gun_1_1, Properties.Resources.gun_1_1_shooted, Properties.Resources.gun_1_1_reload, Properties.Resources.gun_1_1_reload_empty, Properties.Resources.gun_1_1_empty, Properties.Resources.gun_1_1_run, Properties.Resources.gun_1_1_run_empty },
+                   /*LV3:*/ { Properties.Resources.gun_1_2, Properties.Resources.gun_1_2_shooted, Properties.Resources.gun_1_2_reload, Properties.Resources.gun_1_2_reload_empty, Properties.Resources.gun_1_2_empty, Properties.Resources.gun_1_2_run, Properties.Resources.gun_1_2_run_empty },
+                   /*LV4:*/ { Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_shooted, Properties.Resources.gun_1_3_1_reload, Properties.Resources.gun_1_3_2_reload, Properties.Resources.gun_1_3, Properties.Resources.gun_1_3_run, Properties.Resources.gun_1_3_run },
+            };
             Sounds = new[,]
             {
                    /*LV1:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_1.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2_reloading.wav"), false), new PlaySound(null, false) },
                    /*LV2:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_empty.wav"), false) },
-                   /*LV2:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_empty.wav"), false) },
+                   /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_4.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_2_reloading.wav"), false), new PlaySound(null, false) },
+                   /*LV4:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_0_3_empty.wav"), false) },
             };
             AmmoCount = CartridgesClip;
         }
@@ -243,6 +250,21 @@ namespace minigames._SLIL
                 RadiusSound = 7;
                 ReloadFrames = 1;
             }
+            else if (Level == Levels.LV3)
+            {
+                RechargeTime = 400;
+                CartridgesClip = 7;
+                MaxAmmoCount = CartridgesClip * 2;
+                MaxAmmo = CartridgesClip * 6;
+                FiringRange = 9;
+                MaxDamage = 3.25;
+                MinDamage = 2.75;
+                Recoil = 25;
+                FiringRate = 175;
+                BurstShots = 1;
+                RadiusSound = 10;
+                ReloadFrames = 1;
+            }
             else
             {
                 RechargeTime = 400;
@@ -269,6 +291,7 @@ namespace minigames._SLIL
         {
             AddToShop = true;
             HasIt = false;
+            HaveLV4 = false;
             Type = 2;
             Name = new[] { "Дробовик", "Shotgun" };
             FireType = FireTypes.Single;
@@ -375,6 +398,7 @@ namespace minigames._SLIL
         {
             AddToShop = true;
             HasIt = false;
+            HaveLV4 = false;
             Type = 3;
             Name = new[] { "Пистолет-пулемет", "Submachine gun" };
             FireType = FireTypes.SemiAutomatic;
@@ -481,6 +505,7 @@ namespace minigames._SLIL
         {
             AddToShop = true;
             HasIt = false;
+            HaveLV4 = false;
             Type = 4;
             Name = new[] { "Автомат", "Assault rifle" };
             FireType = FireTypes.SemiAutomatic;
@@ -634,6 +659,7 @@ namespace minigames._SLIL
             MaxAmmoCount = 1;
             base.ApplyUpdate();
         }
+
         public override void LevelUpdate() { }
     }
 
