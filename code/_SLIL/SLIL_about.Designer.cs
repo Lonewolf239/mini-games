@@ -35,6 +35,8 @@
             this.ok = new System.Windows.Forms.Button();
             this.fruit_panel = new System.Windows.Forms.Panel();
             this.rules_text = new System.Windows.Forms.Label();
+            this.difficulty_title = new System.Windows.Forms.Label();
+            this.difficulty_about = new System.Windows.Forms.Label();
             this.control_panel.SuspendLayout();
             this.fruit_panel.SuspendLayout();
             this.SuspendLayout();
@@ -43,6 +45,8 @@
             // 
             this.control_panel.AutoScroll = true;
             this.control_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.control_panel.Controls.Add(this.difficulty_about);
+            this.control_panel.Controls.Add(this.difficulty_title);
             this.control_panel.Controls.Add(this.control_space);
             this.control_panel.Controls.Add(this.control_text);
             this.control_panel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -54,14 +58,14 @@
             // 
             // control_space
             // 
+            this.control_space.Dock = System.Windows.Forms.DockStyle.Top;
             this.control_space.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.control_space.Location = new System.Drawing.Point(0, 24);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(434, 312);
+            this.control_space.Size = new System.Drawing.Size(437, 305);
             this.control_space.TabIndex = 2;
             this.control_space.Text = resources.GetString("control_space.Text");
-            this.control_space.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // control_text
             // 
@@ -113,6 +117,29 @@
             this.rules_text.TabIndex = 0;
             this.rules_text.Text = "Цель игры - пройти случайно сгенерированный лабиринт за определённое время.";
             // 
+            // difficulty_title
+            // 
+            this.difficulty_title.Dock = System.Windows.Forms.DockStyle.Top;
+            this.difficulty_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.difficulty_title.Location = new System.Drawing.Point(0, 329);
+            this.difficulty_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.difficulty_title.Name = "difficulty_title";
+            this.difficulty_title.Size = new System.Drawing.Size(437, 24);
+            this.difficulty_title.TabIndex = 3;
+            this.difficulty_title.Text = "Сложность:";
+            this.difficulty_title.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // difficulty_about
+            // 
+            this.difficulty_about.Dock = System.Windows.Forms.DockStyle.Top;
+            this.difficulty_about.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.difficulty_about.Location = new System.Drawing.Point(0, 353);
+            this.difficulty_about.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.difficulty_about.Name = "difficulty_about";
+            this.difficulty_about.Size = new System.Drawing.Size(437, 302);
+            this.difficulty_about.TabIndex = 4;
+            this.difficulty_about.Text = resources.GetString("difficulty_about.Text");
+            // 
             // SLIL_about
             // 
             this.AcceptButton = this.ok;
@@ -149,5 +176,7 @@
         private System.Windows.Forms.Button ok;
         private System.Windows.Forms.Panel fruit_panel;
         private System.Windows.Forms.Label rules_text;
+        private System.Windows.Forms.Label difficulty_title;
+        private System.Windows.Forms.Label difficulty_about;
     }
 }

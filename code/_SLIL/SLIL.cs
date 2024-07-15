@@ -12,9 +12,7 @@ using System.Threading.Tasks;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Convert_Bitmap;
-using minigames._Tanks;
 using System.IO;
-using SharpDX.Direct3D11;
 
 namespace minigames._SLIL
 {
@@ -24,7 +22,7 @@ namespace minigames._SLIL
         public static int CustomMazeHeight;
         public static int CustomMazeWidth;
         public static bool CUSTOM = false, ShowFPS = true;
-        public static int difficulty = 2, old_difficulty;
+        public static int difficulty = 1, old_difficulty;
         private int inDebug = 0;
         public static double LOOK_SPEED = 1.75f;
         public static StringBuilder CUSTOM_MAP = new StringBuilder();
@@ -279,6 +277,10 @@ namespace minigames._SLIL
                 pause_panel.Visible = false;
             }
             FullScreen = WindowState == FormWindowState.Maximized;
+            if (FullScreen && start_btn.Enabled)
+                bottom_panel.Visible = true;
+            else if (FullScreen)
+                bottom_panel.Visible = false;
             if (!reload_timer.Enabled)
                 stamina_panel.Width = (int)(player.STAMINE / player.MAX_STAMINE * top_panel.Width);
             if (Paused)

@@ -61,11 +61,13 @@ namespace minigames._SLIL
             this.show_settings = new System.Windows.Forms.PictureBox();
             this.chill_timer = new System.Windows.Forms.Timer(this.components);
             this.stage_timer = new System.Windows.Forms.Timer(this.components);
+            this.bottom_panel = new System.Windows.Forms.Panel();
             this.top_panel.SuspendLayout();
             this.pause_panel.SuspendLayout();
             this.shop_panel.SuspendLayout();
             this.shop_title_panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
+            this.bottom_panel.SuspendLayout();
             this.SuspendLayout();
             // 
             // top_panel
@@ -232,7 +234,7 @@ namespace minigames._SLIL
             this.start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.start_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.start_btn.Location = new System.Drawing.Point(80, 262);
+            this.start_btn.Location = new System.Drawing.Point(80, 0);
             this.start_btn.Name = "start_btn";
             this.start_btn.Size = new System.Drawing.Size(105, 40);
             this.start_btn.TabIndex = 36;
@@ -267,7 +269,7 @@ namespace minigames._SLIL
             this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.question.Location = new System.Drawing.Point(40, 262);
+            this.question.Location = new System.Drawing.Point(40, 0);
             this.question.Name = "question";
             this.question.Size = new System.Drawing.Size(40, 40);
             this.question.TabIndex = 39;
@@ -281,7 +283,7 @@ namespace minigames._SLIL
             this.by.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
             this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
-            this.by.Location = new System.Drawing.Point(343, 260);
+            this.by.Location = new System.Drawing.Point(343, 0);
             this.by.Name = "by";
             this.by.Size = new System.Drawing.Size(111, 21);
             this.by.TabIndex = 41;
@@ -294,7 +296,7 @@ namespace minigames._SLIL
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
             this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
-            this.developer_name.Location = new System.Drawing.Point(318, 281);
+            this.developer_name.Location = new System.Drawing.Point(320, 19);
             this.developer_name.Name = "developer_name";
             this.developer_name.Size = new System.Drawing.Size(134, 21);
             this.developer_name.TabIndex = 40;
@@ -337,7 +339,7 @@ namespace minigames._SLIL
             // 
             this.show_settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
-            this.show_settings.Location = new System.Drawing.Point(0, 262);
+            this.show_settings.Location = new System.Drawing.Point(0, 0);
             this.show_settings.Name = "show_settings";
             this.show_settings.Size = new System.Drawing.Size(40, 40);
             this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -357,16 +359,25 @@ namespace minigames._SLIL
             this.stage_timer.Interval = 3250;
             this.stage_timer.Tick += new System.EventHandler(this.Stage_timer_Tick);
             // 
+            // bottom_panel
+            // 
+            this.bottom_panel.Controls.Add(this.by);
+            this.bottom_panel.Controls.Add(this.developer_name);
+            this.bottom_panel.Controls.Add(this.question);
+            this.bottom_panel.Controls.Add(this.show_settings);
+            this.bottom_panel.Controls.Add(this.start_btn);
+            this.bottom_panel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.bottom_panel.Location = new System.Drawing.Point(0, 262);
+            this.bottom_panel.Name = "bottom_panel";
+            this.bottom_panel.Size = new System.Drawing.Size(454, 40);
+            this.bottom_panel.TabIndex = 42;
+            // 
             // SLIL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(454, 302);
-            this.Controls.Add(this.by);
-            this.Controls.Add(this.developer_name);
-            this.Controls.Add(this.question);
-            this.Controls.Add(this.show_settings);
-            this.Controls.Add(this.start_btn);
+            this.Controls.Add(this.bottom_panel);
             this.Controls.Add(this.top_panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
@@ -391,8 +402,9 @@ namespace minigames._SLIL
             this.shop_title_panel.ResumeLayout(false);
             this.shop_title_panel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();
+            this.bottom_panel.ResumeLayout(false);
+            this.bottom_panel.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -427,5 +439,6 @@ namespace minigames._SLIL
         private Label pause_text;
         private Button exit_btn;
         private Button pause_btn;
+        private Panel bottom_panel;
     }
 }

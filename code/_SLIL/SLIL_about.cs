@@ -30,6 +30,19 @@ namespace minigames._SLIL
                     "Left mouse button – shooting\n" +
                     "Right mouse button – aiming mode\n" +
                     "1-8 / mouse wheel – change weapons";
+                difficulty_title.Text = "Difficulty:";
+                difficulty_about.Text = "Easy:\n" +
+                    "Starting weapon: Pistol Lv2\n" +
+                    "Enemies drop more money\n" +
+                    "\nNormal:\n" +
+                    "Starting weapon: Pistol Lv2\n" +
+                    "\nHard:\n" +
+                    "Starting weapon: Pistol Lv1\n" +
+                    "Enemies respawn every 60 sec.\n" +
+                    "\nVery hard:\n" +
+                    "Starting weapon: Pistol Lv1\n" +
+                    "Enemies respawn every 60 sec.\n" +
+                    "Enemies are more aggressive";
                 rules_text.Text = "The goal of the game is to go through a randomly generated maze within a certain time.";
             }
             ok.Left = (Width - ok.Width) / 2;
