@@ -99,6 +99,7 @@ namespace minigames._SLIL
         private const int WEAPONS_COUNT = 7;
         private int burst_shots = 0, reload_frames = 0;
         public static int ost_index = 0;
+        public static int prev_ost;
         private Image scope_hit = null;
         private readonly Image[] scope =
         { 
@@ -120,7 +121,7 @@ namespace minigames._SLIL
         public static bool FullScreen = false;
         private bool open_shop = false, pressed_r = false, pressed_h = false;
         private Display display;
-        private readonly Gun[] GUNS = { new Flashlight(), new Knife(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new FirstAidKit() };
+        private readonly Gun[] GUNS = { new Flashlight(), new Knife(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new Gnome(), new FirstAidKit() };
         public static readonly List<Enemy> Enemies = new List<Enemy>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
@@ -327,6 +328,8 @@ namespace minigames._SLIL
                         player.MoveStyle = 1;
                     else if (player.GetCurrentGun() is Knife)
                         player.MoveStyle = 2;
+                    else if (player.GetCurrentGun() is Gnome)
+                        player.MoveStyle = 6;
                     else
                         player.MoveStyle = 4;
                 }
@@ -398,7 +401,7 @@ namespace minigames._SLIL
                 {
                     if (!open_shop)
                     {
-                        if (e.KeyCode == Keys.ShiftKey && player.STAMINE >= player.MAX_STAMINE / 1.75 && !player.Aiming && !reload_timer.Enabled && !chill_timer.Enabled)
+                        if (e.KeyCode == Keys.ShiftKey && playerDirection == Direction.FORWARD && player.STAMINE >= player.MAX_STAMINE / 1.75 && !player.Aiming && !reload_timer.Enabled && !chill_timer.Enabled)
                             playerMoveStyle = Direction.RUN;
                         if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
                             playerDirection = Direction.FORWARD;
@@ -543,6 +546,16 @@ namespace minigames._SLIL
                             {
                                 TakeFlashlight(false);
                                 ChangeWeapon(7);
+                            }
+                            if (e.KeyCode == Keys.D9 && count > 8)
+                            {
+                                TakeFlashlight(false);
+                                ChangeWeapon(8);
+                            }
+                            if (e.KeyCode == Keys.D0 && count > 9)
+                            {
+                                TakeFlashlight(false);
+                                ChangeWeapon(9);
                             }
                         }
                     }
@@ -766,6 +779,13 @@ namespace minigames._SLIL
                 player.Aiming = false;
                 reload_timer.Interval = player.GetCurrentGun().RechargeTime;
                 shot_timer.Interval = player.GetCurrentGun().FiringRate;
+                if (player.GetCurrentGun() is Gnome)
+                {
+                    prev_ost = ost_index;
+                    ChangeOst(6);
+                }
+                else if(prev_ost != ost_index)
+                    ChangeOst(prev_ost);
             }
         }
 
@@ -1340,7 +1360,8 @@ namespace minigames._SLIL
                 new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_2.wav"), true),
                 new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_3.wav"), true),
                 new PlaySound(MainMenu.CGFReader.GetFile("slil_ost_4.wav"), true),
-                new PlaySound(MainMenu.CGFReader.GetFile("soul_forge.wav"), true)
+                new PlaySound(MainMenu.CGFReader.GetFile("soul_forge.wav"), true),
+                new PlaySound(MainMenu.CGFReader.GetFile("gnome.wav"), true)
             };
             LOOK_SPEED = INIReader.GetDouble(MainMenu.iniFolder, "SLIL", "look_speed", 1.75);
             ShowFPS = INIReader.GetBool(MainMenu.iniFolder, "SLIL", "show_fps", true);
@@ -1573,13 +1594,21 @@ namespace minigames._SLIL
             graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
             if (player.Guns.Count > 0 && !(player.GetCurrentGun() is FirstAidKit) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
             {
-                graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 52 + (42 * resolution), 108 + (110 * resolution));
-                if (player.GetCurrentGun() is SniperRifle || player.GetCurrentGun() is AssaultRifle)
-                    graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
-                else if (player.GetCurrentGun() is Shotgun)
-                    graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                if (player.GetCurrentGun().IsMagic)
+                    graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount + player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 52 + (42 * resolution), 108 + (110 * resolution));
                 else
-                    graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                    graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount}/{player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 52 + (42 * resolution), 108 + (110 * resolution));
+                if (player.GetCurrentGun().IsMagic)
+                    graphicsWeapon.DrawImage(Properties.Resources.magic, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                else
+                {
+                    if (player.GetCurrentGun() is SniperRifle || player.GetCurrentGun() is AssaultRifle)
+                        graphicsWeapon.DrawImage(Properties.Resources.rifle_bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                    else if (player.GetCurrentGun() is Shotgun)
+                        graphicsWeapon.DrawImage(Properties.Resources.shell, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                    else
+                        graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
+                }
             }
             if (player.InShop)
                 graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);
@@ -2206,13 +2235,16 @@ namespace minigames._SLIL
             MAP_WIDTH = MazeWidth * 3 + 1;
             MAP_HEIGHT = MazeHeight * 3 + 1;
             if (MainMenu.sounds)
-                ChangeOst(rand.Next(ost.Length - 1));
+            {
+                prev_ost = rand.Next(ost.Length - 2);
+                ChangeOst(prev_ost);
+            }
         }
 
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add((FirstAidKit)GUNS[9]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[10]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;

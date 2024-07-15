@@ -748,4 +748,28 @@
   <data name="hand_using_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\hand_using_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="gun_gnome" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_reloading_0" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_reloading_0.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_reloading_1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_reloading_1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_reloading_2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_reloading_2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_reloading_3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_reloading_3.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_run" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_run.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="gun_gnome_shooted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\gun_gnome_shooted.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="magic" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\magic.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

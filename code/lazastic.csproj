@@ -535,6 +535,7 @@
     <None Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="magic.png" />
     <None Include="me.png" />
     <None Include="knife_run.png" />
     <None Include="knife_hit.png" />
@@ -743,6 +744,13 @@
     <None Include="hand_using_0.png" />
     <None Include="hand_using_1.png" />
     <None Include="hand_using_2.png" />
+    <None Include="gun_gnome.png" />
+    <None Include="gun_gnome_reloading_0.png" />
+    <None Include="gun_gnome_reloading_1.png" />
+    <None Include="gun_gnome_reloading_2.png" />
+    <None Include="gun_gnome_reloading_3.png" />
+    <None Include="gun_gnome_run.png" />
+    <None Include="gun_gnome_shooted.png" />
     <Content Include="icon1.ico" />
   </ItemGroup>
   <ItemGroup />

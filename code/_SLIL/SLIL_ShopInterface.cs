@@ -81,8 +81,7 @@ namespace minigames._SLIL
                 damage_text.Text = index == 0 ? $"Урон: {weapon.MinDamage}-{weapon.MaxDamage}" : $"Damage: {weapon.MinDamage}-{weapon.MaxDamage}";
                 ammo_count.Text = index == 0 ? $"Патроны: {weapon.MaxAmmoCount}/{weapon.AmmoCount}" : $"Ammo: {weapon.MaxAmmoCount}/{weapon.AmmoCount}";
                 ammo_count.Left = damage_text.Right;
-                if ((!weapon.HaveLV4 && weapon.Level == Levels.LV3) || (weapon.HaveLV4 && weapon.Level == Levels.LV4))
-                    update_button.Visible = false;
+                update_button.Visible = weapon.CanUpdate();
             }
             else if (MainMenu.sounds)
                 cant_pressed?.Play(SLIL.Volume);
@@ -100,7 +99,7 @@ namespace minigames._SLIL
             damage_text.Text = index == 0 ? $"Урон: {weapon.MinDamage}-{weapon.MaxDamage}" : $"Damage: {weapon.MinDamage}-{weapon.MaxDamage}";
             ammo_count.Left = damage_text.Right;
             update_button.Left = buy_button.Right + 6;
-            update_button.Visible = ((!weapon.HaveLV4 && weapon.Level != Levels.LV3) || (weapon.HaveLV4 && weapon.Level != Levels.LV4)) && weapon.HasIt && !(weapon is SniperRifle);
+            update_button.Visible = weapon.CanUpdate() && weapon.HasIt && !(weapon is SniperRifle);
             Width = width;
         }
     }

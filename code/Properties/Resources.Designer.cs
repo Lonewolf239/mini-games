@@ -1473,6 +1473,76 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_reloading_0 {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_reloading_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_reloading_1 {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_reloading_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_reloading_2 {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_reloading_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_reloading_3 {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_reloading_3", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_run {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_run", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap gun_gnome_shooted {
+            get {
+                object obj = ResourceManager.GetObject("gun_gnome_shooted", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap hackerman {
             get {
                 object obj = ResourceManager.GetObject("hackerman", resourceCulture);
@@ -1626,6 +1696,16 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap level_up {
             get {
                 object obj = ResourceManager.GetObject("level_up", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap magic {
+            get {
+                object obj = ResourceManager.GetObject("magic", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

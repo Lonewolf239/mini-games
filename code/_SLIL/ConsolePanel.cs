@@ -43,7 +43,7 @@ namespace minigames._SLIL
         private void GetFirstAidKit()
         {
             if (player.FirstAidKits.Count == 0)
-                player.FirstAidKits.Add((FirstAidKit)GUNS[9]);
+                player.FirstAidKits.Add((FirstAidKit)GUNS[10]);
             player.FirstAidKits[0].AmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].MaxAmmoCount = player.FirstAidKits[0].CartridgesClip;
             player.FirstAidKits[0].HasIt = true;
@@ -126,18 +126,19 @@ namespace minigames._SLIL
                                  "~│~ -SOTLG-       ~│~ Maximum amount of money                     ~│~\n" +
                                  "~│~ -STAMIN_-*X*    ~│~ Changing a player's maximum stamina         ~│~\n" +
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
-                                 "~│~ -BEFWK-       ~│~ Issue out all weapons                       ~│~\n" +
                                  "~│~ -BIGGUY-      ~│~ Give out \"The Smallest Pistol in the World\" ~│~\n" +
+                                 "~│~ -YHRII-       ~│~ Issue \"Fingershot\"                          ~│~\n" +
+                                 "~│~ -IMGNOME-     ~│~ Issue \"Wizard Gnome\"                        ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -BEFWK-       ~│~ Issue out all weapons                       ~│~\n" +
                                  "~│~ -FYTLG-       ~│~ Maximum amount of ammunition                ~│~\n" +
                                  "~│~ -IDDQD-       ~│~ Upgrade all weapons by one level            ~│~\n" +
-                                 "~│~ -YHRII-       ~│~ Issue \"Fingershot\"                          ~│~\n" +
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                                  "~│~ -EGTRE-       ~│~ Issue first aid kits                        ~│~\n" +
                                  "~│~ -GKIFK-       ~│~ Restore maximum health                      ~│~\n" +
                                  "~│~ -KILL-        ~│~ Kill a player                               ~│~\n" +
                                  "~│~ -LPFJY-       ~│~ Cause 99 damage                             ~│~\n" +
                                  "~└─────────────┴─────────────────────────────────────────────┘~";
-
                         }
                         else
                             message += "You are -honest-! Or is that not true?";
@@ -171,6 +172,7 @@ namespace minigames._SLIL
                             if (x > -1 && x < 5)
                             {
                                 message += $"Now the track slil_ost_{x} is playing.";
+                                SLIL.prev_ost = x;
                                 SLIL.ChangeOst(x);
                             }
                             else
@@ -575,15 +577,12 @@ namespace minigames._SLIL
                         {
                             for (int i = 0; i < GUNS.Length; i++)
                             {
-                                if (!(GUNS[i] is Fingershot) && !(GUNS[i] is TSPitW) && !(GUNS[i] is FirstAidKit))
+                                if (GUNS[i].AddToShop)
                                 {
                                     GUNS[i].MaxAmmoCount = GUNS[i].MaxAmmo;
-                                    if (i > 0)
-                                    {
-                                        GUNS[i].HasIt = true;
-                                        if (!player.Guns.Contains(GUNS[i]))
-                                            player.Guns.Add(GUNS[i]);
-                                    }
+                                    GUNS[i].HasIt = true;
+                                    if (!player.Guns.Contains(GUNS[i]))
+                                        player.Guns.Add(GUNS[i]);
                                 }
                             }
                             message += "All weapons have been issued.";
@@ -599,14 +598,7 @@ namespace minigames._SLIL
                         bool can_do_it = false;
                         for (int i = 0; i < player.Guns.Count; i++)
                         {
-                            if (player.Guns[i].Level != Levels.LV3 &&
-                                player.Guns[i].Level != Levels.LV4 &&
-                                !(player.GetCurrentGun() is Knife) &&
-                                !(player.GetCurrentGun() is Flashlight) &&
-                                !(player.GetCurrentGun() is FirstAidKit) &&
-                                !(player.GetCurrentGun() is SniperRifle) &&
-                                !(player.GetCurrentGun() is Fingershot) &&
-                                !(player.GetCurrentGun() is TSPitW))
+                            if (player.Guns[i].CanUpdate())
                                 can_do_it = true;
                         }
                         if (can_do_it)
@@ -626,7 +618,7 @@ namespace minigames._SLIL
                     {
                         for (int i = 0; i < player.Guns.Count; i++)
                         {
-                            if (!(GUNS[i] is Fingershot) && !(GUNS[i] is FirstAidKit))
+                            if (GUNS[i].AddToShop)
                                 player.Guns[i].MaxAmmoCount = player.Guns[i].MaxAmmo;
                         }
                         message += "Maximum ammunition provided.";
@@ -660,12 +652,28 @@ namespace minigames._SLIL
                             GUNS[8].MaxAmmoCount = GUNS[8].MaxAmmo;
                             if (!player.Guns.Contains(GUNS[8]))
                                 player.Guns.Add(GUNS[8]);
-                            message += "\"The Smallest Pistol in the World.\" has been issued.";
+                            message += "\"The Smallest Pistol in the World\" has been issued.";
                         }
                         else
                         {
                             color = Color.Red;
-                            message = "Code not applied! You already have \"The Smallest Pistol in the World.\"";
+                            message = "Code not applied! You already have \"The Smallest Pistol in the World\"";
+                        }
+                    }
+                    else if (cheat == "IMGNOME" && !ImHonest)
+                    {
+                        if (!GUNS[9].HasIt)
+                        {
+                            GUNS[9].HasIt = true;
+                            GUNS[9].MaxAmmoCount = GUNS[9].MaxAmmo;
+                            if (!player.Guns.Contains(GUNS[9]))
+                                player.Guns.Add(GUNS[9]);
+                            message += "\"Wizard Gnome\" has been issued.";
+                        }
+                        else
+                        {
+                            color = Color.Red;
+                            message = "Code not applied! You already have \"Wizard Gnome\"";
                         }
                     }
                     else if (cheat == "GKIFK" && !ImHonest)

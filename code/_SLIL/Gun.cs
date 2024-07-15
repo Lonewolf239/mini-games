@@ -27,24 +27,24 @@ namespace minigames._SLIL
         public int ReloadFrames { get; set; }
         public bool AddToShop { get; set; }
         public bool HaveLV4 { get; set; }
+        public bool IsMagic { get; set; }
         public FireTypes FireType { get; set; }
         public Levels Level { get; set; }
         public Image[] Icon { get; set; }
         public Image[,] Images { get; set; }
         public PlaySound[,] Sounds { get; set; }
-        protected int Type { get; set; }
 
         public Gun()
         {
             Level = Levels.LV1;
+            IsMagic = false;
         }
 
         public virtual void SetDefault()
         {
             Level = Levels.LV1;
             ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
+            HasIt = false;
         }
 
         public void ReloadClip()
@@ -85,13 +85,35 @@ namespace minigames._SLIL
 
         public virtual void LevelUpdate()
         {
-            if ((!HaveLV4 && Level != Levels.LV4) || (HaveLV4 && Level != Levels.LV4))
+            if (CanUpdate())
             {
                 Level++;
                 UpdateCost += 20;
                 ApplyUpdate();
             }
         }
+
+        public virtual bool CanUpdate() => (!HaveLV4 && Level != Levels.LV3) || (HaveLV4 && Level != Levels.LV4);
+    }
+
+    public class Magic : Gun
+    {
+        public Magic() : base()
+        {
+            AddToShop = false;
+            HasIt = false;
+            IsMagic = true;
+            FireType = FireTypes.Single;
+            CartridgesClip = 1;
+            AmmoCount = CartridgesClip;
+            FiringRange = 10;
+            Recoil = 50;
+            RadiusSound = 0;
+            BurstShots = 1;
+            Icon = new[] { Properties.Resources.missing };
+        }
+
+        public override bool CanUpdate() => false;
     }
 
     public class Flashlight : Gun
@@ -100,7 +122,6 @@ namespace minigames._SLIL
         {
             AddToShop = false;
             HasIt = true;
-            Type = 0;
             Name = new[] { "Фонарик", "Flashlight" };
             RechargeTime = 1;
             FiringRate = 1;
@@ -108,6 +129,7 @@ namespace minigames._SLIL
             MaxAmmoCount = 1;
             MaxAmmo = 1;
             FireType = FireTypes.Single;
+            Icon = new[] { Properties.Resources.missing };
             Images = new[,] { { Properties.Resources.flashlight, Properties.Resources.flashlight_run } };
             Sounds = new[,] { { new PlaySound(null, false), } };
         }
@@ -116,11 +138,9 @@ namespace minigames._SLIL
         {
             Level = Levels.LV1;
             ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
-        public override void LevelUpdate() { }
+        public override bool CanUpdate() => false;
     }
 
     public class Knife : Gun
@@ -129,7 +149,6 @@ namespace minigames._SLIL
         {
             AddToShop = false;
             HasIt = true;
-            Type = 0;
             Name = new[] { "Нож", "Knife" };
             FireType = FireTypes.Single;
             RechargeTime = 600;
@@ -144,7 +163,7 @@ namespace minigames._SLIL
             BurstShots = 1;
             RadiusSound = 0;
             ReloadFrames = 1;
-            Icon = new[] { Properties.Resources.gun_1_1_icon };
+            Icon = new[] { Properties.Resources.missing };
             Images = new[,] { { Properties.Resources.knife, Properties.Resources.knife_hit, Properties.Resources.knife_run } };
             Sounds = new[,] { { new PlaySound(MainMenu.CGFReader.GetFile("knife.wav"), false) } };
             AmmoCount = CartridgesClip;
@@ -154,11 +173,9 @@ namespace minigames._SLIL
         {
             Level = Levels.LV1;
             ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
-        public override void LevelUpdate() { }
+        public override bool CanUpdate() => false;
     }
 
     public class Pistol : Gun
@@ -168,7 +185,6 @@ namespace minigames._SLIL
             AddToShop = true;
             HasIt = true;
             HaveLV4 = true;
-            Type = 1;
             Name = new[] { "Пистолет", "Pistol" };
             FireType = FireTypes.Single;
             UpdateCost = 20;
@@ -213,8 +229,6 @@ namespace minigames._SLIL
         {
             Level = Levels.LV1;
             ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
         protected override void ApplyUpdate()
@@ -292,7 +306,6 @@ namespace minigames._SLIL
             AddToShop = true;
             HasIt = false;
             HaveLV4 = false;
-            Type = 2;
             Name = new[] { "Дробовик", "Shotgun" };
             FireType = FireTypes.Single;
             UpdateCost = 30;
@@ -329,14 +342,6 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_1.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_2_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_empty.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_1_shell.wav"), false) },
             };
             AmmoCount = CartridgesClip;
-        }
-
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
         protected override void ApplyUpdate()
@@ -399,7 +404,6 @@ namespace minigames._SLIL
             AddToShop = true;
             HasIt = false;
             HaveLV4 = false;
-            Type = 3;
             Name = new[] { "Пистолет-пулемет", "Submachine gun" };
             FireType = FireTypes.SemiAutomatic;
             UpdateCost = 40;
@@ -436,14 +440,6 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_3_3.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_3_3_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_3_empty.wav"), false) }
             };
             AmmoCount = CartridgesClip;
-        }
-
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
         protected override void ApplyUpdate()
@@ -506,7 +502,6 @@ namespace minigames._SLIL
             AddToShop = true;
             HasIt = false;
             HaveLV4 = false;
-            Type = 4;
             Name = new[] { "Автомат", "Assault rifle" };
             FireType = FireTypes.SemiAutomatic;
             UpdateCost = 50;
@@ -543,14 +538,6 @@ namespace minigames._SLIL
                     /*LV3:*/ { new PlaySound(MainMenu.CGFReader.GetFile("gun_4_3.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_4_3_reloading.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gun_4_empty.wav"), false) }
             };
             AmmoCount = CartridgesClip;
-        }
-
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
         }
 
         protected override void ApplyUpdate()
@@ -614,7 +601,6 @@ namespace minigames._SLIL
         {
             AddToShop = true;
             HasIt = false;
-            Type = 5;
             Name = new[] { "Снайперка", "Sniper rifle" };
             FireType = FireTypes.Single;
             GunCost = 55;
@@ -646,21 +632,7 @@ namespace minigames._SLIL
             AmmoCount = CartridgesClip;
         }
 
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
-        }
-
-        protected override void ApplyUpdate()
-        {
-            MaxAmmoCount = 1;
-            base.ApplyUpdate();
-        }
-
-        public override void LevelUpdate() { }
+        public override bool CanUpdate() => false;
     }
 
     public class Fingershot : Gun
@@ -669,7 +641,6 @@ namespace minigames._SLIL
         {
             AddToShop = false;
             HasIt = false;
-            Type = 6;
             Name = new[] { "Пальцестрел", "Fingershot" };
             FireType = FireTypes.Single;
             RechargeTime = 600;
@@ -684,10 +655,7 @@ namespace minigames._SLIL
             BurstShots = 1;
             RadiusSound = 0;
             ReloadFrames = 2;
-            Icon = new[]
-            {
-                    Properties.Resources.gun_1_1_icon
-            };
+            Icon = new[] { Properties.Resources.missing };
             Images = new[,]
             {
                    { Properties.Resources.gun_5, Properties.Resources.gun_5_shooted, Properties.Resources.gun_5_1_reload, Properties.Resources.gun_5_2_reload, Properties.Resources.gun_5_run, Properties.Resources.gun_5_run }
@@ -699,15 +667,7 @@ namespace minigames._SLIL
             AmmoCount = CartridgesClip;
         }
 
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
-        }
-
-        public override void LevelUpdate() { }
+        public override bool CanUpdate() => false;
     }
 
     public class TSPitW : Gun
@@ -716,7 +676,6 @@ namespace minigames._SLIL
         {
             AddToShop = false;
             HasIt = false;
-            Type = 7;
             Name = new[] { "СМПвМ", "TSPitW" };
             FireType = FireTypes.Single;
             RechargeTime = 750;
@@ -731,10 +690,7 @@ namespace minigames._SLIL
             BurstShots = 1;
             RadiusSound = 0;
             ReloadFrames = 3;
-            Icon = new[]
-            {
-                    Properties.Resources.gun_1_1_icon
-            };
+            Icon = new[] { Properties.Resources.missing };
             Images = new[,]
             {
                    { Properties.Resources.gun_6, Properties.Resources.gun_6_shooted, Properties.Resources.gun_6_1_reload, Properties.Resources.gun_6_2_reload, Properties.Resources.gun_6_3_reload, Properties.Resources.gun_6 }
@@ -746,15 +702,33 @@ namespace minigames._SLIL
             AmmoCount = CartridgesClip;
         }
 
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
-        }
+        public override bool CanUpdate() => false;
+    }
 
-        public override void LevelUpdate() { }
+    public class Gnome : Magic
+    {
+        public Gnome() : base()
+        {
+            Name = new[] { "Гном-волшебник", "Wizard Gnome" };
+            RechargeTime = 300;
+            MaxAmmoCount = 99;
+            MaxAmmo = 99;
+            MaxDamage = 25;
+            MinDamage = 20;
+            FiringRate = 650;
+            ReloadFrames = 4;
+            Images = new[,]
+            {
+                   { Properties.Resources.gun_gnome, Properties.Resources.gun_gnome_shooted,
+                    Properties.Resources.gun_gnome_reloading_0, Properties.Resources.gun_gnome_reloading_1,
+                    Properties.Resources.gun_gnome_reloading_2, Properties.Resources.gun_gnome_reloading_3,
+                    Properties.Resources.gun_gnome_run }
+            };
+            Sounds = new[,]
+            {
+                   { new PlaySound(MainMenu.CGFReader.GetFile("fireball.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("gnome_reloading.wav"), false), new PlaySound(null, false) }
+            };
+        }
     }
 
     public class FirstAidKit : Gun
@@ -763,7 +737,6 @@ namespace minigames._SLIL
         {
             AddToShop = false;
             HasIt = false;
-            Type = 8;
             Name = new[] { "Аптечка", "First Aid Kit" };
             FireType = FireTypes.Single;
             RechargeTime = 980;
@@ -773,6 +746,7 @@ namespace minigames._SLIL
             FiringRate = 150;
             BurstShots = 1;
             ReloadFrames = 3;
+            Icon = new[] { Properties.Resources.missing };
             Images = new[,]
             {
                    { Properties.Resources.medkit1, Properties.Resources.medkit1, Properties.Resources.medkit_using_0, Properties.Resources.medkit_using_1, Properties.Resources.medkit_using_2, Properties.Resources.medkit_run },
@@ -788,14 +762,6 @@ namespace minigames._SLIL
             AmmoCount = CartridgesClip;
         }
 
-        public override void SetDefault()
-        {
-            Level = Levels.LV1;
-            ApplyUpdate();
-            if (Type > 1)
-                HasIt = false;
-        }
-
-        public override void LevelUpdate() { }
+        public override bool CanUpdate() => false;
     }
 }
