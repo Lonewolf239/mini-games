@@ -301,7 +301,7 @@
     <Compile Include="_SLIL\Display.Designer.cs">
       <DependentUpon>Display.cs</DependentUpon>
     </Compile>
-    <Compile Include="_SLIL\Enemy.cs" />
+    <Compile Include="_SLIL\Entity.cs" />
     <Compile Include="_SLIL\Items.cs" />
     <Compile Include="_SLIL\look_speed_percent.cs">
       <SubType>Form</SubType>

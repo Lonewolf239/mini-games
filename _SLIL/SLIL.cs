@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using Convert_Bitmap;
 using System.IO;
 using System.Drawing.Drawing2D;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace minigames._SLIL
 {
@@ -853,14 +854,14 @@ namespace minigames._SLIL
             for (int i = 0; i < Enemies.Count; i++)
             {
                 spriteOrder[i] = i;
-                spriteDistance[i] = (player.X - Enemies[i].IntX - 0.5) * (player.X - Enemies[i].IntX - 0.5) + (player.Y - Enemies[i].IntY - 0.5) * (player.Y - Enemies[i].IntY - 0.5);
+                spriteDistance[i] = (player.X - Enemies[i].X) * (player.X - Enemies[i].X) + (player.Y - Enemies[i].Y) * (player.Y - Enemies[i].Y);
                 textures[i] = Enemies[i].Texture;
             }
             SortSprites(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
             for (int i = 0; i < Enemies.Count; i++)
             {
-                double spriteX = Enemies[spriteOrder[i]].IntX + 0.5 - player.X;
-                double spriteY = Enemies[spriteOrder[i]].IntY + 0.5 - player.Y;
+                double spriteX = Enemies[spriteOrder[i]].X - player.X;
+                double spriteY = Enemies[spriteOrder[i]].Y - player.Y;
                 double dirX = Math.Sin(player.A);
                 double dirY = Math.Cos(player.A);
                 double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
@@ -869,7 +870,7 @@ namespace minigames._SLIL
                 double transformX = invDet * (dirY * spriteX - dirX * spriteY);
                 double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
                 int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
-                double Distance = Math.Sqrt((player.X - Enemies[spriteOrder[i]].IntX - 0.5) * (player.X - Enemies[spriteOrder[i]].IntX - 0.5) + (player.Y - Enemies[spriteOrder[i]].IntY - 0.5) * (player.Y - Enemies[spriteOrder[i]].IntY - 0.5));
+                double Distance = Math.Sqrt((player.X - Enemies[spriteOrder[i]].X) * (player.X - Enemies[spriteOrder[i]].X) + (player.Y - Enemies[spriteOrder[i]].Y) * (player.Y - Enemies[spriteOrder[i]].Y));
                 double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
                 double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
                 int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
@@ -933,7 +934,7 @@ namespace minigames._SLIL
                                         double multiplier = 1;
                                         if (difficulty == 3)
                                             multiplier = 1.5;
-                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY[Enemies[i].Type] * multiplier), (int)(Enemies[i].MAX_MONEY[Enemies[i].Type] * multiplier)));
+                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY * multiplier), (int)(Enemies[i].MAX_MONEY * multiplier)));
                                         player.EnemiesKilled++;
                                         if (MainMenu.sounds)
                                             enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
@@ -1209,14 +1210,14 @@ namespace minigames._SLIL
                         {
                             MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
                             enemy.UpdateCoordinates(MAP.ToString());
-                            if (enemy.Type == 1)
+                            if (enemy is Dog)
                                 enemy.UpdateCoordinates(MAP.ToString());
                             MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = 'E';
                             if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
                             {
                                 if (!player.Invulnerable)
                                 {
-                                    player.DealDamage(rand.Next(enemy.MIN_DAMAGE[enemy.Type], enemy.MAX_DAMAGE[enemy.Type]));
+                                    player.DealDamage(rand.Next(enemy.MIN_DAMAGE, enemy.MAX_DAMAGE));
                                     if (player.HP <= 0)
                                     {
                                         GameOver(0);
@@ -1582,14 +1583,14 @@ namespace minigames._SLIL
             for (int i = 0; i < Enemies.Count; i++)
             {
                 spriteOrder[i] = i;
-                spriteDistance[i] = (player.X - Enemies[i].IntX - 0.5) * (player.X - Enemies[i].IntX - 0.5) + (player.Y - Enemies[i].IntY - 0.5) * (player.Y - Enemies[i].IntY - 0.5);
+                spriteDistance[i] = (player.X - Enemies[i].X) * (player.X - Enemies[i].X) + (player.Y - Enemies[i].Y) * (player.Y - Enemies[i].Y);
                 textures[i] = Enemies[i].Texture;
             }
             SortSprites(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
             for (int i = 0; i < Enemies.Count; i++)
             {
-                double spriteX = Enemies[spriteOrder[i]].IntX + 0.5 - player.X;
-                double spriteY = Enemies[spriteOrder[i]].IntY + 0.5 - player.Y;
+                double spriteX = Enemies[spriteOrder[i]].X - player.X;
+                double spriteY = Enemies[spriteOrder[i]].Y - player.Y;
                 double dirX = Math.Sin(player.A);
                 double dirY = Math.Cos(player.A);
                 double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
@@ -1598,7 +1599,7 @@ namespace minigames._SLIL
                 double transformX = invDet * (dirY * spriteX - dirX * spriteY);
                 double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
                 int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
-                double Distance = Math.Sqrt((player.X - Enemies[spriteOrder[i]].IntX - 0.5) * (player.X - Enemies[spriteOrder[i]].IntX - 0.5) + (player.Y - Enemies[spriteOrder[i]].IntY - 0.5) * (player.Y - Enemies[spriteOrder[i]].IntY - 0.5));
+                double Distance = Math.Sqrt((player.X - Enemies[spriteOrder[i]].X) * (player.X - Enemies[spriteOrder[i]].X) + (player.Y - Enemies[spriteOrder[i]].Y) * (player.Y - Enemies[spriteOrder[i]].Y));
                 double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
                 double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
                 int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
@@ -2260,8 +2261,22 @@ namespace minigames._SLIL
                     {
                         if (MAP[y * MAP_WIDTH + x] == 'E')
                         {
-                            Enemy enemy = new Enemy(x, y, MAP_WIDTH, rand.NextDouble());
-                            Enemies.Add(enemy);
+                            double dice = rand.NextDouble();
+                            if(dice <= 0.5)
+                            {
+                                Dog enemy = new Dog(x, y, MAP_WIDTH);
+                                Enemies.Add(enemy);
+                            }
+                            else if(dice > 0.5 && dice <= 0.7)
+                            {
+                                Man enemy = new Man(x, y, MAP_WIDTH);
+                                Enemies.Add(enemy);
+                            }
+                            else
+                            {
+                                Abomination enemy = new Abomination(x, y, MAP_WIDTH);
+                                Enemies.Add(enemy);
+                            }
                         }
                     }
                 }
@@ -2345,8 +2360,22 @@ namespace minigames._SLIL
                     {
                         if (map[x, y] == '.' && random.NextDouble() <= enemy_count && x > 5 && y > 5)
                         {
-                            Enemy enemy = new Enemy(x, y, MazeWidth * 3 + 1, rand.NextDouble());
-                            Enemies.Add(enemy);
+                            double dice = rand.NextDouble();
+                            if (dice <= 0.5)
+                            {
+                                Dog enemy = new Dog(x, y, MazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
+                            else if (dice > 0.5 && dice <= 0.7)
+                            {
+                                Man enemy = new Man(x, y, MazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
+                            else
+                            {
+                                Abomination enemy = new Abomination(x, y, MazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
                             map[x, y] = 'E';
                         }
                         sb.Append(map[x, y]);
@@ -2362,8 +2391,22 @@ namespace minigames._SLIL
                     {
                         if (CUSTOM_MAP[y * (CustomMazeWidth * 3 + 1) + x] == 'E')
                         {
-                            Enemy enemy = new Enemy(x, y, CustomMazeWidth * 3 + 1, rand.NextDouble());
-                            Enemies.Add(enemy);
+                            double dice = rand.NextDouble();
+                            if (dice <= 0.5)
+                            {
+                                Dog enemy = new Dog(x, y, CustomMazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
+                            else if (dice > 0.5 && dice <= 0.7)
+                            {
+                                Man enemy = new Man(x, y, CustomMazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
+                            else
+                            {
+                                Abomination enemy = new Abomination(x, y, CustomMazeWidth * 3 + 1);
+                                Enemies.Add(enemy);
+                            }
                         }
                     }
                 }
