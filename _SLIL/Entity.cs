@@ -35,6 +35,11 @@ namespace minigames._SLIL
         public Entity(double x, double y, int map_width)
         {
             MAX_HP = this.GetMAX_HP();
+            Texture = this.GetTexture();
+            MAX_MONEY = this.GetMAX_MONEY();
+            MIN_MONEY = this.GetMIN_MONEY();
+            MAX_DAMAGE = this.GetMAX_DAMAGE();
+            MIN_DAMAGE = this.GetMIN_DAMAGE();
             HP = MAX_HP;
             RespondsToFlashlight = false;
             Texture = this.GetTexture();

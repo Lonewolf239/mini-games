@@ -1192,7 +1192,7 @@ namespace minigames._SLIL
             {
                 if (!start_btn.Enabled)
                 {
-                    Enemy enemy = Enemies[i];
+                    var enemy = Enemies[i] as dynamic;
                     double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
                     if (distance <= 30)
                     {
