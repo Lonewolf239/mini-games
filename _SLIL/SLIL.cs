@@ -836,6 +836,117 @@ namespace minigames._SLIL
 
         private void BulletRayCasting()
         {
+            DateTime time = DateTime.Now;
+            elapsed_time = (time - total_time).TotalSeconds;
+            total_time = time;
+            PlayerMove();
+            ClearDisplayedMap();
+            int factor = player.Aiming ? 12 : 0;
+            if (player.GetCurrentGun() is Flashlight)
+                factor = 8;
+            double[] ZBuffer = new double[SCREEN_WIDTH[resolution]];
+            double[] ZBufferWindow = new double[SCREEN_WIDTH[resolution]];
+            Pixel[][] rays = CastRaysParallel(ZBuffer, ZBufferWindow);
+            int[] spriteOrder = new int[Enemies.Count];
+            double[] spriteDistance = new double[Enemies.Count];
+            int[] textures = new int[Enemies.Count];
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                spriteOrder[i] = i;
+                spriteDistance[i] = (player.X - Enemies[i].IntX - 0.5) * (player.X - Enemies[i].IntX - 0.5) + (player.Y - Enemies[i].IntY - 0.5) * (player.Y - Enemies[i].IntY - 0.5);
+                textures[i] = Enemies[i].Texture;
+            }
+            SortSprites(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
+            for (int i = 0; i < Enemies.Count; i++)
+            {
+                double spriteX = Enemies[spriteOrder[i]].IntX + 0.5 - player.X;
+                double spriteY = Enemies[spriteOrder[i]].IntY + 0.5 - player.Y;
+                double dirX = Math.Sin(player.A);
+                double dirY = Math.Cos(player.A);
+                double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                double planeY = Math.Cos(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                double invDet = 1.0 / (planeX * dirY - dirX * planeY);
+                double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+                double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+                int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
+                double Distance = Math.Sqrt((player.X - Enemies[spriteOrder[i]].IntX - 0.5) * (player.X - Enemies[spriteOrder[i]].IntX - 0.5) + (player.Y - Enemies[spriteOrder[i]].IntY - 0.5) * (player.Y - Enemies[spriteOrder[i]].IntY - 0.5));
+                double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
+                double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
+                int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
+                int drawStartY = (int)spriteTop;
+                int drawEndY = (int)spriteBottom;
+                int spriteHeight = Math.Abs((int)(SCREEN_HEIGHT[resolution] / Distance));
+                int spriteWidth = Math.Abs((int)(SCREEN_WIDTH[resolution] / Distance));
+                int drawStartX = -spriteWidth / 2 + spriteScreenX;
+                if (drawStartX < 0) drawStartX = 0;
+                int drawEndX = spriteWidth / 2 + spriteScreenX;
+                if (drawEndX >= SCREEN_WIDTH[resolution]) drawEndX = SCREEN_WIDTH[resolution];
+                var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 2);
+                for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+                {
+                    int texWidth = 128;
+                    double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
+                    if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
+                    {
+                        for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
+                        {
+                            if (y < 0 || (transformY > ZBufferWindow[stripe] && y > spriteCenterY))
+                                continue;
+                            double d = y - (SCREEN_HEIGHT[resolution] - (int)player.Look) / 2 + (drawEndY - drawStartY) / 2;
+                            double texY = d / (drawEndY - drawStartY);
+                            if (y == drawStartY) texY = 0;
+                            if (rays[stripe].Length > y && y >= 0)
+                            {
+                                int tempTextureId = rays[stripe][y].TextureId;
+                                int tempBlackout = rays[stripe][y].Blackout;
+                                double tempTextureX = rays[stripe][y].TextureX;
+                                double tempTextureY = rays[stripe][y].TextureY;
+                                if (!Enemies[spriteOrder[i]].DEAD)
+                                {
+                                    if (EnableAnimation)
+                                    {
+                                        if (player.GetCurrentGun() is Flashlight && Enemies[spriteOrder[i]].RespondsToFlashlight)
+                                            rays[stripe][y].TextureId = textures[i] + 2;
+                                        else
+                                            rays[stripe][y].TextureId = Enemies[spriteOrder[i]].Animations[0][timeNow % Enemies[spriteOrder[i]].Frames];
+                                    }
+                                    else
+                                        rays[stripe][y].TextureId = textures[i];
+                                }
+                                else
+                                    rays[stripe][y].TextureId = textures[i] + 3;
+                                rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
+                                rays[stripe][y].TextureX = texX;
+                                rays[stripe][y].TextureY = texY;
+                                Color color = GetColorForPixel(rays[stripe][y]);
+                                if (stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2)
+                                {
+                                    ;
+                                }
+                                if (!(color.A == 255 && color.B == 0 && color.G == 0 && color.R == 0) && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
+                                {
+                                    double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
+                                    if (player.GetCurrentGun() is Shotgun)
+                                        damage *= player.GetCurrentGun().FiringRange - Distance;
+                                    if (Enemies[spriteOrder[i]].DealDamage(damage))
+                                    {
+                                        double multiplier = 1;
+                                        if (difficulty == 3)
+                                            multiplier = 1.5;
+                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY[Enemies[i].Type] * multiplier), (int)(Enemies[i].MAX_MONEY[Enemies[i].Type] * multiplier)));
+                                        player.EnemiesKilled++;
+                                        if (MainMenu.sounds)
+                                            enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
+                                    }
+                                    scope_hit = Properties.Resources.scope_hit;
+                                    return;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            /*
             double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
             double ray_x = Math.Sin(rayA);
             double ray_y = Math.Cos(rayA);
@@ -952,7 +1063,7 @@ namespace minigames._SLIL
             if (player.Look - player.GetCurrentGun().Recoil > -360)
                 player.Look -= player.GetCurrentGun().Recoil;
             else
-                player.Look = -360;
+                player.Look = -360;*/
         }
 
         private void Reload_gun_Tick(object sender, EventArgs e)
@@ -1566,6 +1677,12 @@ namespace minigames._SLIL
                 order[i] = spritess[amount - i - 1].Item2;
                 text[i] = spritess[amount - i - 1].Item3;
             }
+        }
+        private void SortSpritesNotReversed(ref int[] order, ref double[] dist, ref int[] text, int amount)
+        {
+            Tuple<double, int, int>[] spritess = new Tuple<double, int, int>[amount];
+            for (int i = 0; i < amount; i++) spritess[i] = Tuple.Create(dist[i], order[i], text[i]);
+            spritess = spritess.OrderBy(item => item.Item1).ToArray();
         }
 
         private void UpdateDisplay()
