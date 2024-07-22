@@ -535,8 +535,15 @@
     <Content Include="images\clarinet.png" />
     <Content Include="images\drum.png" />
     <Content Include="images\enemy.png" />
-    <None Include="images\enemy_01.png" />
-    <None Include="images\enemy_02.png" />
+    <None Include="images\enemy_0_1.png" />
+    <None Include="images\enemy_0_2.png" />
+    <None Include="images\enemy_1_1.png" />
+    <None Include="images\enemy_1_2.png" />
+    <None Include="images\enemy_2_1.png" />
+    <None Include="images\enemy_2_2.png" />
+    <None Include="images\enemy_0_DEAD.png" />
+    <None Include="images\enemy_1_DEAD.png" />
+    <None Include="images\enemy_2_DEAD.png" />
     <Content Include="images\figure_0.png" />
     <Content Include="images\figure_1.png" />
     <Content Include="images\figure_2.png" />

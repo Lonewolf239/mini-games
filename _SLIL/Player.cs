@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using SharpDX.Direct2D1;
+using System.Collections.Generic;
 
 namespace minigames._SLIL
 {
@@ -9,6 +10,8 @@ namespace minigames._SLIL
         public double A { get; set; }
         public double Look { get; set; }
         public double HP { get; set; }
+        public bool Invulnerable { get; set; }
+        public int TimeoutInvulnerable { get; set; }
         public double STAMINE { get; set; }
         public bool CanShoot { get; set; }
         public bool Aiming { get; set; }
@@ -55,6 +58,8 @@ namespace minigames._SLIL
             GunState = 0;
             CanShoot = true;
             Dead = false;
+            Invulnerable = false;
+            TimeoutInvulnerable = 2;
             InShop = false;
             Aiming = false;
             UseFirstMedKit = false;
@@ -65,6 +70,13 @@ namespace minigames._SLIL
 
         public Gun GetCurrentGun() => Guns[CurrentGun];
 
+        public void InvulnerableEnd()
+        {
+            TimeoutInvulnerable--;
+            if (TimeoutInvulnerable <= 0)
+                Invulnerable = false;
+        }
+
         public void HealHP(int value)
         {
             UseFirstMedKit = false;
@@ -73,7 +85,12 @@ namespace minigames._SLIL
                 HP = MAX_HP;
         }
 
-        public void DealDamage(double value) => HP -= value;
+        public void DealDamage(double value)
+        {
+            HP -= value;
+            TimeoutInvulnerable = 2;
+            Invulnerable = true;
+        }
 
         public void ChangeMoney(int value)
         {

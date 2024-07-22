@@ -14,6 +14,9 @@ namespace minigames._SLIL
         public int RESPAWN { get; set; }
         public int Type { get; set; }
         public int Texture { get; set; }
+        public bool RespondsToFlashlight { get; set; }
+        public int[][] Animations { get; set; }
+        public int Frames = 24;
         public readonly int[] MAX_MONEY = { 10, 15, 18 };
         public readonly int[] MIN_MONEY = { 5, 10, 12 };
         public readonly int[] MAX_DAMAGE = { 35, 40, 30 };
@@ -32,7 +35,17 @@ namespace minigames._SLIL
             else
                 Type = 2;
             HP = MAX_HP[Type];
-            Texture = Type + 1;
+            RespondsToFlashlight = false;
+            Texture = 1 + (4 * Type);
+            Animations = new int[1][];
+            Animations[0] = new int[Frames];
+            for (int item = 0; item < Frames; item++)
+            {
+                if (item % 3 == 0)
+                    Animations[0][item] = Texture;
+                else
+                    Animations[0][item] = Texture + 1;
+            }
             X = x;
             Y = y;
             IntX = (int)x;

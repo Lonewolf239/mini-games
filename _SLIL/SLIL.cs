@@ -13,6 +13,7 @@ using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 using Convert_Bitmap;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace minigames._SLIL
 {
@@ -21,7 +22,7 @@ namespace minigames._SLIL
         private bool isCursorVisible = true;
         public static int CustomMazeHeight;
         public static int CustomMazeWidth;
-        public static bool CUSTOM = false, ShowFPS = true;
+        public static bool CUSTOM = false, ShowFPS = true, ShowMiniMap = true, EnableAnimation = true;
         public static int difficulty = 1, old_difficulty;
         private int inDebug = 0;
         public static double LOOK_SPEED = 1.75f;
@@ -229,6 +230,8 @@ namespace minigames._SLIL
         private void Time_remein_Tick(object sender, EventArgs e)
         {
             seconds--;
+            if (player.Invulnerable)
+                player.InvulnerableEnd();
             if (seconds < 0)
             {
                 if (minutes > 0)
@@ -1100,16 +1103,17 @@ namespace minigames._SLIL
                             MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = 'E';
                             if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
                             {
-                                enemy.Kill();
-                                MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
-                                player.DealDamage(rand.Next(enemy.MIN_DAMAGE[enemy.Type], enemy.MAX_DAMAGE[enemy.Type]));
-                                if (player.HP <= 0)
+                                if (!player.Invulnerable)
                                 {
-                                    GameOver(0);
-                                    return;
+                                    player.DealDamage(rand.Next(enemy.MIN_DAMAGE[enemy.Type], enemy.MAX_DAMAGE[enemy.Type]));
+                                    if (player.HP <= 0)
+                                    {
+                                        GameOver(0);
+                                        return;
+                                    }
+                                    if (MainMenu.sounds)
+                                        hit.Play(Volume);
                                 }
-                                if (MainMenu.sounds)
-                                    hit.Play(Volume);
                             }
                         }
                     }
@@ -1346,6 +1350,7 @@ namespace minigames._SLIL
             };
             LOOK_SPEED = INIReader.GetDouble(MainMenu.iniFolder, "SLIL", "look_speed", 1.75);
             ShowFPS = INIReader.GetBool(MainMenu.iniFolder, "SLIL", "show_fps", true);
+            ShowMiniMap = INIReader.GetBool(MainMenu.iniFolder, "SLIL", "show_minimap", true);
             difficulty = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "difficulty", 1);
             scope_color = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "scope_color", 0);
             scope_type = INIReader.GetInt(MainMenu.iniFolder, "SLIL", "scope_type", 0);
@@ -1454,6 +1459,9 @@ namespace minigames._SLIL
             total_time = time;
             PlayerMove();
             ClearDisplayedMap();
+            int factor = player.Aiming ? 12 : 0;
+            if (player.GetCurrentGun() is Flashlight)
+                factor = 8;
             double[] ZBuffer = new double[SCREEN_WIDTH[resolution]];
             double[] ZBufferWindow = new double[SCREEN_WIDTH[resolution]];
             Pixel[][] rays = CastRaysParallel(ZBuffer, ZBufferWindow);
@@ -1469,8 +1477,6 @@ namespace minigames._SLIL
             SortSprites(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
             for (int i = 0; i < Enemies.Count; i++)
             {
-                if (Enemies[spriteOrder[i]].DEAD)
-                    continue;
                 double spriteX = Enemies[spriteOrder[i]].IntX + 0.5 - player.X;
                 double spriteY = Enemies[spriteOrder[i]].IntY + 0.5 - player.Y;
                 double dirX = Math.Sin(player.A);
@@ -1493,11 +1499,11 @@ namespace minigames._SLIL
                 if (drawStartX < 0) drawStartX = 0;
                 int drawEndX = spriteWidth / 2 + spriteScreenX;
                 if (drawEndX >= SCREEN_WIDTH[resolution]) drawEndX = SCREEN_WIDTH[resolution];
-                var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 10);
+                var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 2);
                 for (int stripe = drawStartX; stripe < drawEndX; stripe++)
                 {
                     int texWidth = 128;
-                    double texX = (double)((int)(256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
+                    double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
                     if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
                     {
                         for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
@@ -1506,28 +1512,27 @@ namespace minigames._SLIL
                                 continue;
                             double d = y - (SCREEN_HEIGHT[resolution] - (int)player.Look) / 2 + (drawEndY - drawStartY) / 2;
                             double texY = d / (drawEndY - drawStartY);
+                            if (y == drawStartY) texY = 0;
                             if (rays[stripe].Length > y && y >= 0)
                             {
-                                int factor = player.Aiming ? 12 : 0;
-                                if (player.GetCurrentGun() is Flashlight)
-                                    factor = 8;
                                 int tempTextureId = rays[stripe][y].TextureId;
                                 int tempBlackout = rays[stripe][y].Blackout;
                                 double tempTextureX = rays[stripe][y].TextureX;
                                 double tempTextureY = rays[stripe][y].TextureY;
-                                //temporary declaration
-                                int[][] animations = new int[1][];
-                                animations[0] = new int[60];
-                                for(int item = 0; item < animations[0].Length-2; item++) animations[0][item] = 1;
-                                animations[0][animations[0].Length - 2] = 8;
-                                animations[0][animations[0].Length - 1] = 8;
-                                //rays[stripe][y].textureid = textures[i] + ((int)(datetime.now.touniversaltime() - new datetime(1970, 1, 1)).totalseconds) % 2;
-                                if (textures[i] > 0 && textures[i] < 2)
+                                if (!Enemies[spriteOrder[i]].DEAD)
                                 {
-                                    rays[stripe][y].TextureId = animations[textures[i] - 1][timeNow % animations[textures[i] - 1].Length];
-                                    if (player.GetCurrentGun() is Flashlight) rays[stripe][y].TextureId = 9;
+                                    if (EnableAnimation)
+                                    {
+                                        if (player.GetCurrentGun() is Flashlight && Enemies[spriteOrder[i]].RespondsToFlashlight)
+                                            rays[stripe][y].TextureId = textures[i] + 2;
+                                        else
+                                            rays[stripe][y].TextureId = Enemies[spriteOrder[i]].Animations[0][timeNow % Enemies[spriteOrder[i]].Frames];
+                                    }
+                                    else
+                                        rays[stripe][y].TextureId = textures[i];
                                 }
-                                else rays[stripe][y].TextureId = textures[i];
+                                else
+                                    rays[stripe][y].TextureId = textures[i] + 3;
                                 rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
                                 rays[stripe][y].TextureX = texX;
                                 rays[stripe][y].TextureY = texY;
@@ -1612,14 +1617,12 @@ namespace minigames._SLIL
         {
             int textureSize = 128;
             int x = 0, y = 0;
-            if (pixel.TextureId < 10)
+            if (pixel.TextureId < 20)
             {
                 x = (int)WrapTexture((int)(pixel.TextureX * textureSize), textureSize);
                 y = (int)WrapTexture((int)(pixel.TextureY * textureSize), textureSize);
             }
-            Color color;
-            if (pixel.TextureId == 1488) color = textureCache.GetTextureColor(textureCache.LastTexture, x, y, pixel.Blackout);
-            else color = textureCache.GetTextureColor(pixel.TextureId, x, y, pixel.Blackout);
+            Color color = textureCache.GetTextureColor(pixel.TextureId, x, y, pixel.Blackout);
             return color;
         }
 
@@ -1642,6 +1645,71 @@ namespace minigames._SLIL
                     if (DISPLAYED_MAP[index] == '*' || DISPLAYED_MAP[index] == 'E')
                         DISPLAYED_MAP[index] = '.';
                 }
+            }
+        }
+
+        private Bitmap DrawMiniMap()
+        {
+            const int MINI_MAP_SIZE = 25;
+            const int BORDER_SIZE = 1;
+            const int MINI_MAP_DRAW_SIZE = 37;
+            const int PIXEL_SIZE = 2;
+            int totalSize = MINI_MAP_DRAW_SIZE + 2 * BORDER_SIZE;
+            Bitmap miniMap = new Bitmap(totalSize, totalSize);
+            Color[,] miniMapArray = new Color[MINI_MAP_SIZE, MINI_MAP_SIZE];
+            for (int y = 0; y < MINI_MAP_SIZE; y++)
+            {
+                for (int x = 0; x < MINI_MAP_SIZE; x++)
+                {
+                    int mapX = x - MINI_MAP_SIZE / 2 + (int)player.X + 2;
+                    int mapY = y - MINI_MAP_SIZE / 2 + (int)player.Y + 2;
+                    Color pixelColor;
+                    if (mapX >= 0 && mapX < MAP_WIDTH && mapY >= 0 && mapY < MAP_HEIGHT)
+                    {
+                        char mapChar = DISPLAYED_MAP[mapY * MAP_WIDTH + mapX];
+                        pixelColor = GetColorForMapChar(mapChar);
+                    }
+                    else
+                        pixelColor = Color.Black;
+                    miniMapArray[x, y] = pixelColor;
+                }
+            }
+            using (Graphics g = Graphics.FromImage(miniMap))
+            {
+                g.SmoothingMode = SmoothingMode.AntiAlias;
+                using (SolidBrush borderBrush = new SolidBrush(Color.Green))
+                    g.FillEllipse(borderBrush, 0, 0, totalSize, totalSize);
+                using (GraphicsPath path = new GraphicsPath())
+                {
+                    path.AddEllipse(BORDER_SIZE, BORDER_SIZE, MINI_MAP_DRAW_SIZE, MINI_MAP_DRAW_SIZE);
+                    g.SetClip(path);
+                    for (int y = 0; y < MINI_MAP_SIZE; y++)
+                    {
+                        for (int x = 0; x < MINI_MAP_SIZE; x++)
+                        {
+                            using (SolidBrush pixelBrush = new SolidBrush(miniMapArray[x, y]))
+                                g.FillRectangle(pixelBrush, x * PIXEL_SIZE + BORDER_SIZE, y * PIXEL_SIZE + BORDER_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+                        }
+                    }
+                    g.ResetClip();
+                }
+            }
+            return miniMap;
+        }
+
+        private Color GetColorForMapChar(char mapChar)
+        {
+            switch (mapChar)
+            {
+                case '#': return Color.Blue;
+                case '=': return Color.YellowGreen;
+                case 'P': return Color.Red;
+                case 'D':
+                case 'O': return Color.FromArgb(255, 165, 0);
+                case 'F': return Color.MediumVioletRed;
+                case '*': return Color.FromArgb(255, 128, 128);
+                case 'E': return Color.Cyan;
+                default: return Color.Black;
             }
         }
 
@@ -1718,6 +1786,12 @@ namespace minigames._SLIL
                     text = "STAGE: Custom";
                 SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
                 graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
+            }
+            if (ShowMiniMap)
+            {
+                Bitmap mini_map = DrawMiniMap();
+                graphicsWeapon.DrawImage(mini_map, SCREEN_WIDTH[resolution] - mini_map.Width - 5, 15);
+                mini_map.Dispose();
             }
         }
 
@@ -1835,7 +1909,7 @@ namespace minigames._SLIL
             {
                 if (start_btn.Enabled)
                     break;
-                int blackout = 0, textureId = 1488;
+                int blackout = 0, textureId = 21;
                 if (hit_window && y > mid)
                 {
                     ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / (window_distance*Math.Cos(deltaA));
@@ -1848,7 +1922,7 @@ namespace minigames._SLIL
                 }
                 if (y <= ceiling)
                 {
-                    textureId = 7;
+                    textureId = 16;
                     double d = (y + player.Look / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
@@ -1856,23 +1930,23 @@ namespace minigames._SLIL
                 {
                     textureId = 0;
                     if (Math.Abs(y - mid) <= 10 / window_distance || is_window_bound)
-                        textureId = 1488;
+                        textureId = 20;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((window_distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if ((y < mid || !hit_window) && y > ceiling && y < floor)
                 {
                     textureId = 0;
                     if (hit_finish)
-                        textureId = 5;
+                        textureId = 14;
                     else if (hit_door)
-                        textureId = 4;
+                        textureId = 13;
                     if (is_bound)
-                        textureId = 1488;
+                        textureId = 20;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if (y >= floor)
                 {
-                    textureId = 6;
+                    textureId = 15;
                     double d = 1 - (y - (SCREEN_HEIGHT[resolution] - player.Look) / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
@@ -1912,7 +1986,7 @@ namespace minigames._SLIL
                             get_texture_window = true;
                             side = GetSide(window_distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 1488;
+                                result[y].TextureId = 20;
                             if (side == 0)
                                 wallX = player.X + window_distance * ray_x;
                             else
@@ -1927,7 +2001,7 @@ namespace minigames._SLIL
                             get_texture = true;
                             side = GetSide(distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 1488;
+                                result[y].TextureId = 20;
                             if (side == 0)
                                 wallX = player.X + distance * ray_x;
                             else
@@ -1937,14 +2011,14 @@ namespace minigames._SLIL
                     }
                     else
                     {
-                        result[y].TextureId = 1488;
+                        result[y].TextureId = 20;
                         result[y].TextureY = 0;
                         result[y].TextureX = 0;
                         result[y].Side = 0;
                     }
                     if (get_texture || get_texture_window)
                     {
-                        result[y].TextureY = (double)((double)y - ceiling) / (double)(floor - ceiling);
+                        result[y].TextureY = (double)(y - ceiling) / (double)(floor - ceiling);
                         result[y].TextureX = wallX;
                         result[y].Side = side;
                     }
@@ -2036,7 +2110,7 @@ namespace minigames._SLIL
             }
             bounds = bounds.OrderBy(v => v.module).ToList();
             double bound_a = 0.03 / distance;
-            if (Math.Acos(bounds[0].cos) < bound_a || Math.Acos(bounds[1].cos) < bound_a || (Math.Acos(bounds[2].cos) < bound_a && distance+0.1 >= bounds[2].module))
+            if (Math.Acos(bounds[0].cos) < bound_a || Math.Acos(bounds[1].cos) < bound_a || (Math.Acos(bounds[2].cos) < bound_a && distance + 0.1 >= bounds[2].module))
                 return true;
             return false;
         }
@@ -2329,6 +2403,7 @@ namespace minigames._SLIL
             {
                 player.A = 0;
             }
+            stage_timer.Stop();
             stage_timer.Start();
             raycast.Start();
             time_remein.Start();

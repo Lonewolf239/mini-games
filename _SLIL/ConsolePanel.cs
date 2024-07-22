@@ -79,6 +79,8 @@ namespace minigames._SLIL
                              "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
                              "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
                              "~│~ -FPS-         ~│~ Show/hide FPS                               ~│~\n" +
+                             "~│~ -MINIMAP-     ~│~ Show/hide Minimap                           ~│~\n" +
+                             "~│~ -ANIMATION-   ~│~ Enable/disable enemy animation              ~│~\n" +
                              "~│~ -COLOR_-*X*     ~│~ Change console font color                   ~│~\n" +
                              "~│~ -VOL_-*X*       ~│~ Change volume of sounds to X                ~│~\n" +
                              "~│~ -SCOPE_-*X*     ~│~ Replace current sight                       ~│~\n" +
@@ -387,6 +389,23 @@ namespace minigames._SLIL
                             message += "FPS display enabled.";
                         else
                             message += "FPS display disabled.";
+                    }
+                    else if (cheat == "MINIMAP")
+                    {
+                        SLIL.ShowMiniMap = !SLIL.ShowMiniMap;
+                        INIReader.SetKey(MainMenu.iniFolder, "SLIL", "show_minimap", SLIL.ShowMiniMap);
+                        if (SLIL.ShowMiniMap)
+                            message += "Minimap enabled.";
+                        else
+                            message += "Minimap disabled.";
+                    }
+                    else if (cheat == "ANIMATION")
+                    {
+                        SLIL.EnableAnimation = !SLIL.EnableAnimation;
+                        if (SLIL.EnableAnimation)
+                            message += "Animation enabled.";
+                        else
+                            message += "Animation disabled.";
                     }
                     else if (cheat.StartsWith("VOL_"))
                     {
