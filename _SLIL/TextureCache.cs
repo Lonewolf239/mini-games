@@ -15,8 +15,10 @@ namespace minigames._SLIL
             Properties.Resources.teleport,
             Properties.Resources.floor,
             Properties.Resources.ceiling,
-            Properties.Resources.enemy_01
+            Properties.Resources.enemy_01,
+            Properties.Resources.enemy_02,
         };
+        public int LastTexture { get; }
         private readonly Color[] COLORS =
         {
             //bound
@@ -28,6 +30,7 @@ namespace minigames._SLIL
 
         public TextureCache()
         {
+            LastTexture = textures.Length;
             int textureCount = textures.Length + COLORS.Length;
             textureColorCache = new Color[textureCount, 101][,];
             for (int id = 0; id < textures.Length; id++)
@@ -61,7 +64,10 @@ namespace minigames._SLIL
             }
         }
 
-        public Color GetTextureColor(int textureId, int x, int y, int blackout) => textureColorCache[textureId, blackout][x, y];
+        public Color GetTextureColor(int textureId, int x, int y, int blackout) {
+            if (textureId == 1488) return Color.Black;
+            return textureColorCache[textureId, blackout][x, y];
+        }
 
         private Color[,] GenerateBlackTexture(int width, int height)
         {
