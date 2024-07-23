@@ -125,9 +125,6 @@ namespace minigames._SLIL
         private ConsolePanel console_panel;
         private readonly char[] impassibleCells  = { '#', 'D', '=' };
         private const double playerWidth = 0.4;
-        public delegate void GameOverCallback(int win);
-        public GameOverCallback GameOverCB;
-
         public SLIL(TextureCache textures)
         {
             InitializeComponent();
@@ -1094,7 +1091,7 @@ namespace minigames._SLIL
 
         private void Enemy_timer_Tick(object sender, EventArgs e)
         {
-            Parallel.For(0, Entities.Count, i =>
+            for(int i = 0; i < Entities.Count; i++)
             {
                 if (!start_btn.Enabled)
                 {
@@ -1116,8 +1113,7 @@ namespace minigames._SLIL
                                         player.DealDamage(rand.Next(enemy.MIN_DAMAGE, enemy.MAX_DAMAGE));
                                         if (player.HP <= 0)
                                         {
-                                            GameOverCallback gameover = new GameOverCallback(GameOver);
-                                            gameover.Invoke(0);
+                                            GameOver(0);
                                             return;
                                         }
                                         if (MainMenu.sounds)
@@ -1128,7 +1124,7 @@ namespace minigames._SLIL
                         }
                     }
                 }
-            });
+            }
         }
 
         private void Map_timer_Tick(object sender, EventArgs e)
