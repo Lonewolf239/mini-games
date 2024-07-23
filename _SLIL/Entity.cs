@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SharpDX.Direct2D1;
+using System;
 using System.Runtime.InteropServices;
+using System.Linq;
 
 namespace minigames._SLIL
 {
@@ -11,6 +13,8 @@ namespace minigames._SLIL
         public int IntX { get; set; }
         public int IntY { get; set; }
         public double A { get; set; }
+        protected char[] impassibleCells;
+        protected double entityWidth;
         public bool DEAD { get; set; }
         public int RESPAWN { get; set; }
         public int Texture { get; set; }
@@ -32,6 +36,8 @@ namespace minigames._SLIL
         protected abstract int GetMIN_MONEY();
         protected abstract int GetMAX_DAMAGE();
         protected abstract int GetMIN_DAMAGE();
+        protected abstract double GetEntityWidth();
+        protected abstract char[] GetImpassibleCells();
         public Entity(double x, double y, int map_width)
         {
             MAX_HP = this.GetMAX_HP();
@@ -40,6 +46,8 @@ namespace minigames._SLIL
             MIN_MONEY = this.GetMIN_MONEY();
             MAX_DAMAGE = this.GetMAX_DAMAGE();
             MIN_DAMAGE = this.GetMIN_DAMAGE();
+            entityWidth = this.GetEntityWidth();
+            impassibleCells = this.GetImpassibleCells();
             HP = MAX_HP;
             RespondsToFlashlight = false;
             Texture = this.GetTexture();
@@ -83,25 +91,46 @@ namespace minigames._SLIL
         public void UpdateCoordinates(string map)
         {
             double move = this.GetMove();
-            X += Math.Sin(A) * move;
-            Y += Math.Cos(A) * move;
-            try
-            {
-                if (map[(int)Y * MAP_WIDTH + (int)X] == '#' || map[(int)Y * MAP_WIDTH + (int)X] == '=' || map[(int)Y * MAP_WIDTH + (int)X] == 'D' || map[(int)Y * MAP_WIDTH + (int)X] == 'O' || map[(int)Y * MAP_WIDTH + (int)X] == 'F' || map[(int)Y * MAP_WIDTH + (int)X] == 'E')
-                {
-                    X -= Math.Sin(A) * move;
-                    Y -= Math.Cos(A) * move;
-                    A -= rand.NextDouble();
-                }
-            }
-            catch
-            {
-                X -= Math.Sin(A) * move;
-                Y -= Math.Cos(A) * move;
-                A -= rand.NextDouble();
-            }
+            double newX = X;
+            double newY = Y;
+            double tempX = X;
+            double tempY = Y;
+            newX += Math.Sin(A) * move;
+            newY += Math.Cos(A) * move;
+            A += rand.NextDouble();
+            //try
+            //{
+            //    if (map[(int)Y * MAP_WIDTH + (int)X] == '#' || map[(int)Y * MAP_WIDTH + (int)X] == '=' || map[(int)Y * MAP_WIDTH + (int)X] == 'D' || map[(int)Y * MAP_WIDTH + (int)X] == 'O' || map[(int)Y * MAP_WIDTH + (int)X] == 'F' || map[(int)Y * MAP_WIDTH + (int)X] == 'E')
+            //    {
+            //        newX -= Math.Sin(A) * move;
+            //        newY -= Math.Cos(A) * move;
+            //        A -= rand.NextDouble();
+            //    }
+            //}
+            //catch
+            //{
+            //    newX -= Math.Sin(A) * move;
+            //    newY -= Math.Cos(A) * move;
+            //    A -= rand.NextDouble();
+            //}
             IntX = (int)X;
             IntY = (int)Y;
+            if (!(impassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX + entityWidth / 2)])
+                || impassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX - entityWidth / 2)])))
+                tempX = newX;
+            if (!(impassibleCells.Contains(map[(int)(newY + entityWidth / 2) * MAP_WIDTH + (int)newX])
+                || impassibleCells.Contains(map[(int)(newY - entityWidth / 2) * MAP_WIDTH + (int)newX])))
+                tempY = newY;
+            if (impassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX + entityWidth / 2)]))
+                tempX -= entityWidth / 2 - (1 - tempX % 1);
+            if (impassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX - entityWidth / 2)]))
+                tempX += entityWidth / 2 - (tempX % 1);
+            if (impassibleCells.Contains(map[(int)(tempY + entityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY -= entityWidth / 2 - (1 - tempY % 1);
+            if (impassibleCells.Contains(map[(int)(tempY - entityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY += entityWidth / 2 - (tempY % 1);
+            X = tempX;
+            Y = tempY;
         }
     }
     public abstract class Enemy : Entity
@@ -110,6 +139,11 @@ namespace minigames._SLIL
     }
     public class Man : Enemy
     {
+        protected override double GetEntityWidth() => 0.4;
+        protected override char[] GetImpassibleCells() 
+        {
+            return new char[] { '#', 'D', '=' };
+        }
         protected override int GetMAX_HP() => 10;
         protected override int GetTexture() => 1;
         protected override double GetMove() => 1;
@@ -124,6 +158,11 @@ namespace minigames._SLIL
     }
     public class Dog : Enemy
     {
+        protected override double GetEntityWidth() => 0.4;
+        protected override char[] GetImpassibleCells()
+        {
+            return new char[] { '#', 'D', '=' };
+        }
         protected override int GetMAX_HP() => 5;
         protected override int GetTexture() => 5;
         protected override double GetMove() => 1;
@@ -139,6 +178,11 @@ namespace minigames._SLIL
 
     public class Abomination : Enemy
     {
+        protected override double GetEntityWidth() => 0.4;
+        protected override char[] GetImpassibleCells()
+        {
+            return new char[] { '#', 'D', '=' };
+        }
         protected override int GetMAX_HP() => 20;
         protected override int GetTexture() => 9;
         protected override double GetMove() => 0.5;

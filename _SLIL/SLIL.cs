@@ -649,10 +649,6 @@ namespace minigames._SLIL
                             case '#':
                             case '=':
                             case 'F':
-                            case 'E':
-                                hit = true;
-                                wall.Play(Volume);
-                                break;
                             case 'D':
                                 hit = true;
                                 door[0].Play(Volume);
@@ -929,15 +925,17 @@ namespace minigames._SLIL
                                     double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
                                     if (player.GetCurrentGun() is Shotgun)
                                         damage *= player.GetCurrentGun().FiringRange - Distance;
-                                    if (Enemies[spriteOrder[i]].DealDamage(damage))
-                                    {
-                                        double multiplier = 1;
-                                        if (difficulty == 3)
-                                            multiplier = 1.5;
-                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY * multiplier), (int)(Enemies[i].MAX_MONEY * multiplier)));
-                                        player.EnemiesKilled++;
-                                        if (MainMenu.sounds)
-                                            enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
+                                    if(!Enemies[spriteOrder[i]].DEAD){
+                                        if (Enemies[spriteOrder[i]].DealDamage(damage))
+                                        {
+                                            double multiplier = 1;
+                                            if (difficulty == 3)
+                                                multiplier = 1.5;
+                                            player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY * multiplier), (int)(Enemies[i].MAX_MONEY * multiplier)));
+                                            player.EnemiesKilled++;
+                                            if (MainMenu.sounds)
+                                                enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
+                                        }
                                     }
                                     scope_hit = Properties.Resources.scope_hit;
                                     return;
@@ -1208,11 +1206,9 @@ namespace minigames._SLIL
                         }
                         if (!enemy.DEAD)
                         {
-                            MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = '.';
                             enemy.UpdateCoordinates(MAP.ToString());
                             if (enemy is Dog)
                                 enemy.UpdateCoordinates(MAP.ToString());
-                            MAP[(int)enemy.Y * MAP_WIDTH + (int)enemy.X] = 'E';
                             if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
                             {
                                 if (!player.Invulnerable)
@@ -2277,6 +2273,7 @@ namespace minigames._SLIL
                                 Abomination enemy = new Abomination(x, y, MAP_WIDTH);
                                 Enemies.Add(enemy);
                             }
+                            MAP[y * MAP_WIDTH + x] = '.';
                         }
                     }
                 }
@@ -2376,7 +2373,6 @@ namespace minigames._SLIL
                                 Abomination enemy = new Abomination(x, y, MazeWidth * 3 + 1);
                                 Enemies.Add(enemy);
                             }
-                            map[x, y] = 'E';
                         }
                         sb.Append(map[x, y]);
                     }
