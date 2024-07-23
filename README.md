@@ -1,5 +1,5 @@
 # **Mini-Games**
-## Developed by: **Lonewolf239**
+## Developed by: **Lonewolf239**, **Fatalan**
 ### **[Download link](https://base-escape.ru/downloads/Setup_Mini_Games.exe)**
 
 ### Introduction
