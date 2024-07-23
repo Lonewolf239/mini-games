@@ -113,7 +113,6 @@ namespace minigames._SLIL
             else
             {
                 A = rand.NextDouble() * (Math.PI * 2);
-                A = 0;
                 numberOfMovesLeft = movesInARow;
             }
             IntX = (int)X;
