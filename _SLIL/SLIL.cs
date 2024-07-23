@@ -631,6 +631,103 @@ namespace minigames._SLIL
                     DoScreenshot();
                 if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
                 {
+                    DateTime time = DateTime.Now;
+                    elapsed_time = (time - total_time).TotalSeconds;
+                    total_time = time;
+                    PlayerMove();
+                    ClearDisplayedMap();
+                    int factor = player.Aiming ? 12 : 0;
+                    if (player.GetCurrentGun() is Flashlight)
+                        factor = 8;
+                    double[] ZBuffer = new double[SCREEN_WIDTH[resolution]];
+                    double[] ZBufferWindow = new double[SCREEN_WIDTH[resolution]];
+                    Pixel[][] rays = CastRaysParallel(ZBuffer, ZBufferWindow);
+                    int[] spriteOrder = new int[Entities.Count];
+                    double[] spriteDistance = new double[Entities.Count];
+                    int[] textures = new int[Entities.Count];
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        spriteOrder[i] = i;
+                        spriteDistance[i] = (player.X - Entities[i].X) * (player.X - Entities[i].X) + (player.Y - Entities[i].Y) * (player.Y - Entities[i].Y);
+                        textures[i] = Entities[i].Texture;
+                    }
+                    SortSpritesNotReversed(ref spriteOrder, ref spriteDistance, ref textures, Entities.Count);
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        Entity entity = Entities[spriteOrder[i]];
+                        //Creature creature = null;
+                        //if (entity is Creature)
+                        //{
+                        //    creature = Entities[spriteOrder[i]] as Creature;
+                        //    if (!creature.CanHit)
+                        //        creature = null;
+                        //}
+                        double spriteX = entity.X - player.X;
+                        double spriteY = entity.Y - player.Y;
+                        double dirX = Math.Sin(player.A);
+                        double dirY = Math.Cos(player.A);
+                        double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                        double planeY = Math.Cos(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                        double invDet = 1.0 / (planeX * dirY - dirX * planeY);
+                        double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+                        double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+                        int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
+                        double Distance = Math.Sqrt((player.X - entity.X) * (player.X - entity.X) + (player.Y - entity.Y) * (player.Y - entity.Y));
+                        double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
+                        double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
+                        int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
+                        int drawStartY = (int)spriteTop;
+                        int drawEndY = (int)spriteBottom;
+                        int spriteHeight = Math.Abs((int)(SCREEN_HEIGHT[resolution] / Distance));
+                        int spriteWidth = Math.Abs((int)(SCREEN_WIDTH[resolution] / Distance));
+                        int drawStartX = -spriteWidth / 2 + spriteScreenX;
+                        if (drawStartX < 0) drawStartX = 0;
+                        int drawEndX = spriteWidth / 2 + spriteScreenX;
+                        if (drawEndX >= SCREEN_WIDTH[resolution]) drawEndX = SCREEN_WIDTH[resolution];
+                        var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 2);
+                        for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+                        {
+                            int texWidth = 128;
+                            double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
+                            if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
+                            {
+                                for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
+                                {
+                                    if (y < 0 || (transformY > ZBufferWindow[stripe] && y > spriteCenterY))
+                                        continue;
+                                    double d = y - (SCREEN_HEIGHT[resolution] - (int)player.Look) / 2 + (drawEndY - drawStartY) / 2;
+                                    double texY = d / (drawEndY - drawStartY);
+                                    if (y == drawStartY) texY = 0;
+                                    if (rays[stripe].Length > y && y >= 0)
+                                    {
+                                        if (EnableAnimation)
+                                        {
+                                            if (player.GetCurrentGun() is Flashlight && entity.RespondsToFlashlight)
+                                                rays[stripe][y].TextureId = textures[i] + 2;
+                                            else
+                                                rays[stripe][y].TextureId = entity.Animations[0][timeNow % entity.Frames];
+                                        }
+                                        else
+                                            rays[stripe][y].TextureId = textures[i];
+                                        rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
+                                        rays[stripe][y].TextureX = texX;
+                                        rays[stripe][y].TextureY = texY;
+                                        Color color = GetColorForPixel(rays[stripe][y]);
+                                        if (color != Color.Transparent && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
+                                        {
+                                            //implement events
+                                            if(entity is Pet && Distance <= 2)
+                                            {
+                                                //test
+                                                DeathSounds[0].Play(Volume);
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
                     double ray_x = Math.Sin(rayA);
                     double ray_y = Math.Cos(rayA);

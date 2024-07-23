@@ -549,13 +549,16 @@ namespace minigames._SLIL
                 tempY += EntityWidth / 2 - (tempY % 1);
             if(isPlayerVisible)
             {
-                X = tempX;
-                Y = tempY;
+                if(Math.Sqrt(Math.Pow(tempX - playerX, 2) + Math.Pow(tempY - playerY, 2)) >= 0.7)
+                {
+                    X = tempX;
+                    Y = tempY;
+                }
             }
             else
             {
-                X = playerX; 
-                Y = playerY;
+                X = playerX+0.1; 
+                Y = playerY+0.1;
             }
         }
     }
