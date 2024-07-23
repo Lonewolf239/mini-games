@@ -22,7 +22,7 @@ namespace minigames._SLIL
         private static bool ImHonest = false;
         private int cheat_index = 0, color_index = 0;
         private readonly List<string> previous_cheat = new List<string>();
-        public List<Enemy> Enemies;
+        public List<Entity> Entities;
         public Gun[] GUNS;
         public Player player;
         private readonly Dictionary<string, Color> colorMap = new Dictionary<string, Color>
@@ -214,19 +214,26 @@ namespace minigames._SLIL
                         sb.AppendLine("~|~      *Enemys List*      ~|~");
                         sb.AppendLine("~|───────────────────────|~");
                         int maxLength = 21;
-                        for (int i = 0; i < Enemies.Count; i++)
+                        if (Entities.Count == 1)
+                            sb.AppendLine("~|~      *No enemies.*      ~|~");
+                        for (int i = 0; i < Entities.Count; i++)
                         {
-                            string dead = "";
-                            if (Enemies[i].DEAD)
-                                dead = "[DEAD]";
-                            string paddedName = $"Enemy #{i} {dead}".PadRight(maxLength);
-                            sb.AppendLine($"~|~ -{paddedName}- ~|~");
+                            if (Entities[i] is Creature)
+                            {
+                                Creature creature = Entities[i] as Creature;
+                                if (!(creature is Enemy))
+                                    continue;
+                                string dead = "";
+                                if (creature.DEAD)
+                                    dead = "[DEAD]";
+                                string paddedName = $"Enemy #{i} {dead}".PadRight(maxLength);
+                                sb.AppendLine($"~|~ -{paddedName}- ~|~");
+                            }
+                            sb.AppendLine("~|───────────────────────|~");
+                            sb.AppendLine("To select an enemy write Enemy_*EnemyIndex*");
+                            show_date = false;
+                            message = sb.ToString();
                         }
-                        sb.AppendLine("~|───────────────────────|~");
-                        sb.AppendLine("To select an enemy write Enemy_*EnemyIndex*");
-                        show_date = false;
-                        message = sb.ToString();
-
                     }
                     else if (cheat == "PLAYER")
                     {
@@ -259,12 +266,12 @@ namespace minigames._SLIL
                     }
                     else if (cheat.StartsWith("ENEMY_"))
                     {
-                        Enemy selected = null;
+                        Entity selected = null;
                         try
                         {
                             int index = Convert.ToInt32(cheat.Split('_')[1]);
-                            if (Enemies.Contains(Enemies[index]))
-                                selected = Enemies[index];
+                            if (Entities[index] is Enemy && Entities.Contains(Entities[index]))
+                                selected = Entities[index];
                         }
                         catch { }
                         if (selected == null)

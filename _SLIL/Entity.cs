@@ -5,22 +5,43 @@ namespace minigames._SLIL
 {
     public abstract class Entity
     {
-        protected double HP { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
+        protected double EntityWidth;
         public int IntX { get; set; }
         public int IntY { get; set; }
+        public int Texture { get; set; }
+        public int[][] Animations { get; set; }
+        public bool RespondsToFlashlight { get; set; }
+        public int Frames = 24;
+        protected readonly Random rand = new Random();
+
+        protected abstract int GetTexture();
+        protected abstract double GetEntityWidth();
+
+        public Entity(double x, double y, int map_width)
+        {
+            Texture = this.GetTexture();
+            EntityWidth = this.GetEntityWidth();
+            RespondsToFlashlight = false;
+            Texture = this.GetTexture();
+            X = x;
+            Y = y;
+            IntX = (int)x;
+            IntY = (int)y;
+        }
+    }
+
+    public abstract class Creature : Entity
+    {
+        protected double HP { get; set; }
         public double A { get; set; }
         protected char[] ImpassibleCells;
-        protected double EntityWidth;
         protected int MovesInARow;
         protected int NumberOfMovesLeft;
+        public bool CanHit { get; set; }
         public bool DEAD { get; set; }
         public int RESPAWN { get; set; }
-        public int Texture { get; set; }
-        public bool RespondsToFlashlight { get; set; }
-        public int[][] Animations { get; set; }
-        public int Frames = 24;
         public int MAX_MONEY;
         public int MIN_MONEY;
         public int MAX_DAMAGE;
@@ -28,49 +49,15 @@ namespace minigames._SLIL
         protected int MAP_WIDTH { get; set; }
         protected int MAX_HP;
         protected const int RESPAWN_TIME = 60;
-        protected readonly Random rand = new Random();
 
         protected abstract int GetMAX_HP();
-        protected abstract int GetTexture();
         protected abstract int GetMAX_MONEY();
         protected abstract int GetMIN_MONEY();
         protected abstract int GetMAX_DAMAGE();
         protected abstract int GetMIN_DAMAGE();
-        protected abstract double GetEntityWidth();
         protected abstract char[] GetImpassibleCells();
         protected abstract int GetMovesInARow();
-
-        public Entity(double x, double y, int map_width)
-        {
-            MAX_HP = this.GetMAX_HP();
-            Texture = this.GetTexture();
-            MAX_MONEY = this.GetMAX_MONEY();
-            MIN_MONEY = this.GetMIN_MONEY();
-            MAX_DAMAGE = this.GetMAX_DAMAGE();
-            MIN_DAMAGE = this.GetMIN_DAMAGE();
-            EntityWidth = this.GetEntityWidth();
-            ImpassibleCells = this.GetImpassibleCells();
-            MovesInARow = this.GetMovesInARow();
-            NumberOfMovesLeft = MovesInARow;
-            HP = MAX_HP;
-            RespondsToFlashlight = false;
-            Texture = this.GetTexture();
-            Animations = new int[1][];
-            Animations[0] = new int[Frames];
-            for (int item = 0; item < Frames; item++)
-            {
-                if (item % 3 == 0)
-                    Animations[0][item] = Texture;
-                else
-                    Animations[0][item] = Texture + 1;
-            }
-            X = x;
-            Y = y;
-            IntX = (int)x;
-            IntY = (int)y;
-            A = rand.NextDouble();
-            MAP_WIDTH = map_width;
-        }
+        protected abstract double GetMove();
 
         public bool DealDamage(double damage)
         {
@@ -92,7 +79,30 @@ namespace minigames._SLIL
             DEAD = false;
         }
 
-        protected abstract double GetMove();
+        public Creature(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            MAX_HP = this.GetMAX_HP();
+            MAX_MONEY = this.GetMAX_MONEY();
+            MIN_MONEY = this.GetMIN_MONEY();
+            MAX_DAMAGE = this.GetMAX_DAMAGE();
+            MIN_DAMAGE = this.GetMIN_DAMAGE();
+            ImpassibleCells = this.GetImpassibleCells();
+            MovesInARow = this.GetMovesInARow();
+            NumberOfMovesLeft = MovesInARow;
+            CanHit = false;
+            HP = MAX_HP;
+            Animations = new int[1][];
+            Animations[0] = new int[Frames];
+            for (int item = 0; item < Frames; item++)
+            {
+                if (item % 3 == 0)
+                    Animations[0][item] = Texture;
+                else
+                    Animations[0][item] = Texture + 1;
+            }
+            A = rand.NextDouble();
+            MAP_WIDTH = map_width;
+        }
 
         public virtual void UpdateCoordinates(string map, double playerX, double playerY)
         {
@@ -147,12 +157,45 @@ namespace minigames._SLIL
         }
     }
 
-    public abstract class Enemy : Entity
+    public abstract class GameObject : Entity
+    {
+        protected override double GetEntityWidth() => 0.4;
+        protected override int GetTexture() => Texture;
+        protected void AnimationsToStatic()
+        {
+            Animations = new int[1][];
+            Animations[0] = new int[Frames];
+            for (int item = 0; item < Frames; item++)
+                Animations[0][item] = Texture;
+        }
+
+        public GameObject(double x, double y, int map_width) : base(x, y, map_width) 
+        {
+            RespondsToFlashlight = false;
+            X += 0.5;
+            Y += 0.5;
+        }
+    }
+
+    public abstract class Enemy : Creature
     {
         protected enum Stages { Roaming, Chasing };
         protected Stages stage;
         protected double detectionRange;
-        public Enemy(double x, double y, int map_width) : base(x, y, map_width) { stage = Stages.Roaming; }
+        public Enemy(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            stage = Stages.Roaming;
+            CanHit = true;
+        }
+    }
+
+    public class Teleport : GameObject
+    {
+        public Teleport(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            Texture = 15;
+            base.AnimationsToStatic();
+        }
     }
 
     public class Man : Enemy

@@ -103,8 +103,13 @@ namespace minigames._SLIL
                     bytes[2] = pixels[offset + 2];
                     if (bytesPerPixel == 4)
                         bytes[3] = pixels[offset + 3];
-                    Color originalColor = Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
-                    colors[x, y] = DarkenColor(originalColor, darkenAmount);
+                    if (bytes[3] == 0)
+                        colors[x, y] = Color.Transparent;
+                    else
+                    {
+                        Color originalColor = Color.FromArgb(bytes[3], bytes[2], bytes[1], bytes[0]);
+                        colors[x, y] = DarkenColor(originalColor, darkenAmount);
+                    }
                 }
             }
             return colors;
