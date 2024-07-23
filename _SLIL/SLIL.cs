@@ -1194,21 +1194,11 @@ namespace minigames._SLIL
                     double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
                     if (distance <= 30)
                     {
-                        if (difficulty <= 1)
-                        {
-                            if (enemy.DEAD && enemy.RESPAWN > 0)
-                                enemy.RESPAWN--;
-                            else if (enemy.DEAD && enemy.RESPAWN <= 0)
-                            {
-                                if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
-                                    enemy.Respawn();
-                            }
-                        }
                         if (!enemy.DEAD)
                         {
-                            enemy.UpdateCoordinates(MAP.ToString());
+                            enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
                             if (enemy is Dog)
-                                enemy.UpdateCoordinates(MAP.ToString());
+                                enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
                             if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
                             {
                                 if (!player.Invulnerable)
@@ -1547,6 +1537,31 @@ namespace minigames._SLIL
                 form.Close();
                 form = null;
             }
+        }
+
+        private void respawn_timer_Tick(object sender, EventArgs e)
+        {
+            Parallel.For(0, Enemies.Count, i =>
+            {
+                if (!start_btn.Enabled)
+                {
+                    var enemy = Enemies[i] as dynamic;
+                    double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
+                    if (distance <= 30)
+                    {
+                        if (difficulty <= 1)
+                        {
+                            if (enemy.DEAD && enemy.RESPAWN > 0)
+                                enemy.RESPAWN--;
+                            else if (enemy.DEAD && enemy.RESPAWN <= 0)
+                            {
+                                if (Math.Abs(enemy.X - player.X) > 1 && Math.Abs(enemy.Y - player.Y) > 1)
+                                    enemy.Respawn();
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         private void SLIL_SizeChanged(object sender, EventArgs e)
@@ -2403,6 +2418,7 @@ namespace minigames._SLIL
                                 Abomination enemy = new Abomination(x, y, CustomMazeWidth * 3 + 1);
                                 Enemies.Add(enemy);
                             }
+                            CUSTOM_MAP[y * (CustomMazeWidth * 3 + 1) + x] = '.';
                         }
                     }
                 }

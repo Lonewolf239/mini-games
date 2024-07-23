@@ -62,6 +62,7 @@ namespace minigames._SLIL
             this.chill_timer = new System.Windows.Forms.Timer(this.components);
             this.stage_timer = new System.Windows.Forms.Timer(this.components);
             this.bottom_panel = new System.Windows.Forms.Panel();
+            this.respawn_timer = new System.Windows.Forms.Timer(this.components);
             this.top_panel.SuspendLayout();
             this.pause_panel.SuspendLayout();
             this.shop_panel.SuspendLayout();
@@ -342,7 +343,6 @@ namespace minigames._SLIL
             // 
             // enemy_timer
             // 
-            this.enemy_timer.Interval = 500;
             this.enemy_timer.Tick += new System.EventHandler(this.Enemy_timer_Tick);
             // 
             // status_refresh
@@ -389,6 +389,11 @@ namespace minigames._SLIL
             this.bottom_panel.Name = "bottom_panel";
             this.bottom_panel.Size = new System.Drawing.Size(605, 49);
             this.bottom_panel.TabIndex = 42;
+            // 
+            // respawn_timer
+            // 
+            this.respawn_timer.Interval = 1000;
+            this.respawn_timer.Tick += new System.EventHandler(this.respawn_timer_Tick);
             // 
             // SLIL
             // 
@@ -459,5 +464,6 @@ namespace minigames._SLIL
         private Button exit_btn;
         private Button pause_btn;
         private Panel bottom_panel;
+        private Timer respawn_timer;
     }
 }
