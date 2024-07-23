@@ -470,4 +470,100 @@ namespace minigames._SLIL
             }
         }
     }
+    public abstract class Friend : Creature
+    {
+
+        public Friend(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            CanHit = false;
+        }
+    }
+    public abstract class Pet : Friend
+    {
+        public double detectionRange;
+        protected override double GetEntityWidth() => 0.1;
+        protected override char[] GetImpassibleCells()
+        {
+            return new char[] { '#', 'D', 'd', '=' };
+        }
+        protected override int GetMovesInARow() => 0;
+        protected override int GetMAX_HP() => 0;
+        protected override int GetTexture() => 9;
+        protected override double GetMove() => 0.2;
+        protected override int GetMAX_MONEY() => 0;
+        protected override int GetMIN_MONEY() => 0;
+        protected override int GetMAX_DAMAGE() => 0;
+        protected override int GetMIN_DAMAGE() => 0;
+        public Pet(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            detectionRange = 8.0;
+        }
+        public override void UpdateCoordinates(string map, double playerX, double playerY)
+        {
+            bool isPlayerVisible = true;
+            double distanceToPlayer = Math.Sqrt(Math.Pow(X - playerX, 2) + Math.Pow(Y - playerY, 2));
+            if (distanceToPlayer > detectionRange) isPlayerVisible = false;
+            double angleToPlayer = Math.Atan2(X - playerX, Y - playerY) - Math.PI;
+            if (isPlayerVisible)
+            {
+                double distance = 0;
+                double step = 0.01;
+                double rayAngleX = Math.Sin(angleToPlayer);
+                double rayAngleY = Math.Cos(angleToPlayer);
+                while (distance <= distanceToPlayer)
+                {
+                    int test_x = (int)(X + rayAngleX * distance);
+                    int test_y = (int)(Y + rayAngleY * distance);
+                    if (ImpassibleCells.Contains(map[test_y * MAP_WIDTH + test_x]))
+                    {
+                        isPlayerVisible = false;
+                        break;
+                    }
+                    distance += step;
+                }
+            }
+            double move = this.GetMove();
+            double newX = X;
+            double newY = Y;
+            double tempX = X;
+            double tempY = Y;
+            A = angleToPlayer;
+            if (Math.Sqrt(Math.Pow(X - playerX, 2) + Math.Pow(Y - playerY, 2)) <= EntityWidth) return;
+            newX += Math.Sin(A) * move;
+            newY += Math.Cos(A) * move;
+            IntX = (int)X;
+            IntY = (int)Y;
+            if (!(ImpassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX + EntityWidth / 2)])
+                || ImpassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX - EntityWidth / 2)])))
+                tempX = newX;
+            if (!(ImpassibleCells.Contains(map[(int)(newY + EntityWidth / 2) * MAP_WIDTH + (int)newX])
+                || ImpassibleCells.Contains(map[(int)(newY - EntityWidth / 2) * MAP_WIDTH + (int)newX])))
+                tempY = newY;
+            if (ImpassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX + EntityWidth / 2)]))
+                tempX -= EntityWidth / 2 - (1 - tempX % 1);
+            if (ImpassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX - EntityWidth / 2)]))
+                tempX += EntityWidth / 2 - (tempX % 1);
+            if (ImpassibleCells.Contains(map[(int)(tempY + EntityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY -= EntityWidth / 2 - (1 - tempY % 1);
+            if (ImpassibleCells.Contains(map[(int)(tempY - EntityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                tempY += EntityWidth / 2 - (tempY % 1);
+            if(isPlayerVisible)
+            {
+                X = tempX;
+                Y = tempY;
+            }
+            else
+            {
+                X = playerX; 
+                Y = playerY;
+            }
+        }
+    }
+    public class SillyCat : Pet
+    {
+        public SillyCat(double x, double y, int map_width) : base (x, y, map_width)
+        {
+        }
+        
+    }
 }

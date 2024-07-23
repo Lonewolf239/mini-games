@@ -1123,6 +1123,10 @@ namespace minigames._SLIL
                             }
                         }
                     }
+                    else if (enemy is Pet)
+                    {
+                        enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                    }
                 }
             }
         }
@@ -1583,6 +1587,7 @@ namespace minigames._SLIL
                                 rays[stripe][y].TextureX = texX;
                                 rays[stripe][y].TextureY = texY;
                                 Color color = GetColorForPixel(rays[stripe][y]);
+                                DISPLAYED_MAP[Entities[spriteOrder[i]].IntY * MAP_WIDTH + Entities[spriteOrder[i]].IntX] = 'E';
                                 if (color == Color.Transparent)
                                 {
                                     rays[stripe][y].TextureId = tempTextureId;
@@ -2541,6 +2546,7 @@ namespace minigames._SLIL
                 GUNS[i].SetDefault();
         }
 
+        public void AddCat() { Entities.Add(new SillyCat(player.X+0.1, player.Y+0.1, MAP_WIDTH)); }
         private void GameOver(int win)
         {
             ost[ost_index]?.Stop();
