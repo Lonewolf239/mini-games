@@ -21,6 +21,7 @@ namespace minigames._SLIL
             Properties.Resources.enemy_2_2,
             Properties.Resources.enemy_2_DEAD,
             Properties.Resources.door,
+            Properties.Resources.shop_door,
             Properties.Resources.teleport,
             Properties.Resources.floor,
             Properties.Resources.ceiling

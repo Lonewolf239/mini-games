@@ -1,5 +1,4 @@
-﻿using SharpDX.Direct2D1;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace minigames._SLIL
 {

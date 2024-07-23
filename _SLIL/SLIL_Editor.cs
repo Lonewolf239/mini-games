@@ -35,7 +35,7 @@ namespace minigames._SLIL
                 string[] MAP = map.Split(':');
                 maze_height = Convert.ToInt32(MAP[0]);
                 maze_width = Convert.ToInt32(MAP[1]);
-                if (MAP[2].Any(c => c != '.' && c != '#' && c != '=' && c != 'D' && c != 'F' && c != 'P' && c != 'E' && c != '$'))
+                if (MAP[2].Any(c => c != '.' && c != '#' && c != '=' && c != 'D' && c != 'd' && c != 'F' && c != 'P' && c != 'E' && c != '$'))
                 {
                     if (MainMenu.Language)
                         MessageBox.Show("Строка содержит недопустимые символы.", "Ошибка импорта карты", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -149,6 +149,8 @@ namespace minigames._SLIL
                         else if (c == '=')
                             color = Color.Blue;
                         else if (c == 'D')
+                            color = Color.DarkOrange;
+                        else if (c == 'd')
                             color = Color.Orange;
                         else if (c == 'F')
                         {
@@ -202,8 +204,10 @@ namespace minigames._SLIL
                         MAP.Append("#");
                     else if (panels[i, j].BackColor == Color.Blue)
                         MAP.Append("=");
-                    else if (panels[i, j].BackColor == Color.Orange)
+                    else if (panels[i, j].BackColor == Color.DarkOrange)
                         MAP.Append("D");
+                    else if (panels[i, j].BackColor == Color.Orange)
+                        MAP.Append("d");
                     else if (panels[i, j].BackColor == Color.White)
                         MAP.Append(".");
                     else if (panels[i, j].BackColor == Color.Lime)
@@ -244,7 +248,7 @@ namespace minigames._SLIL
             playerExist = true;
             StringBuilder sb = new StringBuilder();
             Maze MazeGenerator = new Maze();
-            char[,] map = MazeGenerator.GenerateCharMap((MazeWidth - 1) / 3, (MazeHeight - 1) / 3, '#', '=', 'D', '.', 'F');
+            char[,] map = MazeGenerator.GenerateCharMap((MazeWidth - 1) / 3, (MazeHeight - 1) / 3, '#', '=', 'd', '.', 'F');
             map[1, 1] = 'P';
             List<int[]> shops = new List<int[]>();
             for (int y = 0; y < map.GetLength(1); y++)
@@ -411,13 +415,13 @@ namespace minigames._SLIL
                             }
                         }
                         if (y >= 2 && y < panels.GetLength(0) - 2 && x >= 0 && x < panels.GetLength(1) && panels[x, y - 2].BackColor == Color.White)
-                            panels[x, y - 1].BackColor = Color.Orange;
+                            panels[x, y - 1].BackColor = Color.DarkOrange;
                         else if (y >= 0 && y < panels.GetLength(0) - 2 && x >= 0 && x < panels.GetLength(1) && panels[x, y + 2].BackColor == Color.White)
-                            panels[x, y + 1].BackColor = Color.Orange;
+                            panels[x, y + 1].BackColor = Color.DarkOrange;
                         else if (y >= 0 && y < panels.GetLength(0) && x >= 2 && x < panels.GetLength(1) - 2 && panels[x - 2, y].BackColor == Color.White)
-                            panels[x - 1, y].BackColor = Color.Orange;
+                            panels[x - 1, y].BackColor = Color.DarkOrange;
                         else if (y >= 0 && y < panels.GetLength(0) && x >= 0 && x < panels.GetLength(1) - 2 && panels[x + 2, y].BackColor == Color.White)
-                            panels[x + 1, y].BackColor = Color.Orange;
+                            panels[x + 1, y].BackColor = Color.DarkOrange;
                     }
                     else if (index == 6)
                         panel.BackColor = Color.Navy;

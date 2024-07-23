@@ -565,6 +565,7 @@
     <Content Include="images\purple_stage_2.png" />
     <Content Include="images\purple_stage_3.png" />
     <Content Include="images\red.png" />
+    <None Include="images\shop_door.png" />
     <Content Include="images\speed.png" />
     <Content Include="images\t_control.png" />
     <Content Include="images\violin.png" />

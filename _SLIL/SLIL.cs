@@ -14,7 +14,6 @@ using System.Runtime.InteropServices;
 using Convert_Bitmap;
 using System.IO;
 using System.Drawing.Drawing2D;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace minigames._SLIL
 {
@@ -77,7 +76,7 @@ namespace minigames._SLIL
             },
         };
         private static PlaySound[] ost;
-        private PlaySound[] enemy_die =
+        public PlaySound[] DeathSounds =
         {
             new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_0.wav"), false),
             new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_1.wav"), false),
@@ -91,8 +90,8 @@ namespace minigames._SLIL
             tp = new PlaySound(MainMenu.CGFReader.GetFile("tp.wav"), false),
             screenshot = new PlaySound(MainMenu.CGFReader.GetFile("screenshot.wav"), false);
         private PlaySound[] door = { new PlaySound(MainMenu.CGFReader.GetFile("door_opened.wav"), false), new PlaySound(MainMenu.CGFReader.GetFile("door_closed.wav"), false) };
-        private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....E.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############D####################...#################E=...=E#################...#################$D.P.D$#################...################################",
-            debugMap = @"####################.................##..=======........##..=.....=.....#..##..=....E=........##..=..====........##..=..=........D..##..=.E=...........##..====...........##........P.....=..##.................##.................##..............F..##.................##..===....#D#..#..##..=E=====#$#.#D=.##..===....###..=..##.................####################";
+        private const string bossMap = "#########################...............##F###.................####..##...........##..###...=...........=...###...=.....E.....=...###...................###...................###.........#.........###...##.........##...###....#.........#....###...................###..#...##.#.##...#..####.....#.....#.....######...............##############d####################...#################E=...=E#################...#################$D.P.D$#################...################################",
+            debugMap = @"####################.................##..=======........##..=.....=.....#..##..=....E=........##..=..====........##..=..=........d..##..=.E=...........##..====...........##........P.....=..##.................##.................##..............F..##.................##..===....#D#..#..##..=E=====#$#.#d=.##..===....###..=..##.................####################";
         public static float Volume = 0.4f;
         private static int MAX_SHOP_COUNT = 1;
         private const int WEAPONS_COUNT = 7;
@@ -126,7 +125,9 @@ namespace minigames._SLIL
         private ConsolePanel console_panel;
         private readonly char[] impassibleCells  = { '#', 'D', '=' };
         private const double playerWidth = 0.4;
-        
+        public delegate void GameOverCallback(int win);
+        public GameOverCallback GameOverCB;
+
         public SLIL(TextureCache textures)
         {
             InitializeComponent();
@@ -649,6 +650,9 @@ namespace minigames._SLIL
                             case '#':
                             case '=':
                             case 'F':
+                                hit = true;
+                                wall.Play(Volume);
+                                break;
                             case 'D':
                                 hit = true;
                                 door[0].Play(Volume);
@@ -660,6 +664,18 @@ namespace minigames._SLIL
                                     break;
                                 door[1].Play(Volume);
                                 MAP[y * MAP_WIDTH + x] = 'D';
+                                break;
+                            case 'd':
+                                hit = true;
+                                door[0].Play(Volume);
+                                MAP[y * MAP_WIDTH + x] = 'o';
+                                break;
+                            case 'o':
+                                hit = true;
+                                if (distance < playerWidth || ((int)player.X == x && (int)player.Y == y))
+                                    break;
+                                door[1].Play(Volume);
+                                MAP[y * MAP_WIDTH + x] = 'd';
                                 break;
                         }
                     }
@@ -798,7 +814,13 @@ namespace minigames._SLIL
                             player.CanShoot = false;
                             burst_shots = 0;
                             if (player.GetCurrentGun().FireType == FireTypes.Single)
+                            {
                                 BulletRayCasting();
+                                if (player.Look - player.GetCurrentGun().Recoil > -360)
+                                    player.Look -= player.GetCurrentGun().Recoil;
+                                else
+                                    player.Look = -360;
+                            }
                             shot_timer.Start();
                         }
                         else if (player.GetCurrentGun().MaxAmmoCount > 0 && player.GetCurrentGun().AmmoCount == 0)
@@ -853,9 +875,11 @@ namespace minigames._SLIL
                 spriteDistance[i] = (player.X - Enemies[i].X) * (player.X - Enemies[i].X) + (player.Y - Enemies[i].Y) * (player.Y - Enemies[i].Y);
                 textures[i] = Enemies[i].Texture;
             }
-            SortSprites(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
+            SortSpritesNotReversed(ref spriteOrder, ref spriteDistance, ref textures, Enemies.Count);
             for (int i = 0; i < Enemies.Count; i++)
             {
+                if (Enemies[spriteOrder[i]].DEAD)
+                    continue;
                 double spriteX = Enemies[spriteOrder[i]].X - player.X;
                 double spriteY = Enemies[spriteOrder[i]].Y - player.Y;
                 double dirX = Math.Sin(player.A);
@@ -898,28 +922,19 @@ namespace minigames._SLIL
                                 int tempBlackout = rays[stripe][y].Blackout;
                                 double tempTextureX = rays[stripe][y].TextureX;
                                 double tempTextureY = rays[stripe][y].TextureY;
-                                if (!Enemies[spriteOrder[i]].DEAD)
+                                if (EnableAnimation)
                                 {
-                                    if (EnableAnimation)
-                                    {
-                                        if (player.GetCurrentGun() is Flashlight && Enemies[spriteOrder[i]].RespondsToFlashlight)
-                                            rays[stripe][y].TextureId = textures[i] + 2;
-                                        else
-                                            rays[stripe][y].TextureId = Enemies[spriteOrder[i]].Animations[0][timeNow % Enemies[spriteOrder[i]].Frames];
-                                    }
+                                    if (player.GetCurrentGun() is Flashlight && Enemies[spriteOrder[i]].RespondsToFlashlight)
+                                        rays[stripe][y].TextureId = textures[i] + 2;
                                     else
-                                        rays[stripe][y].TextureId = textures[i];
+                                        rays[stripe][y].TextureId = Enemies[spriteOrder[i]].Animations[0][timeNow % Enemies[spriteOrder[i]].Frames];
                                 }
                                 else
-                                    rays[stripe][y].TextureId = textures[i] + 3;
+                                    rays[stripe][y].TextureId = textures[i];
                                 rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
                                 rays[stripe][y].TextureX = texX;
                                 rays[stripe][y].TextureY = texY;
                                 Color color = GetColorForPixel(rays[stripe][y]);
-                                if (stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2)
-                                {
-                                    ;
-                                }
                                 if (!(color.A == 255 && color.B == 0 && color.G == 0 && color.R == 0) && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
                                 {
                                     double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
@@ -934,7 +949,7 @@ namespace minigames._SLIL
                                             player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY * multiplier), (int)(Enemies[i].MAX_MONEY * multiplier)));
                                             player.EnemiesKilled++;
                                             if (MainMenu.sounds)
-                                                enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
+                                                DeathSounds[rand.Next(0, DeathSounds.Length)].Play(Volume);
                                         }
                                     }
                                     scope_hit = Properties.Resources.scope_hit;
@@ -945,124 +960,6 @@ namespace minigames._SLIL
                     }
                 }
             }
-            /*
-            double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
-            double ray_x = Math.Sin(rayA);
-            double ray_y = Math.Cos(rayA);
-            double distance = 0;
-            bool hit = false;
-            int factor = player.Aiming ? 12 : 0;
-            scope_hit = null;
-            while (raycast.Enabled && !hit && distance < player.GetCurrentGun().FiringRange)
-            {
-                distance += 0.1d;
-                int test_x = (int)(player.X + ray_x * distance);
-                int test_y = (int)(player.Y + ray_y * distance);
-                if (test_x < 0 || test_x >= (DEPTH + factor) + player.X || test_y < 0 || test_y >= (DEPTH + factor) + player.Y)
-                    hit = true;
-                else
-                {
-                    char test_wall = MAP[test_y * MAP_WIDTH + test_x];
-                    double celling = (SCREEN_HEIGHT[resolution] - player.Look) / 2.25d - (SCREEN_HEIGHT[resolution] * FOV) / distance;
-                    double floor = SCREEN_HEIGHT[resolution] - (celling + player.Look);
-                    double mid = (celling + floor) / 2;
-                    if (test_wall == '#' || test_wall == 'F' || test_wall == 'D')
-                        hit = true;
-                    else if (test_wall == '=' && SCREEN_HEIGHT[resolution] / 2 >= mid)
-                        hit = true;
-                    else if (test_wall == 'E')
-                    {
-                        hit = true;
-                        if (SCREEN_HEIGHT[resolution] / 2 > celling && SCREEN_HEIGHT[resolution] / 2 <= floor)
-                        {
-                            double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
-                            if (player.GetCurrentGun() is Shotgun)
-                                damage *= player.GetCurrentGun().FiringRange - distance;
-                            bool all_ok = false;
-                            for (int i = 0; i < Enemies.Count; i++)
-                            {
-                                if (start_btn.Enabled)
-                                    break;
-                                if (Enemies[i].DEAD)
-                                    continue;
-                                if (Enemies[i].IntX == test_x && Enemies[i].IntY == test_y)
-                                {
-                                    if (Enemies[i].DealDamage(damage))
-                                    {
-                                        MAP[test_y * MAP_WIDTH + test_x] = '.';
-                                        double multiplier = 1;
-                                        if (difficulty == 3)
-                                            multiplier = 1.5;
-                                        player.ChangeMoney(rand.Next((int)(Enemies[i].MIN_MONEY[Enemies[i].Type] * multiplier), (int)(Enemies[i].MAX_MONEY[Enemies[i].Type] * multiplier)));
-                                        player.EnemiesKilled++;
-                                        if (MainMenu.sounds)
-                                            enemy_die[rand.Next(0, enemy_die.Length)].Play(Volume);
-                                    }
-                                    else
-                                    {
-                                        for (double angle = 0; angle <= 6; angle += 0.001)
-                                        {
-                                            double d = 0;
-                                            double r_x = Math.Sin(angle);
-                                            double r_y = Math.Cos(angle);
-                                            bool hit_wall = false;
-                                            bool hit_player = false;
-                                            while (d <= 6 && !hit_wall && !hit_player)
-                                            {
-                                                d += 0.1;
-                                                int t_x = (int)(Enemies[i].IntX + r_x * d);
-                                                int t_y = (int)(Enemies[i].IntY + r_y * d);
-                                                char c;
-                                                try
-                                                {
-                                                    c = MAP[t_y * MAP_WIDTH + t_x];
-                                                }
-                                                catch
-                                                {
-                                                    c = '#';
-                                                }
-                                                switch (c)
-                                                {
-                                                    case '#':
-                                                    case '=':
-                                                    case 'D':
-                                                    case 'O':
-                                                    case 'F':
-                                                    case 'E':
-                                                        hit_wall = true;
-                                                        break;
-                                                    case 'P':
-                                                        hit_player = true;
-                                                        Enemies[i].A = angle;
-                                                        break;
-                                                }
-                                            }
-                                            if (hit_player)
-                                            {
-                                                if (difficulty == 0 && player.GetCurrentGun().FireType == FireTypes.Single && !(player.GetCurrentGun() is Knife))
-                                                {
-                                                    MAP[(int)Enemies[i].Y * MAP_WIDTH + (int)Enemies[i].X] = '.';
-                                                    Enemies[i].UpdateCoordinates(MAP.ToString());
-                                                    MAP[(int)Enemies[i].Y * MAP_WIDTH + (int)Enemies[i].X] = 'E';
-                                                }
-                                                break;
-                                            }
-                                        }
-                                    }
-                                    all_ok = true;
-                                    scope_hit = Properties.Resources.scope_hit;
-                                }
-                            }
-                            if (!all_ok)
-                                MAP[test_y * MAP_WIDTH + test_x] = '.';
-                        }
-                    }
-                }
-            }
-            if (player.Look - player.GetCurrentGun().Recoil > -360)
-                player.Look -= player.GetCurrentGun().Recoil;
-            else
-                player.Look = -360;*/
         }
 
         private void Reload_gun_Tick(object sender, EventArgs e)
@@ -1134,7 +1031,13 @@ namespace minigames._SLIL
                     if (!(player.GetCurrentGun() is Knife))
                         player.GetCurrentGun().AmmoCount--;
                     if (player.GetCurrentGun().FireType != FireTypes.Single)
+                    {
                         BulletRayCasting();
+                        if (player.Look - player.GetCurrentGun().Recoil > -360)
+                            player.Look -= player.GetCurrentGun().Recoil;
+                        else
+                            player.Look = -360;
+                    }
                     if ((player.GetCurrentGun().AmmoCount <= 0 && player.GetCurrentGun().MaxAmmoCount > 0) || player.GetCurrentGun() is FirstAidKit)
                     {
                         player.GunState = 2;
@@ -1192,21 +1095,22 @@ namespace minigames._SLIL
                 {
                     var enemy = Enemies[i] as dynamic;
                     double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
-                    if (distance <= 30)
+                    if (distance <= 22)
                     {
                         if (!enemy.DEAD)
                         {
                             enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
                             if (enemy is Dog)
                                 enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
-                            if (Math.Abs(enemy.X - player.X) <= 1 && Math.Abs(enemy.Y - player.Y) <= 1)
+                            if (Math.Abs(enemy.X - player.X) <= 0.5 && Math.Abs(enemy.Y - player.Y) <= 0.5)
                             {
                                 if (!player.Invulnerable)
                                 {
                                     player.DealDamage(rand.Next(enemy.MIN_DAMAGE, enemy.MAX_DAMAGE));
                                     if (player.HP <= 0)
                                     {
-                                        GameOver(0);
+                                        GameOverCallback gameover = new GameOverCallback(GameOver);
+                                        gameover.Invoke(0);
                                         return;
                                     }
                                     if (MainMenu.sounds)
@@ -1529,9 +1433,9 @@ namespace minigames._SLIL
             for (int i = 0; i < ost.Length; i++)
                 ost[i]?.Dispose();
             ost = null;
-            for (int i = 0; i < enemy_die.Length; i++)
-                enemy_die[i]?.Dispose();
-            enemy_die = null;
+            for (int i = 0; i < DeathSounds.Length; i++)
+                DeathSounds[i]?.Dispose();
+            DeathSounds = null;
             if (form != null)
             {
                 form.Close();
@@ -1539,7 +1443,7 @@ namespace minigames._SLIL
             }
         }
 
-        private void respawn_timer_Tick(object sender, EventArgs e)
+        private void Respawn_timer_Tick(object sender, EventArgs e)
         {
             Parallel.For(0, Enemies.Count, i =>
             {
@@ -1690,6 +1594,7 @@ namespace minigames._SLIL
                 text[i] = spritess[amount - i - 1].Item3;
             }
         }
+
         private void SortSpritesNotReversed(ref int[] order, ref double[] dist, ref int[] text, int amount)
         {
             Tuple<double, int, int>[] spritess = new Tuple<double, int, int>[amount];
@@ -1904,6 +1809,12 @@ namespace minigames._SLIL
                 if (scope_hit != null)
                     graphicsWeapon.DrawImage(scope_hit, WEAPON.Width / 4, WEAPON.Height / 4, WEAPON.Width / 2, WEAPON.Height / 2);
             }
+            if (ShowMiniMap)
+            {
+                Bitmap mini_map = DrawMiniMap();
+                graphicsWeapon.DrawImage(mini_map, SCREEN_WIDTH[resolution] - mini_map.Width - 5, 15);
+                mini_map.Dispose();
+            }
             if (stage_timer.Enabled)
             {
                 string text = $"STAGE: {player.Stage + 1}";
@@ -1915,12 +1826,6 @@ namespace minigames._SLIL
                     text = "STAGE: Custom";
                 SizeF textSize = graphicsWeapon.MeasureString(text, consolasFont[resolution + 1]);
                 graphicsWeapon.DrawString(text, consolasFont[resolution + 1], whiteBrush, (WEAPON.Width - textSize.Width) / 2, 30 + (30 * resolution));
-            }
-            if (ShowMiniMap)
-            {
-                Bitmap mini_map = DrawMiniMap();
-                graphicsWeapon.DrawImage(mini_map, SCREEN_WIDTH[resolution] - mini_map.Width - 5, 15);
-                mini_map.Dispose();
             }
         }
 
@@ -1972,7 +1877,7 @@ namespace minigames._SLIL
             double window_distance = 0;
             bool hit_wall = false;
             bool hit_window = false;
-            bool hit_door = false;
+            int hit_door = 0;
             bool hit_finish = false;
             bool is_bound = false;
             bool is_window_bound = false;
@@ -1980,7 +1885,7 @@ namespace minigames._SLIL
             double rayA = player.A + deltaA;
             double ray_x = Math.Sin(rayA);
             double ray_y = Math.Cos(rayA);
-            while (raycast.Enabled && !hit_wall && !hit_door && !hit_finish && distance < DEPTH + factor)
+            while (raycast.Enabled && !hit_wall && hit_door == 0 && !hit_finish && distance < DEPTH + factor)
             {
                 distance += 0.01f;
                 if (!hit_window)
@@ -2010,7 +1915,12 @@ namespace minigames._SLIL
                         }
                         break;
                     case 'D':
-                        hit_door = true;
+                        hit_door = 2;
+                        is_bound = CheckBound(test_x, test_y, ray_x, ray_y, distance);
+                        DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
+                        break;
+                    case 'd':
+                        hit_door = 1;
                         is_bound = CheckBound(test_x, test_y, ray_x, ray_y, distance);
                         DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
                         break;
@@ -2051,7 +1961,7 @@ namespace minigames._SLIL
                 }
                 if (y <= ceiling)
                 {
-                    textureId = 16;
+                    textureId = 17;
                     double d = (y + player.Look / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
@@ -2066,16 +1976,18 @@ namespace minigames._SLIL
                 {
                     textureId = 0;
                     if (hit_finish)
-                        textureId = 14;
-                    else if (hit_door)
+                        textureId = 15;
+                    else if (hit_door == 1)
                         textureId = 13;
+                    else if (hit_door == 2)
+                        textureId = 14;
                     if (is_bound)
                         textureId = 20;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if (y >= floor)
                 {
-                    textureId = 15;
+                    textureId = 16;
                     double d = 1 - (y - (SCREEN_HEIGHT[resolution] - player.Look) / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
@@ -2123,7 +2035,7 @@ namespace minigames._SLIL
                             wallX -= Math.Floor(wallX);
                         }
                     }
-                    else if (hit_door || hit_finish || hit_wall)
+                    else if (hit_door != 0 || hit_finish || hit_wall)
                     {
                         if (!get_texture)
                         {
@@ -2298,7 +2210,7 @@ namespace minigames._SLIL
             {
                 Random random = new Random();
                 StringBuilder sb = new StringBuilder();
-                char[,] map = MazeGenerator.GenerateCharMap(MazeWidth, MazeHeight, '#', '=', 'D', '.', 'F', MAX_SHOP_COUNT);
+                char[,] map = MazeGenerator.GenerateCharMap(MazeWidth, MazeHeight, '#', '=', 'd', '.', 'F', MAX_SHOP_COUNT);
                 map[1, 1] = 'P';
                 List<int[]> shops = new List<int[]>();
                 for (int y = 0; y < map.GetLength(1); y++)
@@ -2394,13 +2306,14 @@ namespace minigames._SLIL
                 }
                 MAP = sb;
             }
-            else if (CUSTOM)
+            else
             {
+                MAP.Append(CUSTOM_MAP);
                 for (int x = 0; x < CustomMazeWidth * 3 + 1; x++)
                 {
                     for (int y = 0; y < CustomMazeHeight * 3 + 1; y++)
                     {
-                        if (CUSTOM_MAP[y * (CustomMazeWidth * 3 + 1) + x] == 'E')
+                        if (MAP[y * (CustomMazeWidth * 3 + 1) + x] == 'E')
                         {
                             double dice = rand.NextDouble();
                             if (dice <= 0.5)
@@ -2418,16 +2331,17 @@ namespace minigames._SLIL
                                 Abomination enemy = new Abomination(x, y, CustomMazeWidth * 3 + 1);
                                 Enemies.Add(enemy);
                             }
-                            CUSTOM_MAP[y * (CustomMazeWidth * 3 + 1) + x] = '.';
+                            MAP[y * (CustomMazeWidth * 3 + 1) + x] = '.';
                         }
                     }
                 }
-                MAP = CUSTOM_MAP;
             }
             for (int i = 0; i < MAP.Length; i++)
             {
                 if (MAP[i] == 'O')
                     MAP[i] = 'D';
+                else if (MAP[i] == 'o')
+                    MAP[i] = 'd';
             }
             DISPLAYED_MAP.Length = MAP.Length;
             for (int i = 0; i < MAP.Length; i++)
@@ -2485,7 +2399,7 @@ namespace minigames._SLIL
                 MazeHeight = CustomMazeHeight;
                 MazeWidth = CustomMazeWidth;
                 enemy_count = 0.06;
-                MAX_SHOP_COUNT = 3;
+                MAX_SHOP_COUNT = 5;
             }
             else
             {

@@ -206,7 +206,7 @@ namespace minigames._Sapper
                         {
                             panels[y][x].BackgroundImage = Properties.Resources.explosion;
                             if (MainMenu.sounds)
-                                explosion.Play(0.5f);
+                                explosion.Play(0.15f);
                             ShowMines();
                         }
                     }

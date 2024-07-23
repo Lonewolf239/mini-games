@@ -83,9 +83,8 @@ namespace minigames._SLIL
             this.top_panel.Controls.Add(this.shop_panel);
             this.top_panel.Controls.Add(this.stamina_panel);
             this.top_panel.Location = new System.Drawing.Point(0, 0);
-            this.top_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.top_panel.Name = "top_panel";
-            this.top_panel.Size = new System.Drawing.Size(604, 314);
+            this.top_panel.Size = new System.Drawing.Size(454, 256);
             this.top_panel.TabIndex = 0;
             // 
             // pause_panel
@@ -95,9 +94,8 @@ namespace minigames._SLIL
             this.pause_panel.Controls.Add(this.pause_text);
             this.pause_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pause_panel.Location = new System.Drawing.Point(0, 0);
-            this.pause_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pause_panel.Name = "pause_panel";
-            this.pause_panel.Size = new System.Drawing.Size(600, 310);
+            this.pause_panel.Size = new System.Drawing.Size(450, 252);
             this.pause_panel.TabIndex = 5;
             this.pause_panel.Visible = false;
             // 
@@ -109,10 +107,9 @@ namespace minigames._SLIL
             this.pause_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.pause_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.pause_btn.ForeColor = System.Drawing.Color.White;
-            this.pause_btn.Location = new System.Drawing.Point(168, 142);
-            this.pause_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pause_btn.Location = new System.Drawing.Point(126, 115);
             this.pause_btn.Name = "pause_btn";
-            this.pause_btn.Size = new System.Drawing.Size(329, 59);
+            this.pause_btn.Size = new System.Drawing.Size(198, 41);
             this.pause_btn.TabIndex = 38;
             this.pause_btn.TabStop = false;
             this.pause_btn.Text = "ПРОДОЛЖИТЬ";
@@ -127,10 +124,9 @@ namespace minigames._SLIL
             this.exit_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.exit_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.exit_btn.ForeColor = System.Drawing.Color.White;
-            this.exit_btn.Location = new System.Drawing.Point(225, 199);
-            this.exit_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.exit_btn.Location = new System.Drawing.Point(169, 162);
             this.exit_btn.Name = "exit_btn";
-            this.exit_btn.Size = new System.Drawing.Size(175, 59);
+            this.exit_btn.Size = new System.Drawing.Size(112, 41);
             this.exit_btn.TabIndex = 37;
             this.exit_btn.TabStop = false;
             this.exit_btn.Text = "ВЫЙТИ";
@@ -143,9 +139,8 @@ namespace minigames._SLIL
             this.pause_text.Font = new System.Drawing.Font("Microsoft Sans Serif", 26.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.pause_text.ForeColor = System.Drawing.Color.White;
             this.pause_text.Location = new System.Drawing.Point(0, 0);
-            this.pause_text.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.pause_text.Name = "pause_text";
-            this.pause_text.Size = new System.Drawing.Size(600, 98);
+            this.pause_text.Size = new System.Drawing.Size(450, 80);
             this.pause_text.TabIndex = 0;
             this.pause_text.Text = "ПАУЗА";
             this.pause_text.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
@@ -158,9 +153,8 @@ namespace minigames._SLIL
             this.game_over_text.Font = new System.Drawing.Font("Consolas", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.game_over_text.ForeColor = System.Drawing.Color.White;
             this.game_over_text.Location = new System.Drawing.Point(0, 0);
-            this.game_over_text.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.game_over_text.Name = "game_over_text";
-            this.game_over_text.Size = new System.Drawing.Size(600, 310);
+            this.game_over_text.Size = new System.Drawing.Size(450, 252);
             this.game_over_text.TabIndex = 2;
             this.game_over_text.Text = "GAME OVER";
             this.game_over_text.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -172,9 +166,8 @@ namespace minigames._SLIL
             this.shop_panel.Controls.Add(this.shop_title_panel);
             this.shop_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.shop_panel.Location = new System.Drawing.Point(0, 0);
-            this.shop_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.shop_panel.Name = "shop_panel";
-            this.shop_panel.Size = new System.Drawing.Size(600, 310);
+            this.shop_panel.Size = new System.Drawing.Size(450, 252);
             this.shop_panel.TabIndex = 4;
             this.shop_panel.Visible = false;
             this.shop_panel.VisibleChanged += new System.EventHandler(this.Shop_panel_VisibleChanged);
@@ -184,10 +177,9 @@ namespace minigames._SLIL
             this.ShopInterface_panel.AutoScroll = true;
             this.ShopInterface_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.ShopInterface_panel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.ShopInterface_panel.Location = new System.Drawing.Point(0, 30);
-            this.ShopInterface_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.ShopInterface_panel.Location = new System.Drawing.Point(0, 24);
             this.ShopInterface_panel.Name = "ShopInterface_panel";
-            this.ShopInterface_panel.Size = new System.Drawing.Size(600, 280);
+            this.ShopInterface_panel.Size = new System.Drawing.Size(450, 228);
             this.ShopInterface_panel.TabIndex = 1;
             // 
             // shop_title_panel
@@ -196,9 +188,8 @@ namespace minigames._SLIL
             this.shop_title_panel.Controls.Add(this.shop_money);
             this.shop_title_panel.Dock = System.Windows.Forms.DockStyle.Top;
             this.shop_title_panel.Location = new System.Drawing.Point(0, 0);
-            this.shop_title_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.shop_title_panel.Name = "shop_title_panel";
-            this.shop_title_panel.Size = new System.Drawing.Size(600, 30);
+            this.shop_title_panel.Size = new System.Drawing.Size(450, 24);
             this.shop_title_panel.TabIndex = 2;
             // 
             // shop_title
@@ -208,9 +199,8 @@ namespace minigames._SLIL
             this.shop_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shop_title.ForeColor = System.Drawing.Color.White;
             this.shop_title.Location = new System.Drawing.Point(0, 0);
-            this.shop_title.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.shop_title.Name = "shop_title";
-            this.shop_title.Size = new System.Drawing.Size(127, 29);
+            this.shop_title.Size = new System.Drawing.Size(102, 24);
             this.shop_title.TabIndex = 1;
             this.shop_title.Text = "МАГАЗИН";
             this.shop_title.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -221,10 +211,9 @@ namespace minigames._SLIL
             this.shop_money.Dock = System.Windows.Forms.DockStyle.Right;
             this.shop_money.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shop_money.ForeColor = System.Drawing.Color.White;
-            this.shop_money.Location = new System.Drawing.Point(549, 0);
-            this.shop_money.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.shop_money.Location = new System.Drawing.Point(410, 0);
             this.shop_money.Name = "shop_money";
-            this.shop_money.Size = new System.Drawing.Size(51, 29);
+            this.shop_money.Size = new System.Drawing.Size(40, 24);
             this.shop_money.TabIndex = 0;
             this.shop_money.Text = "$: 0";
             this.shop_money.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -234,10 +223,9 @@ namespace minigames._SLIL
             this.stamina_panel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.stamina_panel.BackColor = System.Drawing.Color.Lime;
-            this.stamina_panel.Location = new System.Drawing.Point(0, 305);
-            this.stamina_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stamina_panel.Location = new System.Drawing.Point(0, 248);
             this.stamina_panel.Name = "stamina_panel";
-            this.stamina_panel.Size = new System.Drawing.Size(492, 7);
+            this.stamina_panel.Size = new System.Drawing.Size(369, 6);
             this.stamina_panel.TabIndex = 3;
             this.stamina_panel.Visible = false;
             // 
@@ -247,10 +235,9 @@ namespace minigames._SLIL
             this.start_btn.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.start_btn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.start_btn.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.start_btn.Location = new System.Drawing.Point(107, 0);
-            this.start_btn.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.start_btn.Location = new System.Drawing.Point(80, 0);
             this.start_btn.Name = "start_btn";
-            this.start_btn.Size = new System.Drawing.Size(140, 49);
+            this.start_btn.Size = new System.Drawing.Size(105, 40);
             this.start_btn.TabIndex = 36;
             this.start_btn.TabStop = false;
             this.start_btn.Text = "СТАРТ";
@@ -283,10 +270,9 @@ namespace minigames._SLIL
             this.question.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.question.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.question.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.question.Location = new System.Drawing.Point(53, 0);
-            this.question.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.question.Location = new System.Drawing.Point(40, 0);
             this.question.Name = "question";
-            this.question.Size = new System.Drawing.Size(53, 49);
+            this.question.Size = new System.Drawing.Size(40, 40);
             this.question.TabIndex = 39;
             this.question.TabStop = false;
             this.question.Text = "?";
@@ -297,11 +283,10 @@ namespace minigames._SLIL
             // 
             this.by.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.by.Cursor = System.Windows.Forms.Cursors.Default;
-            this.by.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.by.Location = new System.Drawing.Point(457, 0);
-            this.by.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.by.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
+            this.by.Location = new System.Drawing.Point(343, 0);
             this.by.Name = "by";
-            this.by.Size = new System.Drawing.Size(148, 26);
+            this.by.Size = new System.Drawing.Size(111, 21);
             this.by.TabIndex = 41;
             this.by.Text = "By.";
             this.by.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -311,11 +296,10 @@ namespace minigames._SLIL
             this.developer_name.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.developer_name.AutoSize = true;
             this.developer_name.Cursor = System.Windows.Forms.Cursors.Help;
-            this.developer_name.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.developer_name.Location = new System.Drawing.Point(427, 23);
-            this.developer_name.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.developer_name.Font = new System.Drawing.Font("Lucida Handwriting", 12F, System.Drawing.FontStyle.Bold);
+            this.developer_name.Location = new System.Drawing.Point(320, 19);
             this.developer_name.Name = "developer_name";
-            this.developer_name.Size = new System.Drawing.Size(134, 25);
+            this.developer_name.Size = new System.Drawing.Size(134, 21);
             this.developer_name.TabIndex = 40;
             this.developer_name.Text = "Lonewolf239";
             this.developer_name.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -356,9 +340,8 @@ namespace minigames._SLIL
             this.show_settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
             this.show_settings.Location = new System.Drawing.Point(0, 0);
-            this.show_settings.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.show_settings.Name = "show_settings";
-            this.show_settings.Size = new System.Drawing.Size(53, 49);
+            this.show_settings.Size = new System.Drawing.Size(40, 40);
             this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.show_settings.TabIndex = 38;
             this.show_settings.TabStop = false;
@@ -384,29 +367,27 @@ namespace minigames._SLIL
             this.bottom_panel.Controls.Add(this.show_settings);
             this.bottom_panel.Controls.Add(this.start_btn);
             this.bottom_panel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.bottom_panel.Location = new System.Drawing.Point(0, 323);
-            this.bottom_panel.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.bottom_panel.Location = new System.Drawing.Point(0, 262);
             this.bottom_panel.Name = "bottom_panel";
-            this.bottom_panel.Size = new System.Drawing.Size(605, 49);
+            this.bottom_panel.Size = new System.Drawing.Size(454, 40);
             this.bottom_panel.TabIndex = 42;
             // 
             // respawn_timer
             // 
             this.respawn_timer.Interval = 1000;
-            this.respawn_timer.Tick += new System.EventHandler(this.respawn_timer_Tick);
+            this.respawn_timer.Tick += new System.EventHandler(this.Respawn_timer_Tick);
             // 
             // SLIL
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(605, 372);
+            this.ClientSize = new System.Drawing.Size(454, 302);
             this.Controls.Add(this.bottom_panel);
             this.Controls.Add(this.top_panel);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.Name = "SLIL";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Лабезумие";
