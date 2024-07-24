@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 
 namespace minigames._SLIL
@@ -214,6 +215,7 @@ namespace minigames._SLIL
     public abstract class Pet : Friend
     {
         public double detectionRange;
+        public Image ShopIcon;
         protected override double GetEntityWidth() => 0.1;
         protected override char[] GetImpassibleCells()
         {
@@ -329,11 +331,24 @@ namespace minigames._SLIL
     {
         public SillyCat(double x, double y, int map_width) : base(x, y, map_width)
         {
+            ShopIcon = Properties.Resources.pet_cat_icon;
             Texture = 20;
             base.SetAnimations(6, true);
         }
 
-        public override int Interaction() => 1;
+        public override int Interaction() => 2;
+    }
+
+    public class GreenGnome : Pet
+    {
+        public GreenGnome(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            ShopIcon = Properties.Resources.pet_gnome_icon;
+            Texture = 20;
+            base.SetAnimations(6, true);
+        }
+
+        public override int Interaction() => 3;
     }
 
     public class Teleport : GameObject
@@ -352,6 +367,8 @@ namespace minigames._SLIL
             Texture = 4;
             base.AnimationsToStatic();
         }
+
+        public override int Interaction() => 1;
     }
 
     public class ShopMan : NPC
@@ -363,7 +380,7 @@ namespace minigames._SLIL
             base.AnimationsToStatic();
         }
 
-        public override int Interaction() => 2;
+        public override int Interaction() => 1;
     }
 
     public class Man : Enemy
@@ -386,7 +403,7 @@ namespace minigames._SLIL
         {
             Texture = 8;
             detectionRange = 8;
-            base.SetAnimations(2, false);
+            base.SetAnimations(1, false);
         }
 
         public override void UpdateCoordinates(string map, double playerX, double playerY)
@@ -479,7 +496,7 @@ namespace minigames._SLIL
         {
             Texture = 12;
             detectionRange = 8;
-            base.SetAnimations(2, false);
+            base.SetAnimations(1, false);
         }
 
         public override void UpdateCoordinates(string map, double playerX, double playerY)
@@ -562,7 +579,7 @@ namespace minigames._SLIL
         protected override int GetMovesInARow() => 40;
         protected override int GetMAX_HP() => 20;
         protected override int GetTexture() => Texture;
-        protected override double GetMove() => 0.1;
+        protected override double GetMove() => 0.125;
         protected override int GetMAX_MONEY() => 18;
         protected override int GetMIN_MONEY() => 12;
         protected override int GetMAX_DAMAGE() => 30;

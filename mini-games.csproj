@@ -559,6 +559,8 @@
     <Content Include="images\musical_note.png" />
     <None Include="images\pet_0.png" />
     <None Include="images\pet_0_1.png" />
+    <None Include="images\pet_cat_icon.png" />
+    <None Include="images\pet_gnome_icon.png" />
     <Content Include="images\piano.png" />
     <Content Include="images\ping_pong.ico" />
     <Content Include="images\player.png" />

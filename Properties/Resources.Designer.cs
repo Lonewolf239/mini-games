@@ -1943,6 +1943,26 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pet_cat_icon {
+            get {
+                object obj = ResourceManager.GetObject("pet_cat_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_gnome_icon {
+            get {
+                object obj = ResourceManager.GetObject("pet_gnome_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap piano {
             get {
                 object obj = ResourceManager.GetObject("piano", resourceCulture);

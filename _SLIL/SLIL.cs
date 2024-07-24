@@ -123,7 +123,7 @@ namespace minigames._SLIL
         public static readonly List<Entity> Entities = new List<Entity>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
-        private readonly char[] impassibleCells  = { '#', 'D', '=' };
+        private readonly char[] impassibleCells  = { '#', 'D', '=', 'd' };
         private const double playerWidth = 0.4;
 
         public SLIL(TextureCache textures)
@@ -752,10 +752,10 @@ namespace minigames._SLIL
                                                 {
                                                     switch (entity.Interaction())
                                                     {
-                                                        case 1: //SillyCat
-                                                            break;
-                                                        case 2: //ShopMan
+                                                        case 1: //ShopMan
                                                             ShowShop();
+                                                            break;
+                                                        case 2: //SillyCat
                                                             break;
                                                     }
                                                 }
@@ -1027,8 +1027,10 @@ namespace minigames._SLIL
                                 Color color = GetColorForPixel(rays[stripe][y]);
                                 if (color != Color.Transparent && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
                                 {
-                                    if (creature != null && !creature.DEAD)
+                                    if (creature != null)
                                     {
+                                        if (creature.DEAD)
+                                            continue;
                                         double damage = (double)rand.Next((int)(player.GetCurrentGun().MinDamage * 100), (int)(player.GetCurrentGun().MaxDamage * 100)) / 100;
                                         if (player.GetCurrentGun() is Shotgun)
                                             damage *= player.GetCurrentGun().FiringRange - Distance;
@@ -1186,22 +1188,25 @@ namespace minigames._SLIL
             {
                 if (!start_btn.Enabled)
                 {
-                    var enemy = Entities[i] as dynamic;
-                    if (enemy is Enemy)
+                    var entity = Entities[i] as dynamic;
+                    double distance = Math.Sqrt(Math.Pow(entity.X - player.X, 2) + Math.Pow(entity.Y - player.Y, 2));
+                    if (entity is Enemy)
                     {
-                        double distance = Math.Sqrt(Math.Pow(enemy.X - player.X, 2) + Math.Pow(enemy.Y - player.Y, 2));
-                        if (distance <= 22)
+                        int factor = player.Aiming ? 12 : 1;
+                        if (player.GetCurrentGun() is Flashlight)
+                            factor = 8;
+                        if (distance <= DEPTH + factor)
                         {
-                            if (!enemy.DEAD)
+                            if (!entity.DEAD)
                             {
-                                enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
-                                if (enemy is Dog)
-                                    enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
-                                if (Math.Abs(enemy.X - player.X) <= 0.5 && Math.Abs(enemy.Y - player.Y) <= 0.5)
+                                entity.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                                if (entity is Dog)
+                                    entity.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                                if (Math.Abs(entity.X - player.X) <= 0.5 && Math.Abs(entity.Y - player.Y) <= 0.5)
                                 {
                                     if (!player.Invulnerable)
                                     {
-                                        player.DealDamage(rand.Next(enemy.MIN_DAMAGE, enemy.MAX_DAMAGE));
+                                        player.DealDamage(rand.Next(entity.MIN_DAMAGE, entity.MAX_DAMAGE));
                                         if (player.HP <= 0)
                                         {
                                             GameOver(0);
@@ -1214,9 +1219,10 @@ namespace minigames._SLIL
                             }
                         }
                     }
-                    else if (enemy is Pet)
+                    else if (entity is Pet)
                     {
-                        enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                        if (distance > 1)
+                            entity.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
                     }
                 }
             }
@@ -1792,11 +1798,12 @@ namespace minigames._SLIL
 
         private Bitmap DrawMiniMap()
         {
+            int FACTOR = resolution == 1 ? 2 : 1;
             const int MINI_MAP_SIZE = 25;
             const int BORDER_SIZE = 1;
             const int MINI_MAP_DRAW_SIZE = 37;
             const int PIXEL_SIZE = 2;
-            int totalSize = MINI_MAP_DRAW_SIZE + 2 * BORDER_SIZE;
+            int totalSize = (MINI_MAP_DRAW_SIZE + 2 * BORDER_SIZE) * FACTOR;
             Bitmap miniMap = new Bitmap(totalSize, totalSize);
             Color[,] miniMapArray = new Color[MINI_MAP_SIZE, MINI_MAP_SIZE];
             for (int y = 0; y < MINI_MAP_SIZE; y++)
@@ -1823,14 +1830,14 @@ namespace minigames._SLIL
                     g.FillEllipse(borderBrush, 0, 0, totalSize, totalSize);
                 using (GraphicsPath path = new GraphicsPath())
                 {
-                    path.AddEllipse(BORDER_SIZE, BORDER_SIZE, MINI_MAP_DRAW_SIZE, MINI_MAP_DRAW_SIZE);
+                    path.AddEllipse(BORDER_SIZE * FACTOR, BORDER_SIZE * FACTOR, MINI_MAP_DRAW_SIZE * FACTOR, MINI_MAP_DRAW_SIZE * FACTOR);
                     g.SetClip(path);
                     for (int y = 0; y < MINI_MAP_SIZE; y++)
                     {
                         for (int x = 0; x < MINI_MAP_SIZE; x++)
                         {
                             using (SolidBrush pixelBrush = new SolidBrush(miniMapArray[x, y]))
-                                g.FillRectangle(pixelBrush, x * PIXEL_SIZE + BORDER_SIZE, y * PIXEL_SIZE + BORDER_SIZE, PIXEL_SIZE, PIXEL_SIZE);
+                                g.FillRectangle(pixelBrush, (x * PIXEL_SIZE + BORDER_SIZE) * FACTOR, (y * PIXEL_SIZE + BORDER_SIZE) * FACTOR, PIXEL_SIZE * FACTOR, PIXEL_SIZE * FACTOR);
                         }
                     }
                     g.ResetClip();
@@ -1918,7 +1925,8 @@ namespace minigames._SLIL
             if (ShowMiniMap)
             {
                 Bitmap mini_map = DrawMiniMap();
-                graphicsWeapon.DrawImage(mini_map, SCREEN_WIDTH[resolution] - mini_map.Width - 5, 15);
+                int mini_map_top = ShowFPS ? 14 : 0;
+                graphicsWeapon.DrawImage(mini_map, SCREEN_WIDTH[resolution] - mini_map.Width - 5, mini_map_top + (mini_map_top * resolution));
                 mini_map.Dispose();
             }
             if (stage_timer.Enabled)

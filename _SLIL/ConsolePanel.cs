@@ -76,11 +76,14 @@ namespace minigames._SLIL
                              "~│~ -IMHONEST-    ~│~ Disable cheats                              ~│~\n" +
                              "~│~ -SOUL_FORGE-  ~│~ Play Soul Forge V3 *AI* as background music   ~│~\n" +
                              "~├─────────────┼─────────────────────────────────────────────┤~\n" +
-                             "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
-                             "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
                              "~│~ -FPS-         ~│~ Show/hide FPS                               ~│~\n" +
                              "~│~ -MINIMAP-     ~│~ Show/hide Minimap                           ~│~\n" +
                              "~│~ -ANIMATION-   ~│~ Enable/disable enemy animation              ~│~\n" +
+                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                             "~│~ -CAT-         ~│~ Issue a pet: \"Silly cat\"                    ~│~\n" +
+                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                             "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
+                             "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
                              "~│~ -COLOR_-*X*     ~│~ Change console font color                   ~│~\n" +
                              "~│~ -VOL_-*X*       ~│~ Change volume of sounds to X                ~│~\n" +
                              "~│~ -SCOPE_-*X*     ~│~ Replace current sight                       ~│~\n" +
@@ -137,7 +140,7 @@ namespace minigames._SLIL
                                  "~│~ -IDDQD-       ~│~ Upgrade all weapons by one level            ~│~\n" +
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                                  "~│~ -EGTRE-       ~│~ Issue first aid kits                        ~│~\n" +
-                                 "~│~ -GKIFK-       ~│~ Restore maximum health                      ~│~\n" +
+                                 "~│~ -GKIFK-       ~│~ Issue 999 HP                                ~│~\n" +
                                  "~│~ -KILL-        ~│~ Kill a player                               ~│~\n" +
                                  "~│~ -LPFJY-       ~│~ Cause 99 damage                             ~│~\n" +
                                  "~└─────────────┴─────────────────────────────────────────────┘~";
@@ -229,11 +232,11 @@ namespace minigames._SLIL
                                 string paddedName = $"Enemy #{i} {dead}".PadRight(maxLength);
                                 sb.AppendLine($"~|~ -{paddedName}- ~|~");
                             }
-                            sb.AppendLine("~|───────────────────────|~");
-                            sb.AppendLine("To select an enemy write Enemy_*EnemyIndex*");
-                            show_date = false;
-                            message = sb.ToString();
                         }
+                        sb.AppendLine("~|───────────────────────|~");
+                        sb.AppendLine("To select an enemy write Enemy_*EnemyIndex*");
+                        show_date = false;
+                        message = sb.ToString();
                     }
                     else if (cheat == "PLAYER")
                     {
@@ -416,6 +419,7 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "CAT")
                     {
+                        message += "\"Silly cat\" has been issued.";
                         (Parent.FindForm() as SLIL).AddCat();
                     }
                     else if (cheat.StartsWith("VOL_"))
