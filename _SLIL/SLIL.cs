@@ -125,14 +125,17 @@ namespace minigames._SLIL
         private ConsolePanel console_panel;
         private readonly char[] impassibleCells  = { '#', 'D', '=' };
         private const double playerWidth = 0.4;
-        public delegate void GameOverCallback(int win);
-        public GameOverCallback GameOverCB;
+<<<<<<< HEAD
 
+=======
+>>>>>>> ecce6804e672d75b0e6435bfba744b4c8e3ae08b
         public SLIL(TextureCache textures)
         {
             InitializeComponent();
             textureCache = textures;
         }
+
+        public void AddCat() { Entities.Add(new SillyCat(player.X + 0.1, player.Y + 0.1, MAP_WIDTH)); }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) => UpdateBitmap();
 
@@ -143,6 +146,16 @@ namespace minigames._SLIL
         private void Stage_timer_Tick(object sender, EventArgs e) => stage_timer.Stop();
 
         public static void SetVolume() => ost[ost_index].SetVolume(Volume);
+
+        public void ShowShop()
+        {
+            open_shop = true;
+            ShopInterface_panel.VerticalScroll.Value = 0;
+            mouse_timer.Stop();
+            time_remein.Stop();
+            shop_panel.BringToFront();
+            shop_panel.Visible = true;
+        }
 
         private void SLIL_Activated(object sender, EventArgs e) => active = true;
 
@@ -253,7 +266,7 @@ namespace minigames._SLIL
         {
             if (!raycast.Enabled && display.SCREEN != null)
                 display.SCREEN = null;
-            bool shouldShowCursor = start_btn.Enabled || (player.InShop && open_shop) || console_panel.Visible || (active && start_btn.Enabled) || Paused;
+            bool shouldShowCursor = start_btn.Enabled || open_shop || console_panel.Visible || (active && start_btn.Enabled) || Paused;
             if (shouldShowCursor != isCursorVisible)
             {
                 if (shouldShowCursor)
@@ -554,26 +567,16 @@ namespace minigames._SLIL
                             }
                         }
                     }
-                    if (e.KeyCode == Keys.B && player.InShop)
+                    if (e.KeyCode == Keys.B && open_shop)
                     {
-                        open_shop = !open_shop;
+                        open_shop = false;
                         ShopInterface_panel.VerticalScroll.Value = 0;
-                        if (open_shop)
-                        {
-                            mouse_timer.Stop();
-                            time_remein.Stop();
-                            shop_panel.BringToFront();
-                            shop_panel.Visible = true;
-                        }
-                        else
-                        {
-                            time_remein.Start();
-                            mouse_timer.Start();
-                            int x = display.PointToScreen(Point.Empty).X + (display.Width / 2);
-                            int y = display.PointToScreen(Point.Empty).Y + (display.Height / 2);
-                            Cursor.Position = new Point(x, y);
-                            shop_panel.Visible = false;
-                        }
+                        time_remein.Start();
+                        mouse_timer.Start();
+                        int x = display.PointToScreen(Point.Empty).X + (display.Width / 2);
+                        int y = display.PointToScreen(Point.Empty).Y + (display.Height / 2);
+                        Cursor.Position = new Point(x, y);
+                        shop_panel.Visible = false;
                     }
                 }
                 if (e.KeyCode == Keys.Oemtilde && !open_shop)
@@ -634,6 +637,103 @@ namespace minigames._SLIL
                     DoScreenshot();
                 if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
                 {
+                    DateTime time = DateTime.Now;
+                    elapsed_time = (time - total_time).TotalSeconds;
+                    total_time = time;
+                    PlayerMove();
+                    ClearDisplayedMap();
+                    int factor = player.Aiming ? 12 : 0;
+                    if (player.GetCurrentGun() is Flashlight)
+                        factor = 8;
+                    double[] ZBuffer = new double[SCREEN_WIDTH[resolution]];
+                    double[] ZBufferWindow = new double[SCREEN_WIDTH[resolution]];
+                    Pixel[][] rays = CastRaysParallel(ZBuffer, ZBufferWindow);
+                    int[] spriteOrder = new int[Entities.Count];
+                    double[] spriteDistance = new double[Entities.Count];
+                    int[] textures = new int[Entities.Count];
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        spriteOrder[i] = i;
+                        spriteDistance[i] = (player.X - Entities[i].X) * (player.X - Entities[i].X) + (player.Y - Entities[i].Y) * (player.Y - Entities[i].Y);
+                        textures[i] = Entities[i].Texture;
+                    }
+                    SortSpritesNotReversed(ref spriteOrder, ref spriteDistance, ref textures, Entities.Count);
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        Entity entity = Entities[spriteOrder[i]];
+                        //Creature creature = null;
+                        //if (entity is Creature)
+                        //{
+                        //    creature = Entities[spriteOrder[i]] as Creature;
+                        //    if (!creature.CanHit)
+                        //        creature = null;
+                        //}
+                        double spriteX = entity.X - player.X;
+                        double spriteY = entity.Y - player.Y;
+                        double dirX = Math.Sin(player.A);
+                        double dirY = Math.Cos(player.A);
+                        double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                        double planeY = Math.Cos(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                        double invDet = 1.0 / (planeX * dirY - dirX * planeY);
+                        double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+                        double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+                        int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
+                        double Distance = Math.Sqrt((player.X - entity.X) * (player.X - entity.X) + (player.Y - entity.Y) * (player.Y - entity.Y));
+                        double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
+                        double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
+                        int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
+                        int drawStartY = (int)spriteTop;
+                        int drawEndY = (int)spriteBottom;
+                        int spriteHeight = Math.Abs((int)(SCREEN_HEIGHT[resolution] / Distance));
+                        int spriteWidth = Math.Abs((int)(SCREEN_WIDTH[resolution] / Distance));
+                        int drawStartX = -spriteWidth / 2 + spriteScreenX;
+                        if (drawStartX < 0) drawStartX = 0;
+                        int drawEndX = spriteWidth / 2 + spriteScreenX;
+                        if (drawEndX >= SCREEN_WIDTH[resolution]) drawEndX = SCREEN_WIDTH[resolution];
+                        var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 2);
+                        for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+                        {
+                            int texWidth = 128;
+                            double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
+                            if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
+                            {
+                                for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
+                                {
+                                    if (y < 0 || (transformY > ZBufferWindow[stripe] && y > spriteCenterY))
+                                        continue;
+                                    double d = y - (SCREEN_HEIGHT[resolution] - (int)player.Look) / 2 + (drawEndY - drawStartY) / 2;
+                                    double texY = d / (drawEndY - drawStartY);
+                                    if (y == drawStartY) texY = 0;
+                                    if (rays[stripe].Length > y && y >= 0)
+                                    {
+                                        if (EnableAnimation)
+                                        {
+                                            if (player.GetCurrentGun() is Flashlight && entity.RespondsToFlashlight)
+                                                rays[stripe][y].TextureId = textures[i] + 2;
+                                            else
+                                                rays[stripe][y].TextureId = entity.Animations[0][timeNow % entity.Frames];
+                                        }
+                                        else
+                                            rays[stripe][y].TextureId = textures[i];
+                                        rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
+                                        rays[stripe][y].TextureX = texX;
+                                        rays[stripe][y].TextureY = texY;
+                                        Color color = GetColorForPixel(rays[stripe][y]);
+                                        if (color != Color.Transparent && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
+                                        {
+                                            //implement events
+                                            if(entity is Pet && Distance <= 2)
+                                            {
+                                                //test
+                                                DeathSounds[0].Play(Volume);
+                                            }
+                                            return;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                     double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
                     double ray_x = Math.Sin(rayA);
                     double ray_y = Math.Cos(rayA);
@@ -653,18 +753,6 @@ namespace minigames._SLIL
                                 hit = true;
                                 wall.Play(Volume);
                                 break;
-                            case 'D':
-                                hit = true;
-                                door[0].Play(Volume);
-                                MAP[y * MAP_WIDTH + x] = 'O';
-                                break;
-                            case 'O':
-                                hit = true;
-                                if (distance < playerWidth || ((int)player.X == x && (int)player.Y == y))
-                                    break;
-                                door[1].Play(Volume);
-                                MAP[y * MAP_WIDTH + x] = 'D';
-                                break;
                             case 'd':
                                 hit = true;
                                 door[0].Play(Volume);
@@ -677,6 +765,106 @@ namespace minigames._SLIL
                                 door[1].Play(Volume);
                                 MAP[y * MAP_WIDTH + x] = 'd';
                                 break;
+                        }
+                    }
+                    if (hit)
+                        return;
+                    DateTime time = DateTime.Now;
+                    elapsed_time = (time - total_time).TotalSeconds;
+                    total_time = time;
+                    PlayerMove();
+                    ClearDisplayedMap();
+                    int factor = player.Aiming ? 12 : 0;
+                    if (player.GetCurrentGun() is Flashlight)
+                        factor = 8;
+                    double[] ZBuffer = new double[SCREEN_WIDTH[resolution]];
+                    double[] ZBufferWindow = new double[SCREEN_WIDTH[resolution]];
+                    Pixel[][] rays = CastRaysParallel(ZBuffer, ZBufferWindow);
+                    int[] spriteOrder = new int[Entities.Count];
+                    double[] spriteDistance = new double[Entities.Count];
+                    int[] textures = new int[Entities.Count];
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        spriteOrder[i] = i;
+                        spriteDistance[i] = (player.X - Entities[i].X) * (player.X - Entities[i].X) + (player.Y - Entities[i].Y) * (player.Y - Entities[i].Y);
+                        textures[i] = Entities[i].Texture;
+                    }
+                    SortSpritesNotReversed(ref spriteOrder, ref spriteDistance, ref textures, Entities.Count);
+                    for (int i = 0; i < Entities.Count; i++)
+                    {
+                        Entity entity = Entities[spriteOrder[i]];
+                        if (!(entity is Enemy))
+                        {
+                            double spriteX = entity.X - player.X;
+                            double spriteY = entity.Y - player.Y;
+                            double dirX = Math.Sin(player.A);
+                            double dirY = Math.Cos(player.A);
+                            double planeX = Math.Sin(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                            double planeY = Math.Cos(player.A - Math.PI / 2) * Math.Tan(FOV / 2);
+                            double invDet = 1.0 / (planeX * dirY - dirX * planeY);
+                            double transformX = invDet * (dirY * spriteX - dirX * spriteY);
+                            double transformY = invDet * (-planeY * spriteX + planeX * spriteY);
+                            int spriteScreenX = (int)((SCREEN_WIDTH[resolution] / 2) * (1 + transformX / transformY));
+                            double Distance = Math.Sqrt((player.X - entity.X) * (player.X - entity.X) + (player.Y - entity.Y) * (player.Y - entity.Y));
+                            double spriteTop = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / Distance;
+                            double spriteBottom = SCREEN_HEIGHT[resolution] - (spriteTop + player.Look);
+                            int spriteCenterY = (int)((spriteTop + spriteBottom) / 2);
+                            int drawStartY = (int)spriteTop;
+                            int drawEndY = (int)spriteBottom;
+                            int spriteHeight = Math.Abs((int)(SCREEN_HEIGHT[resolution] / Distance));
+                            int spriteWidth = Math.Abs((int)(SCREEN_WIDTH[resolution] / Distance));
+                            int drawStartX = -spriteWidth / 2 + spriteScreenX;
+                            if (drawStartX < 0) drawStartX = 0;
+                            int drawEndX = spriteWidth / 2 + spriteScreenX;
+                            if (drawEndX >= SCREEN_WIDTH[resolution]) drawEndX = SCREEN_WIDTH[resolution];
+                            var timeNow = (long)((DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1)).TotalSeconds * 2);
+                            for (int stripe = drawStartX; stripe < drawEndX; stripe++)
+                            {
+                                int texWidth = 128;
+                                double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
+                                if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
+                                {
+                                    for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
+                                    {
+                                        if (y < 0 || (transformY > ZBufferWindow[stripe] && y > spriteCenterY))
+                                            continue;
+                                        double d = y - (SCREEN_HEIGHT[resolution] - (int)player.Look) / 2 + (drawEndY - drawStartY) / 2;
+                                        double texY = d / (drawEndY - drawStartY);
+                                        if (y == drawStartY) texY = 0;
+                                        if (rays[stripe].Length > y && y >= 0)
+                                        {
+                                            if (EnableAnimation)
+                                            {
+                                                if (player.GetCurrentGun() is Flashlight && entity.RespondsToFlashlight)
+                                                    rays[stripe][y].TextureId = textures[i] + 2;
+                                                else
+                                                    rays[stripe][y].TextureId = entity.Animations[0][timeNow % entity.Frames];
+                                            }
+                                            else
+                                                rays[stripe][y].TextureId = textures[i];
+                                            rays[stripe][y].Blackout = (int)(Math.Min(Math.Max(0, Math.Floor((Distance / (DEPTH + factor)) * 100)), 100));
+                                            rays[stripe][y].TextureX = texX;
+                                            rays[stripe][y].TextureY = texY;
+                                            Color color = GetColorForPixel(rays[stripe][y]);
+                                            if (color != Color.Transparent && stripe == SCREEN_WIDTH[resolution] / 2 && y == SCREEN_HEIGHT[resolution] / 2 && player.GetCurrentGun().FiringRange >= Distance)
+                                            {
+                                                if (Distance <= 2)
+                                                {
+                                                    switch (entity.Interaction())
+                                                    {
+                                                        case 1: //SillyCat
+                                                            break;
+                                                        case 2: //ShopMan
+                                                            ShowShop();
+                                                            break;
+                                                    }
+                                                }
+                                                return;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -1094,7 +1282,11 @@ namespace minigames._SLIL
 
         private void Enemy_timer_Tick(object sender, EventArgs e)
         {
-            Parallel.For(0, Entities.Count, i =>
+<<<<<<< HEAD
+            for (int i = 0; i < Entities.Count; i++)
+=======
+            for(int i = 0; i < Entities.Count; i++)
+>>>>>>> ecce6804e672d75b0e6435bfba744b4c8e3ae08b
             {
                 if (!start_btn.Enabled)
                 {
@@ -1116,8 +1308,7 @@ namespace minigames._SLIL
                                         player.DealDamage(rand.Next(enemy.MIN_DAMAGE, enemy.MAX_DAMAGE));
                                         if (player.HP <= 0)
                                         {
-                                            GameOverCallback gameover = new GameOverCallback(GameOver);
-                                            gameover.Invoke(0);
+                                            GameOver(0);
                                             return;
                                         }
                                         if (MainMenu.sounds)
@@ -1127,8 +1318,12 @@ namespace minigames._SLIL
                             }
                         }
                     }
+                    else if (enemy is Pet)
+                    {
+                        enemy.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                    }
                 }
-            });
+            }
         }
 
         private void Map_timer_Tick(object sender, EventArgs e)
@@ -1269,10 +1464,6 @@ namespace minigames._SLIL
                 GameOver(1);
                 return;
             }
-            if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '$')
-                player.InShop = true;
-            else
-                player.InShop = false;
             if (MAP[(int)player.Y * MAP_WIDTH + (int)player.X] == '.')
             {
                 MAP[(int)player.Y * MAP_WIDTH + (int)player.X] = 'P';
@@ -1577,6 +1768,8 @@ namespace minigames._SLIL
                                         }
                                         else
                                             rays[stripe][y].TextureId = textures[i];
+                                        if (creature is Enemy)
+                                            DISPLAYED_MAP[Entities[spriteOrder[i]].IntY * MAP_WIDTH + Entities[spriteOrder[i]].IntX] = 'E';
                                     }
                                     else
                                         rays[stripe][y].TextureId = textures[i] + 3;
@@ -1587,6 +1780,7 @@ namespace minigames._SLIL
                                 rays[stripe][y].TextureX = texX;
                                 rays[stripe][y].TextureY = texY;
                                 Color color = GetColorForPixel(rays[stripe][y]);
+                                DISPLAYED_MAP[Entities[spriteOrder[i]].IntY * MAP_WIDTH + Entities[spriteOrder[i]].IntX] = 'E';
                                 if (color == Color.Transparent)
                                 {
                                     rays[stripe][y].TextureId = tempTextureId;
@@ -1670,7 +1864,7 @@ namespace minigames._SLIL
         {
             int textureSize = 128;
             int x = 0, y = 0;
-            if (pixel.TextureId < 20)
+            if (pixel.TextureId >= 2)
             {
                 x = (int)WrapTexture((int)(pixel.TextureX * textureSize), textureSize);
                 y = (int)WrapTexture((int)(pixel.TextureY * textureSize), textureSize);
@@ -1817,8 +2011,6 @@ namespace minigames._SLIL
                         graphicsWeapon.DrawImage(Properties.Resources.bullet, 40 + (30 * resolution), 108 + (110 * resolution), icon_size, icon_size);
                 }
             }
-            if (player.InShop)
-                graphicsWeapon.DrawImage(Properties.Resources.shop, 2, 28 + (28 * resolution), icon_size, icon_size);
             if (!(player.GetCurrentGun() is SniperRifle) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is FirstAidKit))
             {
                 if (player.GetCurrentGun() is Shotgun)
@@ -1896,14 +2088,14 @@ namespace minigames._SLIL
             double window_distance = 0;
             bool hit_wall = false;
             bool hit_window = false;
-            int hit_door = 0;
+            bool hit_door = false;
             bool is_bound = false;
             bool is_window_bound = false;
             double deltaA = FOV / 2 - x * FOV / SCREEN_WIDTH[resolution];
             double rayA = player.A + deltaA;
             double ray_x = Math.Sin(rayA);
             double ray_y = Math.Cos(rayA);
-            while (raycast.Enabled && !hit_wall && hit_door == 0 && distance < DEPTH + factor)
+            while (raycast.Enabled && !hit_wall && !hit_door && distance < DEPTH + factor)
             {
                 distance += 0.01f;
                 if (!hit_window)
@@ -1932,13 +2124,8 @@ namespace minigames._SLIL
                             DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = '=';
                         }
                         break;
-                    case 'D':
-                        hit_door = 2;
-                        is_bound = CheckBound(test_x, test_y, ray_x, ray_y, distance);
-                        DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
-                        break;
                     case 'd':
-                        hit_door = 1;
+                        hit_door = true;
                         is_bound = CheckBound(test_x, test_y, ray_x, ray_y, distance);
                         DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
                         break;
@@ -1965,7 +2152,7 @@ namespace minigames._SLIL
             {
                 if (start_btn.Enabled)
                     break;
-                int blackout = 0, textureId = 21;
+                int blackout = 0, textureId = 1;
                 if (hit_window && y > mid)
                 {
                     ceiling = (SCREEN_HEIGHT[resolution] - player.Look) / 2 - (SCREEN_HEIGHT[resolution] * FOV) / (window_distance*Math.Cos(deltaA));
@@ -1978,31 +2165,29 @@ namespace minigames._SLIL
                 }
                 if (y <= ceiling)
                 {
-                    textureId = 17;
+                    textureId = 7;
                     double d = (y + player.Look / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
                 else if (y >= mid && y <= floor && hit_window)
                 {
-                    textureId = 0;
+                    textureId = 2;
                     if (Math.Abs(y - mid) <= 10 / window_distance || is_window_bound)
-                        textureId = 20;
+                        textureId = 0;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((window_distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if ((y < mid || !hit_window) && y > ceiling && y < floor)
                 {
-                    textureId = 0;
-                    if (hit_door == 1)
-                        textureId = 13;
-                    else if (hit_door == 2)
-                        textureId = 14;
+                    textureId = 2;
+                    if (hit_door)
+                        textureId = 3;
                     if (is_bound)
-                        textureId = 20;
+                        textureId = 0;
                     blackout = (int)(Math.Min(Math.Max(0, Math.Floor((distance / (DEPTH + factor)) * 100)), 100));
                 }
                 else if (y >= floor)
                 {
-                    textureId = 16;
+                    textureId = 6;
                     double d = 1 - (y - (SCREEN_HEIGHT[resolution] - player.Look) / 2) / (SCREEN_HEIGHT[resolution] / 2);
                     blackout = (int)(Math.Min(Math.Max(0, d * 100), 100));
                 }
@@ -2042,7 +2227,7 @@ namespace minigames._SLIL
                             get_texture_window = true;
                             side = GetSide(window_distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 20;
+                                result[y].TextureId = 1;
                             if (side == 0)
                                 wallX = player.X + window_distance * ray_x;
                             else
@@ -2050,14 +2235,14 @@ namespace minigames._SLIL
                             wallX -= Math.Floor(wallX);
                         }
                     }
-                    else if (hit_door != 0 || hit_wall)
+                    else if (hit_door || hit_wall)
                     {
                         if (!get_texture)
                         {
                             get_texture = true;
                             side = GetSide(distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 20;
+                                result[y].TextureId = 1;
                             if (side == 0)
                                 wallX = player.X + distance * ray_x;
                             else
@@ -2067,7 +2252,7 @@ namespace minigames._SLIL
                     }
                     else
                     {
-                        result[y].TextureId = 20;
+                        result[y].TextureId = 1;
                         result[y].TextureY = 0;
                         result[y].TextureX = 0;
                         result[y].Side = 0;
@@ -2202,6 +2387,16 @@ namespace minigames._SLIL
                             Teleport teleport = new Teleport(x, y, MAP_WIDTH);
                             Entities.Add(teleport);
                         }
+                        if (MAP[y * MAP_WIDTH + x] == 'D')
+                        {
+                            ShopDoor shopDoor = new ShopDoor(x, y, MAP_WIDTH);
+                            Entities.Add(shopDoor);
+                        }
+                        if (MAP[y * MAP_WIDTH + x] == '$')
+                        {
+                            ShopMan shopMan = new ShopMan(x, y, MAP_WIDTH);
+                            Entities.Add(shopMan);
+                        }
                         if (MAP[y * MAP_WIDTH + x] == 'E')
                         {
                             double dice = rand.NextDouble();
@@ -2307,6 +2502,16 @@ namespace minigames._SLIL
                             Teleport teleport = new Teleport(x, y, MazeWidth * 3 + 1);
                             Entities.Add(teleport);
                         }
+                        if (map[x, y] == 'D')
+                        {
+                            ShopDoor shopDoor = new ShopDoor(x, y, MazeWidth * 3 + 1);
+                            Entities.Add(shopDoor);
+                        }
+                        if (map[x, y] == '$')
+                        {
+                            ShopMan shopMan = new ShopMan(x, y, MazeWidth * 3 + 1);
+                            Entities.Add(shopMan);
+                        }
                         if (map[x, y] == '.' && random.NextDouble() <= enemy_count && x > 5 && y > 5)
                         {
                             double dice = rand.NextDouble();
@@ -2343,6 +2548,16 @@ namespace minigames._SLIL
                             Teleport teleport = new Teleport(x, y, CustomMazeWidth * 3 + 1);
                             Entities.Add(teleport);
                         }
+                        if (MAP[y * (CustomMazeWidth * 3 + 1) + x] == 'D')
+                        {
+                            ShopDoor shopDoor = new ShopDoor(x, y, CustomMazeWidth * 3 + 1);
+                            Entities.Add(shopDoor);
+                        }
+                        if (MAP[y * (CustomMazeWidth * 3 + 1) + x] == '$')
+                        {
+                            ShopMan shopMan = new ShopMan(x, y, CustomMazeWidth * 3 + 1);
+                            Entities.Add(shopMan);
+                        }
                         if (MAP[y * (CustomMazeWidth * 3 + 1) + x] == 'E')
                         {
                             double dice = rand.NextDouble();
@@ -2366,12 +2581,9 @@ namespace minigames._SLIL
                     }
                 }
             }
-
             for (int i = 0; i < MAP.Length; i++)
             {
-                if (MAP[i] == 'O')
-                    MAP[i] = 'D';
-                else if (MAP[i] == 'o')
+                if (MAP[i] == 'o')
                     MAP[i] = 'd';
             }
             DISPLAYED_MAP.Length = MAP.Length;
@@ -2405,6 +2617,7 @@ namespace minigames._SLIL
             player.LevelUpdated = false;
             stamina_panel.Width = display.Width;
             stamina_panel.Visible = false;
+            open_shop = false;
             Entities.Clear();
             strafeDirection = playerDirection = Direction.STOP;
             playerMoveStyle = Direction.WALK;
@@ -2545,6 +2758,7 @@ namespace minigames._SLIL
                 GUNS[i].SetDefault();
         }
 
+        public void AddCat() { Entities.Add(new SillyCat(player.X+0.1, player.Y+0.1, MAP_WIDTH)); }
         private void GameOver(int win)
         {
             ost[ost_index]?.Stop();

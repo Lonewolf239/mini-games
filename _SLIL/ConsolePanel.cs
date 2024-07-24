@@ -101,6 +101,10 @@ namespace minigames._SLIL
                         SLIL slil = Parent.FindForm() as SLIL;
                         SLIL.GoDebug(slil, 1);
                     }
+                    else if (cheat == "CAT")
+                    {
+                        (Parent.FindForm() as SLIL).AddCat();
+                    }
                     else if (cheat == "DEBUG_BOSS")
                     {
                         show_message = false;
@@ -413,6 +417,10 @@ namespace minigames._SLIL
                             message += "Animation enabled.";
                         else
                             message += "Animation disabled.";
+                    }
+                    else if (cheat == "CAT")
+                    {
+                        (Parent.FindForm() as SLIL).AddCat();
                     }
                     else if (cheat.StartsWith("VOL_"))
                     {

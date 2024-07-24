@@ -14,7 +14,6 @@ namespace minigames._SLIL
         public double STAMINE { get; set; }
         public bool CanShoot { get; set; }
         public bool Aiming { get; set; }
-        public bool InShop { get; set; }
         public bool UseFirstMedKit { get; set; }
         public bool Dead { get; set; }
         public int Money { get; set; }
@@ -59,7 +58,6 @@ namespace minigames._SLIL
             Dead = false;
             Invulnerable = false;
             TimeoutInvulnerable = 2;
-            InShop = false;
             Aiming = false;
             UseFirstMedKit = false;
             LevelUpdated = false;

@@ -21,15 +21,15 @@ namespace minigames._SLIL
                     "ESC – stop the game/exit the game\n" +
                     "WASD / arrows – movement\n" +
                     "Mouse - camera control\n" +
-                    "E / Enter – interaction with doors\n" +
+                    "E/Enter – interact with doors and NPCs\n" +
                     "M / Tab / Space – show/hide map\n" +
-                    "B – open/close the store (you can also use ESC to close)\n" +
+                    "ESC / B – close store\n" +
                     "F – take out/remove the flashlight\n" +
                     "H – use first aid kit\n" +
                     "Shift (hold) – run\n" +
-                    "Left mouse button – shooting\n" +
-                    "Right mouse button – aiming mode\n" +
-                    "1-8 / mouse wheel – change weapons";
+                    "LMB – shooting\n" +
+                    "RMB – aiming mode\n" +
+                    "1-0 / mouse wheel – change weapons";
                 difficulty_title.Text = "Difficulty:";
                 difficulty_about.Text = "Easy:\n" +
                     "Starting weapon: Pistol Lv2\n" +

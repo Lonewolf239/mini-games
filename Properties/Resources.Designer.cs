@@ -1923,6 +1923,26 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap pet_0 {
+            get {
+                object obj = ResourceManager.GetObject("pet_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_0_1 {
+            get {
+                object obj = ResourceManager.GetObject("pet_0_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap piano {
             get {
                 object obj = ResourceManager.GetObject("piano", resourceCulture);
@@ -2146,6 +2166,26 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap shop_door {
             get {
                 object obj = ResourceManager.GetObject("shop_door", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shop_man_0 {
+            get {
+                object obj = ResourceManager.GetObject("shop_man_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap shop_man_1 {
+            get {
+                object obj = ResourceManager.GetObject("shop_man_1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

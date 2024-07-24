@@ -8,23 +8,28 @@ namespace minigames._SLIL
         private readonly Image[] textures =
         { 
             Properties.Resources.wall,
-            Properties.Resources.enemy_0,
-            Properties.Resources.enemy_0_1,
-            Properties.Resources.enemy_0_2,
-            Properties.Resources.enemy_0_DEAD,
-            Properties.Resources.enemy_1,
-            Properties.Resources.enemy_1_1,
-            Properties.Resources.enemy_1_2,
-            Properties.Resources.enemy_1_DEAD,
-            Properties.Resources.enemy_2,
-            Properties.Resources.enemy_2_1,
-            Properties.Resources.enemy_2_2,
-            Properties.Resources.enemy_2_DEAD,
             Properties.Resources.door,
             Properties.Resources.shop_door,
             Properties.Resources.teleport,
             Properties.Resources.floor,
-            Properties.Resources.ceiling
+            Properties.Resources.ceiling,
+            Properties.Resources.enemy_0, //8
+            Properties.Resources.enemy_0_1,
+            Properties.Resources.enemy_0_2,
+            Properties.Resources.enemy_0_DEAD,
+            Properties.Resources.enemy_1, //12
+            Properties.Resources.enemy_1_1,
+            Properties.Resources.enemy_1_2,
+            Properties.Resources.enemy_1_DEAD,
+            Properties.Resources.enemy_2, //16
+            Properties.Resources.enemy_2_1,
+            Properties.Resources.enemy_2_2,
+            Properties.Resources.enemy_2_DEAD,
+            Properties.Resources.pet_0, //20
+            Properties.Resources.pet_0_1,
+            Properties.Resources.shop_man_0, //22
+            Properties.Resources.shop_man_0,
+            Properties.Resources.shop_man_1,
         };
         private readonly Color[] COLORS =
         {
@@ -39,9 +44,20 @@ namespace minigames._SLIL
         {
             int textureCount = textures.Length + COLORS.Length;
             textureColorCache = new Color[textureCount, 101][,];
-            for (int id = 0; id < textures.Length; id++)
+            for (int id = 0; id < COLORS.Length; id++)
             {
-                Bitmap textureBitmap = new Bitmap(textures[id]);
+                Color color = COLORS[id];
+                for (int blackout = 0; blackout <= 100; blackout++)
+                {
+                    if (blackout == 100)
+                        textureColorCache[id, blackout] = GenerateBlackTexture(1, 1);
+                    else
+                        textureColorCache[id, blackout] = CacheColor(color, blackout);
+                }
+            }
+            for (int id = COLORS.Length; id < textureCount; id++)
+            {
+                Bitmap textureBitmap = new Bitmap(textures[id - COLORS.Length]);
                 BitmapData bitmapData = textureBitmap.LockBits(new Rectangle(0, 0, textureBitmap.Width, textureBitmap.Height), ImageLockMode.ReadOnly, textureBitmap.PixelFormat);
                 int bytesPerPixel = Bitmap.GetPixelFormatSize(textureBitmap.PixelFormat) / 8;
                 int byteCount = bitmapData.Stride * textureBitmap.Height;
@@ -57,25 +73,9 @@ namespace minigames._SLIL
                         textureColorCache[id, blackout] = CacheTextureColors(pixels, bitmapData.Stride, textureBitmap.Width, textureBitmap.Height, bytesPerPixel, darkenAmount);
                 }
             }
-            for (int id = textures.Length; id < textureCount; id++)
-            {
-                Color color = COLORS[id - textures.Length];
-                for (int blackout = 0; blackout <= 100; blackout++)
-                {
-                    if (blackout == 100)
-                        textureColorCache[id, blackout] = GenerateBlackTexture(1, 1);
-                    else
-                        textureColorCache[id, blackout] = CacheColor(color, blackout);
-                }
-            }
         }
 
-        public Color GetTextureColor(int textureId, int x, int y, int blackout)
-        {
-            if (textureId >= 20)
-                textureId -= (20 - textures.Length);
-            return textureColorCache[textureId, blackout][x, y];
-        }
+        public Color GetTextureColor(int textureId, int x, int y, int blackout) => textureColorCache[textureId, blackout][x, y];
 
         private Color[,] GenerateBlackTexture(int width, int height)
         {

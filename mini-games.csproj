@@ -557,6 +557,8 @@
     <Content Include="images\icon1.ico" />
     <Content Include="images\icon2.ico" />
     <Content Include="images\musical_note.png" />
+    <None Include="images\pet_0.png" />
+    <None Include="images\pet_0_1.png" />
     <Content Include="images\piano.png" />
     <Content Include="images\ping_pong.ico" />
     <Content Include="images\player.png" />
@@ -566,6 +568,8 @@
     <Content Include="images\purple_stage_3.png" />
     <Content Include="images\red.png" />
     <None Include="images\shop_door.png" />
+    <None Include="images\shop_man_0.png" />
+    <None Include="images\shop_man_1.png" />
     <Content Include="images\speed.png" />
     <Content Include="images\t_control.png" />
     <Content Include="images\violin.png" />

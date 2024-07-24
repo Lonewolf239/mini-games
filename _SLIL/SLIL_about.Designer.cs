@@ -30,13 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SLIL_about));
             this.control_panel = new System.Windows.Forms.Panel();
+            this.difficulty_about = new System.Windows.Forms.Label();
+            this.difficulty_title = new System.Windows.Forms.Label();
             this.control_space = new System.Windows.Forms.Label();
             this.control_text = new System.Windows.Forms.Label();
             this.ok = new System.Windows.Forms.Button();
             this.fruit_panel = new System.Windows.Forms.Panel();
             this.rules_text = new System.Windows.Forms.Label();
-            this.difficulty_title = new System.Windows.Forms.Label();
-            this.difficulty_about = new System.Windows.Forms.Label();
             this.control_panel.SuspendLayout();
             this.fruit_panel.SuspendLayout();
             this.SuspendLayout();
@@ -56,6 +56,29 @@
             this.control_panel.Size = new System.Drawing.Size(456, 200);
             this.control_panel.TabIndex = 1;
             // 
+            // difficulty_about
+            // 
+            this.difficulty_about.Dock = System.Windows.Forms.DockStyle.Top;
+            this.difficulty_about.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.difficulty_about.Location = new System.Drawing.Point(0, 334);
+            this.difficulty_about.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.difficulty_about.Name = "difficulty_about";
+            this.difficulty_about.Size = new System.Drawing.Size(437, 302);
+            this.difficulty_about.TabIndex = 4;
+            this.difficulty_about.Text = resources.GetString("difficulty_about.Text");
+            // 
+            // difficulty_title
+            // 
+            this.difficulty_title.Dock = System.Windows.Forms.DockStyle.Top;
+            this.difficulty_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.difficulty_title.Location = new System.Drawing.Point(0, 310);
+            this.difficulty_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.difficulty_title.Name = "difficulty_title";
+            this.difficulty_title.Size = new System.Drawing.Size(437, 24);
+            this.difficulty_title.TabIndex = 3;
+            this.difficulty_title.Text = "Сложность:";
+            this.difficulty_title.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // control_space
             // 
             this.control_space.Dock = System.Windows.Forms.DockStyle.Top;
@@ -63,7 +86,7 @@
             this.control_space.Location = new System.Drawing.Point(0, 24);
             this.control_space.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.control_space.Name = "control_space";
-            this.control_space.Size = new System.Drawing.Size(437, 305);
+            this.control_space.Size = new System.Drawing.Size(437, 286);
             this.control_space.TabIndex = 2;
             this.control_space.Text = resources.GetString("control_space.Text");
             // 
@@ -116,29 +139,6 @@
             this.rules_text.Size = new System.Drawing.Size(454, 50);
             this.rules_text.TabIndex = 0;
             this.rules_text.Text = "Цель игры - пройти случайно сгенерированный лабиринт за определённое время.";
-            // 
-            // difficulty_title
-            // 
-            this.difficulty_title.Dock = System.Windows.Forms.DockStyle.Top;
-            this.difficulty_title.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.difficulty_title.Location = new System.Drawing.Point(0, 329);
-            this.difficulty_title.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.difficulty_title.Name = "difficulty_title";
-            this.difficulty_title.Size = new System.Drawing.Size(437, 24);
-            this.difficulty_title.TabIndex = 3;
-            this.difficulty_title.Text = "Сложность:";
-            this.difficulty_title.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // difficulty_about
-            // 
-            this.difficulty_about.Dock = System.Windows.Forms.DockStyle.Top;
-            this.difficulty_about.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.difficulty_about.Location = new System.Drawing.Point(0, 353);
-            this.difficulty_about.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.difficulty_about.Name = "difficulty_about";
-            this.difficulty_about.Size = new System.Drawing.Size(437, 302);
-            this.difficulty_about.TabIndex = 4;
-            this.difficulty_about.Text = resources.GetString("difficulty_about.Text");
             // 
             // SLIL_about
             // 
