@@ -476,7 +476,7 @@ namespace minigames._SLIL
                 {
                     if (!open_shop)
                     {
-                        if (e.KeyCode == Keys.ShiftKey && playerDirection == Direction.FORWARD && player.STAMINE >= player.MAX_STAMINE / 1.75 && !player.Aiming && !reload_timer.Enabled && !chill_timer.Enabled)
+                        if (Control.ModifierKeys == Keys.Shift && playerDirection == Direction.FORWARD && player.STAMINE >= player.MAX_STAMINE / 1.75 && !player.Aiming && !reload_timer.Enabled && !chill_timer.Enabled)
                             playerMoveStyle = Direction.RUN;
                         if (e.KeyCode == Keys.W)
                             playerDirection = Direction.FORWARD;
