@@ -32,6 +32,7 @@ namespace minigames._SLIL
         public Pet PET = null;
         public double MAX_HP { get; set; }
         public double MAX_STAMINE { get; set; }
+        public bool IsPetting { get; set; }
 
         public Player()
         {
@@ -67,6 +68,7 @@ namespace minigames._SLIL
             LevelUpdated = false;
             PreviousGun = CurrentGun = 1;
             STAMINE = MAX_STAMINE;
+            IsPetting = false;
         }
 
         public Gun GetCurrentGun() => Guns[CurrentGun];

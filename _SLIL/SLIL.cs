@@ -14,6 +14,7 @@ using System.Runtime.InteropServices;
 using Convert_Bitmap;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Threading;
 
 namespace minigames._SLIL
 {
@@ -146,6 +147,7 @@ namespace minigames._SLIL
         {
             InitializeComponent();
             textureCache = textures;
+            player.IsPetting = false;
         }
 
         public void AddPet(int index)
@@ -830,10 +832,31 @@ namespace minigames._SLIL
                                                     switch (entity.Interaction())
                                                     {
                                                         case 1: //SillyCat
+                                                            if (player.IsPetting) break;
+                                                            player.IsPetting = true;                                                            
+                                                            new Thread(() =>
+                                                            {
+                                                                Thread.Sleep(2000);
+                                                                player.IsPetting = false;
+                                                            }).Start();
                                                             break;
                                                         case 2: //GreenGnome
+                                                            if (player.IsPetting) break;
+                                                            player.IsPetting = true;
+                                                            new Thread(() =>
+                                                            {
+                                                                Thread.Sleep(2000);
+                                                                player.IsPetting = false;
+                                                            }).Start();
                                                             break;
                                                         case 3: //EnergyDrink
+                                                            if (player.IsPetting) break;
+                                                            player.IsPetting = true;
+                                                            new Thread(() =>
+                                                            {
+                                                                Thread.Sleep(2000);
+                                                                player.IsPetting = false;
+                                                            }).Start();
                                                             break;
                                                     }
                                                 }
@@ -965,7 +988,7 @@ namespace minigames._SLIL
         {
             if (!start_btn.Enabled && player.CanShoot && !reload_timer.Enabled && !shot_timer.Enabled)
             {
-                if (player.GetCurrentGun().CanShoot)
+                if (player.GetCurrentGun().CanShoot && !(player.IsPetting))
                 {
                     if (e.Button == MouseButtons.Left)
                     {
@@ -1984,13 +2007,15 @@ namespace minigames._SLIL
             graphicsWeapon.Clear(Color.Transparent);
             try
             {
-                graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), player.GunState], 0, 0, WEAPON.Width, WEAPON.Height);
+                if(player.IsPetting) graphicsWeapon.DrawImage(Properties.Resources.pet_animation, 0, 0, WEAPON.Width, WEAPON.Height);
+                else graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), player.GunState], 0, 0, WEAPON.Width, WEAPON.Height);
             }
             catch
             {
                 try
                 {
-                    graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), 0], 0, 0, WEAPON.Width, WEAPON.Height);
+                    if (player.IsPetting) graphicsWeapon.DrawImage(Properties.Resources.pet_animation, 0, 0, WEAPON.Width, WEAPON.Height);
+                    else graphicsWeapon.DrawImage(player.GetCurrentGun().Images[player.GetCurrentGun().GetLevel(), 0], 0, 0, WEAPON.Width, WEAPON.Height);
                 }
                 catch { }
             }
@@ -2003,7 +2028,7 @@ namespace minigames._SLIL
             graphicsWeapon.DrawString(player.Money.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 14 + (14 * resolution));
             graphicsWeapon.DrawString(player.HP.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 108 + (110 * resolution));
             graphicsWeapon.DrawString(medkit_count.ToString(), consolasFont[resolution], whiteBrush, icon_size + 2, 94 + (98 * resolution));
-            if (player.Guns.Count > 0 && !(player.GetCurrentGun() is FirstAidKit) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
+            if (!(player.IsPetting) && player.Guns.Count > 0 && !(player.GetCurrentGun() is FirstAidKit) && !(player.GetCurrentGun() is Flashlight) && !(player.GetCurrentGun() is Knife))
             {
                 if (player.GetCurrentGun().IsMagic)
                     graphicsWeapon.DrawString($"{player.GetCurrentGun().MaxAmmoCount + player.GetCurrentGun().AmmoCount}", consolasFont[resolution], whiteBrush, 52 + (42 * resolution), 108 + (110 * resolution));
