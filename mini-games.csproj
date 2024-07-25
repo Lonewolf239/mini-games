@@ -338,6 +338,12 @@
     <Compile Include="_SLIL\SLIL_Editor.Designer.cs">
       <DependentUpon>SLIL_Editor.cs</DependentUpon>
     </Compile>
+    <Compile Include="_SLIL\SLIL_PetShopInterface.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_SLIL\SLIL_PetShopInterface.Designer.cs">
+      <DependentUpon>SLIL_PetShopInterface.cs</DependentUpon>
+    </Compile>
     <Compile Include="_SLIL\SLIL_Settings.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -482,6 +488,9 @@
     <EmbeddedResource Include="_SLIL\SLIL_Editor.resx">
       <DependentUpon>SLIL_Editor.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="_SLIL\SLIL_PetShopInterface.resx">
+      <DependentUpon>SLIL_PetShopInterface.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="_SLIL\SLIL_Settings.resx">
       <DependentUpon>SLIL_Settings.cs</DependentUpon>
     </EmbeddedResource>
@@ -557,10 +566,17 @@
     <Content Include="images\icon1.ico" />
     <Content Include="images\icon2.ico" />
     <Content Include="images\musical_note.png" />
-    <None Include="images\pet_0.png" />
-    <None Include="images\pet_0_1.png" />
     <None Include="images\pet_cat_icon.png" />
     <None Include="images\pet_gnome_icon.png" />
+    <None Include="images\pet_cat_0.png" />
+    <None Include="images\pet_cat_1.png" />
+    <None Include="images\pet_cat_2.png" />
+    <None Include="images\pet_cat_3.png" />
+    <None Include="images\pet_gnome_0.png" />
+    <None Include="images\pet_gnome_1.png" />
+    <None Include="images\pet_gnome_2.png" />
+    <None Include="images\pet_energy_drink_icon.png" />
+    <None Include="images\pet_energy_drink_0.png" />
     <Content Include="images\piano.png" />
     <Content Include="images\ping_pong.ico" />
     <Content Include="images\player.png" />

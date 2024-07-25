@@ -29,8 +29,9 @@ namespace minigames._SLIL
         public double RUN_SPEED { get; set; }
         public readonly List<Gun> Guns = new List<Gun>();
         public readonly List<FirstAidKit> FirstAidKits = new List<FirstAidKit>();
-        public double MAX_HP = 100;
-        public double MAX_STAMINE = 650;
+        public Pet PET = null;
+        public double MAX_HP { get; set; }
+        public double MAX_STAMINE { get; set; }
 
         public Player()
         {
@@ -42,6 +43,8 @@ namespace minigames._SLIL
         {
             if (Dead)
             {
+                MAX_HP = 100;
+                MAX_STAMINE = 650;
                 HP = MAX_HP;
                 Guns.Clear();
                 FirstAidKits.Clear();
@@ -50,6 +53,7 @@ namespace minigames._SLIL
                 Stage = 0;
                 MOVE_SPEED = 1.75;
                 RUN_SPEED = 2.25;
+                PET = null;
             }
             EnemiesKilled = 0;
             Look = 0;

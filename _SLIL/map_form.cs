@@ -51,6 +51,8 @@ namespace minigames._SLIL
                         color = Color.YellowGreen;
                     else if (mapChar == 'D' || mapChar == 'O')
                         color = Color.FromArgb(255, 165, 0);
+                    else if (mapChar == '$')
+                        color = Color.Pink;
                     else if (mapChar == 'F')
                         color = Color.MediumVioletRed;
                     else if (mapChar == 'P')

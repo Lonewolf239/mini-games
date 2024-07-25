@@ -117,37 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="difficulty_about.Text" xml:space="preserve">
-    <value>Легко:
-Начальное оружие: Пистолет Lv2
-Враги дают больше денег
-
-Нормально:
-Начальное оружие: Пистолет Lv2
-
-Сложно:
-Начальное оружие: Пистолет Lv1
-Враги респавнятся через 60 сек.
-
-Очень сложно:
-Начальное оружие: Пистолет Lv1
-Враги респавнятся через 60 сек.
-Враги более агрессивные</value>
-  </data>
-  <data name="control_space.Text" xml:space="preserve">
-    <value>F11 – полноэкранный режим
-F12 — сделать скриншот
-ESC – остановка игры/выход из игры
-WASD / стрелочки – передвижение
-Мышь – управление камерой
-E / Enter – взаимодействие с дверьми и NPC
-M / Tab – показать/скрыть карту
-ESC / B – закрыть магазин
-F – достать/убрать фонарик
-H – использовать аптечку
-Shift (удержание) – бег
-ЛКМ – стрельба
-ПКМ – режим прицеливания
-1-0 / колёсико мыши – смена оружия</value>
-  </data>
 </root>

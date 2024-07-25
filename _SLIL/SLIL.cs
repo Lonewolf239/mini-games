@@ -76,11 +76,26 @@ namespace minigames._SLIL
             },
         };
         private static PlaySound[] ost;
-        public PlaySound[] DeathSounds =
+        public PlaySound[,] DeathSounds =
         {
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_0.wav"), false),
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_1.wav"), false),
-            new PlaySound(MainMenu.CGFReader.GetFile("enemy_die_2.wav"), false)
+            //Zombie
+            {
+                new PlaySound(MainMenu.CGFReader.GetFile("zombie_die_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("zombie_die_1.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("zombie_die_2.wav"), false)
+            },
+            //Dog
+            {
+                new PlaySound(MainMenu.CGFReader.GetFile("dog_die_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("dog_die_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("dog_die_0.wav"), false)
+            },
+            //Abomination
+            {
+                new PlaySound(MainMenu.CGFReader.GetFile("abomination_die_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("abomination_die_0.wav"), false),
+                new PlaySound(MainMenu.CGFReader.GetFile("abomination_die_0.wav"), false)
+            }
         };
         private readonly PlaySound game_over = new PlaySound(MainMenu.CGFReader.GetFile("game_over.wav"), false),
             draw = new PlaySound(MainMenu.CGFReader.GetFile("draw.wav"), false),
@@ -120,6 +135,7 @@ namespace minigames._SLIL
         private bool open_shop = false, pressed_r = false, pressed_h = false;
         private Display display;
         private readonly Gun[] GUNS = { new Flashlight(), new Knife(), new Pistol(), new Shotgun(), new SubmachineGun(), new AssaultRifle(), new SniperRifle(), new Fingershot(), new TSPitW(), new Gnome(), new FirstAidKit() };
+        private readonly Pet[] PETS = { new SillyCat(0, 0, 0), new GreenGnome(0, 0, 0), new EnergyDrink(0, 0, 0) };
         public static readonly List<Entity> Entities = new List<Entity>();
         private readonly Player player = new Player();
         private ConsolePanel console_panel;
@@ -132,7 +148,39 @@ namespace minigames._SLIL
             textureCache = textures;
         }
 
-        public void AddCat() { Entities.Add(new SillyCat(player.X + 0.1, player.Y + 0.1, MAP_WIDTH)); }
+        public void AddPet(int index)
+        {
+            Pet pet = PETS[index];
+            if (player.PET != null)
+                return;
+            foreach (Control control in pet_shop_page.Controls.Find("buy_button", true))
+                control.Text = MainMenu.Language ? "Недоступно" : "Not available";
+            if (pet.IsInstantAbility)
+            {
+                switch (pet.GetPetAbility())
+                {
+                    case 1: //GreenGnome
+                        player.MAX_HP += 25;
+                        player.HealHP(125);
+                        break;
+                    case 2: //Energy Drink
+                        player.MAX_STAMINE += 150;
+                        player.MOVE_SPEED += 0.15;
+                        player.RUN_SPEED += 0.15;
+                        break;
+                }
+            }
+            player.PET = pet;
+            UpdatePet();
+        }
+
+        private void UpdatePet()
+        {
+            if (player.PET == null)
+                return;
+            player.PET.SetNewParametrs(player.X + 0.1, player.Y + 0.1, MAP_WIDTH);
+            Entities.Add(player.PET);
+        }
 
         private void Settings_FormClosing(object sender, FormClosingEventArgs e) => UpdateBitmap();
 
@@ -244,6 +292,28 @@ namespace minigames._SLIL
             seconds--;
             if (player.Invulnerable)
                 player.InvulnerableEnd();
+            Pet playerPet = player.PET;
+            if (playerPet != null && !playerPet.IsInstantAbility)
+            {
+                if (playerPet.PetAbilityReloading)
+                {
+                    if (playerPet.AbilityTimer >= playerPet.AbilityReloadTime)
+                        playerPet.PetAbilityReloading = false;
+                    else
+                        playerPet.AbilityTimer++;
+                }
+                if (!playerPet.PetAbilityReloading)
+                {
+                    switch (playerPet.GetPetAbility())
+                    {
+                        case 0: //Silly Cat
+                            player.HealHP(2);
+                            playerPet.AbilityTimer = 0;
+                            playerPet.PetAbilityReloading = true;
+                            break;
+                    }
+                }
+            }
             if (seconds < 0)
             {
                 if (minutes > 0)
@@ -408,57 +478,19 @@ namespace minigames._SLIL
                     {
                         if (e.KeyCode == Keys.ShiftKey && playerDirection == Direction.FORWARD && player.STAMINE >= player.MAX_STAMINE / 1.75 && !player.Aiming && !reload_timer.Enabled && !chill_timer.Enabled)
                             playerMoveStyle = Direction.RUN;
-                        if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up)
+                        if (e.KeyCode == Keys.W)
                             playerDirection = Direction.FORWARD;
-                        if (e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+                        if (e.KeyCode == Keys.S)
                             playerDirection = Direction.BACK;
-                        if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left)
+                        if (e.KeyCode == Keys.A)
                             strafeDirection = Direction.LEFT;
-                        if (e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+                        if (e.KeyCode == Keys.D)
                             strafeDirection = Direction.RIGHT;
-                        if (e.KeyCode == Keys.M || e.KeyCode == Keys.Tab || e.KeyCode == Keys.Space)
-                        {
-                            map_presed = true;
-                            if (form != null)
-                            {
-                                map_timer.Stop();
-                                form.Close();
-                                form = null;
-                                Opacity = 1;
-                                return;
-                            }
-                            form = new Map_form
-                            {
-                                Left = Right,
-                                Top = Top,
-                                _MAP = DISPLAYED_MAP,
-                                _MazeHeight = MazeHeight,
-                                _MazeWidth = MazeWidth
-                            };
-                            if (WindowState == FormWindowState.Maximized)
-                            {
-                                form.WindowState = FormWindowState.Maximized;
-                                form.TopMost = false;
-                                form.Show();
-                                Opacity = 0.5f;
-                            }
-                            else
-                            {
-                                form.WindowState = FormWindowState.Normal;
-                                form.TopMost = true;
-                                form.Show();
-                                Opacity = 1;
-                            }
-                            map_timer.Start();
-                            Activate();
-                        }
                         if (!shot_timer.Enabled && !reload_timer.Enabled)
                         {
                             int count = player.Guns.Count;
                             if (player.Guns.Contains(GUNS[0]))
                                 count--;
-                            if (e.KeyCode == Keys.F)
-                                TakeFlashlight(true);
                             if (e.KeyCode == Keys.R)
                             {
                                 if (player.GetCurrentGun().AmmoCount != player.GetCurrentGun().CartridgesClip && player.GetCurrentGun().MaxAmmoCount > 0)
@@ -624,14 +656,55 @@ namespace minigames._SLIL
                 if (!chill_timer.Enabled)
                     chill_timer.Start();
             }
-            if (e.KeyCode == Keys.W || e.KeyCode == Keys.Up || e.KeyCode == Keys.S || e.KeyCode == Keys.Down)
+            if (e.KeyCode == Keys.W || e.KeyCode == Keys.S)
                 playerDirection = Direction.STOP;
-            if (e.KeyCode == Keys.A || e.KeyCode == Keys.Left || e.KeyCode == Keys.D || e.KeyCode == Keys.Right)
+            if (e.KeyCode == Keys.A ||  e.KeyCode == Keys.D)
                 strafeDirection = Direction.STOP;
             if (!start_btn.Enabled && !Paused && !console_panel.Visible && !open_shop)
             {
                 if (e.KeyCode == Keys.F12)
                     DoScreenshot();
+                if (e.KeyCode == Keys.M || e.KeyCode == Keys.Tab)
+                {
+                    map_presed = true;
+                    if (form != null)
+                    {
+                        map_timer.Stop();
+                        form.Close();
+                        form = null;
+                        Opacity = 1;
+                        return;
+                    }
+                    form = new Map_form
+                    {
+                        Left = Right,
+                        Top = Top,
+                        _MAP = DISPLAYED_MAP,
+                        _MazeHeight = MazeHeight,
+                        _MazeWidth = MazeWidth
+                    };
+                    if (WindowState == FormWindowState.Maximized)
+                    {
+                        form.WindowState = FormWindowState.Maximized;
+                        form.TopMost = false;
+                        form.Show();
+                        Opacity = 0.5f;
+                    }
+                    else
+                    {
+                        form.WindowState = FormWindowState.Normal;
+                        form.TopMost = true;
+                        form.Show();
+                        Opacity = 1;
+                    }
+                    map_timer.Start();
+                    Activate();
+                }
+                if (!shot_timer.Enabled && !reload_timer.Enabled)
+                {
+                    if (e.KeyCode == Keys.F)
+                        TakeFlashlight(true);
+                }
                 if (e.KeyCode == Keys.E || e.KeyCode == Keys.Enter)
                 {
                     double rayA = player.A + FOV / 2 - (SCREEN_WIDTH[resolution] / 2) * FOV / SCREEN_WIDTH[resolution];
@@ -652,6 +725,10 @@ namespace minigames._SLIL
                             case 'F':
                                 hit = true;
                                 wall.Play(Volume);
+                                break;
+                            case 'D':
+                                hit = true;
+                                ShowShop();
                                 break;
                             case 'd':
                                 hit = true;
@@ -752,10 +829,11 @@ namespace minigames._SLIL
                                                 {
                                                     switch (entity.Interaction())
                                                     {
-                                                        case 1: //ShopMan
-                                                            ShowShop();
+                                                        case 1: //SillyCat
                                                             break;
-                                                        case 2: //SillyCat
+                                                        case 2: //GreenGnome
+                                                            break;
+                                                        case 3: //EnergyDrink
                                                             break;
                                                     }
                                                 }
@@ -1042,8 +1120,10 @@ namespace minigames._SLIL
                                             player.ChangeMoney(rand.Next((int)(creature.MIN_MONEY * multiplier), (int)(creature.MAX_MONEY * multiplier)));
                                             player.EnemiesKilled++;
                                             if (MainMenu.sounds)
-                                                DeathSounds[rand.Next(0, DeathSounds.Length)].Play(Volume);
+                                                DeathSounds[creature.DeathSound, rand.Next(0, DeathSounds.GetLength(1))].Play(Volume);
                                         }
+                                        else if (difficulty == 0 && player.GetCurrentGun().FireType == FireTypes.Single && !(player.GetCurrentGun() is Knife))
+                                            creature.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
                                         scope_hit = Properties.Resources.scope_hit;
                                         return;
                                     }
@@ -1221,8 +1301,10 @@ namespace minigames._SLIL
                     }
                     else if (entity is Pet)
                     {
-                        if (distance > 1)
+                        if (distance > 1 && !(player.GetCurrentGun() is Flashlight && entity.RespondsToFlashlight))
                             entity.UpdateCoordinates(MAP.ToString(), player.X, player.Y);
+                        else
+                            entity.Stoped = true;
                     }
                 }
             }
@@ -1411,6 +1493,8 @@ namespace minigames._SLIL
                 Text = "Mazeness";
                 start_btn.Text = "START";
                 shop_title.Text = "SHOP";
+                weapon_shop_page.Text = "Weapons";
+                pet_shop_page.Text = "Pets";
                 pause_text.Text = "PAUSE";
                 pause_btn.Text = "CONTINUE";
                 exit_btn.Text = "EXIT";
@@ -1428,8 +1512,21 @@ namespace minigames._SLIL
                         BackColor = shop_panel.BackColor,
                         Dock = DockStyle.Top
                     };
-                    ShopInterface_panel.Controls.Add(ShopInterface);
+                    weapon_shop_page.Controls.Add(ShopInterface);
                 }
+            }
+            for (int i = PETS.Length - 1; i >= 0; i--)
+            {
+                SLIL_PetShopInterface ShopInterface = new SLIL_PetShopInterface()
+                {
+                    index = MainMenu.Language ? 0 : 1,
+                    pet = PETS[i],
+                    buy = buy,
+                    player = player,
+                    BackColor = shop_panel.BackColor,
+                    Dock = DockStyle.Top
+                };
+                pet_shop_page.Controls.Add(ShopInterface);
             }
             console_panel = new ConsolePanel()
             {
@@ -1534,8 +1631,11 @@ namespace minigames._SLIL
             for (int i = 0; i < ost.Length; i++)
                 ost[i]?.Dispose();
             ost = null;
-            for (int i = 0; i < DeathSounds.Length; i++)
-                DeathSounds[i]?.Dispose();
+            for (int i = 0; i < DeathSounds.GetLength(0); i++)
+            {
+                for (int j = 0; j < DeathSounds.GetLength(1); j++)
+                    DeathSounds[i, j]?.Dispose();
+            }
             DeathSounds = null;
             if (form != null)
             {
@@ -1641,7 +1741,7 @@ namespace minigames._SLIL
                 {
                     int texWidth = 128;
                     double texX = (double)((256 * (stripe - (-spriteWidth / 2 + spriteScreenX)) * texWidth / spriteWidth) / 256) / texWidth;
-                    if (transformY > 0 && stripe > 0 && stripe < SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
+                    if (transformY > 0 && stripe >= 0 && stripe <= SCREEN_WIDTH[resolution] && transformY < ZBuffer[stripe])
                     {
                         for (int y = drawStartY; y < drawEndY && y < SCREEN_HEIGHT[resolution]; y++)
                         {
@@ -1663,10 +1763,15 @@ namespace minigames._SLIL
                                     {
                                         if (EnableAnimation)
                                         {
-                                            if (player.GetCurrentGun() is Flashlight && creature.RespondsToFlashlight)
-                                                rays[stripe][y].TextureId = textures[i] + 2;
+                                            if (!(player.GetCurrentGun() is Flashlight && creature.RespondsToFlashlight) && creature is Pet && (creature as Pet).Stoped && (creature as Pet).HasStopAnimation)
+                                                rays[stripe][y].TextureId = textures[i] + 3;
                                             else
-                                                rays[stripe][y].TextureId = creature.Animations[0][timeNow % creature.Frames];
+                                            {
+                                                if (player.GetCurrentGun() is Flashlight && creature.RespondsToFlashlight)
+                                                    rays[stripe][y].TextureId = textures[i] + 2;
+                                                else
+                                                    rays[stripe][y].TextureId = creature.Animations[0][timeNow % creature.Frames];
+                                            }                                            
                                         }
                                         else
                                             rays[stripe][y].TextureId = textures[i];
@@ -1853,8 +1958,11 @@ namespace minigames._SLIL
                 case '#': return Color.Blue;
                 case '=': return Color.YellowGreen;
                 case 'P': return Color.Red;
+                case 'd':
+                case 'o':
                 case 'D':
                 case 'O': return Color.FromArgb(255, 165, 0);
+                case '$': return Color.Pink;
                 case 'F': return Color.MediumVioletRed;
                 case '*': return Color.FromArgb(255, 128, 128);
                 case 'E': return Color.Cyan;
@@ -2032,6 +2140,12 @@ namespace minigames._SLIL
                         is_bound = CheckBound(test_x, test_y, ray_x, ray_y, distance);
                         DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
                         break;
+                    case 'D':
+                        DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'D';
+                        break;
+                    case '$':
+                        DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = '$';
+                        break;
                     case 'F':
                         DISPLAYED_MAP[test_y * MAP_WIDTH + test_x] = 'F';
                         break;
@@ -2130,7 +2244,7 @@ namespace minigames._SLIL
                             get_texture_window = true;
                             side = GetSide(window_distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 1;
+                                result[y].TextureId = 0;
                             if (side == 0)
                                 wallX = player.X + window_distance * ray_x;
                             else
@@ -2145,7 +2259,7 @@ namespace minigames._SLIL
                             get_texture = true;
                             side = GetSide(distance, ray_x, ray_y);
                             if (side == -1)
-                                result[y].TextureId = 1;
+                                result[y].TextureId = 0;
                             if (side == 0)
                                 wallX = player.X + distance * ray_x;
                             else
@@ -2650,6 +2764,7 @@ namespace minigames._SLIL
 
         private void ToDefault()
         {
+            bottom_panel.Visible = true;
             player.Dead = true;
             player.SetDefault();
             if (inDebug == 1)
@@ -2700,6 +2815,7 @@ namespace minigames._SLIL
                 player.ChangeMoney(50 + (5 * player.EnemiesKilled));
                 GetFirstAidKit();
                 StartGame();
+                UpdatePet();
             }
             else if (win == 0)
             {

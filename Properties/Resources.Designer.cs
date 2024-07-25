@@ -1923,9 +1923,9 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pet_0 {
+        internal static System.Drawing.Bitmap pet_cat_0 {
             get {
-                object obj = ResourceManager.GetObject("pet_0", resourceCulture);
+                object obj = ResourceManager.GetObject("pet_cat_0", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1933,9 +1933,29 @@ namespace minigames.Properties {
         /// <summary>
         ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap pet_0_1 {
+        internal static System.Drawing.Bitmap pet_cat_1 {
             get {
-                object obj = ResourceManager.GetObject("pet_0_1", resourceCulture);
+                object obj = ResourceManager.GetObject("pet_cat_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_cat_2 {
+            get {
+                object obj = ResourceManager.GetObject("pet_cat_2", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_cat_3 {
+            get {
+                object obj = ResourceManager.GetObject("pet_cat_3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -1946,6 +1966,56 @@ namespace minigames.Properties {
         internal static System.Drawing.Bitmap pet_cat_icon {
             get {
                 object obj = ResourceManager.GetObject("pet_cat_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_energy_drink_0 {
+            get {
+                object obj = ResourceManager.GetObject("pet_energy_drink_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_energy_drink_icon {
+            get {
+                object obj = ResourceManager.GetObject("pet_energy_drink_icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_gnome_0 {
+            get {
+                object obj = ResourceManager.GetObject("pet_gnome_0", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_gnome_1 {
+            get {
+                object obj = ResourceManager.GetObject("pet_gnome_1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pet_gnome_2 {
+            get {
+                object obj = ResourceManager.GetObject("pet_gnome_2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

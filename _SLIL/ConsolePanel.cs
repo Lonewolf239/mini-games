@@ -80,8 +80,6 @@ namespace minigames._SLIL
                              "~│~ -MINIMAP-     ~│~ Show/hide Minimap                           ~│~\n" +
                              "~│~ -ANIMATION-   ~│~ Enable/disable enemy animation              ~│~\n" +
                              "~├─────────────┼─────────────────────────────────────────────┤~\n" +
-                             "~│~ -CAT-         ~│~ Issue a pet: \"Silly cat\"                    ~│~\n" +
-                             "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                              "~│~ -CLS-         ~│~ Clearing the console                        ~│~\n" +
                              "~│~ -SLS-         ~│~ Clear console history                       ~│~\n" +
                              "~│~ -COLOR_-*X*     ~│~ Change console font color                   ~│~\n" +
@@ -134,6 +132,9 @@ namespace minigames._SLIL
                                  "~│~ -BIGGUY-      ~│~ Give out \"The Smallest Pistol in the World\" ~│~\n" +
                                  "~│~ -YHRII-       ~│~ Issue \"Fingershot\"                          ~│~\n" +
                                  "~│~ -IMGNOME-     ~│~ Issue \"Wizard Gnome\"                        ~│~\n" +
+                                 "~├─────────────┼─────────────────────────────────────────────┤~\n" +
+                                 "~│~ -CAT-         ~│~ Issue a pet: \"Silly cat\"                    ~│~\n" +
+                                 "~│~ -GNOME-       ~│~ Issue a pet: \"Wizard Gnome\"                 ~│~\n" +
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                                  "~│~ -BEFWK-       ~│~ Issue out all weapons                       ~│~\n" +
                                  "~│~ -FYTLG-       ~│~ Maximum amount of ammunition                ~│~\n" +
@@ -417,11 +418,6 @@ namespace minigames._SLIL
                         else
                             message += "Animation disabled.";
                     }
-                    else if (cheat == "CAT")
-                    {
-                        message += "\"Silly cat\" has been issued.";
-                        (Parent.FindForm() as SLIL).AddCat();
-                    }
                     else if (cheat.StartsWith("VOL_"))
                     {
                         try
@@ -538,6 +534,32 @@ namespace minigames._SLIL
                         {
                             color = Color.Red;
                             message = "Incorrect data entered! X is not a number.";
+                        }
+                    }
+                    else if (cheat == "CAT" && !ImHonest)
+                    {
+                        if (player.PET == null)
+                        {
+                            message += "Pet \"Silly cat\" has been issued.";
+                            (Parent.FindForm() as SLIL).AddPet(0);
+                        }
+                        else
+                        {
+                            color = Color.Red;
+                            message = "Code not applied! You already have a pet";
+                        }
+                    }
+                    else if (cheat == "GNOME" && !ImHonest)
+                    {
+                        if (player.PET == null)
+                        {
+                            message += "Pet \"Wizard Gnome\" has been issued.";
+                            (Parent.FindForm() as SLIL).AddPet(1);
+                        }
+                        else
+                        {
+                            color = Color.Red;
+                            message = "Code not applied! You already have a pet";
                         }
                     }
                     else if (cheat.StartsWith("CCHANC_") && !ImHonest)

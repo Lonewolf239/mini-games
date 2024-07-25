@@ -58,17 +58,22 @@ namespace minigames._SLIL
             this.reload_timer = new System.Windows.Forms.Timer(this.components);
             this.enemy_timer = new System.Windows.Forms.Timer(this.components);
             this.status_refresh = new System.Windows.Forms.Timer(this.components);
-            this.show_settings = new System.Windows.Forms.PictureBox();
             this.chill_timer = new System.Windows.Forms.Timer(this.components);
             this.stage_timer = new System.Windows.Forms.Timer(this.components);
             this.bottom_panel = new System.Windows.Forms.Panel();
             this.respawn_timer = new System.Windows.Forms.Timer(this.components);
+            this.shop_tab_control = new System.Windows.Forms.TabControl();
+            this.weapon_shop_page = new System.Windows.Forms.TabPage();
+            this.pet_shop_page = new System.Windows.Forms.TabPage();
+            this.show_settings = new System.Windows.Forms.PictureBox();
             this.top_panel.SuspendLayout();
             this.pause_panel.SuspendLayout();
             this.shop_panel.SuspendLayout();
+            this.ShopInterface_panel.SuspendLayout();
             this.shop_title_panel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
             this.bottom_panel.SuspendLayout();
+            this.shop_tab_control.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.show_settings)).BeginInit();
             this.SuspendLayout();
             // 
             // top_panel
@@ -78,9 +83,9 @@ namespace minigames._SLIL
             | System.Windows.Forms.AnchorStyles.Right)));
             this.top_panel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
             this.top_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.top_panel.Controls.Add(this.shop_panel);
             this.top_panel.Controls.Add(this.pause_panel);
             this.top_panel.Controls.Add(this.game_over_text);
-            this.top_panel.Controls.Add(this.shop_panel);
             this.top_panel.Controls.Add(this.stamina_panel);
             this.top_panel.Location = new System.Drawing.Point(0, 0);
             this.top_panel.Name = "top_panel";
@@ -174,8 +179,7 @@ namespace minigames._SLIL
             // 
             // ShopInterface_panel
             // 
-            this.ShopInterface_panel.AutoScroll = true;
-            this.ShopInterface_panel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.ShopInterface_panel.Controls.Add(this.shop_tab_control);
             this.ShopInterface_panel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ShopInterface_panel.Location = new System.Drawing.Point(0, 24);
             this.ShopInterface_panel.Name = "ShopInterface_panel";
@@ -184,6 +188,7 @@ namespace minigames._SLIL
             // 
             // shop_title_panel
             // 
+            this.shop_title_panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.shop_title_panel.Controls.Add(this.shop_title);
             this.shop_title_panel.Controls.Add(this.shop_money);
             this.shop_title_panel.Dock = System.Windows.Forms.DockStyle.Top;
@@ -211,7 +216,7 @@ namespace minigames._SLIL
             this.shop_money.Dock = System.Windows.Forms.DockStyle.Right;
             this.shop_money.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.shop_money.ForeColor = System.Drawing.Color.White;
-            this.shop_money.Location = new System.Drawing.Point(410, 0);
+            this.shop_money.Location = new System.Drawing.Point(408, 0);
             this.shop_money.Name = "shop_money";
             this.shop_money.Size = new System.Drawing.Size(40, 24);
             this.shop_money.TabIndex = 0;
@@ -335,20 +340,6 @@ namespace minigames._SLIL
             this.status_refresh.Interval = 1;
             this.status_refresh.Tick += new System.EventHandler(this.Status_refresh_Tick);
             // 
-            // show_settings
-            // 
-            this.show_settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
-            this.show_settings.Location = new System.Drawing.Point(0, 0);
-            this.show_settings.Name = "show_settings";
-            this.show_settings.Size = new System.Drawing.Size(40, 40);
-            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.show_settings.TabIndex = 38;
-            this.show_settings.TabStop = false;
-            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
-            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
-            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
-            // 
             // chill_timer
             // 
             this.chill_timer.Interval = 150;
@@ -377,6 +368,57 @@ namespace minigames._SLIL
             this.respawn_timer.Interval = 1000;
             this.respawn_timer.Tick += new System.EventHandler(this.Respawn_timer_Tick);
             // 
+            // shop_tab_control
+            // 
+            this.shop_tab_control.Controls.Add(this.weapon_shop_page);
+            this.shop_tab_control.Controls.Add(this.pet_shop_page);
+            this.shop_tab_control.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.shop_tab_control.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.shop_tab_control.Location = new System.Drawing.Point(0, 0);
+            this.shop_tab_control.Multiline = true;
+            this.shop_tab_control.Name = "shop_tab_control";
+            this.shop_tab_control.SelectedIndex = 0;
+            this.shop_tab_control.Size = new System.Drawing.Size(450, 228);
+            this.shop_tab_control.TabIndex = 0;
+            this.shop_tab_control.TabStop = false;
+            // 
+            // weapon_shop_page
+            // 
+            this.weapon_shop_page.AutoScroll = true;
+            this.weapon_shop_page.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
+            this.weapon_shop_page.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.weapon_shop_page.Location = new System.Drawing.Point(4, 25);
+            this.weapon_shop_page.Name = "weapon_shop_page";
+            this.weapon_shop_page.Padding = new System.Windows.Forms.Padding(3);
+            this.weapon_shop_page.Size = new System.Drawing.Size(442, 199);
+            this.weapon_shop_page.TabIndex = 0;
+            this.weapon_shop_page.Text = "Оружие";
+            // 
+            // pet_shop_page
+            // 
+            this.pet_shop_page.AutoScroll = true;
+            this.pet_shop_page.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(12)))), ((int)(((byte)(12)))), ((int)(((byte)(50)))));
+            this.pet_shop_page.Location = new System.Drawing.Point(4, 25);
+            this.pet_shop_page.Name = "pet_shop_page";
+            this.pet_shop_page.Padding = new System.Windows.Forms.Padding(3);
+            this.pet_shop_page.Size = new System.Drawing.Size(442, 199);
+            this.pet_shop_page.TabIndex = 1;
+            this.pet_shop_page.Text = "Питомцы";
+            // 
+            // show_settings
+            // 
+            this.show_settings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.show_settings.Image = global::minigames.Properties.Resources.setting_btn;
+            this.show_settings.Location = new System.Drawing.Point(0, 0);
+            this.show_settings.Name = "show_settings";
+            this.show_settings.Size = new System.Drawing.Size(40, 40);
+            this.show_settings.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.show_settings.TabIndex = 38;
+            this.show_settings.TabStop = false;
+            this.show_settings.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Show_settings_MouseClick);
+            this.show_settings.MouseEnter += new System.EventHandler(this.Show_settings_MouseEnter);
+            this.show_settings.MouseLeave += new System.EventHandler(this.Show_settings_MouseLeave);
+            // 
             // SLIL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -404,11 +446,13 @@ namespace minigames._SLIL
             this.pause_panel.ResumeLayout(false);
             this.pause_panel.PerformLayout();
             this.shop_panel.ResumeLayout(false);
+            this.ShopInterface_panel.ResumeLayout(false);
             this.shop_title_panel.ResumeLayout(false);
             this.shop_title_panel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();
             this.bottom_panel.ResumeLayout(false);
             this.bottom_panel.PerformLayout();
+            this.shop_tab_control.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.show_settings)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -446,5 +490,8 @@ namespace minigames._SLIL
         private Button pause_btn;
         private Panel bottom_panel;
         private Timer respawn_timer;
+        private TabControl shop_tab_control;
+        private TabPage weapon_shop_page;
+        private TabPage pet_shop_page;
     }
 }

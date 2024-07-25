@@ -166,7 +166,7 @@ namespace minigames._SLIL
             CartridgesClip = 1;
             MaxAmmoCount = CartridgesClip;
             MaxAmmo = CartridgesClip;
-            FiringRange = 1.3;
+            FiringRange = 1.5;
             MaxDamage = 2;
             MinDamage = 1.5;
             Recoil = 0;

@@ -22,7 +22,7 @@ namespace minigames._SLIL
                     "WASD / arrows – movement\n" +
                     "Mouse - camera control\n" +
                     "E/Enter – interact with doors and NPCs\n" +
-                    "M / Tab / Space – show/hide map\n" +
+                    "M / Tab – show/hide map\n" +
                     "ESC / B – close store\n" +
                     "F – take out/remove the flashlight\n" +
                     "H – use first aid kit\n" +

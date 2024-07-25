@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 
 namespace minigames._SLIL
 {
@@ -80,6 +81,7 @@ namespace minigames._SLIL
         public int MIN_DAMAGE;
         protected int MAP_WIDTH { get; set; }
         protected int MAX_HP;
+        public int DeathSound { get; set; }
         protected const int RESPAWN_TIME = 60;
 
         protected abstract int GetMAX_HP();
@@ -104,6 +106,7 @@ namespace minigames._SLIL
             HP = MAX_HP;
             A = rand.NextDouble();
             MAP_WIDTH = map_width;
+            DeathSound = -1;
         }
 
         public bool DealDamage(double damage)
@@ -214,8 +217,19 @@ namespace minigames._SLIL
 
     public abstract class Pet : Friend
     {
-        public double detectionRange;
+        protected double detectionRange;
+        public bool Stoped { get; set; }
+        public bool HasStopAnimation { get; set; }
         public Image ShopIcon;
+        public string[] Name { get; set; }
+        public string[] Descryption { get; set; }
+        public int Cost { get; set; }
+        public int Index { get; set; }
+        public bool PetAbilityReloading { get; set; }
+        public bool IsInstantAbility { get; set; }
+        public int AbilityReloadTime { get; set; }
+        public int AbilityTimer { get; set; }
+        protected int PetAbility { get; set; }
         protected override double GetEntityWidth() => 0.1;
         protected override char[] GetImpassibleCells()
         {
@@ -232,11 +246,24 @@ namespace minigames._SLIL
 
         public Pet(double x, double y, int map_width) : base(x, y, map_width)
         {
+            IsInstantAbility = false;
+            HasStopAnimation = false;
+            Stoped = false;
             detectionRange = 8.0;
         }
 
+        public void SetNewParametrs(double x, double y, int map_width)
+        {
+            X = x;
+            Y = y;
+            MAP_WIDTH = map_width;
+        }
+
+        public int GetPetAbility() => PetAbility;
+
         public override void UpdateCoordinates(string map, double playerX, double playerY)
         {
+            Stoped = false;
             bool isPlayerVisible = true;
             double distanceToPlayer = Math.Sqrt(Math.Pow(X - playerX, 2) + Math.Pow(Y - playerY, 2));
             if (distanceToPlayer > detectionRange) isPlayerVisible = false;
@@ -288,7 +315,7 @@ namespace minigames._SLIL
                 tempY += EntityWidth / 2 - (tempY % 1);
             if (isPlayerVisible)
             {
-                if (Math.Sqrt(Math.Pow(tempX - playerX, 2) + Math.Pow(tempY - playerY, 2)) >= 0.9)
+                if (Math.Sqrt(Math.Pow(tempX - playerX, 2) + Math.Pow(tempY - playerY, 2)) >= 0.75)
                 {
                     X = tempX;
                     Y = tempY;
@@ -331,21 +358,55 @@ namespace minigames._SLIL
     {
         public SillyCat(double x, double y, int map_width) : base(x, y, map_width)
         {
+            Index = 0;
             ShopIcon = Properties.Resources.pet_cat_icon;
+            Cost = 20;
+            Name = new[] { "Глупый Кот", "Silly Cat" };
+            Descryption = new[] { "Раз в 5 секунд восстанавливает 2 хп", "Restores 2 HP every 5 seconds" };
             Texture = 20;
-            base.SetAnimations(6, true);
+            PetAbility = 0;
+            AbilityReloadTime = 5;
+            HasStopAnimation = true;
+            RespondsToFlashlight = true;
+            base.SetAnimations(1, false);
         }
 
-        public override int Interaction() => 2;
+        public override int Interaction() => 1;
     }
 
     public class GreenGnome : Pet
     {
         public GreenGnome(double x, double y, int map_width) : base(x, y, map_width)
         {
+            Index = 1;
             ShopIcon = Properties.Resources.pet_gnome_icon;
-            Texture = 20;
+            Cost = 20;
+            Name = new[] { "Зелёный Гном", "Green Gnome" };
+            Descryption = new[] { "Увеличивает максимальное здоровье на 25", "Increases maximum health by 25" };
+            Texture = 27;
+            PetAbility = 1;
+            IsInstantAbility = true;
+            RespondsToFlashlight = true;
             base.SetAnimations(6, true);
+        }
+
+        public override int Interaction() => 2;
+    }
+
+    public class EnergyDrink : Pet
+    {
+        public EnergyDrink(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            Index = 2;
+            ShopIcon = Properties.Resources.pet_energy_drink_icon;
+            Cost = 20;
+            Name = new[] { "Энергетик", "Energy Drink" };
+            Descryption = new[] { "Увеличивает выносливость и скорость", "Increases endurance and speed" };
+            Texture = 30;
+            PetAbility = 2;
+            IsInstantAbility = true;
+            RespondsToFlashlight = false;
+            base.AnimationsToStatic();
         }
 
         public override int Interaction() => 3;
@@ -367,20 +428,16 @@ namespace minigames._SLIL
             Texture = 4;
             base.AnimationsToStatic();
         }
-
-        public override int Interaction() => 1;
     }
 
     public class ShopMan : NPC
     {
         public ShopMan(double x, double y, int map_width) : base(x, y, map_width)
         {
-            Texture = 22;
+            Texture = 24;
             RespondsToFlashlight = true;
             base.AnimationsToStatic();
         }
-
-        public override int Interaction() => 1;
     }
 
     public class Man : Enemy
@@ -401,6 +458,7 @@ namespace minigames._SLIL
 
         public Man(double x, double y, int map_width) : base (x, y, map_width) 
         {
+            DeathSound = 0;
             Texture = 8;
             detectionRange = 8;
             base.SetAnimations(1, false);
@@ -494,6 +552,7 @@ namespace minigames._SLIL
 
         public Dog(double x, double y, int map_width) : base(x, y, map_width)
         {
+            DeathSound = 1;
             Texture = 12;
             detectionRange = 8;
             base.SetAnimations(1, false);
@@ -587,6 +646,7 @@ namespace minigames._SLIL
 
         public Abomination(double x, double y, int map_width) : base(x, y, map_width)
         {
+            DeathSound = 2;
             Texture = 16;
             detectionRange = 8;
             base.SetAnimations(2, false);

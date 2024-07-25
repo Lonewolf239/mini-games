@@ -25,11 +25,17 @@ namespace minigames._SLIL
             Properties.Resources.enemy_2_1,
             Properties.Resources.enemy_2_2,
             Properties.Resources.enemy_2_DEAD,
-            Properties.Resources.pet_0, //20
-            Properties.Resources.pet_0_1,
-            Properties.Resources.shop_man_0, //22
+            Properties.Resources.pet_cat_0, //20
+            Properties.Resources.pet_cat_1,
+            Properties.Resources.pet_cat_3,
+            Properties.Resources.pet_cat_2,
+            Properties.Resources.shop_man_0, //24
             Properties.Resources.shop_man_0,
             Properties.Resources.shop_man_1,
+            Properties.Resources.pet_gnome_0, //27
+            Properties.Resources.pet_gnome_1,
+            Properties.Resources.pet_gnome_2,
+            Properties.Resources.pet_energy_drink_0, //30
         };
         private readonly Color[] COLORS =
         {
