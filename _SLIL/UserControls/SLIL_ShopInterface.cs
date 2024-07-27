@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace minigames._SLIL
+namespace minigames._SLIL.UserControls
 {
     public partial class SLIL_ShopInterface : UserControl
     {

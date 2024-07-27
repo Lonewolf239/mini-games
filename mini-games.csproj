@@ -288,17 +288,17 @@
     <Compile Include="_Sapper\SP_settings.Designer.cs">
       <DependentUpon>SP_settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="_SLIL\ConsolePanel.cs">
+    <Compile Include="_SLIL\UserControls\ConsolePanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_SLIL\ConsolePanel.Designer.cs">
+    <Compile Include="_SLIL\UserControls\ConsolePanel.Designer.cs">
       <DependentUpon>ConsolePanel.cs</DependentUpon>
     </Compile>
     <Compile Include="_SLIL\ConvertBitmap.cs" />
-    <Compile Include="_SLIL\Display.cs">
+    <Compile Include="_SLIL\UserControls\Display.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_SLIL\Display.Designer.cs">
+    <Compile Include="_SLIL\UserControls\Display.Designer.cs">
       <DependentUpon>Display.cs</DependentUpon>
     </Compile>
     <Compile Include="_SLIL\Entity.cs" />
@@ -338,10 +338,16 @@
     <Compile Include="_SLIL\SLIL_Editor.Designer.cs">
       <DependentUpon>SLIL_Editor.cs</DependentUpon>
     </Compile>
-    <Compile Include="_SLIL\SLIL_PetShopInterface.cs">
+    <Compile Include="_SLIL\UserControls\SLIL_ConsumablesShopInterface.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_SLIL\SLIL_PetShopInterface.Designer.cs">
+    <Compile Include="_SLIL\UserControls\SLIL_ConsumablesShopInterface.Designer.cs">
+      <DependentUpon>SLIL_ConsumablesShopInterface.cs</DependentUpon>
+    </Compile>
+    <Compile Include="_SLIL\UserControls\SLIL_PetShopInterface.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="_SLIL\UserControls\SLIL_PetShopInterface.Designer.cs">
       <DependentUpon>SLIL_PetShopInterface.cs</DependentUpon>
     </Compile>
     <Compile Include="_SLIL\SLIL_Settings.cs">
@@ -350,10 +356,10 @@
     <Compile Include="_SLIL\SLIL_Settings.Designer.cs">
       <DependentUpon>SLIL_Settings.cs</DependentUpon>
     </Compile>
-    <Compile Include="_SLIL\SLIL_ShopInterface.cs">
+    <Compile Include="_SLIL\UserControls\SLIL_ShopInterface.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="_SLIL\SLIL_ShopInterface.Designer.cs">
+    <Compile Include="_SLIL\UserControls\SLIL_ShopInterface.Designer.cs">
       <DependentUpon>SLIL_ShopInterface.cs</DependentUpon>
     </Compile>
     <Compile Include="_SLIL\TextureCache.cs" />
@@ -467,10 +473,10 @@
     <EmbeddedResource Include="_Sapper\SP_settings.resx">
       <DependentUpon>SP_settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_SLIL\ConsolePanel.resx">
+    <EmbeddedResource Include="_SLIL\UserControls\ConsolePanel.resx">
       <DependentUpon>ConsolePanel.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_SLIL\Display.resx">
+    <EmbeddedResource Include="_SLIL\UserControls\Display.resx">
       <DependentUpon>Display.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_SLIL\look_speed_percent.resx">
@@ -488,13 +494,16 @@
     <EmbeddedResource Include="_SLIL\SLIL_Editor.resx">
       <DependentUpon>SLIL_Editor.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_SLIL\SLIL_PetShopInterface.resx">
+    <EmbeddedResource Include="_SLIL\UserControls\SLIL_ConsumablesShopInterface.resx">
+      <DependentUpon>SLIL_ConsumablesShopInterface.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="_SLIL\UserControls\SLIL_PetShopInterface.resx">
       <DependentUpon>SLIL_PetShopInterface.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_SLIL\SLIL_Settings.resx">
       <DependentUpon>SLIL_Settings.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="_SLIL\SLIL_ShopInterface.resx">
+    <EmbeddedResource Include="_SLIL\UserControls\SLIL_ShopInterface.resx">
       <DependentUpon>SLIL_ShopInterface.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="_Sudoku\SS_Settings.resx">
@@ -545,14 +554,14 @@
     <Content Include="images\drum.png" />
     <Content Include="images\enemy.png" />
     <None Include="images\enemy_0_1.png" />
-    <None Include="images\enemy_0_2.png" />
     <None Include="images\enemy_1_1.png" />
-    <None Include="images\enemy_1_2.png" />
     <None Include="images\enemy_2_1.png" />
-    <None Include="images\enemy_2_2.png" />
     <None Include="images\enemy_0_DEAD.png" />
     <None Include="images\enemy_1_DEAD.png" />
     <None Include="images\enemy_2_DEAD.png" />
+    <None Include="images\enemy_3.png" />
+    <None Include="images\enemy_3_1.png" />
+    <None Include="images\enemy_3_DEAD.png" />
     <Content Include="images\figure_0.png" />
     <Content Include="images\figure_1.png" />
     <Content Include="images\figure_2.png" />
@@ -563,8 +572,10 @@
     <Content Include="images\figure_7.png" />
     <Content Include="images\green.png" />
     <Content Include="images\guitar.png" />
+    <None Include="images\hipolink.png" />
     <Content Include="images\icon1.ico" />
     <Content Include="images\icon2.ico" />
+    <None Include="images\medkit_icon.png" />
     <Content Include="images\musical_note.png" />
     <None Include="images\pet_cat_icon.png" />
     <None Include="images\pet_gnome_icon.png" />
@@ -577,6 +588,11 @@
     <None Include="images\pet_gnome_2.png" />
     <None Include="images\pet_energy_drink_icon.png" />
     <None Include="images\pet_energy_drink_0.png" />
+    <None Include="images\pet_animation.png" />
+    <None Include="images\pet_pyro_icon.png" />
+    <None Include="images\pet_pyro_0.png" />
+    <None Include="images\pet_pyro_1.png" />
+    <None Include="images\pet_pyro_3.png" />
     <Content Include="images\piano.png" />
     <Content Include="images\ping_pong.ico" />
     <Content Include="images\player.png" />
@@ -766,7 +782,6 @@
     <None Include="images\enemy_2.png" />
     <None Include="images\floor.png" />
     <None Include="images\ceiling.png" />
-    <None Include="images\fatalan.png" />
     <None Include="images\gun_1_0.png" />
     <None Include="images\gun_1_0_icon.png" />
     <None Include="images\gun_1_0_reload.png" />

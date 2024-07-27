@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.map_refresh = new System.Windows.Forms.Timer(this.components);
-            this.map_display = new minigames._SLIL.Display();
+            this.map_display = new minigames._SLIL.UserControls.Display();
             this.SuspendLayout();
             // 
             // map_refresh
@@ -71,6 +71,6 @@
 
         #endregion
         private System.Windows.Forms.Timer map_refresh;
-        private Display map_display;
+        private minigames._SLIL.UserControls.Display map_display;
     }
 }

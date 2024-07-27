@@ -5,7 +5,7 @@ using SharpDX.Direct2D1;
 using SharpDX.DXGI;
 using SharpDX.Mathematics.Interop;
 
-namespace minigames._SLIL
+namespace minigames._SLIL.UserControls
 {
     public partial class Display : UserControl
     {

@@ -46,7 +46,6 @@
             this.changes_list.Size = new System.Drawing.Size(484, 264);
             this.changes_list.TabIndex = 0;
             this.changes_list.TabStop = false;
-            this.changes_list.SelectedIndexChanged += new System.EventHandler(this.changes_list_SelectedIndexChanged);
             this.changes_list.Enter += new System.EventHandler(this.Changes_list_Enter);
             // 
             // ok

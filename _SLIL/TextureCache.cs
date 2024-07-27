@@ -15,27 +15,30 @@ namespace minigames._SLIL
             Properties.Resources.ceiling,
             Properties.Resources.enemy_0, //8
             Properties.Resources.enemy_0_1,
-            Properties.Resources.enemy_0_2,
             Properties.Resources.enemy_0_DEAD,
-            Properties.Resources.enemy_1, //12
+            Properties.Resources.enemy_1, //11
             Properties.Resources.enemy_1_1,
-            Properties.Resources.enemy_1_2,
             Properties.Resources.enemy_1_DEAD,
-            Properties.Resources.enemy_2, //16
+            Properties.Resources.enemy_2, //14
             Properties.Resources.enemy_2_1,
-            Properties.Resources.enemy_2_2,
             Properties.Resources.enemy_2_DEAD,
-            Properties.Resources.pet_cat_0, //20
+            Properties.Resources.pet_cat_0, //17
             Properties.Resources.pet_cat_1,
             Properties.Resources.pet_cat_3,
             Properties.Resources.pet_cat_2,
-            Properties.Resources.shop_man_0, //24
+            Properties.Resources.shop_man_0, //21
             Properties.Resources.shop_man_0,
             Properties.Resources.shop_man_1,
-            Properties.Resources.pet_gnome_0, //27
+            Properties.Resources.pet_gnome_0, //24
             Properties.Resources.pet_gnome_1,
             Properties.Resources.pet_gnome_2,
-            Properties.Resources.pet_energy_drink_0, //30
+            Properties.Resources.pet_energy_drink_0, //27
+            Properties.Resources.enemy_3, //28
+            Properties.Resources.enemy_3_1,
+            Properties.Resources.enemy_3_DEAD,
+            Properties.Resources.pet_pyro_0, //31
+            Properties.Resources.pet_pyro_1,
+            Properties.Resources.pet_pyro_3
         };
         private readonly Color[] COLORS =
         {

@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace minigames._SLIL
+namespace minigames._SLIL.UserControls
 {
     public partial class SLIL_PetShopInterface : UserControl
     {
@@ -17,7 +17,7 @@ namespace minigames._SLIL
         public PlaySound buy;
         public PlaySound cant_pressed = new PlaySound(MainMenu.CGFReader.GetFile("cant_pressed.wav"), false);
         public Player player;
-        private readonly string[,] buy_text = { { "Купить", "Buy" }, { "Недоступно", "Not available" } };
+        private readonly string[,] buy_text = { { "Купить", "Buy" }, { "Уже есть", "Has already" } };
 
         private void SLIL_PetShopInterface_Load(object sender, EventArgs e)
         {
@@ -36,7 +36,7 @@ namespace minigames._SLIL
             icon.Image = pet.ShopIcon;
             descryption.Text = pet.Descryption[index];
             descryption.Width = Width - descryption.Left - 20;
-            if (player.PET == null)
+            if (player.PET != pet)
                 buy_button.Text = $"{buy_text[0, index]} ${pet.Cost}";
             else
                 buy_button.Text = $"{buy_text[1, index]}";
@@ -45,12 +45,13 @@ namespace minigames._SLIL
         private void Buy_button_Click(object sender, EventArgs e)
         {
             icon.Focus();
-            if (player.PET == null && player.Money >= pet.Cost)
+            if (player.PET != pet && player.Money >= pet.Cost)
             {
                 if (MainMenu.sounds)
                     buy.Play(SLIL.Volume);
                 player.ChangeMoney(-pet.Cost);
                 (Parent.FindForm() as SLIL).AddPet(pet.Index);
+                buy_button.Text = $"{buy_text[1, index]}";
             }
             else
             {

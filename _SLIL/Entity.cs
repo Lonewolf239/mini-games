@@ -15,7 +15,7 @@ namespace minigames._SLIL
         public int Texture { get; set; }
         public int[][] Animations { get; set; }
         public bool RespondsToFlashlight { get; set; }
-        public int Frames = 24;
+        public int Frames { get; set; }
         protected readonly Random rand = new Random();
 
         protected abstract int GetTexture();
@@ -24,6 +24,7 @@ namespace minigames._SLIL
 
         public Entity(double x, double y, int map_width)
         {
+            Frames = 24;
             Texture = this.GetTexture();
             EntityWidth = this.GetEntityWidth();
             RespondsToFlashlight = false;
@@ -42,16 +43,23 @@ namespace minigames._SLIL
                 Animations[0][item] = Texture;
         }
 
-        protected void SetAnimations(int pause, bool blink)
+        protected void SetAnimations(int pause, int mode)
         {
             Animations = new int[1][];
             Animations[0] = new int[Frames];
             int state = 0;
             for (int item = 0; item < Frames; item++)
             {
-                if (blink)
+                if (mode == 1)
                 {
                     if (item % pause == 0)
+                        Animations[0][item] = Texture + 1;
+                    else
+                        Animations[0][item] = Texture;
+                }
+                else if (mode == 2)
+                {
+                    if (item >= pause)
                         Animations[0][item] = Texture + 1;
                     else
                         Animations[0][item] = Texture;
@@ -331,12 +339,21 @@ namespace minigames._SLIL
 
     public abstract class GameObject : Entity
     {
+        public bool Temporarily { get; set; }
+        public int TotalLifeTime { get; set; }
+        public int LifeTime { get; set; }
+        public bool Animated { get; set; }
+        public int CurrentFrame { get; set; }
         protected override double GetEntityWidth() => 0.4;
         protected override int GetTexture() => Texture;
 
-        public GameObject(double x, double y, int map_width) : base(x, y, map_width) 
+        public GameObject(double x, double y, int map_width) : base(x, y, map_width)
         {
+            Temporarily = false;
             RespondsToFlashlight = false;
+            TotalLifeTime = Frames;
+            Animated = false;
+            CurrentFrame = 0;
             X += 0.5;
             Y += 0.5;
         }
@@ -347,10 +364,13 @@ namespace minigames._SLIL
         protected enum Stages { Roaming, Chasing };
         protected Stages stage;
         protected double detectionRange;
+        public bool Fast { get; set; }
+
         public Enemy(double x, double y, int map_width) : base(x, y, map_width)
         {
             stage = Stages.Roaming;
             CanHit = true;
+            Fast = false;
         }
     }
 
@@ -360,15 +380,15 @@ namespace minigames._SLIL
         {
             Index = 0;
             ShopIcon = Properties.Resources.pet_cat_icon;
-            Cost = 20;
+            Cost = 150;
             Name = new[] { "Глупый Кот", "Silly Cat" };
-            Descryption = new[] { "Раз в 5 секунд восстанавливает 2 хп", "Restores 2 HP every 5 seconds" };
-            Texture = 20;
+            Descryption = new[] { "Раз в 5 секунд восстанавливает 2 HP", "Restores 2 HP every 5 seconds" };
+            Texture = 17;
             PetAbility = 0;
             AbilityReloadTime = 5;
             HasStopAnimation = true;
             RespondsToFlashlight = true;
-            base.SetAnimations(1, false);
+            base.SetAnimations(1, 0);
         }
 
         public override int Interaction() => 1;
@@ -380,14 +400,14 @@ namespace minigames._SLIL
         {
             Index = 1;
             ShopIcon = Properties.Resources.pet_gnome_icon;
-            Cost = 20;
+            Cost = 60;
             Name = new[] { "Зелёный Гном", "Green Gnome" };
             Descryption = new[] { "Увеличивает максимальное здоровье на 25", "Increases maximum health by 25" };
-            Texture = 27;
+            Texture = 24;
             PetAbility = 1;
             IsInstantAbility = true;
             RespondsToFlashlight = true;
-            base.SetAnimations(6, true);
+            base.SetAnimations(6, 1);
         }
 
         public override int Interaction() => 2;
@@ -399,10 +419,10 @@ namespace minigames._SLIL
         {
             Index = 2;
             ShopIcon = Properties.Resources.pet_energy_drink_icon;
-            Cost = 20;
+            Cost = 60;
             Name = new[] { "Энергетик", "Energy Drink" };
             Descryption = new[] { "Увеличивает выносливость и скорость", "Increases endurance and speed" };
-            Texture = 30;
+            Texture = 27;
             PetAbility = 2;
             IsInstantAbility = true;
             RespondsToFlashlight = false;
@@ -412,12 +432,49 @@ namespace minigames._SLIL
         public override int Interaction() => 3;
     }
 
+    public class Pyro : Pet
+    {
+        protected override char[] GetImpassibleCells()
+        {
+            return new char[] { '#', 'D', 'd' };
+        }
+
+        public Pyro(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            Index = 3;
+            ShopIcon = Properties.Resources.pet_pyro_icon;
+            Cost = 60;
+            Name = new[] { "Подсератель", "Podseratel" };
+            Descryption = new[] { "Пока ничего не делает...", "Doesn't do anything yet..." };
+            Texture = 31;
+            PetAbility = 3;
+            IsInstantAbility = true;
+            RespondsToFlashlight = true;
+            base.SetAnimations(1, 0);
+        }
+
+        public override int Interaction() => 2;
+    }
+
     public class Teleport : GameObject
     {
         public Teleport(double x, double y, int map_width) : base(x, y, map_width)
         {
             Texture = 5;
             base.AnimationsToStatic();
+        }
+    }
+
+    public class HittingTheWall : GameObject
+    {
+        public HittingTheWall(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            Temporarily = true;
+            Animated = true;
+            Texture = 5;
+            LifeTime = 0;
+            TotalLifeTime = 8;
+            base.SetAnimations(4, 2);
         }
     }
 
@@ -434,7 +491,7 @@ namespace minigames._SLIL
     {
         public ShopMan(double x, double y, int map_width) : base(x, y, map_width)
         {
-            Texture = 24;
+            Texture = 21;
             RespondsToFlashlight = true;
             base.AnimationsToStatic();
         }
@@ -461,7 +518,7 @@ namespace minigames._SLIL
             DeathSound = 0;
             Texture = 8;
             detectionRange = 8;
-            base.SetAnimations(1, false);
+            base.SetAnimations(1, 0);
         }
 
         public override void UpdateCoordinates(string map, double playerX, double playerY)
@@ -553,9 +610,10 @@ namespace minigames._SLIL
         public Dog(double x, double y, int map_width) : base(x, y, map_width)
         {
             DeathSound = 1;
-            Texture = 12;
+            Texture = 11;
             detectionRange = 8;
-            base.SetAnimations(1, false);
+            Fast = true;
+            base.SetAnimations(1, 0);
         }
 
         public override void UpdateCoordinates(string map, double playerX, double playerY)
@@ -647,9 +705,104 @@ namespace minigames._SLIL
         public Abomination(double x, double y, int map_width) : base(x, y, map_width)
         {
             DeathSound = 2;
-            Texture = 16;
+            Texture = 14;
             detectionRange = 8;
-            base.SetAnimations(2, false);
+            base.SetAnimations(2, 0);
+        }
+
+        public override void UpdateCoordinates(string map, double playerX, double playerY)
+        {
+            bool isPlayerVisible = true;
+            double distanceToPlayer = Math.Sqrt(Math.Pow(X - playerX, 2) + Math.Pow(Y - playerY, 2));
+            if (distanceToPlayer > detectionRange) isPlayerVisible = false;
+            double angleToPlayer = Math.Atan2(X - playerX, Y - playerY) - Math.PI;
+            if (isPlayerVisible)
+            {
+                double distance = 0;
+                double step = 0.01;
+                double rayAngleX = Math.Sin(angleToPlayer);
+                double rayAngleY = Math.Cos(angleToPlayer);
+                while (distance <= distanceToPlayer)
+                {
+                    int test_x = (int)(X + rayAngleX * distance);
+                    int test_y = (int)(Y + rayAngleY * distance);
+                    if (ImpassibleCells.Contains(map[test_y * MAP_WIDTH + test_x]))
+                    {
+                        isPlayerVisible = false;
+                        break;
+                    }
+                    distance += step;
+                }
+            }
+            if (stage == Stages.Roaming)
+            {
+                base.UpdateCoordinates(map, playerX, playerY);
+                if (isPlayerVisible)
+                    stage = Stages.Chasing;
+                return;
+            }
+            if (stage == Stages.Chasing)
+            {
+                if (!isPlayerVisible)
+                {
+                    stage = Stages.Roaming;
+                    NumberOfMovesLeft = MovesInARow;
+                    return;
+                }
+                double move = this.GetMove();
+                double newX = X;
+                double newY = Y;
+                double tempX = X;
+                double tempY = Y;
+                A = angleToPlayer;
+                if (Math.Sqrt(Math.Pow(X - playerX, 2) + Math.Pow(Y - playerY, 2)) <= EntityWidth) return;
+                newX += Math.Sin(A) * move;
+                newY += Math.Cos(A) * move;
+                IntX = (int)X;
+                IntY = (int)Y;
+                if (!(ImpassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX + EntityWidth / 2)])
+                    || ImpassibleCells.Contains(map[(int)newY * MAP_WIDTH + (int)(newX - EntityWidth / 2)])))
+                    tempX = newX;
+                if (!(ImpassibleCells.Contains(map[(int)(newY + EntityWidth / 2) * MAP_WIDTH + (int)newX])
+                    || ImpassibleCells.Contains(map[(int)(newY - EntityWidth / 2) * MAP_WIDTH + (int)newX])))
+                    tempY = newY;
+                if (ImpassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX + EntityWidth / 2)]))
+                    tempX -= EntityWidth / 2 - (1 - tempX % 1);
+                if (ImpassibleCells.Contains(map[(int)tempY * MAP_WIDTH + (int)(tempX - EntityWidth / 2)]))
+                    tempX += EntityWidth / 2 - (tempX % 1);
+                if (ImpassibleCells.Contains(map[(int)(tempY + EntityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                    tempY -= EntityWidth / 2 - (1 - tempY % 1);
+                if (ImpassibleCells.Contains(map[(int)(tempY - EntityWidth / 2) * MAP_WIDTH + (int)tempX]))
+                    tempY += EntityWidth / 2 - (tempY % 1);
+                X = tempX;
+                Y = tempY;
+            }
+        }
+    }
+
+    public class Bat : Enemy
+    {
+        protected override double GetEntityWidth() => 0.4;
+        protected override char[] GetImpassibleCells()
+        {
+            return new char[] { '#', 'D', 'd' };
+        }
+        protected override int GetMovesInARow() => 10;
+        protected override int GetMAX_HP() => 5;
+        protected override int GetTexture() => Texture;
+        protected override double GetMove() => 0.135;
+        protected override int GetMAX_MONEY() => 18;
+        protected override int GetMIN_MONEY() => 13;
+        protected override int GetMAX_DAMAGE() => 30;
+        protected override int GetMIN_DAMAGE() => 22;
+
+        public Bat(double x, double y, int map_width) : base(x, y, map_width)
+        {
+            DeathSound = 3;
+            Texture = 28;
+            detectionRange = 8;
+            Fast = true;
+            base.SetAnimations(1, 0);
         }
 
         public override void UpdateCoordinates(string map, double playerX, double playerY)

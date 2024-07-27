@@ -30,7 +30,7 @@ namespace minigames
     {
 
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.3.7|";
+        private readonly string current_version = "|0.4|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -245,37 +245,21 @@ namespace minigames
             return Array.Exists(supportedLanguages, lang => lang.Equals(language) || lang.Equals(language.Substring(0, 2)));
         }
 
-        private void Bug_report_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://t.me/MiniGamesBugReport_BOT") { UseShellExecute = true });
-        }
+        private void Bug_report_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://t.me/MiniGamesBugReport_BOT") { UseShellExecute = true });
 
-        private void Exit_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
+        private void Exit_Click(object sender, EventArgs e) => Application.Exit();
 
-        private void GitHub_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://github.com/Lonewolf239") { UseShellExecute = true });
-        }
+        private void GitHub_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://github.com/Lonewolf239") { UseShellExecute = true });
 
-        private void Websyte_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://base-escape.ru") { UseShellExecute = true });
-        }
+        private void Websyte_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://base-escape.ru") { UseShellExecute = true });
 
-        private void BugReport_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://t.me/+VLJzjVRg8ElkZWYy") { UseShellExecute = true });
-        }
+        private void BugReport_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://t.me/+VLJzjVRg8ElkZWYy") { UseShellExecute = true });
 
-        private void Qscvhu_Click(object sender, EventArgs e)
-        {
-            Process.Start(new ProcessStartInfo("https://t.me/Apsyuch") { UseShellExecute = true });
-        }
+        private void Qscvhu_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://t.me/Apsyuch") { UseShellExecute = true });
 
-        private void Fatalan_github_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://github.com/Fatalan") { UseShellExecute = true });
+        private void Koyo_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://hipolink.me/koyomichu") { UseShellExecute = true });
+
+        private void Fatalan_Click(object sender, EventArgs e) => Process.Start(new ProcessStartInfo("https://github.com/Fatalan") { UseShellExecute = true });
 
         private void Version_label_MouseClick(object sender, MouseEventArgs e)
         {
@@ -464,8 +448,10 @@ namespace minigames
                 update_check.Text = "Проверить наличие";
                 auto_update.Text = "Авто-обновление";
                 bug_report.Text = "Сообщить об ошибке";
-                qscvhu.Text = "Спрайты: qscvhu";
-                fatalan.Text = "Рендеринг текстур: Fatalan";
+                slil_about.Text = "Лабезумие";
+                fatalan.Text = "Текстурирование: Fatalan";
+                qscvhu.Text = "Спрайты оружия: qscvhu";
+                koyo.Text = "Спрайты врагов: koyo";
                 if (update_exist)
                     update_check.Text = "Обновить игру";
             }
@@ -490,8 +476,10 @@ namespace minigames
                 update_check.Text = "Check for update";
                 auto_update.Text = "Auto-Update";
                 bug_report.Text = "Bug Report";
-                qscvhu.Text = "Sprites: qscvhu";
-                fatalan.Text = "Texture rendering: Fatalan";
+                slil_about.Text = "Mazeness";
+                fatalan.Text = "Texturing: Fatalan";
+                qscvhu.Text = "Weapon sprites: qscvhu";
+                koyo.Text = "Enemy sprites: koyo";
                 if (update_exist)
                     update_check.Text = "Update the game";
             }

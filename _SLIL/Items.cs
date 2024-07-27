@@ -119,6 +119,8 @@ namespace minigames._SLIL
 
     public class Item : Gun
     {
+        public string[] Description { get; set; }
+
         public Item() : base()
         {
             FireType = FireTypes.Single;
@@ -130,6 +132,7 @@ namespace minigames._SLIL
             FiringRate = 1;
             MaxAmmo = 1;
             BurstShots = 1;
+            Description = null;
             AmmoCount = CartridgesClip;
             Icon = new[] { Properties.Resources.missing };
         }
@@ -749,10 +752,13 @@ namespace minigames._SLIL
         {
             HasIt = false;
             Name = new[] { "Аптечка", "First Aid Kit" };
+            GunCost = 50;
             RechargeTime = 980;
             MaxAmmo = 2;
             FiringRate = 150;
             ReloadFrames = 3;
+            Description = new[] { "Восстанавливает здоровье", "Restores health" };
+            Icon = new[] { Properties.Resources.medkit_icon };
             Images = new[,]
             {
                    { Properties.Resources.medkit1, Properties.Resources.medkit1, Properties.Resources.medkit_using_0, Properties.Resources.medkit_using_1, Properties.Resources.medkit_using_2, Properties.Resources.medkit_run },

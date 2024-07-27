@@ -43,6 +43,7 @@
             this.scope_type_list = new System.Windows.Forms.ComboBox();
             this.scope_type_text = new System.Windows.Forms.Label();
             this.resolution = new System.Windows.Forms.CheckBox();
+            this.hight_fps = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.look_speed)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.width_map_input)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.height_map_input)).BeginInit();
@@ -262,11 +263,24 @@
             this.resolution.Text = "Высокое разрешение";
             this.resolution.UseVisualStyleBackColor = true;
             // 
+            // hight_fps
+            // 
+            this.hight_fps.AutoSize = true;
+            this.hight_fps.Checked = true;
+            this.hight_fps.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.hight_fps.Location = new System.Drawing.Point(244, 121);
+            this.hight_fps.Name = "hight_fps";
+            this.hight_fps.Size = new System.Drawing.Size(90, 28);
+            this.hight_fps.TabIndex = 17;
+            this.hight_fps.Text = "60 FPS";
+            this.hight_fps.UseVisualStyleBackColor = true;
+            // 
             // SLIL_Settings
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(386, 300);
+            this.Controls.Add(this.hight_fps);
             this.Controls.Add(this.resolution);
             this.Controls.Add(this.scope_type_text);
             this.Controls.Add(this.scope_type_list);
@@ -322,5 +336,6 @@
         private System.Windows.Forms.ComboBox scope_type_list;
         private System.Windows.Forms.Label scope_type_text;
         private System.Windows.Forms.CheckBox resolution;
+        private System.Windows.Forms.CheckBox hight_fps;
     }
 }

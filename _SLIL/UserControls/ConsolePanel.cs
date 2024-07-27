@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace minigames._SLIL
+namespace minigames._SLIL.UserControls
 {
     public partial class ConsolePanel : UserControl
     {
@@ -135,6 +135,8 @@ namespace minigames._SLIL
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                                  "~│~ -CAT-         ~│~ Issue a pet: \"Silly cat\"                    ~│~\n" +
                                  "~│~ -GNOME-       ~│~ Issue a pet: \"Wizard Gnome\"                 ~│~\n" +
+                                 "~│~ -ENERGY-      ~│~ Issue a pet: \"Energy Drink\"                 ~│~\n" +
+                                 "~│~ -ILOVEFURRY-  ~│~ Issue a pet: \"Podseratel\"                   ~│~\n" +
                                  "~├─────────────┼─────────────────────────────────────────────┤~\n" +
                                  "~│~ -BEFWK-       ~│~ Issue out all weapons                       ~│~\n" +
                                  "~│~ -FYTLG-       ~│~ Maximum amount of ammunition                ~│~\n" +
@@ -538,7 +540,7 @@ namespace minigames._SLIL
                     }
                     else if (cheat == "CAT" && !ImHonest)
                     {
-                        if (player.PET == null)
+                        if (!(player.PET is SillyCat))
                         {
                             message += "Pet \"Silly cat\" has been issued.";
                             (Parent.FindForm() as SLIL).AddPet(0);
@@ -546,12 +548,12 @@ namespace minigames._SLIL
                         else
                         {
                             color = Color.Red;
-                            message = "Code not applied! You already have a pet";
+                            message = "Code not applied! You already have \"Silly cat\".";
                         }
                     }
                     else if (cheat == "GNOME" && !ImHonest)
                     {
-                        if (player.PET == null)
+                        if (!(player.PET is GreenGnome))
                         {
                             message += "Pet \"Wizard Gnome\" has been issued.";
                             (Parent.FindForm() as SLIL).AddPet(1);
@@ -559,7 +561,33 @@ namespace minigames._SLIL
                         else
                         {
                             color = Color.Red;
-                            message = "Code not applied! You already have a pet";
+                            message = "Code not applied! You already have \"Wizard Gnome\".";
+                        }
+                    }
+                    else if (cheat == "ENERGY" && !ImHonest)
+                    {
+                        if (!(player.PET is EnergyDrink))
+                        {
+                            message += "Pet \"Energy Drink\" has been issued.";
+                            (Parent.FindForm() as SLIL).AddPet(2);
+                        }
+                        else
+                        {
+                            color = Color.Red;
+                            message = "Code not applied! You already have \"Energy Drink\".";
+                        }
+                    }
+                    else if (cheat == "ILOVEFURRY" && !ImHonest)
+                    {
+                        if (!(player.PET is Pyro))
+                        {
+                            message += "Pet \"Podseratel\" has been issued.";
+                            (Parent.FindForm() as SLIL).AddPet(3);
+                        }
+                        else
+                        {
+                            color = Color.Red;
+                            message = "Code not applied! You already have \"Podseratel\".";
                         }
                     }
                     else if (cheat.StartsWith("CCHANC_") && !ImHonest)

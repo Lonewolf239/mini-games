@@ -105,9 +105,10 @@
             this.websyte = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.gitHub = new System.Windows.Forms.ToolStripMenuItem();
+            this.slil_about = new System.Windows.Forms.ToolStripMenuItem();
             this.fatalan = new System.Windows.Forms.ToolStripMenuItem();
-            this.fatalan_github = new System.Windows.Forms.ToolStripMenuItem();
             this.qscvhu = new System.Windows.Forms.ToolStripMenuItem();
+            this.koyo = new System.Windows.Forms.ToolStripMenuItem();
             this.about_mini_games = new System.Windows.Forms.ToolStripMenuItem();
             this.update_error = new System.Windows.Forms.PictureBox();
             this.mg_panel_0.SuspendLayout();
@@ -1037,8 +1038,7 @@
             // 
             this.byLonewol239.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.my_menu,
-            this.fatalan,
-            this.qscvhu});
+            this.slil_about});
             this.byLonewol239.Name = "byLonewol239";
             this.byLonewol239.Size = new System.Drawing.Size(168, 22);
             this.byLonewol239.Text = "О разработчиках";
@@ -1051,7 +1051,7 @@
             this.gitHub});
             this.my_menu.Image = global::minigames.Properties.Resources.me;
             this.my_menu.Name = "my_menu";
-            this.my_menu.Size = new System.Drawing.Size(167, 22);
+            this.my_menu.Size = new System.Drawing.Size(144, 22);
             this.my_menu.Text = "Lonewollf239";
             // 
             // websyte
@@ -1082,32 +1082,39 @@
             this.gitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gitHub.Click += new System.EventHandler(this.GitHub_Click);
             // 
+            // slil_about
+            // 
+            this.slil_about.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fatalan,
+            this.qscvhu,
+            this.koyo});
+            this.slil_about.Name = "slil_about";
+            this.slil_about.Size = new System.Drawing.Size(144, 22);
+            this.slil_about.Text = "Лабезумие";
+            // 
             // fatalan
             // 
-            this.fatalan.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fatalan_github});
-            this.fatalan.Image = global::minigames.Properties.Resources.fatalan;
+            this.fatalan.Image = global::minigames.Properties.Resources.github;
             this.fatalan.Name = "fatalan";
-            this.fatalan.Size = new System.Drawing.Size(167, 22);
-            this.fatalan.Text = "Fatalan";
-            // 
-            // fatalan_github
-            // 
-            this.fatalan_github.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.fatalan_github.Image = global::minigames.Properties.Resources.github;
-            this.fatalan_github.Name = "fatalan_github";
-            this.fatalan_github.Size = new System.Drawing.Size(112, 22);
-            this.fatalan_github.Text = "GitHub";
-            this.fatalan_github.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.fatalan_github.Click += new System.EventHandler(this.Fatalan_github_Click);
+            this.fatalan.Size = new System.Drawing.Size(213, 22);
+            this.fatalan.Text = "Текстурирование: Fatalan";
+            this.fatalan.Click += new System.EventHandler(this.Fatalan_Click);
             // 
             // qscvhu
             // 
             this.qscvhu.Image = global::minigames.Properties.Resources.telegram;
             this.qscvhu.Name = "qscvhu";
-            this.qscvhu.Size = new System.Drawing.Size(167, 22);
-            this.qscvhu.Text = "Спрайты: qscvhu";
+            this.qscvhu.Size = new System.Drawing.Size(213, 22);
+            this.qscvhu.Text = "Спрайты оружия: qscvhu";
             this.qscvhu.Click += new System.EventHandler(this.Qscvhu_Click);
+            // 
+            // koyo
+            // 
+            this.koyo.Image = global::minigames.Properties.Resources.hipolink;
+            this.koyo.Name = "koyo";
+            this.koyo.Size = new System.Drawing.Size(213, 22);
+            this.koyo.Text = "Спрайты врагов: koyo";
+            this.koyo.Click += new System.EventHandler(this.Koyo_Click);
             // 
             // about_mini_games
             // 
@@ -1273,6 +1280,7 @@
         private System.Windows.Forms.ToolStripMenuItem qscvhu;
         private System.Windows.Forms.ToolStripMenuItem fatalan;
         private System.Windows.Forms.ToolStripMenuItem my_menu;
-        private System.Windows.Forms.ToolStripMenuItem fatalan_github;
+        private System.Windows.Forms.ToolStripMenuItem koyo;
+        private System.Windows.Forms.ToolStripMenuItem slil_about;
     }
 }

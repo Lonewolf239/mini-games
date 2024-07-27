@@ -20,6 +20,22 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.4",
+                "_______________________________________________________________",
+                "• Changing the game \"Mazeness\":",
+                "   • Completely redesigned store",
+                "   • Added consumables",
+                "   • Added 4 pets:",
+                "      • Silly Cat - +2HP/5 sec.",
+                "      • Green Dwarf - +25 Max HP",
+                "      • Energy - +Stamina and speed",
+                "      • Podseratel - No effect",
+                "   • Completely updated enemy sprites",
+                "   • Added a new enemy: Bat",
+                "   • Added sounds for each enemy",
+                "   • Minor visual improvements",
+                "   • Fixed some bugs",
+                "\n",
                 "\t\t\tv0.3.7",
                 "_______________________________________________________________",
                 "• Changing the game \"Mazeness\":",
@@ -434,6 +450,22 @@ namespace minigames
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.4",
+                    "_______________________________________________________________",
+                    "• Изменение игры \"Лабезумие\":",
+                    "   • Полностью переработан магазин",
+                    "   • Добавлены расходники",
+                    "   • Добавлены 4 питомца:",
+                    "      • Глупый Кот - +2HP/5 sec.",
+                    "      • Зелёный Гном - +25 Max HP",
+                    "      • Энергетик - +Выносливость и скорость",
+                    "      • Подсератель - Нет эффекта",
+                    "   • Полностью обновлены спрайты врагов",
+                    "   • Добавлен новый враг: Летучая мышь",
+                    "   • Добавлены звуки для каждого врага",
+                    "   • Незначительные визуальные улучшения",
+                    "   • Исправлены некоторые ошибки",
+                    "\n",
                     "\t\t\tv0.3.7",
                     "_______________________________________________________________",
                     "• Изменение игры \"Лабезумие\":",
@@ -845,11 +877,6 @@ namespace minigames
             key += e.KeyCode.ToString();
             if (key == "DEV")
                 richTextBox1.Visible = !richTextBox1.Visible;
-        }
-
-        private void changes_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

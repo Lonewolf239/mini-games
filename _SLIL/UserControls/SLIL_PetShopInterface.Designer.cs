@@ -1,4 +1,4 @@
-﻿namespace minigames._SLIL
+﻿namespace minigames._SLIL.UserControls
 {
     partial class SLIL_PetShopInterface
     {

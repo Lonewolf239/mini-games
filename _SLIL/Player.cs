@@ -23,6 +23,7 @@ namespace minigames._SLIL
         public int MoveStyle { get; set; }
         public bool LevelUpdated { get; set; }
         public double CurseCureChance { get; set; }
+        public bool IsPetting { get; set; }
         public int Stage { get; set; }
         public int EnemiesKilled { get; set; }
         public double MOVE_SPEED { get; set; }
@@ -32,7 +33,6 @@ namespace minigames._SLIL
         public Pet PET = null;
         public double MAX_HP { get; set; }
         public double MAX_STAMINE { get; set; }
-        public bool IsPetting { get; set; }
 
         public Player()
         {
@@ -66,9 +66,9 @@ namespace minigames._SLIL
             Aiming = false;
             UseFirstMedKit = false;
             LevelUpdated = false;
+            IsPetting = false;
             PreviousGun = CurrentGun = 1;
             STAMINE = MAX_STAMINE;
-            IsPetting = false;
         }
 
         public Gun GetCurrentGun() => Guns[CurrentGun];
