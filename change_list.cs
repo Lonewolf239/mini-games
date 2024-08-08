@@ -20,6 +20,17 @@ namespace minigames
         {
             string[] list =
             {
+                "\t\t\tv0.5.0.1",
+                "_______________________________________________________________",
+                "   • Minor visual improvements",
+                "\n",
+                "\t\t\tv0.5",
+                "_______________________________________________________________",
+                "• Complete rework of the game \"Math-o-Light\"",
+                "• New game added: \"Balda\"",
+                "• \"Mazeness\" has been removed",
+                "• Now \"Mazeness\" is a separate game",
+                "\n",
                 "\t\t\tv0.4",
                 "_______________________________________________________________",
                 "• Changing the game \"Mazeness\":",
@@ -27,8 +38,8 @@ namespace minigames
                 "   • Added consumables",
                 "   • Added 4 pets:",
                 "      • Silly Cat - +2HP/5 sec.",
-                "      • Green Dwarf - +25 Max HP",
-                "      • Energy - +Stamina and speed",
+                "      • Green Gnome - +25 Max HP",
+                "      • Energy Drink - +Stamina and speed",
                 "      • Podseratel - No effect",
                 "   • Completely updated enemy sprites",
                 "   • Added a new enemy: Bat",
@@ -450,6 +461,17 @@ namespace minigames
                 Text = "Список изменений";
                 list = new string[]
                 {
+                    "\t\t\tv0.5.0.1",
+                    "_______________________________________________________________",
+                    "   • Незначительные визуальные улучшения",
+                    "\n",
+                    "\t\t\tv0.5",
+                    "_______________________________________________________________",
+                    "• Полная переработка игры \"Матемангнит\"",
+                    "• Добавлена ​​новая игра: \"Балда\"",
+                    "• Игра \"Лабезумие\" была удалена",
+                    "• Теперь \"Лабезумие\" это отдельная игра",
+                    "\n",
                     "\t\t\tv0.4",
                     "_______________________________________________________________",
                     "• Изменение игры \"Лабезумие\":",

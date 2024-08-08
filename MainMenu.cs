@@ -22,28 +22,26 @@ using minigames._Ping_Pong;
 using minigames._Tanks;
 using minigames._Tetris;
 using minigames._Sapper;
-using minigames._SLIL;
+using minigames._Balda;
 
 namespace minigames
 {
     public partial class MainMenu : Form
     {
-
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.4|";
+        private readonly string current_version = "|0.5.0.1|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
-            mg8_max_score = 0, mg10_max_score = 0, mg13_max_score = 0;
+            mg8_max_score = 0, mg10_max_score = 0, mg13_max_score = 0, mg15_max_score = 0;
         public static float mg4_max_score = 0;
         private readonly string[][] language_text =
         {
-          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "Сапёр", "Лабезумие" },
-          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "Sapper", "Mazeness" }
+          new string[] { "Глазастик", "Секундоцвет", "Цветнашки", "Матемангнит", "Реактор", "Удочкомёт", "Хацкер", "Змейка", "Звукотрон", "СудоСага", "2048", "Пинг-Понг", "Танчики", "Тутрис", "Сапёр", "Балда" },
+          new string[] { "EyeStop", "ColorTimer", "ColorTiles", "Math-o-Light", "Reactor", "RodRocket", "Hackerman", "Snake", "Soundotron", "SudoSaga", "2048", "Ping-Pong", "Tanks", "Tetris", "Sapper", "Balda" }
         };
-        private bool update_exist = false, slil_opened = true, in_download = false;
-        private ToolTip g, t;
-        private readonly TextureCache textureCache = new TextureCache();
+        private bool update_exist = false, in_download = false;
+        private ToolTip g;
         public static CGF_Reader CGFReader;
 
         public MainMenu()
@@ -276,7 +274,6 @@ namespace minigames
                 Directory.Delete("sounds", true);
             version_label.Text = $"v{current_version.Replace("|", "")} By.Lonewolf239";
             Language = Check_Language();
-            CheckSLIL();
             INIReader.CreateIniFileIfNotExist(iniFolder);
             Language = INIReader.GetBool(iniFolder, "CONFIG", "language", Language);
             sounds = INIReader.GetBool(iniFolder, "CONFIG", "sounds", true);
@@ -295,6 +292,7 @@ namespace minigames
             mg8_max_score = GetMaxScore("Soundotron");
             mg10_max_score = GetMaxScore("2048");
             mg13_max_score = GetMaxScore("Tetris");
+            mg15_max_score = GetMaxScore("Balda");
             if (Language)
                 russian_check.Checked = true;
             else
@@ -304,42 +302,15 @@ namespace minigames
             sounds_on_off.Checked = sounds;
             if (!sounds)
             {
-                mg_icon_pic8.BackgroundImage = Properties.Resources.soundotron;
+                mg_icon_pic8.BackgroundImage = Properties.Resources.game_soundotron;
                 mg_icon_pic8.Image = Properties.Resources._lock;
                 mg_panel_8.BackColor = Color.Gray;
             }
             else
             {
                 mg_icon_pic8.BackgroundImage = null;
-                mg_icon_pic8.Image = Properties.Resources.soundotron;
+                mg_icon_pic8.Image = Properties.Resources.game_soundotron;
                 mg_panel_8.BackColor = SystemColors.Control;
-            }
-        }
-
-        private void CheckSLIL()
-        {
-            slil_opened = CheckWindows();
-            if (!slil_opened)
-            {
-                mg_icon_pic15.BackgroundImage = Properties.Resources.labyrinth;
-                mg_icon_pic15.Image = Properties.Resources._lock;
-                mg_panel_15.BackColor = Color.Gray;
-            }
-        }
-
-        private bool CheckWindows()
-        {
-            try
-            {
-                Version osVersion = Environment.OSVersion.Version;
-                if (osVersion.Major >= 10 && osVersion.Build >= 10240)
-                    return true;
-                else
-                    return false;
-            }
-            catch
-            {
-                return false;
             }
         }
 
@@ -439,7 +410,7 @@ namespace minigames
                 sounds_on_off.ToolTipText = "Включить/отключить внутриигровые звуки";
                 about_mini_games.Text = "О приложении";
                 language_menu.Text = "Язык";
-                byLonewol239.Text = "О разработчиках";
+                byLonewol239.Text = "О разработчике";
                 information.Text = "Информация";
                 scale.Text = "Масштаб";
                 clear_data.Text = "Стереть данные";
@@ -448,10 +419,6 @@ namespace minigames
                 update_check.Text = "Проверить наличие";
                 auto_update.Text = "Авто-обновление";
                 bug_report.Text = "Сообщить об ошибке";
-                slil_about.Text = "Лабезумие";
-                fatalan.Text = "Текстурирование: Fatalan";
-                qscvhu.Text = "Спрайты оружия: qscvhu";
-                koyo.Text = "Спрайты врагов: koyo";
                 if (update_exist)
                     update_check.Text = "Обновить игру";
             }
@@ -467,7 +434,7 @@ namespace minigames
                 sounds_on_off.ToolTipText = "Enable/disable in-game sounds";
                 about_mini_games.Text = "About the app";
                 language_menu.Text = "Language";
-                byLonewol239.Text = "About the developers";
+                byLonewol239.Text = "About the developer";
                 information.Text = "Info";
                 scale.Text = "Scale";
                 clear_data.Text = "Clear data";
@@ -476,10 +443,6 @@ namespace minigames
                 update_check.Text = "Check for update";
                 auto_update.Text = "Auto-Update";
                 bug_report.Text = "Bug Report";
-                slil_about.Text = "Mazeness";
-                fatalan.Text = "Texturing: Fatalan";
-                qscvhu.Text = "Weapon sprites: qscvhu";
-                koyo.Text = "Enemy sprites: koyo";
                 if (update_exist)
                     update_check.Text = "Update the game";
             }
@@ -500,14 +463,14 @@ namespace minigames
             sounds = !sounds;
             if (!sounds)
             {
-                mg_icon_pic8.BackgroundImage = Properties.Resources.soundotron;
+                mg_icon_pic8.BackgroundImage = Properties.Resources.game_soundotron;
                 mg_icon_pic8.Image = Properties.Resources._lock;
                 mg_panel_8.BackColor = Color.Gray;
             }
             else
             {
                 mg_icon_pic8.BackgroundImage = null;
-                mg_icon_pic8.Image =Properties.Resources.soundotron;
+                mg_icon_pic8.Image = Properties.Resources.game_soundotron;
                 mg_panel_8.BackColor = SystemColors.Control;
             }
             INIReader.SetKey(iniFolder, "CONFIG", "sounds", sounds);
@@ -545,6 +508,10 @@ namespace minigames
                     mg10_max_score = MG2048.score;
                 if (Tetris.score > mg13_max_score)
                     mg13_max_score = Tetris.score;
+                if(Balda.Score > mg15_max_score)
+                    mg15_max_score = Balda.Score;
+                if (Balda.MaxScore > mg15_max_score)
+                    mg15_max_score = Balda.MaxScore;
                 INIReader.SetKey(iniFolder, "Colortimer", "max_score", ((double)mg1_max_score / 2) * 13);
                 INIReader.SetKey(iniFolder, "Math_o_light", "max_score", ((double)mg3_max_score / 2) * 13);
                 INIReader.SetKey(iniFolder, "Reactor", "max_score", ((double)mg4_max_score / 2) * 13);
@@ -554,6 +521,7 @@ namespace minigames
                 INIReader.SetKey(iniFolder, "Soundotron", "max_score", ((double)mg8_max_score / 2) * 13);
                 INIReader.SetKey(iniFolder, "2048", "max_score", ((double)mg10_max_score / 2) * 13);
                 INIReader.SetKey(iniFolder, "Tetris", "max_score", ((double)mg13_max_score / 2) * 13);
+                INIReader.SetKey(iniFolder, "Balda", "max_score", ((double)mg15_max_score / 2) * 13);
                 Form form = sender as Form;
                 form?.Dispose();
                 WindowState = FormWindowState.Normal;
@@ -581,22 +549,6 @@ namespace minigames
             Control element = sender as Control;
             if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
                 return;
-            if (!slil_opened && (element == mg_name15 || element == mg_icon_pic15 || element == mg_panel_15))
-            {
-                string title = "Внимание", message = "Лабезумие доступно только на Windows 10 или более новых версиях Windows.\nПожалуйста, обновите вашу операционную систему.";
-                if (!Language)
-                {
-                    title = "Attention";
-                    message = "Mazeness is only available on Windows 10 or newer versions of Windows.\nPlease update your operating system.";
-                }
-                t = new ToolTip
-                {
-                    ToolTipTitle = title,
-                    ToolTipIcon = ToolTipIcon.Warning
-                };
-                t.SetToolTip(element, message);
-                return;
-            }
             if (element is Panel)
             {
                 Panel obj = element as Panel;
@@ -617,11 +569,6 @@ namespace minigames
             Control element = sender as Control;
             if (!sounds && (element == mg_name8 || element == mg_icon_pic8 || element == mg_panel_8))
                 return;
-            if (!slil_opened && (element == mg_name15 || element == mg_icon_pic15 || element == mg_panel_15))
-            {
-                t?.Dispose();
-                return;
-            }
             if (element is Panel)
             {
                 Panel obj = element as Panel;
@@ -774,9 +721,9 @@ namespace minigames
 
         private void Mg_panel_15_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left && slil_opened)
+            if (e.Button == MouseButtons.Left)
             {
-                SLIL form = new SLIL(textureCache);
+                Balda form = new Balda();
                 OpenGame(form, mg_panel_15);
             }
         }

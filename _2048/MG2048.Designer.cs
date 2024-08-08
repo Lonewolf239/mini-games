@@ -78,6 +78,7 @@
             this.developer_name.TabIndex = 27;
             this.developer_name.Text = "Lonewolf239";
             this.developer_name.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.developer_name.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Developer_name_MouseClick);
             // 
             // top_panel
             // 

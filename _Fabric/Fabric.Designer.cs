@@ -396,7 +396,7 @@
             // 
             // medkit_0
             // 
-            this.medkit_0.Image = global::minigames.Properties.Resources.medkit;
+            this.medkit_0.Image = global::minigames.Properties.Resources.first_aid;
             this.medkit_0.Location = new System.Drawing.Point(637, 12);
             this.medkit_0.Name = "medkit_0";
             this.medkit_0.Size = new System.Drawing.Size(50, 50);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -317,6 +318,12 @@ namespace minigames._2048
         {
             win?.Dispose();
             game_over?.Dispose();
+        }
+
+        private void Developer_name_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+                Process.Start(new ProcessStartInfo("https://github.com/Lonewolf239") { UseShellExecute = true });
         }
 
         private void SpawnNewTiles()

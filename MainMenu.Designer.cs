@@ -101,14 +101,9 @@
             this.exit = new System.Windows.Forms.ToolStripMenuItem();
             this.information = new System.Windows.Forms.ToolStripMenuItem();
             this.byLonewol239 = new System.Windows.Forms.ToolStripMenuItem();
-            this.my_menu = new System.Windows.Forms.ToolStripMenuItem();
             this.websyte = new System.Windows.Forms.ToolStripMenuItem();
             this.bugReport = new System.Windows.Forms.ToolStripMenuItem();
             this.gitHub = new System.Windows.Forms.ToolStripMenuItem();
-            this.slil_about = new System.Windows.Forms.ToolStripMenuItem();
-            this.fatalan = new System.Windows.Forms.ToolStripMenuItem();
-            this.qscvhu = new System.Windows.Forms.ToolStripMenuItem();
-            this.koyo = new System.Windows.Forms.ToolStripMenuItem();
             this.about_mini_games = new System.Windows.Forms.ToolStripMenuItem();
             this.update_error = new System.Windows.Forms.PictureBox();
             this.mg_panel_0.SuspendLayout();
@@ -177,7 +172,7 @@
             // mg_icon_pic0
             // 
             this.mg_icon_pic0.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic0.Image = global::minigames.Properties.Resources.icon;
+            this.mg_icon_pic0.Image = global::minigames.Properties.Resources.game_glazastic;
             this.mg_icon_pic0.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic0.Name = "mg_icon_pic0";
             this.mg_icon_pic0.Size = new System.Drawing.Size(98, 50);
@@ -218,7 +213,7 @@
             // mg_icon_pic1
             // 
             this.mg_icon_pic1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic1.Image = global::minigames.Properties.Resources.clortimer;
+            this.mg_icon_pic1.Image = global::minigames.Properties.Resources.game_colortimer;
             this.mg_icon_pic1.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic1.Name = "mg_icon_pic1";
             this.mg_icon_pic1.Size = new System.Drawing.Size(98, 50);
@@ -259,7 +254,7 @@
             // mg_icon_pic2
             // 
             this.mg_icon_pic2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic2.Image = global::minigames.Properties.Resources.colortiles;
+            this.mg_icon_pic2.Image = global::minigames.Properties.Resources.game_colortiles;
             this.mg_icon_pic2.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic2.Name = "mg_icon_pic2";
             this.mg_icon_pic2.Size = new System.Drawing.Size(98, 50);
@@ -300,7 +295,7 @@
             // mg_icon_pic3
             // 
             this.mg_icon_pic3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic3.Image = global::minigames.Properties.Resources.math_o_light;
+            this.mg_icon_pic3.Image = global::minigames.Properties.Resources.game_math_o_light;
             this.mg_icon_pic3.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic3.Name = "mg_icon_pic3";
             this.mg_icon_pic3.Size = new System.Drawing.Size(98, 50);
@@ -342,7 +337,7 @@
             // 
             this.mg_icon_pic4.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.mg_icon_pic4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic4.Image = global::minigames.Properties.Resources.reactor;
+            this.mg_icon_pic4.Image = global::minigames.Properties.Resources.game_reactor;
             this.mg_icon_pic4.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic4.Name = "mg_icon_pic4";
             this.mg_icon_pic4.Size = new System.Drawing.Size(98, 50);
@@ -383,7 +378,7 @@
             // mg_icon_pic5
             // 
             this.mg_icon_pic5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic5.Image = global::minigames.Properties.Resources.Rodrocket;
+            this.mg_icon_pic5.Image = global::minigames.Properties.Resources.game_Rodrocket;
             this.mg_icon_pic5.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic5.Name = "mg_icon_pic5";
             this.mg_icon_pic5.Size = new System.Drawing.Size(98, 50);
@@ -424,7 +419,7 @@
             // mg_icon_pic6
             // 
             this.mg_icon_pic6.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic6.Image = global::minigames.Properties.Resources.hackerman;
+            this.mg_icon_pic6.Image = global::minigames.Properties.Resources.game_hackerman;
             this.mg_icon_pic6.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic6.Name = "mg_icon_pic6";
             this.mg_icon_pic6.Size = new System.Drawing.Size(98, 50);
@@ -465,7 +460,7 @@
             // mg_icon_pic7
             // 
             this.mg_icon_pic7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic7.Image = global::minigames.Properties.Resources.snake;
+            this.mg_icon_pic7.Image = global::minigames.Properties.Resources.game_snake;
             this.mg_icon_pic7.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic7.Name = "mg_icon_pic7";
             this.mg_icon_pic7.Size = new System.Drawing.Size(98, 50);
@@ -507,7 +502,7 @@
             // 
             this.mg_icon_pic8.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.mg_icon_pic8.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic8.Image = global::minigames.Properties.Resources.soundotron;
+            this.mg_icon_pic8.Image = global::minigames.Properties.Resources.game_soundotron;
             this.mg_icon_pic8.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic8.Name = "mg_icon_pic8";
             this.mg_icon_pic8.Size = new System.Drawing.Size(98, 50);
@@ -548,7 +543,7 @@
             // mg_icon_pic9
             // 
             this.mg_icon_pic9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.sudoku;
+            this.mg_icon_pic9.Image = global::minigames.Properties.Resources.game_sudoku;
             this.mg_icon_pic9.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic9.Name = "mg_icon_pic9";
             this.mg_icon_pic9.Size = new System.Drawing.Size(98, 50);
@@ -589,7 +584,7 @@
             // mg_icon_pic10
             // 
             this.mg_icon_pic10.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic10.Image = global::minigames.Properties.Resources._2048;
+            this.mg_icon_pic10.Image = global::minigames.Properties.Resources.game_2048;
             this.mg_icon_pic10.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic10.Name = "mg_icon_pic10";
             this.mg_icon_pic10.Size = new System.Drawing.Size(98, 50);
@@ -630,7 +625,7 @@
             // mg_icon_pic11
             // 
             this.mg_icon_pic11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic11.Image = global::minigames.Properties.Resources.ping_pong;
+            this.mg_icon_pic11.Image = global::minigames.Properties.Resources.game_ping_pong;
             this.mg_icon_pic11.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic11.Name = "mg_icon_pic11";
             this.mg_icon_pic11.Size = new System.Drawing.Size(98, 50);
@@ -672,7 +667,7 @@
             // 
             this.mg_icon_pic15.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.mg_icon_pic15.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic15.Image = global::minigames.Properties.Resources.labyrinth;
+            this.mg_icon_pic15.Image = global::minigames.Properties.Resources.game_balda;
             this.mg_icon_pic15.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic15.Name = "mg_icon_pic15";
             this.mg_icon_pic15.Size = new System.Drawing.Size(98, 50);
@@ -691,7 +686,7 @@
             this.mg_name15.Name = "mg_name15";
             this.mg_name15.Size = new System.Drawing.Size(98, 23);
             this.mg_name15.TabIndex = 2;
-            this.mg_name15.Text = "Лабезумие";
+            this.mg_name15.Text = "Балда";
             this.mg_name15.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.mg_name15.MouseClick += new System.Windows.Forms.MouseEventHandler(this.Mg_panel_15_MouseClick);
             this.mg_name15.MouseEnter += new System.EventHandler(this.GameButton_MouseEnter);
@@ -713,7 +708,7 @@
             // mg_icon_pic14
             // 
             this.mg_icon_pic14.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic14.Image = global::minigames.Properties.Resources.bomb;
+            this.mg_icon_pic14.Image = global::minigames.Properties.Resources.game_bomb;
             this.mg_icon_pic14.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic14.Name = "mg_icon_pic14";
             this.mg_icon_pic14.Size = new System.Drawing.Size(98, 50);
@@ -754,7 +749,7 @@
             // mg_icon_pic13
             // 
             this.mg_icon_pic13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic13.Image = global::minigames.Properties.Resources.tetris;
+            this.mg_icon_pic13.Image = global::minigames.Properties.Resources.game_tetris;
             this.mg_icon_pic13.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic13.Name = "mg_icon_pic13";
             this.mg_icon_pic13.Size = new System.Drawing.Size(98, 50);
@@ -795,7 +790,7 @@
             // mg_icon_pic12
             // 
             this.mg_icon_pic12.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mg_icon_pic12.Image = global::minigames.Properties.Resources.tank;
+            this.mg_icon_pic12.Image = global::minigames.Properties.Resources.game_tank;
             this.mg_icon_pic12.Location = new System.Drawing.Point(0, 0);
             this.mg_icon_pic12.Name = "mg_icon_pic12";
             this.mg_icon_pic12.Size = new System.Drawing.Size(98, 50);
@@ -1037,29 +1032,19 @@
             // byLonewol239
             // 
             this.byLonewol239.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.my_menu,
-            this.slil_about});
-            this.byLonewol239.Name = "byLonewol239";
-            this.byLonewol239.Size = new System.Drawing.Size(168, 22);
-            this.byLonewol239.Text = "О разработчиках";
-            // 
-            // my_menu
-            // 
-            this.my_menu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.websyte,
             this.bugReport,
             this.gitHub});
-            this.my_menu.Image = global::minigames.Properties.Resources.me;
-            this.my_menu.Name = "my_menu";
-            this.my_menu.Size = new System.Drawing.Size(144, 22);
-            this.my_menu.Text = "Lonewollf239";
+            this.byLonewol239.Name = "byLonewol239";
+            this.byLonewol239.Size = new System.Drawing.Size(180, 22);
+            this.byLonewol239.Text = "О разработчике";
             // 
             // websyte
             // 
             this.websyte.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.websyte.Image = global::minigames.Properties.Resources.web;
             this.websyte.Name = "websyte";
-            this.websyte.Size = new System.Drawing.Size(122, 22);
+            this.websyte.Size = new System.Drawing.Size(180, 22);
             this.websyte.Text = "Web site";
             this.websyte.Click += new System.EventHandler(this.Websyte_Click);
             // 
@@ -1068,7 +1053,7 @@
             this.bugReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bugReport.Image = global::minigames.Properties.Resources.telegram;
             this.bugReport.Name = "bugReport";
-            this.bugReport.Size = new System.Drawing.Size(122, 22);
+            this.bugReport.Size = new System.Drawing.Size(180, 22);
             this.bugReport.Text = "Telegram";
             this.bugReport.Click += new System.EventHandler(this.BugReport_Click);
             // 
@@ -1077,49 +1062,15 @@
             this.gitHub.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.gitHub.Image = global::minigames.Properties.Resources.github;
             this.gitHub.Name = "gitHub";
-            this.gitHub.Size = new System.Drawing.Size(122, 22);
+            this.gitHub.Size = new System.Drawing.Size(180, 22);
             this.gitHub.Text = "GitHub";
             this.gitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gitHub.Click += new System.EventHandler(this.GitHub_Click);
             // 
-            // slil_about
-            // 
-            this.slil_about.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fatalan,
-            this.qscvhu,
-            this.koyo});
-            this.slil_about.Name = "slil_about";
-            this.slil_about.Size = new System.Drawing.Size(144, 22);
-            this.slil_about.Text = "Лабезумие";
-            // 
-            // fatalan
-            // 
-            this.fatalan.Image = global::minigames.Properties.Resources.github;
-            this.fatalan.Name = "fatalan";
-            this.fatalan.Size = new System.Drawing.Size(213, 22);
-            this.fatalan.Text = "Текстурирование: Fatalan";
-            this.fatalan.Click += new System.EventHandler(this.Fatalan_Click);
-            // 
-            // qscvhu
-            // 
-            this.qscvhu.Image = global::minigames.Properties.Resources.telegram;
-            this.qscvhu.Name = "qscvhu";
-            this.qscvhu.Size = new System.Drawing.Size(213, 22);
-            this.qscvhu.Text = "Спрайты оружия: qscvhu";
-            this.qscvhu.Click += new System.EventHandler(this.Qscvhu_Click);
-            // 
-            // koyo
-            // 
-            this.koyo.Image = global::minigames.Properties.Resources.hipolink;
-            this.koyo.Name = "koyo";
-            this.koyo.Size = new System.Drawing.Size(213, 22);
-            this.koyo.Text = "Спрайты врагов: koyo";
-            this.koyo.Click += new System.EventHandler(this.Koyo_Click);
-            // 
             // about_mini_games
             // 
             this.about_mini_games.Name = "about_mini_games";
-            this.about_mini_games.Size = new System.Drawing.Size(168, 22);
+            this.about_mini_games.Size = new System.Drawing.Size(180, 22);
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 
@@ -1277,10 +1228,5 @@
         private System.Windows.Forms.PictureBox update_error;
         private System.Windows.Forms.ToolStripMenuItem O_o;
         private System.Windows.Forms.ToolStripMenuItem bug_report;
-        private System.Windows.Forms.ToolStripMenuItem qscvhu;
-        private System.Windows.Forms.ToolStripMenuItem fatalan;
-        private System.Windows.Forms.ToolStripMenuItem my_menu;
-        private System.Windows.Forms.ToolStripMenuItem koyo;
-        private System.Windows.Forms.ToolStripMenuItem slil_about;
     }
 }
