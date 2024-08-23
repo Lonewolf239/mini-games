@@ -1036,7 +1036,7 @@
             this.bugReport,
             this.gitHub});
             this.byLonewol239.Name = "byLonewol239";
-            this.byLonewol239.Size = new System.Drawing.Size(180, 22);
+            this.byLonewol239.Size = new System.Drawing.Size(162, 22);
             this.byLonewol239.Text = "О разработчике";
             // 
             // websyte
@@ -1044,7 +1044,7 @@
             this.websyte.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.websyte.Image = global::minigames.Properties.Resources.web;
             this.websyte.Name = "websyte";
-            this.websyte.Size = new System.Drawing.Size(180, 22);
+            this.websyte.Size = new System.Drawing.Size(122, 22);
             this.websyte.Text = "Web site";
             this.websyte.Click += new System.EventHandler(this.Websyte_Click);
             // 
@@ -1053,7 +1053,7 @@
             this.bugReport.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.bugReport.Image = global::minigames.Properties.Resources.telegram;
             this.bugReport.Name = "bugReport";
-            this.bugReport.Size = new System.Drawing.Size(180, 22);
+            this.bugReport.Size = new System.Drawing.Size(122, 22);
             this.bugReport.Text = "Telegram";
             this.bugReport.Click += new System.EventHandler(this.BugReport_Click);
             // 
@@ -1062,7 +1062,7 @@
             this.gitHub.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.gitHub.Image = global::minigames.Properties.Resources.github;
             this.gitHub.Name = "gitHub";
-            this.gitHub.Size = new System.Drawing.Size(180, 22);
+            this.gitHub.Size = new System.Drawing.Size(122, 22);
             this.gitHub.Text = "GitHub";
             this.gitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.gitHub.Click += new System.EventHandler(this.GitHub_Click);
@@ -1070,7 +1070,7 @@
             // about_mini_games
             // 
             this.about_mini_games.Name = "about_mini_games";
-            this.about_mini_games.Size = new System.Drawing.Size(180, 22);
+            this.about_mini_games.Size = new System.Drawing.Size(162, 22);
             this.about_mini_games.Text = "О приложении";
             this.about_mini_games.Click += new System.EventHandler(this.About_mini_games_Click);
             // 

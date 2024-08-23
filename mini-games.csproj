@@ -168,12 +168,6 @@
     <Compile Include="Colortimer\ColorTimer.Designer.cs">
       <DependentUpon>ColorTimer.cs</DependentUpon>
     </Compile>
-    <Compile Include="Downloading.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Downloading.Designer.cs">
-      <DependentUpon>Downloading.cs</DependentUpon>
-    </Compile>
     <Compile Include="Glazastic\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,9 +348,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Colortimer\ColorTimer.resx">
       <DependentUpon>ColorTimer.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Downloading.resx">
-      <DependentUpon>Downloading.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Glazastic\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

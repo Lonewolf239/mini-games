@@ -29,7 +29,7 @@ namespace minigames
     public partial class MainMenu : Form
     {
         public static readonly string iniFolder = "config.ini";
-        private readonly string current_version = "|0.5.0.1|";
+        private readonly string current_version = "|0.5.0.1a|";
         public static float scale_size = 1.0f;
         public static bool Language = false, sounds = true, scaled = false;
         public static int mg1_max_score = 0, mg3_max_score = 0, mg5_max_score = 0, mg6_max_score = 0, mg7_max_score = 0,
@@ -59,18 +59,28 @@ namespace minigames
                 }
                 if (MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Error) == DialogResult.Yes)
                 {
-                    Hide();
-                    WindowState = FormWindowState.Minimized;
-                    Downloading _form = new Downloading
+                    in_download = true;
+                    if (!File.Exists("UpdateDownloader.exe"))
                     {
-                        update = false,
-                        language = Check_Language()
-                    };
-                    _form.ShowDialog();
+                        message = Language
+                            ? "UpdateDownloader.exe был удалён, переименован или перемещён. После закрытия этого сообщения он будет загружен снова."
+                            : "UpdateDownloader.exe has been deleted, renamed, or moved. After closing this message, it will be downloaded again.";
+                        string caption = Language ? "Ошибка" : "Error";
+                        MessageBox.Show(message, caption, MessageBoxButtons.OK);
+                        DownloadFile("https://base-escape.ru/downloads/UpdateDownloader.exe", "UpdateDownloader.exe");
+                    }
+                    Process.Start(new ProcessStartInfo("UpdateDownloader.exe", "https://base-escape.ru/downloads/Setup_Mini_Games.exe Setup_Mini_Games"));
+                    Application.Exit();
                 }
                 else
                     Application.Exit();
             }
+        }
+
+        private void DownloadFile(string url, string outputPath)
+        {
+            using (WebClient client = new WebClient())
+                client.DownloadFile(new Uri(url), outputPath);
         }
 
         private void Check_Update(bool auto)
@@ -156,15 +166,18 @@ namespace minigames
                             }
                             if (update_exist || MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                             {
-                                Hide();
                                 in_download = true;
-                                WindowState = FormWindowState.Minimized;
-                                Downloading _form = new Downloading
+                                if (!File.Exists("UpdateDownloader.exe"))
                                 {
-                                    update = true,
-                                    language = Check_Language()
-                                };
-                                _form.ShowDialog();
+                                    message = Language
+                                        ? "UpdateDownloader.exe был удалён, переименован или перемещён. После закрытия этого сообщения он будет загружен снова."
+                                        : "UpdateDownloader.exe has been deleted, renamed, or moved. After closing this message, it will be downloaded again.";
+                                    string caption = Language ? "Ошибка" : "Error";
+                                    MessageBox.Show(message, caption, MessageBoxButtons.OK);
+                                    DownloadFile("https://base-escape.ru/downloads/UpdateDownloader.exe", "UpdateDownloader.exe");
+                                }
+                                Process.Start(new ProcessStartInfo("UpdateDownloader.exe", "https://base-escape.ru/downloads/Setup_Mini_Games.exe Setup_Mini_Games"));
+                                Application.Exit();
                             }
                             else
                             {
